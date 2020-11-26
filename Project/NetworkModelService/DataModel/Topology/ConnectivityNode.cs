@@ -1,33 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Xml;
-using FTN.Common;
+﻿using FTN.Common;
 using FTN.Services.NetworkModelService.DataModel.Core;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
-namespace FTN.Services.NetworkModelService.DataModel.Wires
+namespace FTN.Services.NetworkModelService.DataModel.Topology
 {
-    public class TransformerWinding : ConductingEquipment
+    public class ConnectivityNode : IdentifiedObject
     {
-        private long powerTransformer = 0;
-        private long ratioTapChanger = 0;
-
-        public TransformerWinding(long gID) : base(gID)
+        public ConnectivityNode(long gID) : base(gID)
         {
         }
 
-        public long PowerTransformer { get => powerTransformer; set => powerTransformer = value; }
-        public long RatioTapChanger { get => ratioTapChanger; set => ratioTapChanger = value; }
+        private long connectivityNodeContainer = 0;
+        private List<long> terminals = new List<long>();
+
+        public long ConnectivityNodeContainer { get => connectivityNodeContainer; set => connectivityNodeContainer = value; }
+        public List<long> Terminals { get => terminals; set => terminals = value; }
 
         public override bool Equals(object obj)
         {
             if (base.Equals(obj))
             {
-                TransformerWinding x = (TransformerWinding)obj;
-                return ((x.powerTransformer == this.powerTransformer) && (x.ratioTapChanger == this.ratioTapChanger));
+                ConnectivityNode x = (ConnectivityNode)obj;
+                return ((x.connectivityNodeContainer == this.connectivityNodeContainer) && CompareHelper.CompareLists(x.terminals, this.terminals));
             }
             else
             {
@@ -45,8 +42,8 @@ namespace FTN.Services.NetworkModelService.DataModel.Wires
         {
             switch (property)
             {
-                case ModelCode.TRANSFORMERWINDING_POWERTR:
-                case ModelCode.TRANSFORMERWINDING_RATIOTC:
+                case ModelCode.CONNECTIVITYNODE_CNODECONT:
+                case ModelCode.CONNECTIVITYNODE_TERMINALS:
                     return true;
                 default:
                     return base.HasProperty(property);
@@ -57,11 +54,11 @@ namespace FTN.Services.NetworkModelService.DataModel.Wires
         {
             switch (property.Id)
             {
-                case ModelCode.TRANSFORMERWINDING_POWERTR:
-                    property.SetValue(powerTransformer);
+                case ModelCode.CONNECTIVITYNODE_CNODECONT:
+                    property.SetValue(connectivityNodeContainer);
                     break;
-                case ModelCode.TRANSFORMERWINDING_RATIOTC:
-                    property.SetValue(ratioTapChanger);
+                case ModelCode.CONNECTIVITYNODE_TERMINALS:
+                    property.SetValue(terminals);
                     break;
                 default:
                     base.GetProperty(property);
@@ -73,11 +70,8 @@ namespace FTN.Services.NetworkModelService.DataModel.Wires
         {
             switch (property.Id)
             {
-                case ModelCode.TRANSFORMERWINDING_POWERTR:
-                    powerTransformer = property.AsReference();
-                    break;
-                case ModelCode.TRANSFORMERWINDING_RATIOTC:
-                    ratioTapChanger = property.AsReference();
+                case ModelCode.CONNECTIVITYNODE_CNODECONT:
+                    connectivityNodeContainer = property.AsReference();
                     break;
                 default:
                     base.SetProperty(property);
@@ -87,18 +81,26 @@ namespace FTN.Services.NetworkModelService.DataModel.Wires
         #endregion
 
         #region IReference
+        public override bool IsReferenced
+        {
+            get
+            {
+                return terminals.Count > 0 || base.IsReferenced;
+            }
+        }
+
         public override void GetReferences(Dictionary<ModelCode, List<long>> references, TypeOfReference refType)
         {
-            if (powerTransformer != 0 && (refType == TypeOfReference.Reference || refType == TypeOfReference.Both))
+
+            if (terminals != null && terminals.Count != 0 && (refType == TypeOfReference.Target || refType == TypeOfReference.Both))
             {
-                references[ModelCode.TRANSFORMERWINDING_POWERTR] = new List<long>();
-                references[ModelCode.TRANSFORMERWINDING_POWERTR].Add(powerTransformer);
+                references[ModelCode.CONNECTIVITYNODE_TERMINALS] = terminals.GetRange(0, terminals.Count);
             }
 
-            if (ratioTapChanger != 0 && (refType == TypeOfReference.Reference || refType == TypeOfReference.Both))
+            if (connectivityNodeContainer != 0 && (refType == TypeOfReference.Reference || refType == TypeOfReference.Both))
             {
-                references[ModelCode.TRANSFORMERWINDING_RATIOTC] = new List<long>();
-                references[ModelCode.TRANSFORMERWINDING_RATIOTC].Add(ratioTapChanger);
+                references[ModelCode.CONNECTIVITYNODE_CNODECONT] = new List<long>();
+                references[ModelCode.CONNECTIVITYNODE_CNODECONT].Add(connectivityNodeContainer);
             }
 
             base.GetReferences(references, refType);
@@ -108,8 +110,8 @@ namespace FTN.Services.NetworkModelService.DataModel.Wires
         {
             switch (referenceId)
             {
-                case ModelCode.RATIOTAPCHANGER_TRWINDING:
-                    ratioTapChanger = globalId;
+                case ModelCode.TERMINAL_CONNNODE:
+                    terminals.Add(globalId);
                     break;
 
                 default:
@@ -122,11 +124,11 @@ namespace FTN.Services.NetworkModelService.DataModel.Wires
         {
             switch (referenceId)
             {
-                case ModelCode.RATIOTAPCHANGER_TRWINDING:
+                case ModelCode.TERMINAL_CONNNODE:
 
-                    if (ratioTapChanger == globalId)
+                    if (terminals.Contains(globalId))
                     {
-                        ratioTapChanger = 0;
+                        terminals.Remove(globalId);
                     }
                     else
                     {
@@ -140,7 +142,6 @@ namespace FTN.Services.NetworkModelService.DataModel.Wires
                     break;
             }
         }
-
         #endregion
     }
 }

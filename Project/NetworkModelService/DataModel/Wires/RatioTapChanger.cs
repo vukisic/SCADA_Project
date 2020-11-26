@@ -1,30 +1,28 @@
-﻿using System;
+﻿using FTN.Common;
+using FTN.Services.NetworkModelService.DataModel.Core;
+using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Text;
-using System.Xml;
-using FTN.Common;
 
-namespace FTN.Services.NetworkModelService.DataModel.Core
+namespace FTN.Services.NetworkModelService.DataModel.Wires
 {
-	public class Equipment : PowerSystemResource
-	{
-        public Equipment(long gID) : base(gID)
+    public class RatioTapChanger : TapChanger
+    {
+        private long transformerWinding = 0;
+
+        public RatioTapChanger(long gID) : base(gID)
         {
         }
 
-        private long equipmentContainer = 0;
+        public long TransformerWinding { get => transformerWinding; set => transformerWinding = value; }
 
-        public long EquipmentContainer { get => equipmentContainer; set => equipmentContainer = value; }
-
-        public override bool Equals(object x)
+        public override bool Equals(object obj)
         {
-            if (base.Equals(x))
+            if (base.Equals(obj))
             {
-                Equipment e = (Equipment)x;
-                return e.equipmentContainer == this.equipmentContainer;
+                RatioTapChanger x = (RatioTapChanger)obj;
+                return ((x.transformerWinding == this.transformerWinding));
             }
             else
             {
@@ -37,15 +35,13 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
             return base.GetHashCode();
         }
 
-        #region IAccess implementation	
-
+        #region IAccess
         public override bool HasProperty(ModelCode property)
         {
             switch (property)
             {
-                case ModelCode.EQUIPMENT_EQUIPCONTAINER:
+                case ModelCode.RATIOTAPCHANGER_TRWINDING:
                     return true;
-
                 default:
                     return base.HasProperty(property);
             }
@@ -55,10 +51,9 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
         {
             switch (property.Id)
             {
-                case ModelCode.EQUIPMENT_EQUIPCONTAINER:
-                    property.SetValue(equipmentContainer);
+                case ModelCode.RATIOTAPCHANGER_TRWINDING:
+                    property.SetValue(transformerWinding);
                     break;
-
                 default:
                     base.GetProperty(property);
                     break;
@@ -69,28 +64,24 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
         {
             switch (property.Id)
             {
-                case ModelCode.EQUIPMENT_EQUIPCONTAINER:
-                    equipmentContainer = property.AsReference();
+                case ModelCode.RATIOTAPCHANGER_TRWINDING:
+                    transformerWinding = property.AsReference();
                     break;
-
                 default:
                     base.SetProperty(property);
                     break;
             }
         }
-
         #endregion
 
-        #region IReference implementation
+        #region IReference
 
         public override void GetReferences(Dictionary<ModelCode, List<long>> references, TypeOfReference refType)
         {
-            if (equipmentContainer != 0 && (refType == TypeOfReference.Reference || refType == TypeOfReference.Both))
+            if (transformerWinding != 0 && (refType == TypeOfReference.Reference || refType == TypeOfReference.Both))
             {
-                references[ModelCode.EQUIPMENT_EQUIPCONTAINER] = new List<long>
-                {
-                    equipmentContainer
-                };
+                references[ModelCode.RATIOTAPCHANGER_TRWINDING] = new List<long>();
+                references[ModelCode.RATIOTAPCHANGER_TRWINDING].Add(transformerWinding);
             }
 
             base.GetReferences(references, refType);

@@ -158,55 +158,55 @@ namespace TelventDMS.Services.NetworkModelService.TestClient.Tests
 			List<long> resultIds = new List<long>();
 
 			
-			XmlTextWriter xmlWriter = null;
-			int numberOfResources = 2;
+			//XmlTextWriter xmlWriter = null;
+			//int numberOfResources = 2;
 
-			try
-			{						
-				List<ModelCode> properties = new List<ModelCode>();
-                properties.Add(ModelCode.IDOBJ_DESCRIPTION);
-                properties.Add(ModelCode.IDOBJ_MRID);
-                properties.Add(ModelCode.IDOBJ_NAME);
+			//try
+			//{						
+			//	List<ModelCode> properties = new List<ModelCode>();
+   //             properties.Add(ModelCode.IDOBJ_DESCRIPTION);
+   //             properties.Add(ModelCode.IDOBJ_MRID);
+   //             properties.Add(ModelCode.IDOBJ_NAME);
 						
-				int iteratorId = GdaQueryProxy.GetRelatedValues(sourceGlobalId, properties, association);
-				int resourcesLeft = GdaQueryProxy.IteratorResourcesLeft(iteratorId);
+			//	int iteratorId = GdaQueryProxy.GetRelatedValues(sourceGlobalId, properties, association);
+			//	int resourcesLeft = GdaQueryProxy.IteratorResourcesLeft(iteratorId);
 
-                xmlWriter = new XmlTextWriter(Config.Instance.ResultDirecotry + "\\GetRelatedValues_Results.xml", Encoding.Unicode);
-                xmlWriter.Formatting = Formatting.Indented; 
+   //             xmlWriter = new XmlTextWriter(Config.Instance.ResultDirecotry + "\\GetRelatedValues_Results.xml", Encoding.Unicode);
+   //             xmlWriter.Formatting = Formatting.Indented; 
 
-				while (resourcesLeft > 0)
-				{
-					List<ResourceDescription> rds =  GdaQueryProxy.IteratorNext(numberOfResources, iteratorId);
+			//	while (resourcesLeft > 0)
+			//	{
+			//		List<ResourceDescription> rds =  GdaQueryProxy.IteratorNext(numberOfResources, iteratorId);
 
-					for (int i = 0; i < rds.Count; i++)
-					{
-						resultIds.Add(rds[i].Id);
-						rds[i].ExportToXml(xmlWriter);
-						xmlWriter.Flush();
-					}
+			//		for (int i = 0; i < rds.Count; i++)
+			//		{
+			//			resultIds.Add(rds[i].Id);
+			//			rds[i].ExportToXml(xmlWriter);
+			//			xmlWriter.Flush();
+			//		}
 							
-					resourcesLeft = GdaQueryProxy.IteratorResourcesLeft(iteratorId);
-				}
+			//		resourcesLeft = GdaQueryProxy.IteratorResourcesLeft(iteratorId);
+			//	}
 
-				GdaQueryProxy.IteratorClose(iteratorId);
+			//	GdaQueryProxy.IteratorClose(iteratorId);
 
-                message = "Getting related values method successfully finished.";
-                Console.WriteLine(message);
-                CommonTrace.WriteTrace(CommonTrace.TraceError, message);				
-			}
-			catch (Exception e)
-			{
-                message = string.Format("Getting related values method  failed for sourceGlobalId = {0} and association (propertyId = {1}, type = {2}). Reason: {3}", sourceGlobalId, association.PropertyId, association.Type, e.Message);
-                Console.WriteLine(message);
-                CommonTrace.WriteTrace(CommonTrace.TraceError, message);
-            }
-			finally
-			{
-				if (xmlWriter != null)
-				{
-					xmlWriter.Close();
-				}
-			}
+   //             message = "Getting related values method successfully finished.";
+   //             Console.WriteLine(message);
+   //             CommonTrace.WriteTrace(CommonTrace.TraceError, message);				
+			//}
+			//catch (Exception e)
+			//{
+   //             message = string.Format("Getting related values method  failed for sourceGlobalId = {0} and association (propertyId = {1}, type = {2}). Reason: {3}", sourceGlobalId, association.PropertyId, association.Type, e.Message);
+   //             Console.WriteLine(message);
+   //             CommonTrace.WriteTrace(CommonTrace.TraceError, message);
+   //         }
+			//finally
+			//{
+			//	if (xmlWriter != null)
+			//	{
+			//		xmlWriter.Close();
+			//	}
+			//}
 						
 			return resultIds;
 		}

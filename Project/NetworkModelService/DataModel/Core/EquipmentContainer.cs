@@ -1,28 +1,33 @@
-﻿using System;
+﻿using FTN.Common;
+using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Text;
-using FTN.Common;
-
-
 
 namespace FTN.Services.NetworkModelService.DataModel.Core
 {
-	public class PowerSystemResource : IdentifiedObject
-	{
-        public PowerSystemResource(long gID) : base(gID)
+    public class EquipmentContainer : ConnectivityNodeContainer
+    {
+        public EquipmentContainer(long gID) : base(gID)
         {
         }
 
-        private List<long> measurements = new List<long>();
+        private List<long> equipments = new List<long>();
 
-        public List<long> Measurements { get => measurements; set => measurements = value; }
+        public List<long> Equipments { get => equipments; set => equipments = value; }
+
 
         public override bool Equals(object x)
         {
-            return base.Equals(x);
+            if (base.Equals(x))
+            {
+                EquipmentContainer ec = (EquipmentContainer)x;
+                return CompareHelper.CompareLists(ec.equipments, this.equipments);
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public override int GetHashCode()
@@ -30,13 +35,13 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
             return base.GetHashCode();
         }
 
-        #region IAccess implementation
+        #region IAccess implementation	
 
         public override bool HasProperty(ModelCode property)
         {
             switch (property)
             {
-                case ModelCode.PSR_MEASUREMENTS:
+                case ModelCode.EQUIPMENTCONTAINER_EQUIPS:
                     return true;
 
                 default:
@@ -48,8 +53,8 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
         {
             switch (property.Id)
             {
-                case ModelCode.PSR_MEASUREMENTS:
-                    property.SetValue(measurements);
+                case ModelCode.EQUIPMENTCONTAINER_EQUIPS:
+                    property.SetValue(equipments);
                     break;
 
                 default:
@@ -71,15 +76,15 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
         {
             get
             {
-                return measurements.Count != 0 || base.IsReferenced;
+                return equipments.Count != 0 || base.IsReferenced;
             }
         }
 
         public override void GetReferences(Dictionary<ModelCode, List<long>> references, TypeOfReference refType)
         {
-            if (measurements != null && measurements.Count != 0 && (refType == TypeOfReference.Target || refType == TypeOfReference.Both))
+            if (equipments != null && equipments.Count != 0 && (refType == TypeOfReference.Target || refType == TypeOfReference.Both))
             {
-                references[ModelCode.PSR_MEASUREMENTS] = measurements.GetRange(0, measurements.Count);
+                references[ModelCode.EQUIPMENTCONTAINER_EQUIPS] = equipments.GetRange(0, equipments.Count);
             }
 
             base.GetReferences(references, refType);
@@ -89,8 +94,8 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
         {
             switch (referenceId)
             {
-                case ModelCode.MEASUREMENT_PSR:
-                    measurements.Add(globalId);
+                case ModelCode.EQUIPMENT_EQUIPCONTAINER:
+                    equipments.Add(globalId);
                     break;
 
                 default:
@@ -103,11 +108,11 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
         {
             switch (referenceId)
             {
-                case ModelCode.MEASUREMENT_PSR:
+                case ModelCode.EQUIPMENT_EQUIPCONTAINER:
 
-                    if (measurements.Contains(globalId))
+                    if (equipments.Contains(globalId))
                     {
-                        measurements.Remove(globalId);
+                        equipments.Remove(globalId);
                     }
                     else
                     {

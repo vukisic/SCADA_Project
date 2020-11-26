@@ -10,133 +10,126 @@ using FTN.Common;
 namespace FTN.Services.NetworkModelService.DataModel.Core
 {
 	public class ConductingEquipment : Equipment
-	{		
-		private PhaseCode phases;
-		private float ratedVoltage;
-		private long baseVoltage = 0;
-			
-		public ConductingEquipment(long globalId) : base(globalId) 
-		{
-		}
-		
-		public PhaseCode Phases
-		{
-			get
-			{
-				return phases;
-			}
+	{
+        public ConductingEquipment(long gID) : base(gID)
+        {
+        }
 
-			set
-			{
-				phases = value;
-			}
-		}
+        private List<long> terminals = new List<long>();
 
-		public float RatedVoltage
-		{
-			get { return ratedVoltage; }
-			set { ratedVoltage = value; }
-		}
+        public List<long> Terminals { get => terminals; set => terminals = value; }
 
-		public long BaseVoltage
-		{
-			get { return baseVoltage; }
-			set { baseVoltage = value; }
-		}
 
-		public override bool Equals(object obj)
-		{
-			if (base.Equals(obj))
-			{
-				ConductingEquipment x = (ConductingEquipment)obj;
-				return (x.phases == this.phases && x.ratedVoltage == this.ratedVoltage && x.baseVoltage == this.baseVoltage);
-			}
-			else
-			{
-				return false;
-			}
-		}
+        public override bool Equals(object x)
+        {
+            if (base.Equals(x))
+            {
+                ConductingEquipment c = (ConductingEquipment)x;
+                return CompareHelper.CompareLists(c.terminals, this.terminals);
+            }
+            else
+            {
+                return false;
+            }
+        }
 
-		public override int GetHashCode()
-		{
-			return base.GetHashCode();
-		}
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
 
-		#region IAccess implementation
+        #region IAccess implementation	
 
-		public override bool HasProperty(ModelCode property)
-		{
-			switch (property)
-			{
-				case ModelCode.CONDEQ_PHASES:				
-				case ModelCode.CONDEQ_RATEDVOLTAGE:
-				case ModelCode.CONDEQ_BASVOLTAGE:
-					return true;
+        public override bool HasProperty(ModelCode property)
+        {
+            switch (property)
+            {
+                case ModelCode.CONDEQ_TERMINALS:
+                    return true;
 
-				default:
-					return base.HasProperty(property);
-			}
-		}
+                default:
+                    return base.HasProperty(property);
+            }
+        }
 
-		public override void GetProperty(Property prop)
-		{
-			switch (prop.Id)
-			{
-				case ModelCode.CONDEQ_PHASES:
-					prop.SetValue((short)phases);
-					break;
+        public override void GetProperty(Property property)
+        {
+            switch (property.Id)
+            {
+                case ModelCode.CONDEQ_TERMINALS:
+                    property.SetValue(terminals);
+                    break;
 
-				case ModelCode.CONDEQ_RATEDVOLTAGE:
-					prop.SetValue(ratedVoltage);
-					break;
+                default:
+                    base.GetProperty(property);
+                    break;
+            }
+        }
 
-				case ModelCode.CONDEQ_BASVOLTAGE:
-					prop.SetValue(baseVoltage);
-					break;
+        public override void SetProperty(Property property)
+        {
+            base.SetProperty(property);
+        }
 
-				default:
-					base.GetProperty(prop);
-					break;
-			}
-		}
+        #endregion
 
-		public override void SetProperty(Property property)
-		{
-			switch (property.Id)
-			{
-				case ModelCode.CONDEQ_PHASES:					
-					phases = (PhaseCode)property.AsEnum();
-					break;
-			
-				case ModelCode.CONDEQ_RATEDVOLTAGE:
-					ratedVoltage = property.AsFloat();
-					break;
+        #region IReference implementation
 
-				case ModelCode.CONDEQ_BASVOLTAGE:
-					baseVoltage = property.AsReference();
-					break;
+        public override bool IsReferenced
+        {
+            get
+            {
+                return terminals.Count != 0 || base.IsReferenced;
+            }
+        }
 
-				default:
-					base.SetProperty(property);
-					break;
-			}
-		}	
+        public override void GetReferences(Dictionary<ModelCode, List<long>> references, TypeOfReference refType)
+        {
+            if (terminals != null && terminals.Count != 0 && (refType == TypeOfReference.Target || refType == TypeOfReference.Both))
+            {
+                references[ModelCode.CONDEQ_TERMINALS] = terminals.GetRange(0, terminals.Count);
+            }
 
-		#endregion IAccess implementation
+            base.GetReferences(references, refType);
+        }
 
-		#region IReference implementation
+        public override void AddReference(ModelCode referenceId, long globalId)
+        {
+            switch (referenceId)
+            {
+                case ModelCode.TERMINAL_CONDEQUIPMENT:
+                    terminals.Add(globalId);
+                    break;
 
-		public override void GetReferences(Dictionary<ModelCode, List<long>> references, TypeOfReference refType)
-		{
-			if (baseVoltage != 0 && (refType == TypeOfReference.Reference || refType == TypeOfReference.Both))
-			{
-				references[ModelCode.CONDEQ_BASVOLTAGE] = new List<long>();
-				references[ModelCode.CONDEQ_BASVOLTAGE].Add(baseVoltage);
-			}
+                default:
+                    base.AddReference(referenceId, globalId);
+                    break;
+            }
+        }
 
-			base.GetReferences(references, refType);
-		}
+        public override void RemoveReference(ModelCode referenceId, long globalId)
+        {
+            switch (referenceId)
+            {
+                case ModelCode.TERMINAL_CONDEQUIPMENT:
 
-		#endregion IReference implementation
-	}
+                    if (terminals.Contains(globalId))
+                    {
+                        terminals.Remove(globalId);
+                    }
+                    else
+                    {
+                        CommonTrace.WriteTrace(CommonTrace.TraceWarning, "Entity (GID = 0x{0:x16}) doesn't contain reference 0x{1:x16}.", this.GID, globalId);
+                    }
+
+                    break;
+
+                default:
+                    base.RemoveReference(referenceId, globalId);
+                    break;
+            }
+        }
+
+        #endregion
+    }
 }

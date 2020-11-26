@@ -1,28 +1,32 @@
-﻿using System;
+﻿using FTN.Common;
+using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Text;
-using FTN.Common;
-
-
 
 namespace FTN.Services.NetworkModelService.DataModel.Core
 {
-	public class PowerSystemResource : IdentifiedObject
-	{
-        public PowerSystemResource(long gID) : base(gID)
+    public class ConnectivityNodeContainer : PowerSystemResource
+    {
+        public ConnectivityNodeContainer(long gID) : base(gID)
         {
         }
 
-        private List<long> measurements = new List<long>();
+        private List<long> connectivityNodes = new List<long>();
 
-        public List<long> Measurements { get => measurements; set => measurements = value; }
+        public List<long> ConnectivityNodes { get => connectivityNodes; set => connectivityNodes = value; }
 
         public override bool Equals(object x)
         {
-            return base.Equals(x);
+            if (base.Equals(x))
+            {
+                ConnectivityNodeContainer c = (ConnectivityNodeContainer)x;
+                return CompareHelper.CompareLists(c.connectivityNodes, this.connectivityNodes);
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public override int GetHashCode()
@@ -30,13 +34,13 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
             return base.GetHashCode();
         }
 
-        #region IAccess implementation
+        #region IAccess implementation	
 
         public override bool HasProperty(ModelCode property)
         {
             switch (property)
             {
-                case ModelCode.PSR_MEASUREMENTS:
+                case ModelCode.CONNNODECONTAINER_CONNNODES:
                     return true;
 
                 default:
@@ -48,8 +52,8 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
         {
             switch (property.Id)
             {
-                case ModelCode.PSR_MEASUREMENTS:
-                    property.SetValue(measurements);
+                case ModelCode.CONNNODECONTAINER_CONNNODES:
+                    property.SetValue(connectivityNodes);
                     break;
 
                 default:
@@ -71,15 +75,15 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
         {
             get
             {
-                return measurements.Count != 0 || base.IsReferenced;
+                return connectivityNodes.Count > 0 || base.IsReferenced;
             }
         }
 
         public override void GetReferences(Dictionary<ModelCode, List<long>> references, TypeOfReference refType)
         {
-            if (measurements != null && measurements.Count != 0 && (refType == TypeOfReference.Target || refType == TypeOfReference.Both))
+            if (connectivityNodes != null && connectivityNodes.Count > 0 && (refType == TypeOfReference.Target || refType == TypeOfReference.Both))
             {
-                references[ModelCode.PSR_MEASUREMENTS] = measurements.GetRange(0, measurements.Count);
+                references[ModelCode.CONNNODECONTAINER_CONNNODES] = connectivityNodes.GetRange(0, connectivityNodes.Count);
             }
 
             base.GetReferences(references, refType);
@@ -89,8 +93,8 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
         {
             switch (referenceId)
             {
-                case ModelCode.MEASUREMENT_PSR:
-                    measurements.Add(globalId);
+                case ModelCode.CONNECTIVITYNODE_CNODECONT:
+                    connectivityNodes.Add(globalId);
                     break;
 
                 default:
@@ -103,11 +107,11 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
         {
             switch (referenceId)
             {
-                case ModelCode.MEASUREMENT_PSR:
+                case ModelCode.CONNECTIVITYNODE_CNODECONT:
 
-                    if (measurements.Contains(globalId))
+                    if (connectivityNodes.Contains(globalId))
                     {
-                        measurements.Remove(globalId);
+                        connectivityNodes.Remove(globalId);
                     }
                     else
                     {

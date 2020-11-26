@@ -84,15 +84,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\BaseVoltage .cs" />
+    <Compile Include="Core\AsynchronousMachine.cs" />
     <Compile Include="Core\ConductingEquipment.cs" />
+    <Compile Include="Core\ConnectivityNodeContainer.cs" />
     <Compile Include="Core\Equipment.cs" />
-    <Compile Include="Core\Location.cs" />
+    <Compile Include="Core\EquipmentContainer.cs" />
     <Compile Include="Core\IdentifiedObject.cs" />
     <Compile Include="Core\PowerSystemResource.cs" />
+    <Compile Include="Core\Substation.cs" />
+    <Compile Include="Core\Terminal.cs" />
+    <Compile Include="Meas\Analog.cs" />
+    <Compile Include="Meas\Discrete.cs" />
+    <Compile Include="Meas\Measurement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Wires\WindingTest.cs" />
+    <Compile Include="Topology\ConnectivityNode.cs" />
+    <Compile Include="Wires\Breaker.cs" />
+    <Compile Include="Wires\Disconnector.cs" />
     <Compile Include="Wires\PowerTransformer.cs" />
+    <Compile Include="Wires\ProtectedSwitch.cs" />
+    <Compile Include="Wires\RatioTapChanger.cs" />
+    <Compile Include="Wires\RegulatingCondEq.cs" />
+    <Compile Include="Wires\Switch.cs" />
+    <Compile Include="Wires\TapChanger.cs" />
     <Compile Include="Wires\TransformerWinding.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -131,7 +131,8 @@ namespace FTN.ESI.SIMES.CIM.CIMAdapter
 
 							if (report.Success)
 							{
-								nmsDelta = PowerTransformerImporter.Instance.NMSDelta;
+								//TO DO
+								//nmsDelta = PowerTransformerImporter.Instance.NMSDelta;
 								success = true;
 							}
 							else
@@ -139,7 +140,7 @@ namespace FTN.ESI.SIMES.CIM.CIMAdapter
 								success = false;
 							}
 							log = report.Report.ToString();
-							PowerTransformerImporter.Instance.Reset();
+							//PowerTransformerImporter.Instance.Reset();
 
 							break;
 						}

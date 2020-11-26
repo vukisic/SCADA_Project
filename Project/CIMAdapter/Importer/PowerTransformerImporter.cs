@@ -130,56 +130,56 @@ namespace FTN.ESI.SIMES.CIM.CIMAdapter.Importer
 		private ResourceDescription CreateBaseVoltageResourceDescription(FTN.BaseVoltage cimBaseVoltage)
 		{
 			ResourceDescription rd = null;
-			if (cimBaseVoltage != null)
-			{
-				long gid = ModelCodeHelper.CreateGlobalId(0, (short)DMSType.BASEVOLTAGE, importHelper.CheckOutIndexForDMSType(DMSType.BASEVOLTAGE));
-				rd = new ResourceDescription(gid);
-				importHelper.DefineIDMapping(cimBaseVoltage.ID, gid);
+			//if (cimBaseVoltage != null)
+			//{
+			//	long gid = ModelCodeHelper.CreateGlobalId(0, (short)DMSType.BASEVOLTAGE, importHelper.CheckOutIndexForDMSType(DMSType.BASEVOLTAGE));
+			//	rd = new ResourceDescription(gid);
+			//	importHelper.DefineIDMapping(cimBaseVoltage.ID, gid);
 
-				////populate ResourceDescription
-				PowerTransformerConverter.PopulateBaseVoltageProperties(cimBaseVoltage, rd);
-			}
+			//	////populate ResourceDescription
+			//	PowerTransformerConverter.PopulateBaseVoltageProperties(cimBaseVoltage, rd);
+			//}
 			return rd;
 		}
 		
 		private void ImportLocations()
 		{
 			SortedDictionary<string, object> cimLocations = concreteModel.GetAllObjectsOfType("FTN.Location");
-			if (cimLocations != null)
-			{
-				foreach (KeyValuePair<string, object> cimLocationPair in cimLocations)
-				{
-					FTN.Location cimLocation = cimLocationPair.Value as FTN.Location;
+			//if (cimLocations != null)
+			//{
+			//	foreach (KeyValuePair<string, object> cimLocationPair in cimLocations)
+			//	{
+			//		FTN.Location cimLocation = cimLocationPair.Value as FTN.Location;
 
-					ResourceDescription rd = CreateLocationResourceDescription(cimLocation);
-					if (rd != null)
-					{
-						delta.AddDeltaOperation(DeltaOpType.Insert, rd, true);
-						report.Report.Append("Location ID = ").Append(cimLocation.ID).Append(" SUCCESSFULLY converted to GID = ").AppendLine(rd.Id.ToString());
-					}
-					else
-					{
-						report.Report.Append("Location ID = ").Append(cimLocation.ID).AppendLine(" FAILED to be converted");
-					}
-				}
-				report.Report.AppendLine();
-			}
+			//		ResourceDescription rd = CreateLocationResourceDescription(cimLocation);
+			//		if (rd != null)
+			//		{
+			//			delta.AddDeltaOperation(DeltaOpType.Insert, rd, true);
+			//			report.Report.Append("Location ID = ").Append(cimLocation.ID).Append(" SUCCESSFULLY converted to GID = ").AppendLine(rd.Id.ToString());
+			//		}
+			//		else
+			//		{
+			//			report.Report.Append("Location ID = ").Append(cimLocation.ID).AppendLine(" FAILED to be converted");
+			//		}
+			//	}
+			//	report.Report.AppendLine();
+			//}
 		}
 
-		private ResourceDescription CreateLocationResourceDescription(FTN.Location cimLocation)
-		{
-			ResourceDescription rd = null;
-			if (cimLocation != null)
-			{
-				long gid = ModelCodeHelper.CreateGlobalId(0, (short)DMSType.LOCATION, importHelper.CheckOutIndexForDMSType(DMSType.LOCATION));
-				rd = new ResourceDescription(gid);
-				importHelper.DefineIDMapping(cimLocation.ID, gid);
+		//private ResourceDescription CreateLocationResourceDescription(FTN.Location cimLocation)
+		//{
+		//	ResourceDescription rd = null;
+		//	//if (cimLocation != null)
+		//	//{
+		//	//	long gid = ModelCodeHelper.CreateGlobalId(0, (short)DMSType.LOCATION, importHelper.CheckOutIndexForDMSType(DMSType.LOCATION));
+		//	//	rd = new ResourceDescription(gid);
+		//	//	importHelper.DefineIDMapping(cimLocation.ID, gid);
 
-				////populate ResourceDescription
-				PowerTransformerConverter.PopulateLocationProperties(cimLocation, rd);
-			}
-			return rd;
-		}
+		//	//	////populate ResourceDescription
+		//	//	PowerTransformerConverter.PopulateLocationProperties(cimLocation, rd);
+		//	//}
+		//	return rd;
+		//}
 
 		private void ImportPowerTransformers()
 		{
@@ -208,15 +208,15 @@ namespace FTN.ESI.SIMES.CIM.CIMAdapter.Importer
 		private ResourceDescription CreatePowerTransformerResourceDescription(FTN.PowerTransformer cimPowerTransformer)
 		{
 			ResourceDescription rd = null;
-			if (cimPowerTransformer != null)
-			{
-				long gid = ModelCodeHelper.CreateGlobalId(0, (short)DMSType.POWERTR, importHelper.CheckOutIndexForDMSType(DMSType.POWERTR));
-				rd = new ResourceDescription(gid);
-				importHelper.DefineIDMapping(cimPowerTransformer.ID, gid);
+			//if (cimPowerTransformer != null)
+			//{
+			//	long gid = ModelCodeHelper.CreateGlobalId(0, (short)DMSType.POWERTR, importHelper.CheckOutIndexForDMSType(DMSType.POWERTR));
+			//	rd = new ResourceDescription(gid);
+			//	importHelper.DefineIDMapping(cimPowerTransformer.ID, gid);
 
-				////populate ResourceDescription
-				PowerTransformerConverter.PopulatePowerTransformerProperties(cimPowerTransformer, rd, importHelper, report);
-			}
+			//	////populate ResourceDescription
+			//	PowerTransformerConverter.PopulatePowerTransformerProperties(cimPowerTransformer, rd, importHelper, report);
+			//}
 			return rd;
 		}
 
@@ -247,56 +247,56 @@ namespace FTN.ESI.SIMES.CIM.CIMAdapter.Importer
 		private ResourceDescription CreateTransformerWindingResourceDescription(FTN.TransformerWinding cimTransformerWinding)
 		{
 			ResourceDescription rd = null;
-			if (cimTransformerWinding != null)
-			{
-				long gid = ModelCodeHelper.CreateGlobalId(0, (short)DMSType.POWERTRWINDING, importHelper.CheckOutIndexForDMSType(DMSType.POWERTRWINDING));
-				rd = new ResourceDescription(gid);
-				importHelper.DefineIDMapping(cimTransformerWinding.ID, gid);
+			//if (cimTransformerWinding != null)
+			//{
+			//	long gid = ModelCodeHelper.CreateGlobalId(0, (short)DMSType.POWERTRWINDING, importHelper.CheckOutIndexForDMSType(DMSType.POWERTRWINDING));
+			//	rd = new ResourceDescription(gid);
+			//	importHelper.DefineIDMapping(cimTransformerWinding.ID, gid);
 
-				////populate ResourceDescription
-				PowerTransformerConverter.PopulateTransformerWindingProperties(cimTransformerWinding, rd, importHelper, report);
-			}
+			//	////populate ResourceDescription
+			//	PowerTransformerConverter.PopulateTransformerWindingProperties(cimTransformerWinding, rd, importHelper, report);
+			//}
 			return rd;
 		}
 
 		private void ImportWindingTests()
 		{
 			SortedDictionary<string, object> cimWindingTests = concreteModel.GetAllObjectsOfType("FTN.WindingTest");
-			if (cimWindingTests != null)
-			{
-				foreach (KeyValuePair<string, object> cimWindingTestPair in cimWindingTests)
-				{
-					FTN.WindingTest cimWindingTest = cimWindingTestPair.Value as FTN.WindingTest;
+			//if (cimWindingTests != null)
+			//{
+			//	foreach (KeyValuePair<string, object> cimWindingTestPair in cimWindingTests)
+			//	{
+			//		FTN.WindingTest cimWindingTest = cimWindingTestPair.Value as FTN.WindingTest;
 
-					ResourceDescription rd = CreateWindingTestResourceDescription(cimWindingTest);
-					if (rd != null)
-					{
-						delta.AddDeltaOperation(DeltaOpType.Insert, rd, true);
-						report.Report.Append("WindingTest ID = ").Append(cimWindingTest.ID).Append(" SUCCESSFULLY converted to GID = ").AppendLine(rd.Id.ToString());
-					}
-					else
-					{
-						report.Report.Append("WindingTest ID = ").Append(cimWindingTest.ID).AppendLine(" FAILED to be converted");
-					}
-				}
-				report.Report.AppendLine();
-			}
+			//		ResourceDescription rd = CreateWindingTestResourceDescription(cimWindingTest);
+			//		if (rd != null)
+			//		{
+			//			delta.AddDeltaOperation(DeltaOpType.Insert, rd, true);
+			//			report.Report.Append("WindingTest ID = ").Append(cimWindingTest.ID).Append(" SUCCESSFULLY converted to GID = ").AppendLine(rd.Id.ToString());
+			//		}
+			//		else
+			//		{
+			//			report.Report.Append("WindingTest ID = ").Append(cimWindingTest.ID).AppendLine(" FAILED to be converted");
+			//		}
+			//	}
+			//	report.Report.AppendLine();
+			//}
 		}
 
-		private ResourceDescription CreateWindingTestResourceDescription(FTN.WindingTest cimWindingTest)
-		{
-			ResourceDescription rd = null;
-			if (cimWindingTest != null)
-			{
-				long gid = ModelCodeHelper.CreateGlobalId(0, (short)DMSType.WINDINGTEST, importHelper.CheckOutIndexForDMSType(DMSType.WINDINGTEST));
-				rd = new ResourceDescription(gid);
-				importHelper.DefineIDMapping(cimWindingTest.ID, gid);
+		//private ResourceDescription CreateWindingTestResourceDescription(FTN.WindingTest cimWindingTest)
+		//{
+		//	ResourceDescription rd = null;
+		//	//if (cimWindingTest != null)
+		//	//{
+		//	//	long gid = ModelCodeHelper.CreateGlobalId(0, (short)DMSType.WINDINGTEST, importHelper.CheckOutIndexForDMSType(DMSType.WINDINGTEST));
+		//	//	rd = new ResourceDescription(gid);
+		//	//	importHelper.DefineIDMapping(cimWindingTest.ID, gid);
 
-				////populate ResourceDescription
-				PowerTransformerConverter.PopulateWindingTestProperties(cimWindingTest, rd, importHelper, report);
-			}
-			return rd;
-		}
+		//	//	////populate ResourceDescription
+		//	//	PowerTransformerConverter.PopulateWindingTestProperties(cimWindingTest, rd, importHelper, report);
+		//	//}
+		//	return rd;
+		//}
 		#endregion Import
 	}
 }

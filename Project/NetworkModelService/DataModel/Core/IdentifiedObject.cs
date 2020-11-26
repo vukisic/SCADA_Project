@@ -19,302 +19,239 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
 
 	public class IdentifiedObject
 	{
-		/// <summary>
-		/// Model Resources Description
-		/// </summary>
-		private static ModelResourcesDesc resourcesDescs = new ModelResourcesDesc();
+        /// <summary>
+        /// Model Resources Description
+        /// </summary>
+        private static ModelResourcesDesc resourcesDescs = new ModelResourcesDesc();
 
-		/// <summary>
-		/// Global id of the identified object (SystemId - 4 nibls, DMSType - 4 nibls, FragmentId - 8 nibls)
-		/// </summary>
-		private long globalId;
-		
-		/// <summary>
-		/// Name of identified object
-		/// </summary>		
-		private string name = string.Empty;
+        private long gID;
+        private string mRID;
+        private string name;
+        private string description;
 
-		/// <summary>
-		/// Mrid (source) id of identified object
-		/// </summary>		
-		private string mrid = string.Empty;
+        public IdentifiedObject(long gID)
+        {
+            GID = gID;
+        }
 
-		/// <summary>
-		/// Description of identified object
-		/// </summary>		
-		private string description = string.Empty;
-		
-		/// <summary>
-		/// Initializes a new instance of the IdentifiedObject class.
-		/// </summary>		
-		/// <param name="globalId">Global id of the entity.</param>
-		public IdentifiedObject(long globalId)
-		{
-			this.globalId = globalId;			
-		}		
+        public string MRID { get => mRID; set => mRID = value; }
+        public string Name { get => name; set => name = value; }
+        public string Description { get => description; set => description = value; }
+        public long GID { get => gID; set => gID = value; }
 
-		/// <summary>
-		/// Gets or sets global id of the entity (identified object).
-		/// </summary>			
-		public long GlobalId
-		{
-			get
-			{
-				return globalId;
-			}
+        public static bool operator ==(IdentifiedObject x, IdentifiedObject y)
+        {
+            if (Object.ReferenceEquals(x, null) && Object.ReferenceEquals(y, null))
+            {
+                return true;
+            }
+            else if ((Object.ReferenceEquals(x, null) && !Object.ReferenceEquals(y, null)) || (!Object.ReferenceEquals(x, null) && Object.ReferenceEquals(y, null)))
+            {
+                return false;
+            }
+            else
+            {
+                return x.Equals(y);
+            }
+        }
 
-			set
-			{
-				globalId = value;
-			}
-		}
+        public static bool operator !=(IdentifiedObject x, IdentifiedObject y)
+        {
+            return !(x == y);
+        }
 
-		/// <summary>
-		/// Gets or sets name of the entity (identified object).
-		/// </summary>			
-		public string Name
-		{
-			get
-			{				
-				return name;
-			}
+        public override bool Equals(object x)
+        {
+            if (Object.ReferenceEquals(x, null))
+            {
+                return false;
+            }
+            else
+            {
+                IdentifiedObject io = (IdentifiedObject)x;
+                return ((io.GID == this.GID) && (io.name == this.name) && (io.mRID == this.mRID) &&
+                        (io.description == this.description));
+            }
+        }
 
-			set
-			{			
-				name = value;
-			}
-		}
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
 
-		/// <summary>
-		/// Gets or sets mrid of the entity (identified object).
-		/// </summary>			
-		public string Mrid
-		{
-			get { return mrid; }
-			set { mrid = value; }
-		}
+        #region IAccess implementation		
 
-		/// <summary>
-		/// Gets or sets description of the entity (identified object).
-		/// </summary>			
-		public string Description
-		{
-			get { return description; }
-			set { description = value; }
-		}		
+        public virtual bool HasProperty(ModelCode property)
+        {
+            switch (property)
+            {
+                case ModelCode.IDOBJ_GID:
+                case ModelCode.IDOBJ_NAME:
+                case ModelCode.IDOBJ_DESC:
+                case ModelCode.IDOBJ_MRID:
+                    return true;
 
-		public static bool operator ==(IdentifiedObject x, IdentifiedObject y)
-		{
-			if(Object.ReferenceEquals(x, null) && Object.ReferenceEquals(y, null))
-			{
-				return true;
-			}
-			else if((Object.ReferenceEquals(x, null) && !Object.ReferenceEquals(y, null)) || (!Object.ReferenceEquals(x, null) && Object.ReferenceEquals(y, null)))
-			{
-				return false;
-			}
-			else
-			{
-				return x.Equals(y);
-			}
-		}
+                default:
+                    return false;
+            }
+        }
 
-		public static bool operator !=(IdentifiedObject x, IdentifiedObject y)
-		{
-			return !(x == y);
-		}
+        public virtual void GetProperty(Property property)
+        {
+            switch (property.Id)
+            {
+                case ModelCode.IDOBJ_GID:
+                    property.SetValue(gID);
+                    break;
 
-		public override bool Equals(object x)
-		{
-			if(Object.ReferenceEquals(x, null))
-			{
-				return false;
-			}
-			else
-			{
-				IdentifiedObject io = (IdentifiedObject)x;
-				return ((io.GlobalId == this.GlobalId) && (io.name == this.name) && (io.mrid == this.mrid) &&
-						(io.description == this.description));
-			}
-		}
-		
-		public override int GetHashCode()
-		{
-			return base.GetHashCode();
-		}
+                case ModelCode.IDOBJ_NAME:
+                    property.SetValue(name);
+                    break;
 
-		#region IAccess implementation		
+                case ModelCode.IDOBJ_MRID:
+                    property.SetValue(mRID);
+                    break;
 
-		public virtual bool HasProperty(ModelCode property)
-		{
-			switch(property)
-			{
-				case ModelCode.IDOBJ_GID:				
-				case ModelCode.IDOBJ_NAME:
-				case ModelCode.IDOBJ_DESCRIPTION:
-				case ModelCode.IDOBJ_MRID:
-					return true;
-
-				default:				
-					return false;
-			}
-		}
-
-		public virtual void GetProperty(Property property)
-		{
-			switch(property.Id)
-			{
-				case ModelCode.IDOBJ_GID:
-					property.SetValue(globalId);
-					break;
-
-				case ModelCode.IDOBJ_NAME:
-					property.SetValue(name);
-					break;
-
-				case ModelCode.IDOBJ_MRID:
-					property.SetValue(mrid);
-					break;
-
-                case ModelCode.IDOBJ_DESCRIPTION:
+                case ModelCode.IDOBJ_DESC:
                     property.SetValue(description);
                     break;
-			
-				default:
-					string message = string.Format("Unknown property id = {0} for entity (GID = 0x{1:x16}).", property.Id.ToString(), this.GlobalId);
-					CommonTrace.WriteTrace(CommonTrace.TraceError, message);
-					throw new Exception(message);										
-			}
-		}
 
-		public virtual void SetProperty(Property property)
-		{
-			switch(property.Id)
-			{
-				case ModelCode.IDOBJ_NAME:
-					name = property.AsString();					
-					break;
+                default:
+                    string message = string.Format("Unknown property id = {0} for entity (GID = 0x{1:x16}).", property.Id.ToString(), this.GID);
+                    CommonTrace.WriteTrace(CommonTrace.TraceError, message);
+                    throw new Exception(message);
+            }
+        }
 
-				case ModelCode.IDOBJ_DESCRIPTION:
-					description = property.AsString();					
-					break;
+        public virtual void SetProperty(Property property)
+        {
+            switch (property.Id)
+            {
+                case ModelCode.IDOBJ_NAME:
+                    name = property.AsString();
+                    break;
 
-				case ModelCode.IDOBJ_MRID:					
-					mrid = property.AsString();
-					break;				
+                case ModelCode.IDOBJ_DESC:
+                    description = property.AsString();
+                    break;
 
-				default:					
-					string message = string.Format("Unknown property id = {0} for entity (GID = 0x{1:x16}).", property.Id.ToString(), this.GlobalId);
-					CommonTrace.WriteTrace(CommonTrace.TraceError, message);
-					throw new Exception(message);					
-			}
-		}
+                case ModelCode.IDOBJ_MRID:
+                    mRID = property.AsString();
+                    break;
 
-		#endregion IAccess implementation
+                default:
+                    string message = string.Format("Unknown property id = {0} for entity (GID = 0x{1:x16}).", property.Id.ToString(), this.GID);
+                    CommonTrace.WriteTrace(CommonTrace.TraceError, message);
+                    throw new Exception(message);
+            }
+        }
 
-		#region IReference implementation	
+        #endregion IAccess implementation
 
-		public virtual bool IsReferenced
-		{
-			get
-			{			
-				return false;
-			}
-		}
-			
-		public virtual void GetReferences(Dictionary<ModelCode, List<long>> references, TypeOfReference refType)
-		{
-			return;
-		}
+        #region IReference implementation	
 
-		public virtual void AddReference(ModelCode referenceId, long globalId)
-		{
-			string message = string.Format("Can not add reference {0} to entity (GID = 0x{1:x16}).", referenceId, this.GlobalId);
-			CommonTrace.WriteTrace(CommonTrace.TraceError, message);
-			throw new Exception(message);						
-		}
+        public virtual bool IsReferenced
+        {
+            get
+            {
+                return false;
+            }
+        }
 
-		public virtual void RemoveReference(ModelCode referenceId, long globalId)
-		{
-			string message = string.Format("Can not remove reference {0} from entity (GID = 0x{1:x16}).", referenceId, this.GlobalId);
-			CommonTrace.WriteTrace(CommonTrace.TraceError, message);
-			throw new ModelException(message);		
-		}
 
-		#endregion IReference implementation
+        public virtual void GetReferences(Dictionary<ModelCode, List<long>> references, TypeOfReference refType)
+        {
+            return;
+        }
 
-		#region utility methods
+        public virtual void AddReference(ModelCode referenceId, long globalId)
+        {
+            string message = string.Format("Can not add reference {0} to entity (GID = 0x{1:x16}).", referenceId, this.GID);
+            CommonTrace.WriteTrace(CommonTrace.TraceError, message);
+            throw new Exception(message);
+        }
 
-		public void GetReferences(Dictionary<ModelCode, List<long>> references)
-		{
-			GetReferences(references, TypeOfReference.Target | TypeOfReference.Reference);
-		}
+        public virtual void RemoveReference(ModelCode referenceId, long globalId)
+        {
+            string message = string.Format("Can not remove reference {0} from entity (GID = 0x{1:x16}).", referenceId, this.GID);
+            CommonTrace.WriteTrace(CommonTrace.TraceError, message);
+            throw new ModelException(message);
+        }
 
-		public ResourceDescription GetAsResourceDescription(bool onlySettableAttributes)
-		{
-			ResourceDescription rd = new ResourceDescription(globalId);
-			List<ModelCode> props = new List<ModelCode>();
+        #endregion IReference implementation
 
-			if (onlySettableAttributes == true)
-			{
-				props = resourcesDescs.GetAllSettablePropertyIdsForEntityId(globalId);
-			}
-			else
-			{
-				props = resourcesDescs.GetAllPropertyIdsForEntityId(globalId);
-			}
+        #region utility methods
 
-			return rd;
-		}
+        public void GetReferences(Dictionary<ModelCode, List<long>> references)
+        {
+            GetReferences(references, TypeOfReference.Target | TypeOfReference.Reference);
+        }
 
-		public ResourceDescription GetAsResourceDescription(List<ModelCode> propIds)
-		{
-			ResourceDescription rd = new ResourceDescription(globalId);
+        public ResourceDescription GetAsResourceDescription(bool onlySettableAttributes)
+        {
+            ResourceDescription rd = new ResourceDescription(gID);
+            List<ModelCode> props = new List<ModelCode>();
 
-			for (int i = 0; i < propIds.Count; i++)
-			{
-				rd.AddProperty(GetProperty(propIds[i]));
-			}
+            if (onlySettableAttributes == true)
+            {
+                props = resourcesDescs.GetAllSettablePropertyIdsForEntityId(gID);
+            }
+            else
+            {
+                props = resourcesDescs.GetAllPropertyIdsForEntityId(gID);
+            }
 
-			return rd;
-		}
+            return rd;
+        }
 
-		public virtual Property GetProperty(ModelCode propId)
-		{
-			Property property = new Property(propId);
-			GetProperty(property);
-			return property;
-		}
+        public ResourceDescription GetAsResourceDescription(List<ModelCode> propIds)
+        {
+            ResourceDescription rd = new ResourceDescription(gID);
 
-		public void GetDifferentProperties(IdentifiedObject compared, out List<Property> valuesInOriginal, out List<Property> valuesInCompared)
-		{
-			valuesInCompared = new List<Property>();
-			valuesInOriginal = new List<Property>();
+            for (int i = 0; i < propIds.Count; i++)
+            {
+                rd.AddProperty(GetProperty(propIds[i]));
+            }
 
-			ResourceDescription rd = this.GetAsResourceDescription(false);
+            return rd;
+        }
 
-			if (compared != null)
-			{
-				ResourceDescription rdCompared = compared.GetAsResourceDescription(false);
+        public virtual Property GetProperty(ModelCode propId)
+        {
+            Property property = new Property(propId);
+            GetProperty(property);
+            return property;
+        }
 
-				for (int i = 0; i < rd.Properties.Count; i++)
-				{
-					if (rd.Properties[i] != rdCompared.Properties[i])
-					{
-						valuesInOriginal.Add(rd.Properties[i]);
-						valuesInCompared.Add(rdCompared.Properties[i]);
-					}
-				}
-			}
-			else
-			{
-				for (int i = 0; i < rd.Properties.Count; i++)
-				{
-					valuesInOriginal.Add(rd.Properties[i]);
-				}
-			}
-		}	
+        public void GetDifferentProperties(IdentifiedObject compared, out List<Property> valuesInOriginal, out List<Property> valuesInCompared)
+        {
+            valuesInCompared = new List<Property>();
+            valuesInOriginal = new List<Property>();
 
-		#endregion utility methods
-	}
+            ResourceDescription rd = this.GetAsResourceDescription(false);
+
+            if (compared != null)
+            {
+                ResourceDescription rdCompared = compared.GetAsResourceDescription(false);
+
+                for (int i = 0; i < rd.Properties.Count; i++)
+                {
+                    if (rd.Properties[i] != rdCompared.Properties[i])
+                    {
+                        valuesInOriginal.Add(rd.Properties[i]);
+                        valuesInCompared.Add(rdCompared.Properties[i]);
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < rd.Properties.Count; i++)
+                {
+                    valuesInOriginal.Add(rd.Properties[i]);
+                }
+            }
+        }
+
+        #endregion utility methods
+    }
 }

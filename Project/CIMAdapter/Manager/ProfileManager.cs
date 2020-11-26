@@ -10,7 +10,8 @@ namespace FTN.ESI.SIMES.CIM.CIMAdapter.Manager
 		SwitchingEquipment,
 		OverheadLines,
 		UndergroundCables,
-		ProtectionDevices
+		ProtectionDevices,
+		SCADA
 	};
 
 

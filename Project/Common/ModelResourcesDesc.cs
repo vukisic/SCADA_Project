@@ -865,21 +865,31 @@ namespace FTN.Common
 		# region Initialization of metadata
 
 		private void InitializeTypeIdsInInsertOrder()
-		{			
-			typeIdsInInsertOrder.Add(ModelCode.BASEVOLTAGE);
-			typeIdsInInsertOrder.Add(ModelCode.LOCATION);
-			typeIdsInInsertOrder.Add(ModelCode.POWERTR);
-			typeIdsInInsertOrder.Add(ModelCode.POWERTRWINDING);
-			typeIdsInInsertOrder.Add(ModelCode.WINDINGTEST);			
+		{
+			typeIdsInInsertOrder.Add(ModelCode.SUBSTATION);
+			typeIdsInInsertOrder.Add(ModelCode.DISCONNECTOR);
+			typeIdsInInsertOrder.Add(ModelCode.BREAKER);
+			typeIdsInInsertOrder.Add(ModelCode.ASYNCMACHINE);
+			typeIdsInInsertOrder.Add(ModelCode.POWERTRANSFORMER);
+			typeIdsInInsertOrder.Add(ModelCode.TRANSFORMERWINDING);
+			typeIdsInInsertOrder.Add(ModelCode.RATIOTAPCHANGER);
+			typeIdsInInsertOrder.Add(ModelCode.CONNECTIVITYNODE);
+			typeIdsInInsertOrder.Add(ModelCode.TERMINAL);
+			typeIdsInInsertOrder.Add(ModelCode.ANALOG);
+			typeIdsInInsertOrder.Add(ModelCode.DISCRETE);
 		}
 
 		private void InitializeNotSettablePropertyIds()
-		{			
+		{
 			notSettablePropertyIds.Add(ModelCode.IDOBJ_GID);
-			notSettablePropertyIds.Add(ModelCode.BASEVOLTAGE_CONDEQS);
-			notSettablePropertyIds.Add(ModelCode.LOCATION_PSRS);
-			notSettablePropertyIds.Add(ModelCode.POWERTRWINDING_TESTS);
-            notSettablePropertyIds.Add(ModelCode.POWERTR_WINDINGS);	
+			notSettablePropertyIds.Add(ModelCode.CONDEQ_TERMINALS);
+			notSettablePropertyIds.Add(ModelCode.CONNECTIVITYNODE_TERMINALS);
+			notSettablePropertyIds.Add(ModelCode.CONNNODECONTAINER_CONNNODES);
+			notSettablePropertyIds.Add(ModelCode.EQUIPMENTCONTAINER_EQUIPS);
+			notSettablePropertyIds.Add(ModelCode.MEASUREMENT_TERMINALS);
+			notSettablePropertyIds.Add(ModelCode.POWERTRANSFORMER_TRWINDINGS);
+			notSettablePropertyIds.Add(ModelCode.PSR_MEASUREMENTS);
+			notSettablePropertyIds.Add(ModelCode.TERMINAL_MEASUREMENTS);
 		}
 	
 		# endregion Initialization of metadata

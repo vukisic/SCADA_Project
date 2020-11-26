@@ -359,7 +359,7 @@ namespace FTN.Services.NetworkModelService
 
 								// get referenced entity for update
 								IdentifiedObject targetEntity = GetEntity(targetGlobalId);
-								targetEntity.AddReference(property.Id, io.GlobalId);																	
+								targetEntity.AddReference(property.Id, io.GID);																	
 							}
 
 							io.SetProperty(property);
@@ -507,7 +507,7 @@ namespace FTN.Services.NetworkModelService
 				}
 							
 				// find property ids
-				List<ModelCode> propertyIds = resourcesDescs.GetAllSettablePropertyIdsForEntityId(io.GlobalId);
+				List<ModelCode> propertyIds = resourcesDescs.GetAllSettablePropertyIdsForEntityId(io.GID);
 
 				// remove references
 				Property property = null;

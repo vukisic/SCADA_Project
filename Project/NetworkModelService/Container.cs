@@ -11,7 +11,8 @@ using FTN.Common;
 using FTN.Services.NetworkModelService.DataModel.Core;
 using FTN.Services.NetworkModelService.DataModel.Wires;
 using FTN.Services.NetworkModelService.DataModel;
-
+using FTN.Services.NetworkModelService.DataModel.Meas;
+using FTN.Services.NetworkModelService.DataModel.Topology;
 
 namespace FTN.Services.NetworkModelService
 {		
@@ -122,27 +123,43 @@ namespace FTN.Services.NetworkModelService
 			IdentifiedObject io = null;			
 			switch ((DMSType)type)
 			{
-				case DMSType.BASEVOLTAGE:
-					io = new BaseVoltage(globalId);
+				case DMSType.TERMINAL:
+					io = new Terminal(globalId);
 					break;
-
-				case DMSType.LOCATION:
-					io = new Location(globalId);
+				case DMSType.ANALOG:
+					io = new Analog(globalId);
 					break;
-				case DMSType.POWERTR:
+				case DMSType.ASYNCHRONOUSMACHINE:
+					io = new AsynchronousMachine(globalId);
+					break;
+				case DMSType.BREAKER:
+					io = new Breaker(globalId);
+					break;
+				case DMSType.CONNECTIVITYNODE:
+					io = new ConnectivityNode(globalId);
+					break;
+				case DMSType.DISCONNECTOR:
+					io = new Disconnector(globalId);
+					break;
+				case DMSType.DISCRETE:
+					io = new Discrete(globalId);
+					break;
+				case DMSType.POWERTRANSFORMER:
 					io = new PowerTransformer(globalId);
 					break;
-				case DMSType.POWERTRWINDING:
+				case DMSType.RATIOTAPCHANGER:
+					io = new RatioTapChanger(globalId);
+					break;
+				case DMSType.SUBSTATION:
+					io = new Substation(globalId);
+					break;
+				case DMSType.TRANSFORMERWINDING:
 					io = new TransformerWinding(globalId);
 					break;
-				case DMSType.WINDINGTEST:
-					io = new WindingTest(globalId);
-					break;			
-
-				default:					
+				default:
 					string message = String.Format("Failed to create entity because specified type ({0}) is not supported.", type);
 					CommonTrace.WriteTrace(CommonTrace.TraceError, message);
-					throw new Exception(message);					
+					throw new Exception(message);
 			}
 
             // Add entity to map
@@ -187,13 +204,13 @@ namespace FTN.Services.NetworkModelService
 		/// <returns>Index of the entity that is just added.</returns>
 		public void AddEntity(IdentifiedObject io)
 		{
-			if (!EntityExists(io.GlobalId))
+			if (!EntityExists(io.GID))
 			{
-				entities[io.GlobalId] = io;
+				entities[io.GID] = io;
 			}
 			else
 			{
-				string message = String.Format("Entity (GID = 0x{1:x16}) already exists.", io.GlobalId);
+				string message = String.Format("Entity (GID = 0x{1:x16}) already exists.", io.GID);
 				CommonTrace.WriteTrace(CommonTrace.TraceError, message);
 				throw new Exception(message);
 			}
