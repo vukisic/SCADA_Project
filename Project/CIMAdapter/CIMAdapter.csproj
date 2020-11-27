@@ -67,9 +67,8 @@
     <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SCADACIMProfile_Labs, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Resources\SCADACIMProfile_Labs.dll</HintPath>
+    <Reference Include="SCADAProjectCIMProfile_Labs">
+      <HintPath>..\Resources\SCADAProjectCIMProfile_Labs.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -85,6 +84,7 @@
     <Compile Include="Importer\ImportHelper.cs" />
     <Compile Include="Importer\PowerTransformerConverter.cs" />
     <Compile Include="Importer\PowerTransformerImporter.cs" />
+    <Compile Include="Importer\SCADAConverter.cs" />
     <Compile Include="Manager\LogManager.cs" />
     <Compile Include="Manager\ProfileManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

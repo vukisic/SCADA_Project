@@ -886,7 +886,7 @@ namespace FTN.Common
 			notSettablePropertyIds.Add(ModelCode.CONNECTIVITYNODE_TERMINALS);
 			notSettablePropertyIds.Add(ModelCode.CONNNODECONTAINER_CONNNODES);
 			notSettablePropertyIds.Add(ModelCode.EQUIPMENTCONTAINER_EQUIPS);
-			notSettablePropertyIds.Add(ModelCode.MEASUREMENT_TERMINALS);
+			notSettablePropertyIds.Add(ModelCode.MEASUREMENT_TERMINAL);
 			notSettablePropertyIds.Add(ModelCode.POWERTRANSFORMER_TRWINDINGS);
 			notSettablePropertyIds.Add(ModelCode.PSR_MEASUREMENTS);
 			notSettablePropertyIds.Add(ModelCode.TERMINAL_MEASUREMENTS);

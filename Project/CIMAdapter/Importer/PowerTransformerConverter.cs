@@ -69,18 +69,18 @@
 			//}
 		}
 
-		public static void PopulateBaseVoltageProperties(FTN.BaseVoltage cimBaseVoltage, ResourceDescription rd)
-		{
-			//if ((cimBaseVoltage != null) && (rd != null))
-			//{
-			//	PowerTransformerConverter.PopulateIdentifiedObjectProperties(cimBaseVoltage, rd);
+		//public static void PopulateBaseVoltageProperties(FTN.BaseVoltage cimBaseVoltage, ResourceDescription rd)
+		//{
+		//	//if ((cimBaseVoltage != null) && (rd != null))
+		//	//{
+		//	//	PowerTransformerConverter.PopulateIdentifiedObjectProperties(cimBaseVoltage, rd);
 
-			//	if (cimBaseVoltage.NominalVoltageHasValue)
-			//	{
-			//		rd.AddProperty(new Property(ModelCode.BASEVOLTAGE_NOMINALVOLTAGE, cimBaseVoltage.NominalVoltage));
-			//	}
-			//}
-		}
+		//	//	if (cimBaseVoltage.NominalVoltageHasValue)
+		//	//	{
+		//	//		rd.AddProperty(new Property(ModelCode.BASEVOLTAGE_NOMINALVOLTAGE, cimBaseVoltage.NominalVoltage));
+		//	//	}
+		//	//}
+		//}
 
 		public static void PopulateEquipmentProperties(FTN.Equipment cimEquipment, ResourceDescription rd, ImportHelper importHelper, TransformAndLoadReport report)
 		{

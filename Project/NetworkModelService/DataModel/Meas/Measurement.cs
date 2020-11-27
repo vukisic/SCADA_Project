@@ -13,7 +13,7 @@ namespace FTN.Services.NetworkModelService.DataModel.Meas
         {
         }
 
-        private List<long> terminals = new List<long>();
+        private long terminal = 0;
         private long pSR = 0;
         private SignalDirection direction;
         private MeasurementType measurementType;
@@ -21,7 +21,7 @@ namespace FTN.Services.NetworkModelService.DataModel.Meas
         private string objectMRID;
         private string timeStamp;
 
-        public List<long> Terminals { get => terminals; set => terminals = value; }
+        public long Terminals { get => terminal; set => terminal = value; }
         public long PSR { get => pSR; set => pSR = value; }
         public SignalDirection Direction { get => direction; set => direction = value; }
         public MeasurementType MeasurementType { get => measurementType; set => measurementType = value; }
@@ -39,7 +39,7 @@ namespace FTN.Services.NetworkModelService.DataModel.Meas
                         && m.objectMRID == this.objectMRID
                         && m.timeStamp == this.timeStamp
                         && m.baseAddress == this.baseAddress
-                        && CompareHelper.CompareLists(m.terminals, this.terminals)) ;
+                        && m.terminal == this.terminal);
             }
             else
             {
@@ -59,7 +59,7 @@ namespace FTN.Services.NetworkModelService.DataModel.Meas
                 case ModelCode.MEASUREMENT_DIRECTION:
                 case ModelCode.MEASUREMENT_MEASTYPE:
                 case ModelCode.MEASUREMENT_PSR:
-                case ModelCode.MEASUREMENT_TERMINALS:
+                case ModelCode.MEASUREMENT_TERMINAL:
                 case ModelCode.MEASUREMENT_BASEADDR:
                 case ModelCode.MEASUREMENT_OBJMRID:
                 case ModelCode.MEASUREMENT_TIMESTAMP:
@@ -83,8 +83,8 @@ namespace FTN.Services.NetworkModelService.DataModel.Meas
                 case ModelCode.MEASUREMENT_PSR:
                     property.SetValue(pSR);
                     break;
-                case ModelCode.MEASUREMENT_TERMINALS:
-                    property.SetValue(terminals);
+                case ModelCode.MEASUREMENT_TERMINAL:
+                    property.SetValue(terminal);
                     break;
                 case ModelCode.MEASUREMENT_BASEADDR:
                     property.SetValue(baseAddress);
@@ -133,7 +133,7 @@ namespace FTN.Services.NetworkModelService.DataModel.Meas
         {
             get
             {
-                return terminals.Count != 0 || base.IsReferenced;
+                return base.IsReferenced;
             }
         }
 
@@ -146,9 +146,10 @@ namespace FTN.Services.NetworkModelService.DataModel.Meas
                     pSR
                 };
             }
-            if (terminals != null && terminals.Count != 0 && (refType == TypeOfReference.Target || refType == TypeOfReference.Both))
+            if (terminal != 0 && (refType == TypeOfReference.Reference || refType == TypeOfReference.Both))
             {
-                references[ModelCode.MEASUREMENT_TERMINALS] = terminals.GetRange(0, terminals.Count);
+                references[ModelCode.MEASUREMENT_TERMINAL] = new List<long>();
+                references[ModelCode.MEASUREMENT_TERMINAL].Add(terminal);
             }
 
             base.GetReferences(references, refType);
@@ -159,7 +160,7 @@ namespace FTN.Services.NetworkModelService.DataModel.Meas
             switch (referenceId)
             {
                 case ModelCode.TERMINAL_MEASUREMENTS:
-                    terminals.Add(globalId);
+                    terminal = globalId;
                     break;
 
                 default:
@@ -173,16 +174,14 @@ namespace FTN.Services.NetworkModelService.DataModel.Meas
             switch (referenceId)
             {
                 case ModelCode.TERMINAL_MEASUREMENTS:
-
-                    if (terminals.Contains(globalId))
+                    if (terminal == globalId)
                     {
-                        terminals.Remove(globalId);
+                        terminal = 0;
                     }
                     else
                     {
                         CommonTrace.WriteTrace(CommonTrace.TraceWarning, "Entity (GID = 0x{0:x16}) doesn't contain reference 0x{1:x16}.", this.GID, globalId);
                     }
-
                     break;
 
                 default:
