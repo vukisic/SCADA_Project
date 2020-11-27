@@ -106,7 +106,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Lib\PowerTransformerCIMProfile_Labs.dll" />
-    <Content Include="Lib\SCADACIMProfile_Labs.dll" />
+    <Content Include="Lib\SCADAProjectCIMProfile_Labs.dll" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
