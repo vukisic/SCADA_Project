@@ -245,6 +245,10 @@ namespace FTN.ESI.SIMES.CIM.CIMAdapter.Importer
             if ((cimSubstation != null) && (rd != null))
             {
                 SCADAConverter.PopulateEquipmentContainerProperties(cimSubstation, rd, importHelper, report);
+                if (cimSubstation.CapacityHasValue)
+                {
+                    rd.AddProperty(new Property(ModelCode.SUBSTATION_CAPACITY, cimSubstation.Capacity));
+                }
             }
         }
 
