@@ -11,7 +11,7 @@ namespace FTN.ESI.SIMES.CIM.CIMAdapter.Manager
 		OverheadLines,
 		UndergroundCables,
 		ProtectionDevices,
-		SCADA
+		SCADAProject
 	};
 
 
