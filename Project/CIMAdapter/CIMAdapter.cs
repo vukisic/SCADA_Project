@@ -144,6 +144,26 @@ namespace FTN.ESI.SIMES.CIM.CIMAdapter
 
 							break;
 						}
+					case SupportedProfiles.SCADAProject:
+                        {
+							// transformation to DMS delta					
+							TransformAndLoadReport report = SCADAImporter.Instance.CreateNMSDelta(concreteModel);
+
+							if (report.Success)
+							{
+								//TO DO
+								//nmsDelta = PowerTransformerImporter.Instance.NMSDelta;
+								success = true;
+							}
+							else
+							{
+								success = false;
+							}
+							log = report.Report.ToString();
+							//PowerTransformerImporter.Instance.Reset();
+
+							break;
+						}
 					default:
 						{
 							LogManager.Log(string.Format("Import of {0} data is NOT SUPPORTED.", extractType), LogLevel.Warning);

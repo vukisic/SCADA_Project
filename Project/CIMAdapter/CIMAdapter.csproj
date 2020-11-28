@@ -86,6 +86,7 @@
     <Compile Include="Importer\PowerTransformerConverter.cs" />
     <Compile Include="Importer\PowerTransformerImporter.cs" />
     <Compile Include="Importer\SCADAConverter.cs" />
+    <Compile Include="Importer\SCADAImporter.cs" />
     <Compile Include="Manager\LogManager.cs" />
     <Compile Include="Manager\ProfileManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
