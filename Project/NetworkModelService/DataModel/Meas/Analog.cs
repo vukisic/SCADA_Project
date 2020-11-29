@@ -1,31 +1,32 @@
 ﻿using FTN.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace FTN.Services.NetworkModelService.DataModel.Meas
 {
     public class Analog : Measurement
     {
+
+        public float MaxValue { get; set; }
+
+        public float MinValue { get; set; }
+
+        public float NormalValue { get; set; }
+
         public Analog(long gID) : base(gID)
         {
         }
-
-        private float maxValue;
-        private float minValue;
-        private float normalValue;
-
-        public float MaxValue { get => maxValue; set => maxValue = value; }
-        public float MinValue { get => minValue; set => minValue = value; }
-        public float NormalValue { get => normalValue; set => normalValue = value; }
+        public Analog(Analog analog) : base(analog)
+        {
+            MaxValue = analog.MaxValue;
+            MinValue = analog.MinValue;
+            NormalValue = analog.NormalValue;
+        }
 
         public override bool Equals(object obj)
         {
             if (base.Equals(obj))
             {
                 Analog x = (Analog)obj;
-                return ((x.maxValue == this.maxValue) && (x.minValue == this.minValue) && (x.normalValue == this.normalValue));
+                return ((x.MaxValue == this.MaxValue) && (x.MinValue == this.MinValue) && (x.NormalValue == this.NormalValue));
             }
             else
             {
@@ -39,6 +40,26 @@ namespace FTN.Services.NetworkModelService.DataModel.Meas
         }
 
         #region IAccess
+        public override void GetProperty(Property property)
+        {
+            switch (property.Id)
+            {
+                case ModelCode.ANALOG_MAXVALUE:
+                    property.SetValue(MaxValue);
+                    break;
+                case ModelCode.ANALOG_MINVALUE:
+                    property.SetValue(MinValue);
+                    break;
+                case ModelCode.ANALOG_NORMALVALUE:
+                    property.SetValue(NormalValue);
+                    break;
+
+                default:
+                    base.GetProperty(property);
+                    break;
+            }
+        }
+
         public override bool HasProperty(ModelCode property)
         {
             switch (property)
@@ -52,37 +73,18 @@ namespace FTN.Services.NetworkModelService.DataModel.Meas
                     return base.HasProperty(property);
             }
         }
-        public override void GetProperty(Property property)
-        {
-            switch (property.Id)
-            {
-                case ModelCode.ANALOG_MAXVALUE:
-                    property.SetValue(maxValue);
-                    break;
-                case ModelCode.ANALOG_MINVALUE:
-                    property.SetValue(minValue);
-                    break;
-                case ModelCode.ANALOG_NORMALVALUE:
-                    property.SetValue(normalValue);
-                    break;
-
-                default:
-                    base.GetProperty(property);
-                    break;
-            }
-        }
         public override void SetProperty(Property property)
         {
             switch (property.Id)
             {
                 case ModelCode.ANALOG_MAXVALUE:
-                    maxValue = property.AsFloat();
+                    MaxValue = property.AsFloat();
                     break;
                 case ModelCode.ANALOG_MINVALUE:
-                    minValue = property.AsFloat();
+                    MinValue = property.AsFloat();
                     break;
                 case ModelCode.ANALOG_NORMALVALUE:
-                    normalValue = property.AsFloat();
+                    NormalValue = property.AsFloat();
                     break;
 
                 default:

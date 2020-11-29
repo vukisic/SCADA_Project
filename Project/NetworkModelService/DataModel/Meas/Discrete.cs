@@ -1,31 +1,31 @@
 ﻿using FTN.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace FTN.Services.NetworkModelService.DataModel.Meas
 {
     public class Discrete : Measurement
     {
+        public int MaxValue { get; set; }
+
+        public int MinValue { get; set; }
+
+        public int NormalValue { get; set; }
+
         public Discrete(long gID) : base(gID)
         {
         }
-
-        private int maxValue;
-        private int minValue;
-        private int normalValue;
-
-        public int MaxValue { get => maxValue; set => maxValue = value; }
-        public int MinValue { get => minValue; set => minValue = value; }
-        public int NormalValue { get => normalValue; set => normalValue = value; }
+        public Discrete(Discrete discrete) : base(discrete)
+        {
+            MaxValue = discrete.MaxValue;
+            MinValue = discrete.MinValue;
+            NormalValue = discrete.NormalValue;
+        }
 
         public override bool Equals(object obj)
         {
             if (base.Equals(obj))
             {
                 Discrete x = (Discrete)obj;
-                return ((x.maxValue == this.maxValue) && (x.minValue == this.minValue) && (x.normalValue == this.normalValue));
+                return ((x.MaxValue == this.MaxValue) && (x.MinValue == this.MinValue) && (x.NormalValue == this.NormalValue));
             }
             else
             {
@@ -39,6 +39,26 @@ namespace FTN.Services.NetworkModelService.DataModel.Meas
         }
 
         #region IAccess
+        public override void GetProperty(Property property)
+        {
+            switch (property.Id)
+            {
+                case ModelCode.DISCRETE_MAXVALUE:
+                    property.SetValue(MaxValue);
+                    break;
+                case ModelCode.DISCRETE_MINVALUE:
+                    property.SetValue(MinValue);
+                    break;
+                case ModelCode.DISCRETE_NORMALVALUE:
+                    property.SetValue(NormalValue);
+                    break;
+
+                default:
+                    base.GetProperty(property);
+                    break;
+            }
+        }
+
         public override bool HasProperty(ModelCode property)
         {
             switch (property)
@@ -52,37 +72,18 @@ namespace FTN.Services.NetworkModelService.DataModel.Meas
                     return base.HasProperty(property);
             }
         }
-        public override void GetProperty(Property property)
-        {
-            switch (property.Id)
-            {
-                case ModelCode.DISCRETE_MAXVALUE:
-                    property.SetValue(maxValue);
-                    break;
-                case ModelCode.DISCRETE_MINVALUE:
-                    property.SetValue(minValue);
-                    break;
-                case ModelCode.DISCRETE_NORMALVALUE:
-                    property.SetValue(normalValue);
-                    break;
-
-                default:
-                    base.GetProperty(property);
-                    break;
-            }
-        }
         public override void SetProperty(Property property)
         {
             switch (property.Id)
             {
                 case ModelCode.DISCRETE_MAXVALUE:
-                    maxValue = property.AsInt();
+                    MaxValue = property.AsInt();
                     break;
                 case ModelCode.DISCRETE_MINVALUE:
-                    minValue = property.AsInt();
+                    MinValue = property.AsInt();
                     break;
                 case ModelCode.DISCRETE_NORMALVALUE:
-                    normalValue = property.AsInt();
+                    NormalValue = property.AsInt();
                     break;
 
                 default:
