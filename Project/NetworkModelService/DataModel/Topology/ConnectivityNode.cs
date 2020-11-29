@@ -1,30 +1,30 @@
 ﻿using FTN.Common;
 using FTN.Services.NetworkModelService.DataModel.Core;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace FTN.Services.NetworkModelService.DataModel.Topology
 {
     public class ConnectivityNode : IdentifiedObject
     {
+        public long ConnectivityNodeContainer { get; set; } = 0;
+
+        public List<long> Terminals { get; set; } = new List<long>();
+
         public ConnectivityNode(long gID) : base(gID)
         {
         }
-
-        private long connectivityNodeContainer = 0;
-        private List<long> terminals = new List<long>();
-
-        public long ConnectivityNodeContainer { get => connectivityNodeContainer; set => connectivityNodeContainer = value; }
-        public List<long> Terminals { get => terminals; set => terminals = value; }
+        public ConnectivityNode(ConnectivityNode node) : base(node)
+        {
+            ConnectivityNodeContainer = node.ConnectivityNodeContainer;
+            Terminals = new List<long>(node.Terminals);
+        }
 
         public override bool Equals(object obj)
         {
             if (base.Equals(obj))
             {
                 ConnectivityNode x = (ConnectivityNode)obj;
-                return ((x.connectivityNodeContainer == this.connectivityNodeContainer) && CompareHelper.CompareLists(x.terminals, this.terminals));
+                return ((x.ConnectivityNodeContainer == this.ConnectivityNodeContainer) && CompareHelper.CompareLists(x.Terminals, this.Terminals));
             }
             else
             {
@@ -38,6 +38,22 @@ namespace FTN.Services.NetworkModelService.DataModel.Topology
         }
 
         #region IAccess
+        public override void GetProperty(Property property)
+        {
+            switch (property.Id)
+            {
+                case ModelCode.CONNECTIVITYNODE_CNODECONT:
+                    property.SetValue(ConnectivityNodeContainer);
+                    break;
+                case ModelCode.CONNECTIVITYNODE_TERMINALS:
+                    property.SetValue(Terminals);
+                    break;
+                default:
+                    base.GetProperty(property);
+                    break;
+            }
+        }
+
         public override bool HasProperty(ModelCode property)
         {
             switch (property)
@@ -49,29 +65,12 @@ namespace FTN.Services.NetworkModelService.DataModel.Topology
                     return base.HasProperty(property);
             }
         }
-
-        public override void GetProperty(Property property)
-        {
-            switch (property.Id)
-            {
-                case ModelCode.CONNECTIVITYNODE_CNODECONT:
-                    property.SetValue(connectivityNodeContainer);
-                    break;
-                case ModelCode.CONNECTIVITYNODE_TERMINALS:
-                    property.SetValue(terminals);
-                    break;
-                default:
-                    base.GetProperty(property);
-                    break;
-            }
-        }
-
         public override void SetProperty(Property property)
         {
             switch (property.Id)
             {
                 case ModelCode.CONNECTIVITYNODE_CNODECONT:
-                    connectivityNodeContainer = property.AsReference();
+                    ConnectivityNodeContainer = property.AsReference();
                     break;
                 default:
                     base.SetProperty(property);
@@ -85,25 +84,8 @@ namespace FTN.Services.NetworkModelService.DataModel.Topology
         {
             get
             {
-                return terminals.Count > 0 || base.IsReferenced;
+                return Terminals.Count > 0 || base.IsReferenced;
             }
-        }
-
-        public override void GetReferences(Dictionary<ModelCode, List<long>> references, TypeOfReference refType)
-        {
-
-            if (terminals != null && terminals.Count != 0 && (refType == TypeOfReference.Target || refType == TypeOfReference.Both))
-            {
-                references[ModelCode.CONNECTIVITYNODE_TERMINALS] = terminals.GetRange(0, terminals.Count);
-            }
-
-            if (connectivityNodeContainer != 0 && (refType == TypeOfReference.Reference || refType == TypeOfReference.Both))
-            {
-                references[ModelCode.CONNECTIVITYNODE_CNODECONT] = new List<long>();
-                references[ModelCode.CONNECTIVITYNODE_CNODECONT].Add(connectivityNodeContainer);
-            }
-
-            base.GetReferences(references, refType);
         }
 
         public override void AddReference(ModelCode referenceId, long globalId)
@@ -111,7 +93,7 @@ namespace FTN.Services.NetworkModelService.DataModel.Topology
             switch (referenceId)
             {
                 case ModelCode.TERMINAL_CONNNODE:
-                    terminals.Add(globalId);
+                    Terminals.Add(globalId);
                     break;
 
                 default:
@@ -120,15 +102,31 @@ namespace FTN.Services.NetworkModelService.DataModel.Topology
             }
         }
 
+        public override void GetReferences(Dictionary<ModelCode, List<long>> references, TypeOfReference refType)
+        {
+
+            if (Terminals != null && Terminals.Count != 0 && (refType == TypeOfReference.Target || refType == TypeOfReference.Both))
+            {
+                references[ModelCode.CONNECTIVITYNODE_TERMINALS] = Terminals.GetRange(0, Terminals.Count);
+            }
+
+            if (ConnectivityNodeContainer != 0 && (refType == TypeOfReference.Reference || refType == TypeOfReference.Both))
+            {
+                references[ModelCode.CONNECTIVITYNODE_CNODECONT] = new List<long>();
+                references[ModelCode.CONNECTIVITYNODE_CNODECONT].Add(ConnectivityNodeContainer);
+            }
+
+            base.GetReferences(references, refType);
+        }
         public override void RemoveReference(ModelCode referenceId, long globalId)
         {
             switch (referenceId)
             {
                 case ModelCode.TERMINAL_CONNNODE:
 
-                    if (terminals.Contains(globalId))
+                    if (Terminals.Contains(globalId))
                     {
-                        terminals.Remove(globalId);
+                        Terminals.Remove(globalId);
                     }
                     else
                     {

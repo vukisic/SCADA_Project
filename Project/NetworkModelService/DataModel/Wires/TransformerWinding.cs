@@ -1,33 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Xml;
-using FTN.Common;
+﻿using FTN.Common;
 using FTN.Services.NetworkModelService.DataModel.Core;
+using System.Collections.Generic;
 
 namespace FTN.Services.NetworkModelService.DataModel.Wires
 {
     public class TransformerWinding : ConductingEquipment
     {
-        private long powerTransformer = 0;
-        private long ratioTapChanger = 0;
+        public long PowerTransformer { get; set; } = 0;
+
+        public long RatioTapChanger { get; set; } = 0;
 
         public TransformerWinding(long gID) : base(gID)
         {
         }
-
-        public long PowerTransformer { get => powerTransformer; set => powerTransformer = value; }
-        public long RatioTapChanger { get => ratioTapChanger; set => ratioTapChanger = value; }
+        public TransformerWinding(TransformerWinding transformerWinding) : base(transformerWinding)
+        {
+            PowerTransformer = transformerWinding.PowerTransformer;
+            RatioTapChanger = transformerWinding.RatioTapChanger;
+        }
 
         public override bool Equals(object obj)
         {
             if (base.Equals(obj))
             {
                 TransformerWinding x = (TransformerWinding)obj;
-                return ((x.powerTransformer == this.powerTransformer) && (x.ratioTapChanger == this.ratioTapChanger));
+                return ((x.PowerTransformer == this.PowerTransformer) && (x.RatioTapChanger == this.RatioTapChanger));
             }
             else
             {
@@ -41,6 +38,22 @@ namespace FTN.Services.NetworkModelService.DataModel.Wires
         }
 
         #region IAccess
+        public override void GetProperty(Property property)
+        {
+            switch (property.Id)
+            {
+                case ModelCode.TRANSFORMERWINDING_POWERTR:
+                    property.SetValue(PowerTransformer);
+                    break;
+                case ModelCode.TRANSFORMERWINDING_RATIOTC:
+                    property.SetValue(RatioTapChanger);
+                    break;
+                default:
+                    base.GetProperty(property);
+                    break;
+            }
+        }
+
         public override bool HasProperty(ModelCode property)
         {
             switch (property)
@@ -52,32 +65,15 @@ namespace FTN.Services.NetworkModelService.DataModel.Wires
                     return base.HasProperty(property);
             }
         }
-
-        public override void GetProperty(Property property)
-        {
-            switch (property.Id)
-            {
-                case ModelCode.TRANSFORMERWINDING_POWERTR:
-                    property.SetValue(powerTransformer);
-                    break;
-                case ModelCode.TRANSFORMERWINDING_RATIOTC:
-                    property.SetValue(ratioTapChanger);
-                    break;
-                default:
-                    base.GetProperty(property);
-                    break;
-            }
-        }
-
         public override void SetProperty(Property property)
         {
             switch (property.Id)
             {
                 case ModelCode.TRANSFORMERWINDING_POWERTR:
-                    powerTransformer = property.AsReference();
+                    PowerTransformer = property.AsReference();
                     break;
                 case ModelCode.TRANSFORMERWINDING_RATIOTC:
-                    ratioTapChanger = property.AsReference();
+                    RatioTapChanger = property.AsReference();
                     break;
                 default:
                     base.SetProperty(property);
@@ -87,29 +83,12 @@ namespace FTN.Services.NetworkModelService.DataModel.Wires
         #endregion
 
         #region IReference
-        public override void GetReferences(Dictionary<ModelCode, List<long>> references, TypeOfReference refType)
-        {
-            if (powerTransformer != 0 && (refType == TypeOfReference.Reference || refType == TypeOfReference.Both))
-            {
-                references[ModelCode.TRANSFORMERWINDING_POWERTR] = new List<long>();
-                references[ModelCode.TRANSFORMERWINDING_POWERTR].Add(powerTransformer);
-            }
-
-            if (ratioTapChanger != 0 && (refType == TypeOfReference.Reference || refType == TypeOfReference.Both))
-            {
-                references[ModelCode.TRANSFORMERWINDING_RATIOTC] = new List<long>();
-                references[ModelCode.TRANSFORMERWINDING_RATIOTC].Add(ratioTapChanger);
-            }
-
-            base.GetReferences(references, refType);
-        }
-
         public override void AddReference(ModelCode referenceId, long globalId)
         {
             switch (referenceId)
             {
                 case ModelCode.RATIOTAPCHANGER_TRWINDING:
-                    ratioTapChanger = globalId;
+                    RatioTapChanger = globalId;
                     break;
 
                 default:
@@ -118,15 +97,31 @@ namespace FTN.Services.NetworkModelService.DataModel.Wires
             }
         }
 
+        public override void GetReferences(Dictionary<ModelCode, List<long>> references, TypeOfReference refType)
+        {
+            if (PowerTransformer != 0 && (refType == TypeOfReference.Reference || refType == TypeOfReference.Both))
+            {
+                references[ModelCode.TRANSFORMERWINDING_POWERTR] = new List<long>();
+                references[ModelCode.TRANSFORMERWINDING_POWERTR].Add(PowerTransformer);
+            }
+
+            if (RatioTapChanger != 0 && (refType == TypeOfReference.Reference || refType == TypeOfReference.Both))
+            {
+                references[ModelCode.TRANSFORMERWINDING_RATIOTC] = new List<long>();
+                references[ModelCode.TRANSFORMERWINDING_RATIOTC].Add(RatioTapChanger);
+            }
+
+            base.GetReferences(references, refType);
+        }
         public override void RemoveReference(ModelCode referenceId, long globalId)
         {
             switch (referenceId)
             {
                 case ModelCode.RATIOTAPCHANGER_TRWINDING:
 
-                    if (ratioTapChanger == globalId)
+                    if (RatioTapChanger == globalId)
                     {
-                        ratioTapChanger = 0;
+                        RatioTapChanger = 0;
                     }
                     else
                     {

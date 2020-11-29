@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace FTN.Services.NetworkModelService.DataModel.Wires
+﻿namespace FTN.Services.NetworkModelService.DataModel.Wires
 {
     public class ProtectedSwitch : Switch
     {
         public ProtectedSwitch(long gID) : base(gID)
         {
+        }
+        public ProtectedSwitch(ProtectedSwitch protectedSwitch) : base(protectedSwitch)
+        {
+
         }
 
         public override bool Equals(object x)

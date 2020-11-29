@@ -1,34 +1,35 @@
 ﻿using FTN.Common;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace FTN.Services.NetworkModelService.DataModel.Core
 {
     public class Terminal : IdentifiedObject
     {
+
+        public long ConductingEquipment { get; set; } = 0;
+
+        public long ConnectivityNode { get; set; } = 0;
+
+        public List<long> Measurements { get; set; } = new List<long>();
+
         public Terminal(long gID) : base(gID)
         {
         }
-
-        private long connectivityNode = 0;
-        private long conductingEquipment = 0;
-        private List<long> measurements = new List<long>();
-
-        public long ConnectivityNode { get => connectivityNode; set => connectivityNode = value; }
-        public long ConductingEquipment { get => conductingEquipment; set => conductingEquipment = value; }
-        public List<long> Measurements { get => measurements; set => measurements = value; }
-
+        public Terminal(Terminal terminal) : base(terminal)
+        {
+            ConductingEquipment = terminal.ConductingEquipment;
+            ConnectivityNode = terminal.ConnectivityNode;
+            Measurements = terminal.Measurements;
+        }
 
         public override bool Equals(object x)
         {
             if (base.Equals(x))
             {
                 Terminal t = (Terminal)x;
-                return (t.conductingEquipment == this.conductingEquipment
-                        && t.connectivityNode == this.connectivityNode
-                        && CompareHelper.CompareLists(t.measurements, this.measurements));
+                return (t.ConductingEquipment == this.ConductingEquipment
+                        && t.ConnectivityNode == this.ConnectivityNode
+                        && CompareHelper.CompareLists(t.Measurements, this.Measurements));
             }
             else
             {
@@ -43,6 +44,26 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
 
         #region IAccess implementation	
 
+        public override void GetProperty(Property property)
+        {
+            switch (property.Id)
+            {
+                case ModelCode.TERMINAL_CONDEQUIPMENT:
+                    property.SetValue(ConductingEquipment);
+                    break;
+                case ModelCode.TERMINAL_CONNNODE:
+                    property.SetValue(ConnectivityNode);
+                    break;
+                case ModelCode.TERMINAL_MEASUREMENTS:
+                    property.SetValue(Measurements);
+                    break;
+
+                default:
+                    base.GetProperty(property);
+                    break;
+            }
+        }
+
         public override bool HasProperty(ModelCode property)
         {
             switch (property)
@@ -56,36 +77,15 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
                     return base.HasProperty(property);
             }
         }
-
-        public override void GetProperty(Property property)
-        {
-            switch (property.Id)
-            {
-                case ModelCode.TERMINAL_CONDEQUIPMENT:
-                    property.SetValue(conductingEquipment);
-                    break;
-                case ModelCode.TERMINAL_CONNNODE:
-                    property.SetValue(connectivityNode);
-                    break;
-                case ModelCode.TERMINAL_MEASUREMENTS:
-                    property.SetValue(measurements);
-                    break;
-
-                default:
-                    base.GetProperty(property);
-                    break;
-            }
-        }
-
         public override void SetProperty(Property property)
         {
             switch (property.Id)
             {
                 case ModelCode.TERMINAL_CONDEQUIPMENT:
-                    conductingEquipment = property.AsReference();
+                    ConductingEquipment = property.AsReference();
                     break;
                 case ModelCode.TERMINAL_CONNNODE:
-                    connectivityNode = property.AsReference();
+                    ConnectivityNode = property.AsReference();
                     break;
 
                 default:
@@ -102,32 +102,8 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
         {
             get
             {
-                return measurements.Count != 0 || base.IsReferenced;
+                return Measurements.Count != 0 || base.IsReferenced;
             }
-        }
-
-        public override void GetReferences(Dictionary<ModelCode, List<long>> references, TypeOfReference refType)
-        {
-            if (conductingEquipment != 0 && (refType == TypeOfReference.Reference || refType == TypeOfReference.Both))
-            {
-                references[ModelCode.TERMINAL_CONDEQUIPMENT] = new List<long>
-                {
-                    conductingEquipment
-                };
-            }
-            if (connectivityNode != 0 && (refType == TypeOfReference.Reference || refType == TypeOfReference.Both))
-            {
-                references[ModelCode.TERMINAL_CONNNODE] = new List<long>
-                {
-                    connectivityNode
-                };
-            }
-            if (measurements != null && measurements.Count != 0 && (refType == TypeOfReference.Target || refType == TypeOfReference.Both))
-            {
-                references[ModelCode.TERMINAL_MEASUREMENTS] = measurements.GetRange(0, measurements.Count);
-            }
-
-            base.GetReferences(references, refType);
         }
 
         public override void AddReference(ModelCode referenceId, long globalId)
@@ -135,7 +111,7 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
             switch (referenceId)
             {
                 case ModelCode.MEASUREMENT_TERMINAL:
-                    measurements.Add(globalId);
+                    Measurements.Add(globalId);
                     break;
 
                 default:
@@ -144,15 +120,38 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
             }
         }
 
+        public override void GetReferences(Dictionary<ModelCode, List<long>> references, TypeOfReference refType)
+        {
+            if (ConductingEquipment != 0 && (refType == TypeOfReference.Reference || refType == TypeOfReference.Both))
+            {
+                references[ModelCode.TERMINAL_CONDEQUIPMENT] = new List<long>
+                {
+                    ConductingEquipment
+                };
+            }
+            if (ConnectivityNode != 0 && (refType == TypeOfReference.Reference || refType == TypeOfReference.Both))
+            {
+                references[ModelCode.TERMINAL_CONNNODE] = new List<long>
+                {
+                    ConnectivityNode
+                };
+            }
+            if (Measurements != null && Measurements.Count != 0 && (refType == TypeOfReference.Target || refType == TypeOfReference.Both))
+            {
+                references[ModelCode.TERMINAL_MEASUREMENTS] = Measurements.GetRange(0, Measurements.Count);
+            }
+
+            base.GetReferences(references, refType);
+        }
         public override void RemoveReference(ModelCode referenceId, long globalId)
         {
             switch (referenceId)
             {
                 case ModelCode.MEASUREMENT_TERMINAL:
 
-                    if (measurements.Contains(globalId))
+                    if (Measurements.Contains(globalId))
                     {
-                        measurements.Remove(globalId);
+                        Measurements.Remove(globalId);
                     }
                     else
                     {

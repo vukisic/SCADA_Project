@@ -1,43 +1,51 @@
-﻿using System;
+﻿using FTN.Common;
+using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Xml;
-using System.Reflection;
-using FTN.Common;
 
 namespace FTN.Services.NetworkModelService.DataModel.Core
 {
-	public enum TypeOfReference : short
-	{
-		Reference = 1,
-		Target = 2,
-		Both = 3,
-	}
+    public enum TypeOfReference : short
+    {
+        Reference = 1,
+        Target = 2,
+        Both = 3,
+    }
 
-	public class IdentifiedObject
-	{
+    public class IdentifiedObject
+    {
         /// <summary>
         /// Model Resources Description
         /// </summary>
         private static ModelResourcesDesc resourcesDescs = new ModelResourcesDesc();
 
-        private long gID;
-        private string mRID;
-        private string name;
-        private string description;
+        public string Description { get; set; }
+
+        public long GID { get; set; }
+
+        public string MRID { get; set; }
+
+        public string Name { get; set; }
 
         public IdentifiedObject(long gID)
         {
             GID = gID;
         }
 
-        public string MRID { get => mRID; set => mRID = value; }
-        public string Name { get => name; set => name = value; }
-        public string Description { get => description; set => description = value; }
-        public long GID { get => gID; set => gID = value; }
+        /// <summary>
+        /// Creates deep copy of identified object
+        /// </summary>
+        public IdentifiedObject(IdentifiedObject obj)
+        {
+            Description = obj.Description;
+            GID = obj.GID;
+            MRID = obj.MRID;
+            Name = obj.Name;
+        }
+
+        public static bool operator !=(IdentifiedObject x, IdentifiedObject y)
+        {
+            return !(x == y);
+        }
 
         public static bool operator ==(IdentifiedObject x, IdentifiedObject y)
         {
@@ -55,11 +63,6 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
             }
         }
 
-        public static bool operator !=(IdentifiedObject x, IdentifiedObject y)
-        {
-            return !(x == y);
-        }
-
         public override bool Equals(object x)
         {
             if (Object.ReferenceEquals(x, null))
@@ -69,8 +72,8 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
             else
             {
                 IdentifiedObject io = (IdentifiedObject)x;
-                return ((io.GID == this.GID) && (io.name == this.name) && (io.mRID == this.mRID) &&
-                        (io.description == this.description));
+                return ((io.GID == this.GID) && (io.Name == this.Name) && (io.MRID == this.MRID) &&
+                        (io.Description == this.Description));
             }
         }
 
@@ -80,6 +83,33 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
         }
 
         #region IAccess implementation		
+
+        public virtual void GetProperty(Property property)
+        {
+            switch (property.Id)
+            {
+                case ModelCode.IDOBJ_GID:
+                    property.SetValue(GID);
+                    break;
+
+                case ModelCode.IDOBJ_NAME:
+                    property.SetValue(Name);
+                    break;
+
+                case ModelCode.IDOBJ_MRID:
+                    property.SetValue(MRID);
+                    break;
+
+                case ModelCode.IDOBJ_DESC:
+                    property.SetValue(Description);
+                    break;
+
+                default:
+                    string message = string.Format("Unknown property id = {0} for entity (GID = 0x{1:x16}).", property.Id.ToString(), this.GID);
+                    CommonTrace.WriteTrace(CommonTrace.TraceError, message);
+                    throw new Exception(message);
+            }
+        }
 
         public virtual bool HasProperty(ModelCode property)
         {
@@ -95,48 +125,20 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
                     return false;
             }
         }
-
-        public virtual void GetProperty(Property property)
-        {
-            switch (property.Id)
-            {
-                case ModelCode.IDOBJ_GID:
-                    property.SetValue(gID);
-                    break;
-
-                case ModelCode.IDOBJ_NAME:
-                    property.SetValue(name);
-                    break;
-
-                case ModelCode.IDOBJ_MRID:
-                    property.SetValue(mRID);
-                    break;
-
-                case ModelCode.IDOBJ_DESC:
-                    property.SetValue(description);
-                    break;
-
-                default:
-                    string message = string.Format("Unknown property id = {0} for entity (GID = 0x{1:x16}).", property.Id.ToString(), this.GID);
-                    CommonTrace.WriteTrace(CommonTrace.TraceError, message);
-                    throw new Exception(message);
-            }
-        }
-
         public virtual void SetProperty(Property property)
         {
             switch (property.Id)
             {
                 case ModelCode.IDOBJ_NAME:
-                    name = property.AsString();
+                    Name = property.AsString();
                     break;
 
                 case ModelCode.IDOBJ_DESC:
-                    description = property.AsString();
+                    Description = property.AsString();
                     break;
 
                 case ModelCode.IDOBJ_MRID:
-                    mRID = property.AsString();
+                    MRID = property.AsString();
                     break;
 
                 default:
@@ -159,11 +161,6 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
         }
 
 
-        public virtual void GetReferences(Dictionary<ModelCode, List<long>> references, TypeOfReference refType)
-        {
-            return;
-        }
-
         public virtual void AddReference(ModelCode referenceId, long globalId)
         {
             string message = string.Format("Can not add reference {0} to entity (GID = 0x{1:x16}).", referenceId, this.GID);
@@ -171,6 +168,10 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
             throw new Exception(message);
         }
 
+        public virtual void GetReferences(Dictionary<ModelCode, List<long>> references, TypeOfReference refType)
+        {
+            return;
+        }
         public virtual void RemoveReference(ModelCode referenceId, long globalId)
         {
             string message = string.Format("Can not remove reference {0} from entity (GID = 0x{1:x16}).", referenceId, this.GID);
@@ -182,23 +183,18 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
 
         #region utility methods
 
-        public void GetReferences(Dictionary<ModelCode, List<long>> references)
-        {
-            GetReferences(references, TypeOfReference.Target | TypeOfReference.Reference);
-        }
-
         public ResourceDescription GetAsResourceDescription(bool onlySettableAttributes)
         {
-            ResourceDescription rd = new ResourceDescription(gID);
+            ResourceDescription rd = new ResourceDescription(GID);
             List<ModelCode> props = new List<ModelCode>();
 
             if (onlySettableAttributes == true)
             {
-                props = resourcesDescs.GetAllSettablePropertyIdsForEntityId(gID);
+                props = resourcesDescs.GetAllSettablePropertyIdsForEntityId(GID);
             }
             else
             {
-                props = resourcesDescs.GetAllPropertyIdsForEntityId(gID);
+                props = resourcesDescs.GetAllPropertyIdsForEntityId(GID);
             }
 
             return rd;
@@ -206,7 +202,7 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
 
         public ResourceDescription GetAsResourceDescription(List<ModelCode> propIds)
         {
-            ResourceDescription rd = new ResourceDescription(gID);
+            ResourceDescription rd = new ResourceDescription(GID);
 
             for (int i = 0; i < propIds.Count; i++)
             {
@@ -214,13 +210,6 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
             }
 
             return rd;
-        }
-
-        public virtual Property GetProperty(ModelCode propId)
-        {
-            Property property = new Property(propId);
-            GetProperty(property);
-            return property;
         }
 
         public void GetDifferentProperties(IdentifiedObject compared, out List<Property> valuesInOriginal, out List<Property> valuesInCompared)
@@ -252,6 +241,17 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
             }
         }
 
+        public virtual Property GetProperty(ModelCode propId)
+        {
+            Property property = new Property(propId);
+            GetProperty(property);
+            return property;
+        }
+
+        public void GetReferences(Dictionary<ModelCode, List<long>> references)
+        {
+            GetReferences(references, TypeOfReference.Target | TypeOfReference.Reference);
+        }
         #endregion utility methods
     }
 }

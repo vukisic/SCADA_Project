@@ -1,27 +1,26 @@
 ﻿using FTN.Common;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace FTN.Services.NetworkModelService.DataModel.Core
 {
     public class ConnectivityNodeContainer : PowerSystemResource
     {
+        public List<long> ConnectivityNodes { get; set; } = new List<long>();
+
         public ConnectivityNodeContainer(long gID) : base(gID)
         {
         }
-
-        private List<long> connectivityNodes = new List<long>();
-
-        public List<long> ConnectivityNodes { get => connectivityNodes; set => connectivityNodes = value; }
+        public ConnectivityNodeContainer(ConnectivityNodeContainer container) : base(container)
+        {
+            ConnectivityNodes = new List<long>(container.ConnectivityNodes);
+        }
 
         public override bool Equals(object x)
         {
             if (base.Equals(x))
             {
                 ConnectivityNodeContainer c = (ConnectivityNodeContainer)x;
-                return CompareHelper.CompareLists(c.connectivityNodes, this.connectivityNodes);
+                return CompareHelper.CompareLists(c.ConnectivityNodes, this.ConnectivityNodes);
             }
             else
             {
@@ -36,6 +35,20 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
 
         #region IAccess implementation	
 
+        public override void GetProperty(Property property)
+        {
+            switch (property.Id)
+            {
+                case ModelCode.CONNNODECONTAINER_CONNNODES:
+                    property.SetValue(ConnectivityNodes);
+                    break;
+
+                default:
+                    base.GetProperty(property);
+                    break;
+            }
+        }
+
         public override bool HasProperty(ModelCode property)
         {
             switch (property)
@@ -47,21 +60,6 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
                     return base.HasProperty(property);
             }
         }
-
-        public override void GetProperty(Property property)
-        {
-            switch (property.Id)
-            {
-                case ModelCode.CONNNODECONTAINER_CONNNODES:
-                    property.SetValue(connectivityNodes);
-                    break;
-
-                default:
-                    base.GetProperty(property);
-                    break;
-            }
-        }
-
         public override void SetProperty(Property property)
         {
             base.SetProperty(property);
@@ -75,18 +73,8 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
         {
             get
             {
-                return connectivityNodes.Count > 0 || base.IsReferenced;
+                return ConnectivityNodes.Count > 0 || base.IsReferenced;
             }
-        }
-
-        public override void GetReferences(Dictionary<ModelCode, List<long>> references, TypeOfReference refType)
-        {
-            if (connectivityNodes != null && connectivityNodes.Count > 0 && (refType == TypeOfReference.Target || refType == TypeOfReference.Both))
-            {
-                references[ModelCode.CONNNODECONTAINER_CONNNODES] = connectivityNodes.GetRange(0, connectivityNodes.Count);
-            }
-
-            base.GetReferences(references, refType);
         }
 
         public override void AddReference(ModelCode referenceId, long globalId)
@@ -94,7 +82,7 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
             switch (referenceId)
             {
                 case ModelCode.CONNECTIVITYNODE_CNODECONT:
-                    connectivityNodes.Add(globalId);
+                    ConnectivityNodes.Add(globalId);
                     break;
 
                 default:
@@ -103,15 +91,24 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
             }
         }
 
+        public override void GetReferences(Dictionary<ModelCode, List<long>> references, TypeOfReference refType)
+        {
+            if (ConnectivityNodes != null && ConnectivityNodes.Count > 0 && (refType == TypeOfReference.Target || refType == TypeOfReference.Both))
+            {
+                references[ModelCode.CONNNODECONTAINER_CONNNODES] = ConnectivityNodes.GetRange(0, ConnectivityNodes.Count);
+            }
+
+            base.GetReferences(references, refType);
+        }
         public override void RemoveReference(ModelCode referenceId, long globalId)
         {
             switch (referenceId)
             {
                 case ModelCode.CONNECTIVITYNODE_CNODECONT:
 
-                    if (connectivityNodes.Contains(globalId))
+                    if (ConnectivityNodes.Contains(globalId))
                     {
-                        connectivityNodes.Remove(globalId);
+                        ConnectivityNodes.Remove(globalId);
                     }
                     else
                     {

@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace FTN.Services.NetworkModelService.DataModel.Wires
+﻿namespace FTN.Services.NetworkModelService.DataModel.Wires
 {
     public class Breaker : ProtectedSwitch
     {
         public Breaker(long gID) : base(gID)
+        {
+        }
+        public Breaker(Breaker breaker) : base(breaker)
         {
         }
 
