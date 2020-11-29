@@ -124,26 +124,7 @@ namespace FTN.ESI.SIMES.CIM.CIMAdapter
 
 				switch (extractType)
 				{
-					case SupportedProfiles.PowerTransformer:
-						{
-							// transformation to DMS delta					
-							TransformAndLoadReport report = PowerTransformerImporter.Instance.CreateNMSDelta(concreteModel);
-
-							if (report.Success)
-							{
-								//TO DO
-								//nmsDelta = PowerTransformerImporter.Instance.NMSDelta;
-								success = true;
-							}
-							else
-							{
-								success = false;
-							}
-							log = report.Report.ToString();
-							//PowerTransformerImporter.Instance.Reset();
-
-							break;
-						}
+				
 					case SupportedProfiles.SCADAProject:
                         {
 							// transformation to DMS delta					
@@ -151,8 +132,8 @@ namespace FTN.ESI.SIMES.CIM.CIMAdapter
 
 							if (report.Success)
 							{
-								//TO DO
-								//nmsDelta = PowerTransformerImporter.Instance.NMSDelta;
+								
+								nmsDelta = SCADAImporter.Instance.NMSDelta;
 								success = true;
 							}
 							else
@@ -160,7 +141,7 @@ namespace FTN.ESI.SIMES.CIM.CIMAdapter
 								success = false;
 							}
 							log = report.Report.ToString();
-							//PowerTransformerImporter.Instance.Reset();
+							SCADAImporter.Instance.Reset();
 
 							break;
 						}
