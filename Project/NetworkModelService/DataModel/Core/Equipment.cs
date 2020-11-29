@@ -1,30 +1,27 @@
-﻿using System;
+﻿using FTN.Common;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Xml;
-using FTN.Common;
 
 namespace FTN.Services.NetworkModelService.DataModel.Core
 {
-	public class Equipment : PowerSystemResource
-	{
+    public class Equipment : PowerSystemResource
+    {
+        public long EquipmentContainer { get; set; } = 0;
+
         public Equipment(long gID) : base(gID)
         {
         }
 
-        private long equipmentContainer = 0;
-
-        public long EquipmentContainer { get => equipmentContainer; set => equipmentContainer = value; }
+        public Equipment(Equipment equipment) : base(equipment)
+        {
+            EquipmentContainer = equipment.EquipmentContainer;
+        }
 
         public override bool Equals(object x)
         {
             if (base.Equals(x))
             {
                 Equipment e = (Equipment)x;
-                return e.equipmentContainer == this.equipmentContainer;
+                return e.EquipmentContainer == this.EquipmentContainer;
             }
             else
             {
@@ -39,6 +36,20 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
 
         #region IAccess implementation	
 
+        public override void GetProperty(Property property)
+        {
+            switch (property.Id)
+            {
+                case ModelCode.EQUIPMENT_EQUIPCONTAINER:
+                    property.SetValue(EquipmentContainer);
+                    break;
+
+                default:
+                    base.GetProperty(property);
+                    break;
+            }
+        }
+
         public override bool HasProperty(ModelCode property)
         {
             switch (property)
@@ -50,27 +61,12 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
                     return base.HasProperty(property);
             }
         }
-
-        public override void GetProperty(Property property)
-        {
-            switch (property.Id)
-            {
-                case ModelCode.EQUIPMENT_EQUIPCONTAINER:
-                    property.SetValue(equipmentContainer);
-                    break;
-
-                default:
-                    base.GetProperty(property);
-                    break;
-            }
-        }
-
         public override void SetProperty(Property property)
         {
             switch (property.Id)
             {
                 case ModelCode.EQUIPMENT_EQUIPCONTAINER:
-                    equipmentContainer = property.AsReference();
+                    EquipmentContainer = property.AsReference();
                     break;
 
                 default:
@@ -85,11 +81,11 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
 
         public override void GetReferences(Dictionary<ModelCode, List<long>> references, TypeOfReference refType)
         {
-            if (equipmentContainer != 0 && (refType == TypeOfReference.Reference || refType == TypeOfReference.Both))
+            if (EquipmentContainer != 0 && (refType == TypeOfReference.Reference || refType == TypeOfReference.Both))
             {
                 references[ModelCode.EQUIPMENT_EQUIPCONTAINER] = new List<long>
                 {
-                    equipmentContainer
+                    EquipmentContainer
                 };
             }
 

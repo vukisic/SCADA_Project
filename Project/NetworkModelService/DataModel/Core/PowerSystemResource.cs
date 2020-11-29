@@ -1,36 +1,37 @@
-﻿using System;
+﻿using FTN.Common;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using FTN.Common;
 
 
 
 namespace FTN.Services.NetworkModelService.DataModel.Core
 {
-	public class PowerSystemResource : IdentifiedObject
-	{
+    public class PowerSystemResource : IdentifiedObject
+    {
+        public List<long> Measurements { get; set; } = new List<long>();
+
         public PowerSystemResource(long gID) : base(gID)
         {
         }
 
-        private List<long> measurements = new List<long>();
-
-        public List<long> Measurements { get => measurements; set => measurements = value; }
-
-        public override bool Equals(object x)
+        public PowerSystemResource(PowerSystemResource resource) : base(resource)
         {
-            return base.Equals(x);
+            Measurements = new List<long>(resource.Measurements);
         }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-
         #region IAccess implementation
+
+        public override void GetProperty(Property property)
+        {
+            switch (property.Id)
+            {
+                case ModelCode.PSR_MEASUREMENTS:
+                    property.SetValue(Measurements);
+                    break;
+
+                default:
+                    base.GetProperty(property);
+                    break;
+            }
+        }
 
         public override bool HasProperty(ModelCode property)
         {
@@ -43,21 +44,6 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
                     return base.HasProperty(property);
             }
         }
-
-        public override void GetProperty(Property property)
-        {
-            switch (property.Id)
-            {
-                case ModelCode.PSR_MEASUREMENTS:
-                    property.SetValue(measurements);
-                    break;
-
-                default:
-                    base.GetProperty(property);
-                    break;
-            }
-        }
-
         public override void SetProperty(Property property)
         {
             base.SetProperty(property);
@@ -71,18 +57,8 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
         {
             get
             {
-                return measurements.Count != 0 || base.IsReferenced;
+                return Measurements.Count != 0 || base.IsReferenced;
             }
-        }
-
-        public override void GetReferences(Dictionary<ModelCode, List<long>> references, TypeOfReference refType)
-        {
-            if (measurements != null && measurements.Count != 0 && (refType == TypeOfReference.Target || refType == TypeOfReference.Both))
-            {
-                references[ModelCode.PSR_MEASUREMENTS] = measurements.GetRange(0, measurements.Count);
-            }
-
-            base.GetReferences(references, refType);
         }
 
         public override void AddReference(ModelCode referenceId, long globalId)
@@ -90,7 +66,7 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
             switch (referenceId)
             {
                 case ModelCode.MEASUREMENT_PSR:
-                    measurements.Add(globalId);
+                    Measurements.Add(globalId);
                     break;
 
                 default:
@@ -99,15 +75,24 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
             }
         }
 
+        public override void GetReferences(Dictionary<ModelCode, List<long>> references, TypeOfReference refType)
+        {
+            if (Measurements != null && Measurements.Count != 0 && (refType == TypeOfReference.Target || refType == TypeOfReference.Both))
+            {
+                references[ModelCode.PSR_MEASUREMENTS] = Measurements.GetRange(0, Measurements.Count);
+            }
+
+            base.GetReferences(references, refType);
+        }
         public override void RemoveReference(ModelCode referenceId, long globalId)
         {
             switch (referenceId)
             {
                 case ModelCode.MEASUREMENT_PSR:
 
-                    if (measurements.Contains(globalId))
+                    if (Measurements.Contains(globalId))
                     {
-                        measurements.Remove(globalId);
+                        Measurements.Remove(globalId);
                     }
                     else
                     {
@@ -121,6 +106,8 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
                     break;
             }
         }
+
+
 
         #endregion
     }

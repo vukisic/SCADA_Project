@@ -1,31 +1,26 @@
-﻿using System;
+﻿using FTN.Common;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Xml;
-using FTN.Common;
 
 namespace FTN.Services.NetworkModelService.DataModel.Core
 {
-	public class ConductingEquipment : Equipment
-	{
+    public class ConductingEquipment : Equipment
+    {
+        public List<long> Terminals { get; set; } = new List<long>();
+
         public ConductingEquipment(long gID) : base(gID)
         {
         }
-
-        private List<long> terminals = new List<long>();
-
-        public List<long> Terminals { get => terminals; set => terminals = value; }
-
+        public ConductingEquipment(ConductingEquipment equipment) : base(equipment)
+        {
+            Terminals = new List<long>(equipment.Terminals);
+        }
 
         public override bool Equals(object x)
         {
             if (base.Equals(x))
             {
                 ConductingEquipment c = (ConductingEquipment)x;
-                return CompareHelper.CompareLists(c.terminals, this.terminals);
+                return CompareHelper.CompareLists(c.Terminals, this.Terminals);
             }
             else
             {
@@ -40,6 +35,20 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
 
         #region IAccess implementation	
 
+        public override void GetProperty(Property property)
+        {
+            switch (property.Id)
+            {
+                case ModelCode.CONDEQ_TERMINALS:
+                    property.SetValue(Terminals);
+                    break;
+
+                default:
+                    base.GetProperty(property);
+                    break;
+            }
+        }
+
         public override bool HasProperty(ModelCode property)
         {
             switch (property)
@@ -51,21 +60,6 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
                     return base.HasProperty(property);
             }
         }
-
-        public override void GetProperty(Property property)
-        {
-            switch (property.Id)
-            {
-                case ModelCode.CONDEQ_TERMINALS:
-                    property.SetValue(terminals);
-                    break;
-
-                default:
-                    base.GetProperty(property);
-                    break;
-            }
-        }
-
         public override void SetProperty(Property property)
         {
             base.SetProperty(property);
@@ -79,18 +73,8 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
         {
             get
             {
-                return terminals.Count != 0 || base.IsReferenced;
+                return Terminals.Count != 0 || base.IsReferenced;
             }
-        }
-
-        public override void GetReferences(Dictionary<ModelCode, List<long>> references, TypeOfReference refType)
-        {
-            if (terminals != null && terminals.Count != 0 && (refType == TypeOfReference.Target || refType == TypeOfReference.Both))
-            {
-                references[ModelCode.CONDEQ_TERMINALS] = terminals.GetRange(0, terminals.Count);
-            }
-
-            base.GetReferences(references, refType);
         }
 
         public override void AddReference(ModelCode referenceId, long globalId)
@@ -98,7 +82,7 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
             switch (referenceId)
             {
                 case ModelCode.TERMINAL_CONDEQUIPMENT:
-                    terminals.Add(globalId);
+                    Terminals.Add(globalId);
                     break;
 
                 default:
@@ -107,15 +91,24 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
             }
         }
 
+        public override void GetReferences(Dictionary<ModelCode, List<long>> references, TypeOfReference refType)
+        {
+            if (Terminals != null && Terminals.Count != 0 && (refType == TypeOfReference.Target || refType == TypeOfReference.Both))
+            {
+                references[ModelCode.CONDEQ_TERMINALS] = Terminals.GetRange(0, Terminals.Count);
+            }
+
+            base.GetReferences(references, refType);
+        }
         public override void RemoveReference(ModelCode referenceId, long globalId)
         {
             switch (referenceId)
             {
                 case ModelCode.TERMINAL_CONDEQUIPMENT:
 
-                    if (terminals.Contains(globalId))
+                    if (Terminals.Contains(globalId))
                     {
-                        terminals.Remove(globalId);
+                        Terminals.Remove(globalId);
                     }
                     else
                     {

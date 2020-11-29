@@ -1,28 +1,26 @@
 ﻿using FTN.Common;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace FTN.Services.NetworkModelService.DataModel.Core
 {
     public class EquipmentContainer : ConnectivityNodeContainer
     {
+        public List<long> Equipments { get; set; } = new List<long>();
+
         public EquipmentContainer(long gID) : base(gID)
         {
         }
-
-        private List<long> equipments = new List<long>();
-
-        public List<long> Equipments { get => equipments; set => equipments = value; }
-
+        public EquipmentContainer(EquipmentContainer container) : base(container)
+        {
+            Equipments = new List<long>(container.Equipments);
+        }
 
         public override bool Equals(object x)
         {
             if (base.Equals(x))
             {
                 EquipmentContainer ec = (EquipmentContainer)x;
-                return CompareHelper.CompareLists(ec.equipments, this.equipments);
+                return CompareHelper.CompareLists(ec.Equipments, this.Equipments);
             }
             else
             {
@@ -37,6 +35,20 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
 
         #region IAccess implementation	
 
+        public override void GetProperty(Property property)
+        {
+            switch (property.Id)
+            {
+                case ModelCode.EQUIPMENTCONTAINER_EQUIPS:
+                    property.SetValue(Equipments);
+                    break;
+
+                default:
+                    base.GetProperty(property);
+                    break;
+            }
+        }
+
         public override bool HasProperty(ModelCode property)
         {
             switch (property)
@@ -48,21 +60,6 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
                     return base.HasProperty(property);
             }
         }
-
-        public override void GetProperty(Property property)
-        {
-            switch (property.Id)
-            {
-                case ModelCode.EQUIPMENTCONTAINER_EQUIPS:
-                    property.SetValue(equipments);
-                    break;
-
-                default:
-                    base.GetProperty(property);
-                    break;
-            }
-        }
-
         public override void SetProperty(Property property)
         {
             base.SetProperty(property);
@@ -76,18 +73,8 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
         {
             get
             {
-                return equipments.Count != 0 || base.IsReferenced;
+                return Equipments.Count != 0 || base.IsReferenced;
             }
-        }
-
-        public override void GetReferences(Dictionary<ModelCode, List<long>> references, TypeOfReference refType)
-        {
-            if (equipments != null && equipments.Count != 0 && (refType == TypeOfReference.Target || refType == TypeOfReference.Both))
-            {
-                references[ModelCode.EQUIPMENTCONTAINER_EQUIPS] = equipments.GetRange(0, equipments.Count);
-            }
-
-            base.GetReferences(references, refType);
         }
 
         public override void AddReference(ModelCode referenceId, long globalId)
@@ -95,7 +82,7 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
             switch (referenceId)
             {
                 case ModelCode.EQUIPMENT_EQUIPCONTAINER:
-                    equipments.Add(globalId);
+                    Equipments.Add(globalId);
                     break;
 
                 default:
@@ -104,15 +91,24 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
             }
         }
 
+        public override void GetReferences(Dictionary<ModelCode, List<long>> references, TypeOfReference refType)
+        {
+            if (Equipments != null && Equipments.Count != 0 && (refType == TypeOfReference.Target || refType == TypeOfReference.Both))
+            {
+                references[ModelCode.EQUIPMENTCONTAINER_EQUIPS] = Equipments.GetRange(0, Equipments.Count);
+            }
+
+            base.GetReferences(references, refType);
+        }
         public override void RemoveReference(ModelCode referenceId, long globalId)
         {
             switch (referenceId)
             {
                 case ModelCode.EQUIPMENT_EQUIPCONTAINER:
 
-                    if (equipments.Contains(globalId))
+                    if (Equipments.Contains(globalId))
                     {
-                        equipments.Remove(globalId);
+                        Equipments.Remove(globalId);
                     }
                     else
                     {

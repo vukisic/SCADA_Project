@@ -1,17 +1,18 @@
 ﻿using FTN.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace FTN.Services.NetworkModelService.DataModel.Core
 {
     public class Substation : EquipmentContainer
     {
-        private int capacity;
-        public int Capacity { get => capacity; set => capacity = value; }
+        public int Capacity { get; set; }
+
         public Substation(long gID) : base(gID)
         {
+        }
+
+        public Substation(Substation substation) : base(substation)
+        {
+            Capacity = substation.Capacity;
         }
 
         public override bool Equals(object x)
@@ -19,7 +20,7 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
             if (base.Equals(x))
             {
                 Substation s = (Substation)x;
-                return this.capacity ==s.Capacity?true:false;
+                return this.Capacity == s.Capacity ? true : false;
             }
             else
             {
@@ -34,6 +35,20 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
 
         #region IAccess implementation	
 
+        public override void GetProperty(Property property)
+        {
+            switch (property.Id)
+            {
+                case ModelCode.SUBSTATION_CAPACITY:
+                    property.SetValue(Capacity);
+                    break;
+
+                default:
+                    base.GetProperty(property);
+                    break;
+            }
+        }
+
         public override bool HasProperty(ModelCode property)
         {
             switch (property)
@@ -45,27 +60,12 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
                     return base.HasProperty(property);
             }
         }
-
-        public override void GetProperty(Property property)
-        {
-            switch (property.Id)
-            {
-                case ModelCode.SUBSTATION_CAPACITY:
-                    property.SetValue(capacity);
-                    break;
-
-                default:
-                    base.GetProperty(property);
-                    break;
-            }
-        }
-
         public override void SetProperty(Property property)
         {
             switch (property.Id)
             {
                 case ModelCode.SUBSTATION_CAPACITY:
-                    capacity = property.AsInt();
+                    Capacity = property.AsInt();
                     break;
                 default:
                     base.SetProperty(property);
