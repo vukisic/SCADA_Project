@@ -19,7 +19,7 @@
   </cim:ConnectivityNode>
 
   <cim:Terminal rdf:ID="Terminal_01">
-    <cim:Terminal.ConductingEquipment rdf:resource="#"/>
+    <cim:Terminal.ConductingEquipment rdf:resource=""/>
     <cim:Terminal.ConnectivityNode rdf:resource="#CN_01"/>
     <cim:IdentifiedObject.description>Terminal</cim:IdentifiedObject.description>
     <cim:IdentifiedObject.mRID>Terminal_01</cim:IdentifiedObject.mRID>
@@ -419,7 +419,7 @@
 
   <cim:TransformerWinding rdf:ID="TRWinding_1">
     <cim:TransformerWinding.PowerTransformer rdf:resource="#PTR_1"/>
-    <cim:TransformerWinding.RatioTapChanger rdf:resource="#"/>
+    <cim:TransformerWinding.RatioTapChanger rdf:resource=""/>
     <cim:Equipment.EquipmentContainer rdf:resource="#Substation_1"/>
     <cim:IdentifiedObject.description>TransformerWinding</cim:IdentifiedObject.description>
     <cim:IdentifiedObject.mRID>TRWinding_1</cim:IdentifiedObject.mRID>
@@ -445,7 +445,7 @@
 
   <cim:TransformerWinding rdf:ID="TRWinding_2">
     <cim:TransformerWinding.PowerTransformer rdf:resource="#PTR_2"/>
-    <cim:TransformerWinding.RatioTapChanger rdf:resource="#"/>
+    <cim:TransformerWinding.RatioTapChanger rdf:resource=""/>
     <cim:Equipment.EquipmentContainer rdf:resource="#Substation_1"/>
     <cim:IdentifiedObject.description>TransformerWinding</cim:IdentifiedObject.description>
     <cim:IdentifiedObject.mRID>TRWinding_2</cim:IdentifiedObject.mRID>
@@ -471,7 +471,7 @@
 
   <cim:TransformerWinding rdf:ID="TRWinding_3">
     <cim:TransformerWinding.PowerTransformer rdf:resource="#PTR_3"/>
-    <cim:TransformerWinding.RatioTapChanger rdf:resource="#"/>
+    <cim:TransformerWinding.RatioTapChanger rdf:resource=""/>
     <cim:Equipment.EquipmentContainer rdf:resource="#Substation_1"/>
     <cim:IdentifiedObject.description>TransformerWinding</cim:IdentifiedObject.description>
     <cim:IdentifiedObject.mRID>TRWinding_3</cim:IdentifiedObject.mRID>
@@ -951,8 +951,8 @@
     <cim:Measurement.direction>ReadWrite</cim:Measurement.direction>
     <cim:Measurement.measurementType>Status</cim:Measurement.measurementType>
     <cim:Measurement.objectmRID></cim:Measurement.objectmRID>
-    <cim:Measurement.PowerSystemResource rdf:resource="#"/>
-    <cim:Measurement.Terminals rdf:resource="#"/>
+    <cim:Measurement.PowerSystemResource rdf:resource=""/>
+    <cim:Measurement.Terminals rdf:resource=""/>
     <cim:Measurement.timeStamp>TimeStamp</cim:Measurement.timeStamp>
     <cim:IdentifiedObject.description>Discrete measurement</cim:IdentifiedObject.description>
     <cim:IdentifiedObject.mRID>FullTank</cim:IdentifiedObject.mRID>
@@ -967,8 +967,8 @@
     <cim:Measurement.direction>ReadWrite</cim:Measurement.direction>
     <cim:Measurement.measurementType>Status</cim:Measurement.measurementType>
     <cim:Measurement.objectmRID></cim:Measurement.objectmRID>
-    <cim:Measurement.PowerSystemResource rdf:resource="#"/>
-    <cim:Measurement.Terminals rdf:resource="#"/>
+    <cim:Measurement.PowerSystemResource rdf:resource=""/>
+    <cim:Measurement.Terminals rdf:resource=""/>
     <cim:Measurement.timeStamp>TimeStamp</cim:Measurement.timeStamp>
     <cim:IdentifiedObject.description>Discrete measurement</cim:IdentifiedObject.description>
     <cim:IdentifiedObject.mRID>EmptyTank</cim:IdentifiedObject.mRID>
@@ -1033,9 +1033,9 @@
     <cim:Measurement.baseAddress>1</cim:Measurement.baseAddress>
     <cim:Measurement.direction>ReadWrite</cim:Measurement.direction>
     <cim:Measurement.measurementType>FluidLevel</cim:Measurement.measurementType>
-    <cim:Measurement.objectmRID> </cim:Measurement.objectmRID>
+    <cim:Measurement.objectmRID>NONE</cim:Measurement.objectmRID>
     <cim:Measurement.PowerSystemResource rdf:resource="#Substation_1"/>
-    <cim:Measurement.Terminals rdf:resource="#"/>
+    <cim:Measurement.Terminals rdf:resource=""/>
     <cim:Measurement.timeStamp>TimeStamp</cim:Measurement.timeStamp>
     <cim:IdentifiedObject.description>Level of fluid in tank</cim:IdentifiedObject.description>
     <cim:IdentifiedObject.mRID>FluidLevel_Tank</cim:IdentifiedObject.mRID>
