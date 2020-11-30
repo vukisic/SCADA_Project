@@ -13,6 +13,11 @@ namespace FTN.Services.NetworkModelService.DeltaDB
 	{
 		private DeltaDBContext context = new DeltaDBContext();
 
+        public DeltaDBRepository()
+        {
+            context.Database.CreateIfNotExists();
+        }
+
 		public void AddDelta(DeltaDBModel delta)
 		{
 			context.Deltas.Add(delta);
