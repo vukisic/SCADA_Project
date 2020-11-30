@@ -5,7 +5,6 @@ using System.Linq;
 using System.ServiceModel;
 using FTN.Common;
 using System.Configuration;
-using Microsoft.SqlServer.TransactSql.ScriptDom;
 
 namespace FTN.Services.NetworkModelService.DeltaDB
 {

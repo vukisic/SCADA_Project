@@ -5,6 +5,7 @@ using System.ServiceModel;
 using System.ServiceModel.Description;
 using System.ServiceModel.Channels;
 using FTN.Common;
+using FTN.Services.NetworkModelService.DeltaDB;
 
 namespace FTN.Services.NetworkModelService
 {

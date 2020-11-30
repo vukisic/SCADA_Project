@@ -12,7 +12,7 @@ namespace FTN.Services.NetworkModelService.DeltaDB
 	{
         private DeltaDBInitializer deltaDBinitializer = new DeltaDBInitializer();
 
-        public DeltaDBContext() : base("DeltaDBHistory")
+        public DeltaDBContext() : base("DeltaDB")
         {
             Database.SetInitializer<DeltaDBContext>(deltaDBinitializer);
         }
