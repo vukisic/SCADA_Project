@@ -706,10 +706,12 @@ namespace FTN.Services.NetworkModelService
 		{
             List<Delta> result = new List<Delta>();
             List<DeltaDBModel> deltasInDB = repo.GetAllDeltas();
+            deltasInDB.Sort((x, y) => { return (int)(x.Id - y.Id); });
             foreach (var item in deltasInDB)
             {
                 result.Add(Delta.Deserialize(item.Data));
             }
+            
             return result;
 		}
 
