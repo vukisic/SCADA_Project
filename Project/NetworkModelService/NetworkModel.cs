@@ -9,6 +9,7 @@ using FTN.Common;
 using FTN.Services.NetworkModelService.DataModel;
 using FTN.Services.NetworkModelService.DataModel.Core;
 using FTN.Services.NetworkModelService.DataModel.Wires;
+using FTN.Services.NetworkModelService.DeltaDB;
 
 namespace FTN.Services.NetworkModelService
 {	
@@ -28,6 +29,8 @@ namespace FTN.Services.NetworkModelService
         /// ModelResourceDesc class contains metadata of the model
         /// </summary>
         private ModelResourcesDesc resourcesDescs;
+
+        private IDeltaDBRepository repo;
 	
 		/// <summary>
 		/// Initializes a new instance of the Model class.
@@ -36,7 +39,8 @@ namespace FTN.Services.NetworkModelService
 		{
 			networkDataModel = new Dictionary<DMSType, Container>();
             networkDataModelCopy = new Dictionary<DMSType, Container>();
-			resourcesDescs = new ModelResourcesDesc();			
+			resourcesDescs = new ModelResourcesDesc();
+            repo = new DeltaDBRepository();
 			Initialize();
 		}
 	
@@ -693,82 +697,20 @@ namespace FTN.Services.NetworkModelService
 
 		private void SaveDelta(Delta delta)
 		{
-			bool fileExisted = false;
-
-			if (File.Exists(Config.Instance.ConnectionString))
-			{
-				fileExisted = true;
-			}
-
-			FileStream fs = new FileStream(Config.Instance.ConnectionString, FileMode.OpenOrCreate, FileAccess.ReadWrite);
-			fs.Seek(0, SeekOrigin.Begin);
-
-			BinaryReader br = null;
-			int deltaCount = 0;
-
-			if (fileExisted)
-			{
-				br = new BinaryReader(fs);
-				deltaCount = br.ReadInt32();
-			}
-
-			BinaryWriter bw = new BinaryWriter(fs);
-			fs.Seek(0, SeekOrigin.Begin);
-
-			delta.Id = ++deltaCount;
-			byte[] deltaSerialized = delta.Serialize();
-			int deltaLength = deltaSerialized.Length;
-
-			bw.Write(deltaCount);
-			fs.Seek(0, SeekOrigin.End);
-			bw.Write(deltaLength);
-			bw.Write(deltaSerialized);
-
-			if (br != null)
-			{
-				br.Close();
-			}
-
-			bw.Close();			
-			fs.Close(); 
-		}
+            DeltaDBModel newDelta = new DeltaDBModel();
+            newDelta.Data = delta.Serialize();
+            repo.AddDelta(newDelta);
+        }
 
 		private List<Delta> ReadAllDeltas()
 		{
-			List<Delta> result = new List<Delta>();
-
-            if (!File.Exists(Config.Instance.ConnectionString))
+            List<Delta> result = new List<Delta>();
+            List<DeltaDBModel> deltasInDB = repo.GetAllDeltas();
+            foreach (var item in deltasInDB)
             {
-                return result;
+                result.Add(Delta.Deserialize(item.Data));
             }
-
-			FileStream fs = new FileStream(Config.Instance.ConnectionString, FileMode.OpenOrCreate, FileAccess.Read);
-			fs.Seek(0, SeekOrigin.Begin);
-
-			if (fs.Position < fs.Length) // if it is not empty stream
-			{
-				BinaryReader br = new BinaryReader(fs);
-				
-				int deltaCount = br.ReadInt32();
-				int deltaLength = 0;
-				byte[] deltaSerialized = null;
-				Delta delta = null;
-
-				for (int i = 0; i < deltaCount; i++)
-				{
-					deltaLength = br.ReadInt32();
-					deltaSerialized = new byte[deltaLength];
-					br.Read(deltaSerialized, 0, deltaLength);
-					delta = Delta.Deserialize(deltaSerialized);
-					result.Add(delta);
-				}
-
-				br.Close();
-			}
-
-			fs.Close();
-
-			return result;
+            return result;
 		}
 
 		private Dictionary<short, int> GetCounters()
