@@ -181,6 +181,9 @@ namespace FTN.Services.NetworkModelService.DataModel.Meas
                 case ModelCode.MEASUREMENT_TIMESTAMP:
                     TimeStamp = property.AsString();
                     break;
+                case ModelCode.MEASUREMENT_TERMINAL:
+                    Terminals = property.AsReference();
+                    break;
                 default:
                     base.SetProperty(property);
                     break;

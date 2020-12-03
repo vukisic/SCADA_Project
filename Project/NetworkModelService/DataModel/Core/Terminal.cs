@@ -87,6 +87,9 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
                 case ModelCode.TERMINAL_CONNNODE:
                     ConnectivityNode = property.AsReference();
                     break;
+                case ModelCode.TERMINAL_MEASUREMENTS:
+                    Measurements.Add(property.AsReference());
+                    break;
 
                 default:
                     base.SetProperty(property);
