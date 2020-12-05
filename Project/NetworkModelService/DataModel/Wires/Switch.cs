@@ -64,7 +64,7 @@ namespace FTN.Services.NetworkModelService.DataModel.Wires
         {
             switch (property.Id)
             {
-                case ModelCode.SUBSTATION_CAPACITY:
+                case ModelCode.SWITCH_MANIPULATIONCOUNT:
                     ManipulationCount = property.AsInt();
                     break;
                 default:

@@ -9,6 +9,7 @@ using FTN.Common;
 using FTN.Services.NetworkModelService.DataModel;
 using FTN.Services.NetworkModelService.DataModel.Core;
 using FTN.Services.NetworkModelService.DataModel.Wires;
+using FTN.Services.NetworkModelService.DeltaDB;
 
 namespace FTN.Services.NetworkModelService
 {	
@@ -17,12 +18,19 @@ namespace FTN.Services.NetworkModelService
 		/// <summary>
 		/// Dictionaru which contains all data: Key - DMSType, Value - Container
 		/// </summary>
-		private Dictionary<DMSType, Container> networkDataModel;		
+		private Dictionary<DMSType, Container> networkDataModel;
 
-		/// <summary>
-		/// ModelResourceDesc class contains metadata of the model
-		/// </summary>
-		private ModelResourcesDesc resourcesDescs;
+        /// <summary>
+        /// Dictionaru which contains all data: Key - DMSType, Value - Container => Copy
+        /// </summary>
+        private Dictionary<DMSType, Container> networkDataModelCopy;
+
+        /// <summary>
+        /// ModelResourceDesc class contains metadata of the model
+        /// </summary>
+        private ModelResourcesDesc resourcesDescs;
+
+        private IDeltaDBRepository repo;
 	
 		/// <summary>
 		/// Initializes a new instance of the Model class.
@@ -30,7 +38,9 @@ namespace FTN.Services.NetworkModelService
 		public NetworkModel()
 		{
 			networkDataModel = new Dictionary<DMSType, Container>();
-			resourcesDescs = new ModelResourcesDesc();			
+            networkDataModelCopy = new Dictionary<DMSType, Container>();
+			resourcesDescs = new ModelResourcesDesc();
+            repo = new DeltaDBRepository();
 			Initialize();
 		}
 	
@@ -77,7 +87,7 @@ namespace FTN.Services.NetworkModelService
 		/// <returns>True if container exists, otherwise FALSE.</returns>
 		private bool ContainerExists(DMSType type)
 		{
-			if (networkDataModel.ContainsKey(type))
+			if (networkDataModelCopy.ContainsKey(type))
 			{
 				return true;
 			}
@@ -94,7 +104,7 @@ namespace FTN.Services.NetworkModelService
 		{
 			if (ContainerExists(type))
 			{
-				return networkDataModel[type];
+				return networkDataModelCopy[type];
 			}
 			else
 			{
@@ -232,9 +242,8 @@ namespace FTN.Services.NetworkModelService
 		{
 			bool applyingStarted = false;
 			UpdateResult updateResult = new UpdateResult();
-
-
-            //PRIJE SVEGA OVOGA ZAPOCNI TRANSAKCIJU
+            Delta newDelta = new Delta();
+            GetShallowCopyModel();
 			try
 			{
 				CommonTrace.WriteTrace(CommonTrace.TraceInfo, "Applying  delta to network model.");
@@ -249,10 +258,12 @@ namespace FTN.Services.NetworkModelService
 
 				foreach (ResourceDescription rd in delta.InsertOperations)
 				{
-					InsertEntity(rd);
+					var result = InsertEntity(rd);
+                    if (result)
+                        newDelta.AddDeltaOperation(DeltaOpType.Insert, rd, true);
 				}
-
-				foreach (ResourceDescription rd in delta.UpdateOperations)
+                #region Update&Delete
+                foreach (ResourceDescription rd in delta.UpdateOperations)
 				{
 					UpdateEntity(rd);
 				}
@@ -260,14 +271,16 @@ namespace FTN.Services.NetworkModelService
 				foreach (ResourceDescription rd in delta.DeleteOperations)
 				{
 					DeleteEntity(rd);
-				}				 				
+				}
+                #endregion
+                MergeModelsFinal();
 
 			}
 			catch (Exception ex)
 			{
 				string message = string.Format("Applying delta to network model failed. {0}.", ex.Message);
 				CommonTrace.WriteTrace(CommonTrace.TraceError, message);
-
+                applyingStarted = false;
 				updateResult.Result = ResultType.Failed;
 				updateResult.Message = message;
 			}
@@ -275,8 +288,13 @@ namespace FTN.Services.NetworkModelService
 			{
 				if (applyingStarted)
 				{
-					SaveDelta(delta);
+                    if(newDelta.InsertOperations.Count>0)
+					    SaveDelta(newDelta);
 				}
+                else
+                {
+                    RestoreModel();
+                }
 
 				if (updateResult.Result == ResultType.Succeeded)
 				{
@@ -293,12 +311,12 @@ namespace FTN.Services.NetworkModelService
         /// Inserts entity into the network model.
         /// </summary>
         /// <param name="rd">Description of the resource that should be inserted</param>        
-		private void InsertEntity(ResourceDescription rd)
+		private bool InsertEntity(ResourceDescription rd)
 		{
 			if (rd == null)
 			{
 				CommonTrace.WriteTrace(CommonTrace.TraceVerbose, "Insert entity is not done because update operation is empty.");
-				return;
+				return false;
 			}			
 
 			long globalId = rd.Id;
@@ -318,6 +336,12 @@ namespace FTN.Services.NetworkModelService
 				// find type
 				DMSType type = (DMSType)ModelCodeHelper.ExtractTypeFromGlobalId(globalId);
 
+                //check mrid already exist
+                if (CheckMridExist(type, rd))
+                {
+                    return false;
+                }
+
 				Container container = null;
 
 				// get container or create container 
@@ -328,7 +352,7 @@ namespace FTN.Services.NetworkModelService
 				else
 				{
 					container = new Container();
-					networkDataModel.Add(type, container);
+					networkDataModelCopy.Add(type, container);
 				}
 
 				// create entity and add it to container
@@ -374,6 +398,7 @@ namespace FTN.Services.NetworkModelService
 				}
 
 				CommonTrace.WriteTrace(CommonTrace.TraceVerbose, "Inserting entity with GID ({0:x16}) successfully finished.", globalId);
+                return true;
 			}			
 			catch (Exception ex)
 			{
@@ -382,12 +407,14 @@ namespace FTN.Services.NetworkModelService
 				throw new Exception(message);
 			}
 		}
-		
-		/// <summary>
-		/// Updates entity in block model.
-		/// </summary>
-		/// <param name="rd">Description of the resource that should be updated</param>		
-		private void UpdateEntity(ResourceDescription rd)
+
+
+        #region Update&DeleteMethods
+        /// <summary>
+        /// Updates entity in block model.
+        /// </summary>
+        /// <param name="rd">Description of the resource that should be updated</param>		
+        private void UpdateEntity(ResourceDescription rd)
 		{
 			if (rd == null || rd.Properties == null && rd.Properties.Count == 0)
 			{	
@@ -552,14 +579,14 @@ namespace FTN.Services.NetworkModelService
 				throw new Exception(message);
 			}
 		}
-
-		/// <summary>
-		/// Returns related gids with source according to the association 
-		/// </summary>
-		/// <param name="source">source id</param>		
-		/// <param name="association">desinition of association</param>
-		/// <returns>related gids</returns>
-		private List<long> ApplyAssocioationOnSource(long source, Association association)
+        #endregion
+        /// <summary>
+        /// Returns related gids with source according to the association 
+        /// </summary>
+        /// <param name="source">source id</param>		
+        /// <param name="association">desinition of association</param>
+        /// <returns>related gids</returns>
+        private List<long> ApplyAssocioationOnSource(long source, Association association)
 		{
 			List<long> relatedGids = new List<long>();
 
@@ -642,6 +669,7 @@ namespace FTN.Services.NetworkModelService
 
 			foreach (Delta delta in result)
 			{
+                GetShallowCopyModel();
 				try
 				{
 					foreach (ResourceDescription rd in delta.InsertOperations)
@@ -658,6 +686,7 @@ namespace FTN.Services.NetworkModelService
 					{
 						DeleteEntity(rd);
 					}
+                    MergeModelsFinal();
 				}
 				catch(Exception ex)
 				{
@@ -668,82 +697,22 @@ namespace FTN.Services.NetworkModelService
 
 		private void SaveDelta(Delta delta)
 		{
-			bool fileExisted = false;
-
-			if (File.Exists(Config.Instance.ConnectionString))
-			{
-				fileExisted = true;
-			}
-
-			FileStream fs = new FileStream(Config.Instance.ConnectionString, FileMode.OpenOrCreate, FileAccess.ReadWrite);
-			fs.Seek(0, SeekOrigin.Begin);
-
-			BinaryReader br = null;
-			int deltaCount = 0;
-
-			if (fileExisted)
-			{
-				br = new BinaryReader(fs);
-				deltaCount = br.ReadInt32();
-			}
-
-			BinaryWriter bw = new BinaryWriter(fs);
-			fs.Seek(0, SeekOrigin.Begin);
-
-			delta.Id = ++deltaCount;
-			byte[] deltaSerialized = delta.Serialize();
-			int deltaLength = deltaSerialized.Length;
-
-			bw.Write(deltaCount);
-			fs.Seek(0, SeekOrigin.End);
-			bw.Write(deltaLength);
-			bw.Write(deltaSerialized);
-
-			if (br != null)
-			{
-				br.Close();
-			}
-
-			bw.Close();			
-			fs.Close(); 
-		}
+            DeltaDBModel newDelta = new DeltaDBModel();
+            newDelta.Data = delta.Serialize();
+            repo.AddDelta(newDelta);
+        }
 
 		private List<Delta> ReadAllDeltas()
 		{
-			List<Delta> result = new List<Delta>();
-
-            if (!File.Exists(Config.Instance.ConnectionString))
+            List<Delta> result = new List<Delta>();
+            List<DeltaDBModel> deltasInDB = repo.GetAllDeltas();
+            deltasInDB.Sort((x, y) => { return (int)(x.Id - y.Id); });
+            foreach (var item in deltasInDB)
             {
-                return result;
+                result.Add(Delta.Deserialize(item.Data));
             }
-
-			FileStream fs = new FileStream(Config.Instance.ConnectionString, FileMode.OpenOrCreate, FileAccess.Read);
-			fs.Seek(0, SeekOrigin.Begin);
-
-			if (fs.Position < fs.Length) // if it is not empty stream
-			{
-				BinaryReader br = new BinaryReader(fs);
-				
-				int deltaCount = br.ReadInt32();
-				int deltaLength = 0;
-				byte[] deltaSerialized = null;
-				Delta delta = null;
-
-				for (int i = 0; i < deltaCount; i++)
-				{
-					deltaLength = br.ReadInt32();
-					deltaSerialized = new byte[deltaLength];
-					br.Read(deltaSerialized, 0, deltaLength);
-					delta = Delta.Deserialize(deltaSerialized);
-					result.Add(delta);
-				}
-
-				br.Close();
-			}
-
-			fs.Close();
-
-			return result;
+            
+            return result;
 		}
 
 		private Dictionary<short, int> GetCounters()
@@ -763,5 +732,50 @@ namespace FTN.Services.NetworkModelService
 			return typesCounters;
 		}
 
-	}
+        #region CustomMethods
+
+        private void RestoreModel()
+        {
+            networkDataModelCopy = new Dictionary<DMSType, Container>();
+            GetShallowCopyModel();
+        }
+        private void MergeModelsFinal()
+        {
+            networkDataModel = new Dictionary<DMSType, Container>(networkDataModelCopy);
+            networkDataModelCopy = new Dictionary<DMSType, Container>();
+            GetShallowCopyModel();
+        }
+        private void GetShallowCopyModel()
+        {
+            networkDataModelCopy = new Dictionary<DMSType, Container>();
+            foreach (var item in networkDataModel)
+            {
+                networkDataModelCopy[item.Key] = GetContainerCopy(item.Key);
+            }
+        }
+        private Container GetContainerCopy(DMSType type)
+        {
+            var container = new Container();
+            container.Entities = new Dictionary<long, IdentifiedObject>();
+            foreach (var item in networkDataModel[type].Entities)
+            {
+                container.AddEntity(item.Value);
+            }
+            return container;
+        }
+
+        private bool CheckMridExist(DMSType type, ResourceDescription rd)
+        {
+            if (networkDataModelCopy.ContainsKey(type))
+            {
+                var typedCollection = networkDataModelCopy[type];
+                var objMrid = rd.Properties.Single(x => x.Id == ModelCode.IDOBJ_MRID);
+                var result = typedCollection.Entities.Values.SingleOrDefault(x => x.MRID == objMrid.PropertyValue.StringValue);
+                return result != null;
+            }
+            return false;
+            
+        }
+        #endregion
+    }
 }
