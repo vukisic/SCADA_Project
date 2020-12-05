@@ -98,10 +98,6 @@
       <Project>{892CBE15-9ED7-4540-81FA-0EAABA592138}</Project>
       <Name>Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\NetworkModelService.csproj">
-      <Project>{2630D180-1B68-4E84-AEAC-42EE8C88B50F}</Project>
-      <Name>NetworkModelService</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

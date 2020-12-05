@@ -5,7 +5,6 @@ using System.ServiceModel;
 using System.ServiceModel.Description;
 using System.ServiceModel.Channels;
 using FTN.Common;
-using FTN.Services.NetworkModelService.DeltaDB;
 
 namespace FTN.Services.NetworkModelService
 {
@@ -20,7 +19,7 @@ namespace FTN.Services.NetworkModelService
 				CommonTrace.WriteTrace(CommonTrace.TraceInfo, message);
 				Console.WriteLine("\n{0}\n", message);
 
-				using (NetworkModelService nms = new NetworkModelService())
+				/*using (NetworkModelService nms = new NetworkModelService())
 				{					
 					nms.Start();
 
@@ -28,7 +27,7 @@ namespace FTN.Services.NetworkModelService
 					CommonTrace.WriteTrace(CommonTrace.TraceInfo, message);
 					Console.WriteLine(message);
 					Console.ReadLine();
-				}
+				}*/
 			}
 			catch (Exception ex)
 			{

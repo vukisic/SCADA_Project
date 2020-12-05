@@ -233,6 +233,8 @@ namespace FTN.Services.NetworkModelService
 			bool applyingStarted = false;
 			UpdateResult updateResult = new UpdateResult();
 
+
+            //PRIJE SVEGA OVOGA ZAPOCNI TRANSAKCIJU
 			try
 			{
 				CommonTrace.WriteTrace(CommonTrace.TraceInfo, "Applying  delta to network model.");
