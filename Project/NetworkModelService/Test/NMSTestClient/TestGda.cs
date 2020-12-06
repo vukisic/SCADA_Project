@@ -43,9 +43,46 @@ namespace TelventDMS.Services.NetworkModelService.TestClient.Tests
 		{
 		}
 
-		#region GDAQueryService
+        public SortedDictionary<string, ResourceDescription> GetAllMrids(ModelCode code, ModelCode codeConc)
+        {
+            string message = "";
+            int iteratorId = 0;
+            SortedDictionary<string, ResourceDescription> mrids = new SortedDictionary<string, ResourceDescription>();
+            try
+            {
+                int numberOfResources = 20;
+                int resourcesLeft = 0;
+                List<ModelCode> properties = modelResourcesDesc.GetAllPropertyIds(codeConc);
+                iteratorId = GdaQueryProxy.GetExtentValues(codeConc, properties);
+                resourcesLeft = GdaQueryProxy.IteratorResourcesLeft(iteratorId);
+                GdaQueryProxy.IteratorRewind(iteratorId);
+                while (resourcesLeft > 0)
+                {
+                    List<ResourceDescription> rds = GdaQueryProxy.IteratorNext(numberOfResources, iteratorId);
 
-		public ResourceDescription GetValues(long globalId)
+                    for (int i = 0; i < rds.Count; i++)
+                        for (int j = 0; j < rds[i].Properties.Count - 1; j++)
+                            if (rds[i].Properties[j].Id.Equals(code))
+                                mrids.Add(rds[i].Properties[j].PropertyValue.StringValue, rds[i]);
+
+                    resourcesLeft = GdaQueryProxy.IteratorResourcesLeft(iteratorId);
+                }
+                GdaQueryProxy.IteratorRewind(iteratorId);
+                GdaQueryProxy.IteratorClose(iteratorId);
+            }
+            catch (Exception e)
+            {
+                message = string.Format("Getting extent values method failed for {0}.\n\t{1}", codeConc, e.Message);
+                Console.WriteLine(message);
+                CommonTrace.WriteTrace(CommonTrace.TraceError, message);
+            }
+
+            return mrids;
+        }
+
+        #region GDAQueryService
+
+        public ResourceDescription GetValues(long globalId)
 		{
             string message = "Getting values method started.";
             Console.WriteLine(message);
