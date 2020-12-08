@@ -47,7 +47,9 @@ namespace FTN.Common
 			{ 
 				Delta.resDesc = value; 
 			}
-		}				
+		}
+
+        public static int Counter { get; set; } = 0;
 	
 		public Delta()
 		{
@@ -294,7 +296,7 @@ namespace FTN.Common
 							throw new ModelException(ErrorCode.InvalidDelta, gidOld, 0, string.Format("Invalid DMS type found in insert delta operation ID = 0x{0:x16}.", rd.Id));
 						}
 
-						int idNew = typesCounters[type] + 1;
+                        int idNew = ++Counter;//typesCounters[type] + 1;
 						typesCounters[type] = idNew;						
 
 						long gidNew = ChangeEntityIdInGlobalId(gidOld, idNew);

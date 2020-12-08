@@ -3,7 +3,7 @@
 <rdf:RDF xmlns:ftn="http://www.ftnydro.com/CIM15/2010/extension#" xmlns:cim="http://iec.ch/TC57/2010/CIM-schema-cim15#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
 
 
-  -<cim:Substation rdf:ID="Substation_1">
+  <cim:Substation rdf:ID="Substation_1">
 
     <cim:Substation.capacity>5</cim:Substation.capacity>
 
@@ -16,7 +16,7 @@
   </cim:Substation>
 
 
-  -<cim:ConnectivityNode rdf:ID="CN_01">
+  <cim:ConnectivityNode rdf:ID="CN_01">
 
     <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#Substation_1"/>
 
@@ -29,7 +29,7 @@
   </cim:ConnectivityNode>
 
 
-  -<cim:Terminal rdf:ID="Terminal_01">
+  <cim:Terminal rdf:ID="Terminal_01">
 
     <cim:Terminal.ConductingEquipment rdf:resource=""/>
 
@@ -44,7 +44,7 @@
   </cim:Terminal>
 
 
-  -<cim:Disconnector rdf:ID="Disc_01">
+  <cim:Disconnector rdf:ID="Disc_01">
 
     <cim:Switch.manipulationCount>1</cim:Switch.manipulationCount>
 
@@ -59,7 +59,7 @@
   </cim:Disconnector>
 
 
-  -<cim:Terminal rdf:ID="Terminal_02">
+  <cim:Terminal rdf:ID="Terminal_02">
 
     <cim:Terminal.ConductingEquipment rdf:resource="#Disc_01"/>
 
@@ -74,7 +74,7 @@
   </cim:Terminal>
 
 
-  -<cim:ConnectivityNode rdf:ID="CN_02">
+  <cim:ConnectivityNode rdf:ID="CN_02">
 
     <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#Substation_1"/>
 
@@ -87,7 +87,7 @@
   </cim:ConnectivityNode>
 
 
-  -<cim:Breaker rdf:ID="Breaker_01">
+  <cim:Breaker rdf:ID="Breaker_01">
 
     <cim:Switch.manipulationCount>1</cim:Switch.manipulationCount>
 
@@ -102,7 +102,7 @@
   </cim:Breaker>
 
 
-  -<cim:Terminal rdf:ID="Terminal_03">
+  <cim:Terminal rdf:ID="Terminal_03">
 
     <cim:Terminal.ConductingEquipment rdf:resource="#Disc_01"/>
 
@@ -117,7 +117,7 @@
   </cim:Terminal>
 
 
-  -<cim:Terminal rdf:ID="Terminal_04">
+  <cim:Terminal rdf:ID="Terminal_04">
 
     <cim:Terminal.ConductingEquipment rdf:resource="#Breaker_01"/>
 
@@ -132,7 +132,7 @@
   </cim:Terminal>
 
 
-  -<cim:ConnectivityNode rdf:ID="CN_03">
+  <cim:ConnectivityNode rdf:ID="CN_03">
 
     <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#Substation_1"/>
 
@@ -145,7 +145,7 @@
   </cim:ConnectivityNode>
 
 
-  -<cim:Disconnector rdf:ID="Disc_02">
+  <cim:Disconnector rdf:ID="Disc_02">
 
     <cim:Switch.manipulationCount>1</cim:Switch.manipulationCount>
 
@@ -160,7 +160,7 @@
   </cim:Disconnector>
 
 
-  -<cim:Terminal rdf:ID="Terminal_05">
+  <cim:Terminal rdf:ID="Terminal_05">
 
     <cim:Terminal.ConductingEquipment rdf:resource="#Breaker_01"/>
 
@@ -175,7 +175,7 @@
   </cim:Terminal>
 
 
-  -<cim:Terminal rdf:ID="Terminal_06">
+  <cim:Terminal rdf:ID="Terminal_06">
 
     <cim:Terminal.ConductingEquipment rdf:resource="#Disc_02"/>
 
@@ -190,7 +190,7 @@
   </cim:Terminal>
 
 
-  -<cim:ConnectivityNode rdf:ID="CN_04">
+  <cim:ConnectivityNode rdf:ID="CN_04">
 
     <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#Substation_1"/>
 
@@ -203,7 +203,7 @@
   </cim:ConnectivityNode>
 
 
-  -<cim:Terminal rdf:ID="Terminal_07">
+  <cim:Terminal rdf:ID="Terminal_07">
 
     <cim:Terminal.ConductingEquipment rdf:resource="#Disc_02"/>
 
@@ -218,22 +218,16 @@
   </cim:Terminal>
 
 
-  -<cim:Disconnector rdf:ID="Disc_11">
-
+  <cim:Disconnector rdf:ID="Disc_11">
     <cim:Switch.manipulationCount>1</cim:Switch.manipulationCount>
-
     <cim:Equipment.EquipmentContainer rdf:resource="#Substation_1"/>
-
     <cim:IdentifiedObject.description>Disconnector</cim:IdentifiedObject.description>
-
     <cim:IdentifiedObject.mRID>Disc_11</cim:IdentifiedObject.mRID>
-
     <cim:IdentifiedObject.name>Disc_11</cim:IdentifiedObject.name>
-
   </cim:Disconnector>
 
 
-  -<cim:Disconnector rdf:ID="Disc_12">
+  <cim:Disconnector rdf:ID="Disc_12">
 
     <cim:Switch.manipulationCount>1</cim:Switch.manipulationCount>
 
@@ -248,7 +242,7 @@
   </cim:Disconnector>
 
 
-  -<cim:Terminal rdf:ID="Terminal_11">
+  <cim:Terminal rdf:ID="Terminal_11">
 
     <cim:Terminal.ConductingEquipment rdf:resource="#Disc_11"/>
 
@@ -263,7 +257,7 @@
   </cim:Terminal>
 
 
-  -<cim:Terminal rdf:ID="Terminal_12">
+  <cim:Terminal rdf:ID="Terminal_12">
 
     <cim:Terminal.ConductingEquipment rdf:resource="#Disc_12"/>
 
@@ -278,7 +272,7 @@
   </cim:Terminal>
 
 
-  -<cim:ConnectivityNode rdf:ID="CN_11">
+  <cim:ConnectivityNode rdf:ID="CN_11">
 
     <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#Substation_1"/>
 
@@ -291,7 +285,7 @@
   </cim:ConnectivityNode>
 
 
-  -<cim:ConnectivityNode rdf:ID="CN_12">
+  <cim:ConnectivityNode rdf:ID="CN_12">
 
     <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#Substation_1"/>
 
@@ -305,7 +299,7 @@
 
 
 
-  -<cim:Breaker rdf:ID="Breaker_11">
+  <cim:Breaker rdf:ID="Breaker_11">
 
     <cim:Switch.manipulationCount>1</cim:Switch.manipulationCount>
 
@@ -320,7 +314,7 @@
   </cim:Breaker>
 
 
-  -<cim:Breaker rdf:ID="Breaker_12">
+  <cim:Breaker rdf:ID="Breaker_12">
 
     <cim:Switch.manipulationCount>1</cim:Switch.manipulationCount>
 
@@ -335,7 +329,7 @@
   </cim:Breaker>
 
 
-  -<cim:Terminal rdf:ID="Terminal_21">
+  <cim:Terminal rdf:ID="Terminal_21">
 
     <cim:Terminal.ConductingEquipment rdf:resource="#Disc_11"/>
 
@@ -350,7 +344,7 @@
   </cim:Terminal>
 
 
-  -<cim:Terminal rdf:ID="Terminal_31">
+  <cim:Terminal rdf:ID="Terminal_31">
 
     <cim:Terminal.ConductingEquipment rdf:resource="#Breaker_11"/>
 
@@ -365,7 +359,7 @@
   </cim:Terminal>
 
 
-  -<cim:Terminal rdf:ID="Terminal_22">
+  <cim:Terminal rdf:ID="Terminal_22">
 
     <cim:Terminal.ConductingEquipment rdf:resource="#Disc_12"/>
 
@@ -380,7 +374,7 @@
   </cim:Terminal>
 
 
-  -<cim:Terminal rdf:ID="Terminal_32">
+  <cim:Terminal rdf:ID="Terminal_32">
 
     <cim:Terminal.ConductingEquipment rdf:resource="#Breaker_12"/>
 
@@ -396,7 +390,7 @@
 
 
 
-  -<cim:Disconnector rdf:ID="Disc_21">
+  <cim:Disconnector rdf:ID="Disc_21">
 
     <cim:Switch.manipulationCount>1</cim:Switch.manipulationCount>
 
@@ -411,7 +405,7 @@
   </cim:Disconnector>
 
 
-  -<cim:Disconnector rdf:ID="Disc_22">
+  <cim:Disconnector rdf:ID="Disc_22">
 
     <cim:Switch.manipulationCount>1</cim:Switch.manipulationCount>
 
@@ -424,9 +418,10 @@
     <cim:IdentifiedObject.name>Disc_22</cim:IdentifiedObject.name>
 
   </cim:Disconnector>
+  
 
 
-  -<cim:ConnectivityNode rdf:ID="CN_21">
+  <cim:ConnectivityNode rdf:ID="CN_21">
 
     <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#Substation_1"/>
 
@@ -437,9 +432,21 @@
     <cim:IdentifiedObject.name>CN_21</cim:IdentifiedObject.name>
 
   </cim:ConnectivityNode>
+  
+  <cim:ConnectivityNode rdf:ID="CN_22">
+
+    <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#Substation_1"/>
+
+    <cim:IdentifiedObject.description>ConnectivityNode</cim:IdentifiedObject.description>
+
+    <cim:IdentifiedObject.mRID>CN_22</cim:IdentifiedObject.mRID>
+
+    <cim:IdentifiedObject.name>CN_22</cim:IdentifiedObject.name>
+
+  </cim:ConnectivityNode>
 
 
-  -<cim:Terminal rdf:ID="Terminal_41">
+  <cim:Terminal rdf:ID="Terminal_41">
 
     <cim:Terminal.ConductingEquipment rdf:resource="#Breaker_11"/>
 
@@ -454,7 +461,7 @@
   </cim:Terminal>
 
 
-  -<cim:Terminal rdf:ID="Terminal_51">
+  <cim:Terminal rdf:ID="Terminal_51">
 
     <cim:Terminal.ConductingEquipment rdf:resource="#Disc_21"/>
 
@@ -469,7 +476,7 @@
   </cim:Terminal>
 
 
-  -<cim:Terminal rdf:ID="Terminal_42">
+  <cim:Terminal rdf:ID="Terminal_42">
 
     <cim:Terminal.ConductingEquipment rdf:resource="#Breaker_12"/>
 
@@ -484,7 +491,7 @@
   </cim:Terminal>
 
 
-  -<cim:Terminal rdf:ID="Terminal_52">
+  <cim:Terminal rdf:ID="Terminal_52">
 
     <cim:Terminal.ConductingEquipment rdf:resource="#Disc_22"/>
 
@@ -500,7 +507,7 @@
 
 
 
-  -<cim:ConnectivityNode rdf:ID="CN_31">
+  <cim:ConnectivityNode rdf:ID="CN_31">
 
     <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#Substation_1"/>
 
@@ -513,7 +520,7 @@
   </cim:ConnectivityNode>
 
 
-  -<cim:ConnectivityNode rdf:ID="CN_32">
+  <cim:ConnectivityNode rdf:ID="CN_32">
 
     <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#Substation_1"/>
 
@@ -527,7 +534,7 @@
 
 
 
-  -<cim:Terminal rdf:ID="Terminal_61">
+  <cim:Terminal rdf:ID="Terminal_61">
 
     <cim:Terminal.ConductingEquipment rdf:resource="#Disc_21"/>
 
@@ -542,7 +549,7 @@
   </cim:Terminal>
 
 
-  -<cim:Terminal rdf:ID="Terminal_62">
+  <cim:Terminal rdf:ID="Terminal_62">
 
     <cim:Terminal.ConductingEquipment rdf:resource="#Disc_22"/>
 
@@ -557,7 +564,7 @@
   </cim:Terminal>
 
 
-  -<cim:PowerTransformer rdf:ID="PTR_1">
+  <cim:PowerTransformer rdf:ID="PTR_1">
 
     <cim:Equipment.EquipmentContainer rdf:resource="#Substation_1"/>
 
@@ -570,7 +577,7 @@
   </cim:PowerTransformer>
 
 
-  -<cim:RatioTapChanger rdf:ID="RatioTC_1">
+  <cim:RatioTapChanger rdf:ID="RatioTC_1">
 
     <cim:RatioTapChanger.TransformerWinding rdf:resource="#TRWinding_1"/>
 
@@ -589,7 +596,7 @@
   </cim:RatioTapChanger>
 
 
-  -<cim:TransformerWinding rdf:ID="TRWinding_1">
+  <cim:TransformerWinding rdf:ID="TRWinding_1">
 
     <cim:TransformerWinding.PowerTransformer rdf:resource="#PTR_1"/>
 
@@ -606,7 +613,7 @@
   </cim:TransformerWinding>
 
 
-  -<cim:PowerTransformer rdf:ID="PTR_2">
+  <cim:PowerTransformer rdf:ID="PTR_2">
 
     <cim:Equipment.EquipmentContainer rdf:resource="#Substation_1"/>
 
@@ -619,7 +626,7 @@
   </cim:PowerTransformer>
 
 
-  -<cim:RatioTapChanger rdf:ID="RatioTC_2">
+  <cim:RatioTapChanger rdf:ID="RatioTC_2">
 
     <cim:RatioTapChanger.TransformerWinding rdf:resource="#TRWinding_2"/>
 
@@ -638,7 +645,7 @@
   </cim:RatioTapChanger>
 
 
-  -<cim:TransformerWinding rdf:ID="TRWinding_2">
+  <cim:TransformerWinding rdf:ID="TRWinding_2">
 
     <cim:TransformerWinding.PowerTransformer rdf:resource="#PTR_2"/>
 
@@ -655,7 +662,7 @@
   </cim:TransformerWinding>
 
 
-  -<cim:Terminal rdf:ID="Terminal_71">
+  <cim:Terminal rdf:ID="Terminal_71">
 
     <cim:Terminal.ConductingEquipment rdf:resource="#TRWinding_1"/>
 
@@ -670,7 +677,7 @@
   </cim:Terminal>
 
 
-  -<cim:Terminal rdf:ID="Terminal_72">
+  <cim:Terminal rdf:ID="Terminal_72">
 
     <cim:Terminal.ConductingEquipment rdf:resource="#TRWinding_2"/>
 
@@ -685,7 +692,7 @@
   </cim:Terminal>
 
 
-  -<cim:Breaker rdf:ID="Breaker_21">
+  <cim:Breaker rdf:ID="Breaker_21">
 
     <cim:Switch.manipulationCount>1</cim:Switch.manipulationCount>
 
@@ -700,7 +707,7 @@
   </cim:Breaker>
 
 
-  -<cim:Breaker rdf:ID="Breaker_22">
+  <cim:Breaker rdf:ID="Breaker_22">
 
     <cim:Switch.manipulationCount>1</cim:Switch.manipulationCount>
 
@@ -715,7 +722,7 @@
   </cim:Breaker>
 
 
-  -<cim:ConnectivityNode rdf:ID="CN_41">
+  <cim:ConnectivityNode rdf:ID="CN_41">
 
     <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#Substation_1"/>
 
@@ -728,7 +735,7 @@
   </cim:ConnectivityNode>
 
 
-  -<cim:ConnectivityNode rdf:ID="CN_42">
+  <cim:ConnectivityNode rdf:ID="CN_42">
 
     <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#Substation_1"/>
 
@@ -742,7 +749,7 @@
 
 
 
-  -<cim:Terminal rdf:ID="Terminal_81">
+  <cim:Terminal rdf:ID="Terminal_81">
 
     <cim:Terminal.ConductingEquipment rdf:resource="#TRWinding_1"/>
 
@@ -757,7 +764,7 @@
   </cim:Terminal>
 
 
-  -<cim:Terminal rdf:ID="Terminal_82">
+  <cim:Terminal rdf:ID="Terminal_82">
 
     <cim:Terminal.ConductingEquipment rdf:resource="#TRWinding_2"/>
 
@@ -771,7 +778,7 @@
 
   </cim:Terminal>
 
-  -<cim:Terminal rdf:ID="Terminal_91">
+  <cim:Terminal rdf:ID="Terminal_91">
 
     <cim:Terminal.ConductingEquipment rdf:resource="#Breaker_21"/>
 
@@ -786,7 +793,7 @@
   </cim:Terminal>
 
 
-  -<cim:Terminal rdf:ID="Terminal_92">
+  <cim:Terminal rdf:ID="Terminal_92">
 
     <cim:Terminal.ConductingEquipment rdf:resource="#Breaker_22"/>
 
@@ -800,7 +807,7 @@
 
   </cim:Terminal>
 
-  -<cim:ConnectivityNode rdf:ID="CN_51">
+  <cim:ConnectivityNode rdf:ID="CN_51">
 
     <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#Substation_1"/>
 
@@ -813,7 +820,7 @@
   </cim:ConnectivityNode>
 
 
-  -<cim:ConnectivityNode rdf:ID="CN_52">
+  <cim:ConnectivityNode rdf:ID="CN_52">
 
     <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#Substation_1"/>
 
@@ -825,7 +832,7 @@
 
   </cim:ConnectivityNode>
 
-  -<cim:Terminal rdf:ID="Terminal_101">
+  <cim:Terminal rdf:ID="Terminal_101">
 
     <cim:Terminal.ConductingEquipment rdf:resource="#Breaker_21"/>
 
@@ -840,7 +847,7 @@
   </cim:Terminal>
 
 
-  -<cim:Terminal rdf:ID="Terminal_102">
+  <cim:Terminal rdf:ID="Terminal_102">
 
     <cim:Terminal.ConductingEquipment rdf:resource="#Breaker_22"/>
 
@@ -855,7 +862,7 @@
   </cim:Terminal>
 
 
-  -<cim:AsynchronousMachine rdf:ID="AsyncM_1">
+  <cim:AsynchronousMachine rdf:ID="AsyncM_1">
 
     <cim:AsynchronousMachine.cosPhi>0.707</cim:AsynchronousMachine.cosPhi>
 
@@ -878,7 +885,7 @@
   </cim:AsynchronousMachine>
 
 
-  -<cim:AsynchronousMachine rdf:ID="AsyncM_2">
+  <cim:AsynchronousMachine rdf:ID="AsyncM_2">
 
     <cim:AsynchronousMachine.cosPhi>0.707</cim:AsynchronousMachine.cosPhi>
 
@@ -900,7 +907,7 @@
 
   </cim:AsynchronousMachine>
 
-  -<cim:Terminal rdf:ID="Terminal_111">
+  <cim:Terminal rdf:ID="Terminal_111">
 
     <cim:Terminal.ConductingEquipment rdf:resource="#AsyncM_1"/>
 
@@ -915,7 +922,7 @@
   </cim:Terminal>
 
 
-  -<cim:Terminal rdf:ID="Terminal_112">
+  <cim:Terminal rdf:ID="Terminal_112">
 
     <cim:Terminal.ConductingEquipment rdf:resource="#AsyncM_2"/>
 
@@ -933,7 +940,7 @@
 
 
 
-  -<cim:Discrete rdf:ID="Breaker_01Status">
+  <cim:Discrete rdf:ID="Breaker_01Status">
 
     <cim:Discrete.maxValue>1</cim:Discrete.maxValue>
 
@@ -964,7 +971,7 @@
   </cim:Discrete>
 
 
-  -<cim:Discrete rdf:ID="Breaker_11Status">
+  <cim:Discrete rdf:ID="Breaker_11Status">
 
     <cim:Discrete.maxValue>1</cim:Discrete.maxValue>
 
@@ -995,7 +1002,7 @@
   </cim:Discrete>
 
 
-  -<cim:Discrete rdf:ID="Breaker_21Status">
+  <cim:Discrete rdf:ID="Breaker_21Status">
 
     <cim:Discrete.maxValue>1</cim:Discrete.maxValue>
 
@@ -1026,7 +1033,7 @@
   </cim:Discrete>
 
 
-  -<cim:Discrete rdf:ID="Breaker_12Status">
+  <cim:Discrete rdf:ID="Breaker_12Status">
 
     <cim:Discrete.maxValue>1</cim:Discrete.maxValue>
 
@@ -1057,7 +1064,7 @@
   </cim:Discrete>
 
 
-  -<cim:Discrete rdf:ID="Breaker_22Status">
+  <cim:Discrete rdf:ID="Breaker_22Status">
 
     <cim:Discrete.maxValue>1</cim:Discrete.maxValue>
 
@@ -1087,7 +1094,7 @@
 
   </cim:Discrete>
 
-  -<cim:Discrete rdf:ID="Discrete_Disc01">
+  <cim:Discrete rdf:ID="Discrete_Disc01">
 
     <cim:Discrete.maxValue>1</cim:Discrete.maxValue>
 
@@ -1118,7 +1125,7 @@
   </cim:Discrete>
 
 
-  -<cim:Discrete rdf:ID="Discrete_Disc02">
+  <cim:Discrete rdf:ID="Discrete_Disc02">
 
     <cim:Discrete.maxValue>1</cim:Discrete.maxValue>
 
@@ -1149,7 +1156,7 @@
   </cim:Discrete>
 
 
-  -<cim:Discrete rdf:ID="Discrete_Disc11">
+  <cim:Discrete rdf:ID="Discrete_Disc11">
 
     <cim:Discrete.maxValue>1</cim:Discrete.maxValue>
 
@@ -1180,7 +1187,7 @@
   </cim:Discrete>
 
 
-  -<cim:Discrete rdf:ID="Discrete_Disc21">
+  <cim:Discrete rdf:ID="Discrete_Disc21">
 
     <cim:Discrete.maxValue>1</cim:Discrete.maxValue>
 
@@ -1211,7 +1218,7 @@
   </cim:Discrete>
 
 
-  -<cim:Discrete rdf:ID="Discrete_Disc12">
+  <cim:Discrete rdf:ID="Discrete_Disc12">
 
     <cim:Discrete.maxValue>1</cim:Discrete.maxValue>
 
@@ -1242,7 +1249,7 @@
   </cim:Discrete>
 
 
-  -<cim:Discrete rdf:ID="Discrete_Disc22">
+  <cim:Discrete rdf:ID="Discrete_Disc22">
 
     <cim:Discrete.maxValue>1</cim:Discrete.maxValue>
 
@@ -1272,7 +1279,7 @@
 
   </cim:Discrete>
 
-  -<cim:Discrete rdf:ID="FullTank">
+  <cim:Discrete rdf:ID="FullTank">
 
     <cim:Discrete.maxValue>1</cim:Discrete.maxValue>
 
@@ -1303,7 +1310,7 @@
   </cim:Discrete>
 
 
-  -<cim:Discrete rdf:ID="EmptyTank">
+  <cim:Discrete rdf:ID="EmptyTank">
 
     <cim:Discrete.maxValue>1</cim:Discrete.maxValue>
 
@@ -1334,7 +1341,7 @@
   </cim:Discrete>
 
 
-  -<cim:Discrete rdf:ID="Discrete_Tap1">
+  <cim:Discrete rdf:ID="Discrete_Tap1">
 
     <cim:Discrete.maxValue>5</cim:Discrete.maxValue>
 
@@ -1365,7 +1372,7 @@
   </cim:Discrete>
 
 
-  -<cim:Discrete rdf:ID="Discrete_Tap2">
+  <cim:Discrete rdf:ID="Discrete_Tap2">
 
     <cim:Discrete.maxValue>5</cim:Discrete.maxValue>
 
@@ -1397,7 +1404,7 @@
 
   <!-- Analog measurements -->
 
-  -<cim:Analog rdf:ID="FluidLevel_Tank">
+  <cim:Analog rdf:ID="FluidLevel_Tank">
 
     <cim:Analog.maxValue>100</cim:Analog.maxValue>
 
@@ -1428,7 +1435,7 @@
   </cim:Analog>
 
 
-  -<cim:Analog rdf:ID="Temp_AM1">
+  <cim:Analog rdf:ID="Temp_AM1">
 
     <cim:Analog.maxValue>300</cim:Analog.maxValue>
 
@@ -1459,7 +1466,7 @@
   </cim:Analog>
 
 
-  -<cim:Analog rdf:ID="Temp_AM2">
+  <cim:Analog rdf:ID="Temp_AM2">
 
     <cim:Analog.maxValue>300</cim:Analog.maxValue>
 
@@ -1490,7 +1497,7 @@
   </cim:Analog>
 
 
-  -<cim:Analog rdf:ID="Flow_AM1">
+  <cim:Analog rdf:ID="Flow_AM1">
 
     <cim:Analog.maxValue>100</cim:Analog.maxValue>
 
@@ -1521,7 +1528,7 @@
   </cim:Analog>
 
 
-  -<cim:Analog rdf:ID="Flow_AM2">
+  <cim:Analog rdf:ID="Flow_AM2">
 
     <cim:Analog.maxValue>100</cim:Analog.maxValue>
 
@@ -1552,7 +1559,7 @@
   </cim:Analog>
 
 
-  -<cim:Analog rdf:ID="Voltage_Tap1">
+  <cim:Analog rdf:ID="Voltage_Tap1">
 
     <cim:Analog.maxValue>400</cim:Analog.maxValue>
 
@@ -1583,7 +1590,7 @@
   </cim:Analog>
 
 
-  -<cim:Analog rdf:ID="Voltage_Tap2">
+  <cim:Analog rdf:ID="Voltage_Tap2">
 
     <cim:Analog.maxValue>400</cim:Analog.maxValue>
 
@@ -1614,7 +1621,7 @@
   </cim:Analog>
 
 
-  -<cim:Analog rdf:ID="Current_Tap1">
+  <cim:Analog rdf:ID="Current_Tap1">
 
     <cim:Analog.maxValue>100</cim:Analog.maxValue>
 
@@ -1645,7 +1652,7 @@
   </cim:Analog>
 
 
-  -<cim:Analog rdf:ID="Current_Tap2">
+  <cim:Analog rdf:ID="Current_Tap2">
 
     <cim:Analog.maxValue>100</cim:Analog.maxValue>
 

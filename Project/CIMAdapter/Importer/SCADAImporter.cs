@@ -101,7 +101,7 @@ namespace FTN.ESI.SIMES.CIM.CIMAdapter.Importer
 
         private void ImportSubstation()
         {
-            SortedDictionary<string, object> cimSubstations = concreteModel.GetAllObjectsOfType("FTN.Substation");
+            SortedDictionary<string, object> cimSubstations = concreteModel.GetAllObjectsOfType("FTN.Substation"); 
             if(cimSubstations != null)
             {
                 foreach(KeyValuePair<string, object> item in cimSubstations)

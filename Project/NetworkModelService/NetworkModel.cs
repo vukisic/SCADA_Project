@@ -25,6 +25,8 @@ namespace FTN.Services.NetworkModelService
         /// </summary>
         private Dictionary<DMSType, Container> networkDataModelCopy;
 
+        private Dictionary<long, long> GidHelper;
+
         /// <summary>
         /// ModelResourceDesc class contains metadata of the model
         /// </summary>
@@ -41,6 +43,7 @@ namespace FTN.Services.NetworkModelService
             networkDataModelCopy = new Dictionary<DMSType, Container>();
 			resourcesDescs = new ModelResourcesDesc();
             repo = new DeltaDBRepository();
+            GidHelper = new Dictionary<long, long>();
 			Initialize();
 		}
 	
@@ -250,6 +253,8 @@ namespace FTN.Services.NetworkModelService
 
 				Dictionary<short, int> typesCounters = GetCounters();
 				Dictionary<long, long> globalIdPairs = new Dictionary<long, long>();
+                var result = GetAllCounters(typesCounters);
+                Delta.Counter = result;
 				delta.FixNegativeToPositiveIds(ref typesCounters, ref globalIdPairs);
 				updateResult.GlobalIdPairs = globalIdPairs;
 				delta.SortOperations();
@@ -258,10 +263,10 @@ namespace FTN.Services.NetworkModelService
 
 				foreach (ResourceDescription rd in delta.InsertOperations)
 				{
-					var result = InsertEntity(rd);
-                    if (result)
-                        newDelta.AddDeltaOperation(DeltaOpType.Insert, rd, true);
-				}
+                    // We need newRd because old-new mapping
+					InsertEntity(rd, out ResourceDescription newRd);
+                    newDelta.AddDeltaOperation(DeltaOpType.Insert, newRd, true);
+                }
                 #region Update&Delete
                 foreach (ResourceDescription rd in delta.UpdateOperations)
 				{
@@ -289,7 +294,7 @@ namespace FTN.Services.NetworkModelService
 				if (applyingStarted)
 				{
                     if(newDelta.InsertOperations.Count>0)
-					    SaveDelta(newDelta);
+					    SaveDelta(delta);
 				}
                 else
                 {
@@ -311,12 +316,13 @@ namespace FTN.Services.NetworkModelService
         /// Inserts entity into the network model.
         /// </summary>
         /// <param name="rd">Description of the resource that should be inserted</param>        
-		private bool InsertEntity(ResourceDescription rd)
+		private void InsertEntity(ResourceDescription rd, out ResourceDescription newRd)
 		{
+            newRd = rd;
 			if (rd == null)
 			{
 				CommonTrace.WriteTrace(CommonTrace.TraceVerbose, "Insert entity is not done because update operation is empty.");
-				return false;
+                throw new Exception();
 			}			
 
 			long globalId = rd.Id;
@@ -328,7 +334,7 @@ namespace FTN.Services.NetworkModelService
 			{
 				string message = String.Format("Failed to insert entity because entity with specified GID ({0:x16}) already exists in network model.", globalId);
 				CommonTrace.WriteTrace(CommonTrace.TraceError, message);
-				throw new Exception(message);
+                throw new Exception(message);
 			}
 
 			try
@@ -337,9 +343,14 @@ namespace FTN.Services.NetworkModelService
 				DMSType type = (DMSType)ModelCodeHelper.ExtractTypeFromGlobalId(globalId);
 
                 //check mrid already exist
+                // if exist made mapping old-new mrids
                 if (CheckMridExist(type, rd))
                 {
-                    return false;
+                    var typedCollection = networkDataModelCopy[type];
+                    var objMrid = rd.Properties.Single(x => x.Id == ModelCode.IDOBJ_MRID);
+                    var result = typedCollection.Entities.Values.SingleOrDefault(x => x.MRID == objMrid.PropertyValue.StringValue);
+                    GidHelper[globalId] = result.GID;
+                    return;
                 }
 
 				Container container = null;
@@ -371,10 +382,16 @@ namespace FTN.Services.NetworkModelService
 
 						if (property.Type == PropertyType.Reference)
 						{
+                            
 							// if property is a reference to another entity 
 							long targetGlobalId = property.AsReference();
-
-							if (targetGlobalId != 0)
+                            if (GidHelper.ContainsKey(targetGlobalId))
+                            {
+                                //Update old-new mrids
+                                targetGlobalId = GidHelper[targetGlobalId];
+                                newRd.Properties.Single(x => x.Id == property.Id).SetValue(targetGlobalId);
+                            }
+                            if (targetGlobalId != 0)
 							{
 
 								if (!EntityExists(targetGlobalId))
@@ -398,7 +415,6 @@ namespace FTN.Services.NetworkModelService
 				}
 
 				CommonTrace.WriteTrace(CommonTrace.TraceVerbose, "Inserting entity with GID ({0:x16}) successfully finished.", globalId);
-                return true;
 			}			
 			catch (Exception ex)
 			{
@@ -666,33 +682,37 @@ namespace FTN.Services.NetworkModelService
 		private void Initialize()
 		{
 			List<Delta> result = ReadAllDeltas();
+            if (result.Count > 0)
+            {
+                foreach (var delta in result)
+                {
+                    ResourceDescription tempRd = new ResourceDescription();
+                    GetShallowCopyModel();
+                    try
+                    {
+                        foreach (ResourceDescription rd in delta.InsertOperations)
+                        {
+                            InsertEntity(rd, out tempRd);
+                        }
 
-			foreach (Delta delta in result)
-			{
-                GetShallowCopyModel();
-				try
-				{
-					foreach (ResourceDescription rd in delta.InsertOperations)
-					{
-						InsertEntity(rd);
-					}
+                        foreach (ResourceDescription rd in delta.UpdateOperations)
+                        {
+                            UpdateEntity(rd);
+                        }
 
-					foreach (ResourceDescription rd in delta.UpdateOperations)
-					{
-						UpdateEntity(rd);
-					}
-
-					foreach (ResourceDescription rd in delta.DeleteOperations)
-					{
-						DeleteEntity(rd);
-					}
-                    MergeModelsFinal();
-				}
-				catch(Exception ex)
-				{
-					CommonTrace.WriteTrace(CommonTrace.TraceError, "Error while applying delta (id = {0}) during service initialization. {1}", delta.Id, ex.Message);
-				}
-			}		
+                        foreach (ResourceDescription rd in delta.DeleteOperations)
+                        {
+                            DeleteEntity(rd);
+                        }
+                        MergeModelsFinal();
+                    }
+                    catch (Exception ex)
+                    {
+                        CommonTrace.WriteTrace(CommonTrace.TraceError, "Error while applying delta (id = {0}) during service initialization. {1}", delta.Id, ex.Message);
+                    }
+                }
+                
+            }
 		}
 
 		private void SaveDelta(Delta delta)
@@ -723,9 +743,9 @@ namespace FTN.Services.NetworkModelService
 			{
 				typesCounters[(short)type] = 0;
 
-				if (networkDataModel.ContainsKey(type))
+				if (networkDataModelCopy.ContainsKey(type))
 				{
-					typesCounters[(short)type] = GetContainer(type).Count;
+                    typesCounters[(short)type] = GetContainer(type).Count;
 				}
 			}
 
@@ -775,6 +795,16 @@ namespace FTN.Services.NetworkModelService
             }
             return false;
             
+        }
+
+        private int GetAllCounters(Dictionary<short,int> counters)
+        {
+            int result = 0;
+            foreach (var item in counters.Values)
+            {
+                result += item;
+            }
+            return result;
         }
         #endregion
     }
