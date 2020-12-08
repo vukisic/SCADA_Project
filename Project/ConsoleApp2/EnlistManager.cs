@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.ServiceModel;
+using System.ServiceModel.Channels;
 using System.Text;
 using System.Threading.Tasks;
 using TMContracts;
@@ -23,12 +25,11 @@ namespace ConsoleApp2
             TransactionSteps.BeginTransaction();
         }
 
-        public void Enlist() 
+        public void Enlist()
         {
-            OperationContext context = OperationContext.Current;
+            Console.WriteLine("Javio se servis za transakciju.");
+            //TMData.CurrentlyEnlistedServices.Add(service);
 
-            var service = context.GetCallbackChannel<ITransactionSteps>();
-            TMData.CurrentlyEnlistedServices.Add(service);
         }
     }
 }

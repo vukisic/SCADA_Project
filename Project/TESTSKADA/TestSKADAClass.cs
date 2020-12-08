@@ -19,44 +19,43 @@ namespace TESTSKADA
             serviceHost = new ServiceHost(typeof(SkadaService));
             NetTcpBinding tcpBinding = new NetTcpBinding();
 
-            serviceHost.AddServiceEndpoint(typeof(ITransactionSteps), tcpBinding,
+            serviceHost.AddServiceEndpoint(typeof(IModelUpdate), tcpBinding,
                                 "net.tcp://localhost:20006/SCADA");
             serviceHost.Open();
         }
-
-        public class SkadaService : ITransactionSteps, IModelUpdate
+    }
+    public class SkadaService : ITransactionSteps, IModelUpdate
+    {
+        public bool Commit()
         {
-            public bool Commit()
-            {
-                Console.WriteLine("SCADA commited changes!");
-                return true;
-            }
+            Console.WriteLine("SCADA commited changes!");
+            return true;
+        }
 
-            public bool Prepare()
-            {
-                Console.WriteLine("SCADA OK!");
-                return true;
-            }
+        public bool Prepare()
+        {
+            Console.WriteLine("SCADA OK!");
+            return true;
+        }
 
-            public void Rollback()
-            {
-                throw new NotImplementedException();
-            }
+        public void Rollback()
+        {
+            throw new NotImplementedException();
+        }
 
-            public bool UpdateModel(Dictionary<string, List<string>> model)
-            {
-                Console.WriteLine("Model primljen!");
+        public bool UpdateModel(Dictionary<string, List<string>> model)
+        {
+            Console.WriteLine("Model primljen!");
 
-                NetTcpBinding myBinding = new NetTcpBinding();
-                EndpointAddress myEndpoint = new EndpointAddress("net.tcp://localhost:20000/TM");
-                ChannelFactory<IEnlistManager> myChannelFactory = new ChannelFactory<IEnlistManager>(myBinding, myEndpoint);
+            NetTcpBinding myBinding = new NetTcpBinding();
+            EndpointAddress myEndpoint = new EndpointAddress("net.tcp://localhost:20000/TM");
+            ChannelFactory<IEnlistManager> myChannelFactory = new ChannelFactory<IEnlistManager>(myBinding, myEndpoint);
 
-                IEnlistManager proxy = myChannelFactory.CreateChannel();
-                // javi se TM-u da si u transakciji
-                proxy.Enlist();
+            IEnlistManager proxy = myChannelFactory.CreateChannel();
+            // javi se TM-u da si u transakciji
+            proxy.Enlist();
 
-                return true;
-            }
-        }   
+            return true;
+        }
     }
 }
