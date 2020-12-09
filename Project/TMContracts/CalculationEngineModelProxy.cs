@@ -12,7 +12,8 @@ namespace TMContracts
 
         public NMSCalculationEngineProxy()
         {
-            ChannelFactory<IModelUpdate> channelFactory = new ChannelFactory<IModelUpdate>(new NetTcpBinding(), new EndpointAddress("net.tcp://localhost:5002/IModeUpdate"));
+            ChannelFactory<IModelUpdate> channelFactory = new ChannelFactory<IModelUpdate>(new NetTcpBinding(), 
+                new EndpointAddress("net.tcp://localhost:5002/IModelUpdate"));
             proxy = channelFactory.CreateChannel();
         }
 

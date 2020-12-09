@@ -30,12 +30,16 @@ namespace TESTNMS
 
             //Posalji Scadi i CEu novi model
             NMSSCADAProxy proxyForScada = new NMSSCADAProxy();
+            NMSCalculationEngineProxy proxyForCE = new NMSCalculationEngineProxy();
 
             Dictionary<string, List<string>> par = new Dictionary<string, List<string>>();
             par.Add("Marko", new List<string>());
 
             bool success = false;
             if (proxyForScada.ModelUpdate(par))
+                success = true;
+
+            if (proxyForCE.ModelUpdate(par))
                 success = true;
 
             proxyForTM.EndEnlist(success);

@@ -22,6 +22,9 @@ namespace TransactionManager
             SCADATransactionProxy proxyForScada = new SCADATransactionProxy();
             everyServiceIsPrepared = proxyForScada.Prepare();
 
+            CalculationEngineTransactionProxy proxyForCE = new CalculationEngineTransactionProxy();
+            everyServiceIsPrepared = proxyForCE.Prepare();
+
             NMSProxy proxyForNms = new NMSProxy();
             everyServiceIsPrepared = proxyForNms.Prepare();
 
@@ -30,6 +33,7 @@ namespace TransactionManager
             {
                 Console.WriteLine("Every service is prepared to commit..calling commit");
                 everyServiceCommited = proxyForScada.Commit();
+                everyServiceCommited = proxyForCE.Commit();
                 everyServiceCommited = proxyForNms.Commit();
             }
 
@@ -37,6 +41,7 @@ namespace TransactionManager
             {
                 Console.WriteLine("ERROR..requesting rollback");
                 proxyForScada.Rollback();
+                proxyForCE.Rollback();
                 proxyForNms.Rollback();
             }
             Console.WriteLine("Every service commited! MODEL UPDATED!");
