@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DEFA507A-760F-436B-AF63-737C526ADB63}</ProjectGuid>
+    <ProjectGuid>{B065B3B6-D3E0-4C60-A4F9-30F6087C733C}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>TransactionManager</RootNamespace>
-    <AssemblyName>TransactionManager</AssemblyName>
+    <RootNamespace>TESTSKADA</RootNamespace>
+    <AssemblyName>TESTSKADA</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -35,7 +35,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,8 +43,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EnlistManager.cs" />
-    <Compile Include="EnlistServiceHost.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -53,6 +50,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SCADATransaction\SCADATransaction.csproj">
+      <Project>{c6d1753c-c65b-4c72-9024-4a94ba5f01d9}</Project>
+      <Name>SCADATransaction</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TMContracts\TMContracts.csproj">
       <Project>{f5d28aa0-b5f6-4c6a-867d-2d1187464a80}</Project>
       <Name>TMContracts</Name>

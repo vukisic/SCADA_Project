@@ -16,7 +16,9 @@ namespace SCADATransaction
         public SCADAServer()
         {
             modelServiceHost = new ServiceHost(typeof(SCADAModelProvider));
-            modelServiceHost.AddServiceEndpoint(typeof(IModelUpdate), new NetTcpBinding(), new Uri("net.tcp://localhost:5001/IModelUpdate"));
+            modelServiceHost.AddServiceEndpoint(typeof(IModelUpdate), new NetTcpBinding(), 
+
+                new Uri("net.tcp://localhost:5001/IModelUpdate"));
             transactionServiceHost = new ServiceHost(typeof(SCADATransactionProvider));
             transactionServiceHost.AddServiceEndpoint(typeof(ITransactionSteps), new NetTcpBinding(), new Uri("net.tcp://localhost:4002/ITransactionSteps"));
         }

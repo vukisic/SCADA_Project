@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TMContracts
 {
-    class NMSProxy
+    public class NMSProxy
     {
         private ITransactionSteps proxy;
 

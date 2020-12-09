@@ -11,6 +11,9 @@ namespace TMContracts
     public interface IEnlistManager
     {
         [OperationContract]
+        bool StartEnlist();
+
+        [OperationContract]
         void Enlist();
 
         [OperationContract]

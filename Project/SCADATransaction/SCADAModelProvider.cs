@@ -11,7 +11,8 @@ namespace SCADATransaction
     {
         public bool ModelUpdate(Dictionary<string, List<string>> par)
         {
-            throw new NotImplementedException();
+            Console.WriteLine("New update request!");
+            return true;
         }
     }
 }

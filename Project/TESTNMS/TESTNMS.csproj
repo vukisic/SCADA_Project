@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DEFA507A-760F-436B-AF63-737C526ADB63}</ProjectGuid>
+    <ProjectGuid>{F7543634-E374-4EF8-B84C-D438F6B5B531}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>TransactionManager</RootNamespace>
-    <AssemblyName>TransactionManager</AssemblyName>
+    <RootNamespace>TESTNMS</RootNamespace>
+    <AssemblyName>TESTNMS</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -35,7 +35,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,8 +43,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EnlistManager.cs" />
-    <Compile Include="EnlistServiceHost.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -53,6 +50,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NMSTransaction\NMSTransaction.csproj">
+      <Project>{ffab08c9-8cb3-4f39-ad03-023227da0abf}</Project>
+      <Name>NMSTransaction</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TMContracts\TMContracts.csproj">
       <Project>{f5d28aa0-b5f6-4c6a-867d-2d1187464a80}</Project>
       <Name>TMContracts</Name>

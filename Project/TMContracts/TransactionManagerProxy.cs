@@ -7,19 +7,19 @@ using System.Threading.Tasks;
 
 namespace TMContracts
 {
-    public class NMSTransactionManagerProxy
+    public class TransactionManagerProxy
     {
         private IEnlistManager proxy;
 
-        public NMSTransactionManagerProxy()
+        public TransactionManagerProxy()
         {
             ChannelFactory<IEnlistManager> channelFactory = new ChannelFactory<IEnlistManager>(new NetTcpBinding(), new EndpointAddress("net.tcp://localhost:6001/IEnlistManager"));
             proxy = channelFactory.CreateChannel();
         }
 
-        public void StartEnlist()
+        public bool StartEnlist()
         {
-            //proxy.StartEnlist();
+            return proxy.StartEnlist();
         }
 
         public void Enlist()

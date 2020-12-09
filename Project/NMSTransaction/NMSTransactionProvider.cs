@@ -12,17 +12,19 @@ namespace NMSTransaction
     {
         public bool Prepare()
         {
-            throw new NotImplementedException();
+            Console.WriteLine("Prepared? YES");
+            return true;
         }
 
         public bool Commit()
         {
-            throw new NotImplementedException();
+            Console.WriteLine("Commited? YES");
+            return true;
         }
 
         public void Rollback()
         {
-            throw new NotImplementedException();
+            Console.WriteLine("Request for rollback!");
         }
     }
 }

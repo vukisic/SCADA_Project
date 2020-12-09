@@ -13,7 +13,7 @@ namespace TMContracts
 
         public NMSSCADAProxy()
         {
-            ChannelFactory<IModelUpdate> channelFactory = new ChannelFactory<IModelUpdate>(new NetTcpBinding(), new EndpointAddress("net.tcp://localhost:5001/IModeUpdate"));
+            ChannelFactory<IModelUpdate> channelFactory = new ChannelFactory<IModelUpdate>(new NetTcpBinding(), new EndpointAddress("net.tcp://localhost:5001/IModelUpdate"));
             proxy = channelFactory.CreateChannel();
         }
 
