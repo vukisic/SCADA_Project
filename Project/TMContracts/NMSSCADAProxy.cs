@@ -14,11 +14,6 @@ namespace TMContracts
             proxy = channelFactory.CreateChannel();
         }
 
-        public bool ModelUpdate(Dictionary<string, List<string>> par)
-        {
-            return proxy.ModelUpdate(par);
-        }
-
         public bool ModelUpdate(Dictionary<FTN.Common.DMSType, FTN.Services.NetworkModelService.Container> model)
         {
             return proxy.ModelUpdate(model);

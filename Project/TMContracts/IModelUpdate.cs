@@ -9,9 +9,6 @@ namespace TMContracts
     public interface IModelUpdate
     {
         [OperationContract]
-        bool ModelUpdate(Dictionary<string, List<string>> par);
-
-        [OperationContract]
         bool ModelUpdate(Dictionary<DMSType, Container> model);
     }
 }

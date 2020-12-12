@@ -11,12 +11,6 @@ namespace CETransaction
 {
     public class CEModelProvider : IModelUpdate
     {
-        public bool ModelUpdate(Dictionary<string, List<string>> par)
-        {
-            Console.WriteLine("New update request!");
-            return true;
-        }
-
         public bool ModelUpdate(Dictionary<DMSType, Container> model)
         {
             Console.WriteLine("New update request!");
