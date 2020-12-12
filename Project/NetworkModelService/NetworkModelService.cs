@@ -44,6 +44,7 @@ namespace FTN.Services.NetworkModelService
             {
                 serviceHost
             };
+            hosts.Add(new ServiceHost(typeof(GenericDataAccess)));
         }
 
 		private void StartHosts()
