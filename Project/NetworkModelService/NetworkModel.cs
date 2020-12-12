@@ -11,7 +11,7 @@ using TMContracts;
 
 namespace FTN.Services.NetworkModelService
 {
-    public class NetworkModel
+    public class NetworkModel : ITransactionSteps
     {
         /// <summary>
         /// Dictionaru which contains all data: Key - DMSType, Value - Container
@@ -687,42 +687,45 @@ namespace FTN.Services.NetworkModelService
         private void Initialize()
         {
             List<Delta> result = ReadAllDeltas();
-            if (result.Count > 0)
+            
+            if (result.Count <= 0)
             {
-                foreach (var delta in result)
+                return;
+            }
+
+            foreach (var delta in result)
+            {
+                ResourceDescription tempRd = new ResourceDescription();
+                GetShallowCopyModel();
+                try
                 {
-                    ResourceDescription tempRd = new ResourceDescription();
-                    GetShallowCopyModel();
-                    try
+                    foreach (ResourceDescription rd in delta.InsertOperations)
                     {
-                        foreach (ResourceDescription rd in delta.InsertOperations)
-                        {
-                            InsertEntity(rd, out tempRd);
-                        }
-
-                        foreach (ResourceDescription rd in delta.UpdateOperations)
-                        {
-                            UpdateEntity(rd);
-                        }
-
-                        foreach (ResourceDescription rd in delta.DeleteOperations)
-                        {
-                            DeleteEntity(rd);
-                        }
-
-                        MergeModelsFinal();
+                        InsertEntity(rd, out tempRd);
                     }
-                    catch (Exception ex)
+
+                    foreach (ResourceDescription rd in delta.UpdateOperations)
                     {
-                        CommonTrace.WriteTrace(CommonTrace.TraceError, "Error while applying delta (id = {0}) during service initialization. {1}", delta.Id, ex.Message);
-                        RestoreModel();
+                        UpdateEntity(rd);
                     }
+
+                    foreach (ResourceDescription rd in delta.DeleteOperations)
+                    {
+                        DeleteEntity(rd);
+                    }
+
+                    MergeModelsFinal();
                 }
-
-                if (!TryApplyTransaction())
+                catch (Exception ex)
                 {
+                    CommonTrace.WriteTrace(CommonTrace.TraceError, "Error while applying delta (id = {0}) during service initialization. {1}", delta.Id, ex.Message);
                     RestoreModel();
                 }
+            }
+
+            if (!TryApplyTransaction())
+            {
+                RestoreModel();
             }
         }
 
@@ -844,6 +847,24 @@ namespace FTN.Services.NetworkModelService
                 result += item;
             }
             return result;
+        }
+        #endregion
+
+        #region ITransactionSteps
+        public bool Prepare()
+        {
+            return true;
+        }
+
+        public bool Commit()
+        {
+            MergeModelsFinal();
+            return true;
+        }
+
+        public void Rollback()
+        {
+            RestoreModel();
         }
         #endregion
     }
