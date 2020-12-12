@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TMContracts
 {
     public class NMSSCADAProxy
     {
-        private IModelUpdate proxy;
+        private readonly IModelUpdate proxy;
 
         public NMSSCADAProxy()
         {

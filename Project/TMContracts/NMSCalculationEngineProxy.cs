@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
 namespace TMContracts
 {
     public class NMSCalculationEngineProxy
     {
-        private IModelUpdate proxy;
+        private readonly IModelUpdate proxy;
 
         public NMSCalculationEngineProxy()
         {
-            ChannelFactory<IModelUpdate> channelFactory = new ChannelFactory<IModelUpdate>(new NetTcpBinding(), 
+            ChannelFactory<IModelUpdate> channelFactory = new ChannelFactory<IModelUpdate>(new NetTcpBinding(),
                 new EndpointAddress("net.tcp://localhost:5002/IModelUpdate"));
             proxy = channelFactory.CreateChannel();
         }
