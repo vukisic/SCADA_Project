@@ -1,11 +1,14 @@
 ﻿using FTN.Common;
 using FTN.Services.NetworkModelService.DataModel.Core;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace FTN.Services.NetworkModelService.DataModel.Wires
 {
+    [DataContract]
     public class RatioTapChanger : TapChanger
     {
+        [DataMember]
         public long TransformerWinding { get; set; } = 0;
 
         public RatioTapChanger(long gID) : base(gID)

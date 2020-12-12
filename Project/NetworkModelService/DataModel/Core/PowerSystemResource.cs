@@ -1,12 +1,13 @@
 ﻿using FTN.Common;
 using System.Collections.Generic;
-
-
+using System.Runtime.Serialization;
 
 namespace FTN.Services.NetworkModelService.DataModel.Core
 {
+    [DataContract]
     public class PowerSystemResource : IdentifiedObject
     {
+        [DataMember]
         public List<long> Measurements { get; set; } = new List<long>();
 
         public PowerSystemResource(long gID) : base(gID)

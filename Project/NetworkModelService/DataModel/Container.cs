@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using FTN.Common;
 using FTN.Services.NetworkModelService.DataModel.Core;
 using FTN.Services.NetworkModelService.DataModel.Meas;
@@ -9,6 +10,7 @@ using FTN.Services.NetworkModelService.DataModel.Wires;
 
 namespace FTN.Services.NetworkModelService
 {
+    [DataContract]
     public class Container
     {
         /// <summary>
@@ -26,6 +28,7 @@ namespace FTN.Services.NetworkModelService
         /// <summary>
         /// Gets or sets dictionary of entities (identified objects) inside container.
         /// </summary>	
+        [DataMember]
         public Dictionary<long, IdentifiedObject> Entities
         {
             get { return entities; }

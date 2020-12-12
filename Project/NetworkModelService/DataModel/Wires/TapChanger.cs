@@ -1,14 +1,17 @@
-﻿using FTN.Common;
+﻿using System.Runtime.Serialization;
+using FTN.Common;
 using FTN.Services.NetworkModelService.DataModel.Core;
 
 namespace FTN.Services.NetworkModelService.DataModel.Wires
 {
+    [DataContract]
     public class TapChanger : PowerSystemResource
     {
+        [DataMember]
         public int HighStep { get; set; }
-
+        [DataMember]
         public int LowStep { get; set; }
-
+        [DataMember]
         public int NormalStep { get; set; }
 
         public TapChanger(long gID) : base(gID)

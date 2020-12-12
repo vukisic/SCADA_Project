@@ -1,14 +1,16 @@
-﻿using FTN.Common;
+﻿using System.Runtime.Serialization;
+using FTN.Common;
 
 namespace FTN.Services.NetworkModelService.DataModel.Meas
 {
+    [DataContract]
     public class Analog : Measurement
     {
-
+        [DataMember]
         public float MaxValue { get; set; }
-
+        [DataMember]
         public float MinValue { get; set; }
-
+        [DataMember]
         public float NormalValue { get; set; }
 
         public Analog(long gID) : base(gID)

@@ -1,10 +1,13 @@
-﻿using FTN.Common;
+﻿using System.Runtime.Serialization;
+using FTN.Common;
 using FTN.Services.NetworkModelService.DataModel.Core;
 
 namespace FTN.Services.NetworkModelService.DataModel.Wires
 {
+    [DataContract]
     public class Switch : ConductingEquipment
     {
+        [DataMember]
         public int ManipulationCount { get; set; }
 
         public Switch(long gID) : base(gID)

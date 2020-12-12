@@ -1,18 +1,21 @@
-﻿using FTN.Common;
+﻿using System.Runtime.Serialization;
+using FTN.Common;
 using FTN.Services.NetworkModelService.DataModel.Wires;
 
 namespace FTN.Services.NetworkModelService.DataModel.Core
 {
+    [DataContract]
     public class AsynchronousMachine : RegulatingCondEq
     {
+        [DataMember]
         public float CosPhi { get; set; }
-
+        [DataMember]
         public float CurrentTemp { get; set; }
-
+        [DataMember]
         public float MaximumTemp { get; set; }
-
+        [DataMember]
         public float MinimumTemp { get; set; }
-
+        [DataMember]
         public float RatedP { get; set; }
 
         public AsynchronousMachine(long gID) : base(gID)

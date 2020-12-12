@@ -1,10 +1,13 @@
 ﻿using FTN.Common;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace FTN.Services.NetworkModelService.DataModel.Core
 {
+    [DataContract]
     public class ConductingEquipment : Equipment
     {
+        [DataMember]
         public List<long> Terminals { get; set; } = new List<long>();
 
         public ConductingEquipment(long gID) : base(gID)

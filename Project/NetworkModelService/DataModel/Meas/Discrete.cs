@@ -1,13 +1,16 @@
-﻿using FTN.Common;
+﻿using System.Runtime.Serialization;
+using FTN.Common;
 
 namespace FTN.Services.NetworkModelService.DataModel.Meas
 {
+    [DataContract]
     public class Discrete : Measurement
     {
+        [DataMember]
         public int MaxValue { get; set; }
-
+        [DataMember]
         public int MinValue { get; set; }
-
+        [DataMember]
         public int NormalValue { get; set; }
 
         public Discrete(long gID) : base(gID)

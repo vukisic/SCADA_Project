@@ -1,13 +1,16 @@
 ﻿using FTN.Common;
 using FTN.Services.NetworkModelService.DataModel.Core;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace FTN.Services.NetworkModelService.DataModel.Wires
 {
+    [DataContract]
     public class TransformerWinding : ConductingEquipment
     {
+        [DataMember]
         public long PowerTransformer { get; set; } = 0;
-
+        [DataMember]
         public long RatioTapChanger { get; set; } = 0;
 
         public TransformerWinding(long gID) : base(gID)
