@@ -5,6 +5,8 @@ using FTN.Services.NetworkModelService.DataModel.Core;
 namespace FTN.Services.NetworkModelService.DataModel.Wires
 {
     [DataContract]
+    [KnownType(typeof(Disconnector))]
+    [KnownType(typeof(ProtectedSwitch))]
     public class Switch : ConductingEquipment
     {
         [DataMember]

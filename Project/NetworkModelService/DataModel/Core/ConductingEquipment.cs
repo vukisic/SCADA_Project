@@ -1,10 +1,14 @@
 ﻿using FTN.Common;
+using FTN.Services.NetworkModelService.DataModel.Wires;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace FTN.Services.NetworkModelService.DataModel.Core
 {
     [DataContract]
+    [KnownType(typeof(RegulatingCondEq))]
+    [KnownType(typeof(Switch))]
+    [KnownType(typeof(TransformerWinding))]
     public class ConductingEquipment : Equipment
     {
         [DataMember]

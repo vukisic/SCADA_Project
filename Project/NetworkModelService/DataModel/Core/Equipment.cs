@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 namespace FTN.Services.NetworkModelService.DataModel.Core
 {
     [DataContract]
+    [KnownType(typeof(ConductingEquipment))]
     public class Equipment : PowerSystemResource
     {
         [DataMember]

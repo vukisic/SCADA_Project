@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 namespace FTN.Services.NetworkModelService.DataModel.Core
 {
     [DataContract]
+    [KnownType(typeof(Substation))]
     public class EquipmentContainer : ConnectivityNodeContainer
     {
         [DataMember]

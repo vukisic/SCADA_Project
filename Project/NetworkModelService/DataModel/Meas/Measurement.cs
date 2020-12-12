@@ -6,6 +6,8 @@ using FTN.Services.NetworkModelService.DataModel.Core;
 namespace FTN.Services.NetworkModelService.DataModel.Meas
 {
     [DataContract]
+    [KnownType(typeof(Analog))]
+    [KnownType(typeof(Discrete))]
     public class Measurement : IdentifiedObject
     {
         [DataMember]

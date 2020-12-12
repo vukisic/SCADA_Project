@@ -1,4 +1,6 @@
 ﻿using FTN.Common;
+using FTN.Services.NetworkModelService.DataModel.Meas;
+using FTN.Services.NetworkModelService.DataModel.Topology;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
@@ -13,6 +15,10 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
     }
 
     [DataContract]
+    [KnownType(typeof(PowerSystemResource))]
+    [KnownType(typeof(Measurement))]
+    [KnownType(typeof(ConnectivityNode))]
+    [KnownType(typeof(Terminal))]
     public class IdentifiedObject
     {
         /// <summary>

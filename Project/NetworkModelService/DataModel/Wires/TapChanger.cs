@@ -5,6 +5,7 @@ using FTN.Services.NetworkModelService.DataModel.Core;
 namespace FTN.Services.NetworkModelService.DataModel.Wires
 {
     [DataContract]
+    [KnownType(typeof(RatioTapChanger))]
     public class TapChanger : PowerSystemResource
     {
         [DataMember]

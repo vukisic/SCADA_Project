@@ -3,6 +3,7 @@
 namespace FTN.Services.NetworkModelService.DataModel.Wires
 {
     [DataContract]
+    [KnownType(typeof(Breaker))]
     public class ProtectedSwitch : Switch
     {
         public ProtectedSwitch(long gID) : base(gID)
