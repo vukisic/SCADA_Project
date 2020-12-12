@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ServiceModel;
 
 namespace TMContracts
@@ -16,6 +17,11 @@ namespace TMContracts
         public bool ModelUpdate(Dictionary<string, List<string>> par)
         {
             return proxy.ModelUpdate(par);
+        }
+
+        public bool ModelUpdate(Dictionary<FTN.Common.DMSType, FTN.Services.NetworkModelService.Container> model)
+        {
+            return proxy.ModelUpdate(model);
         }
     }
 }

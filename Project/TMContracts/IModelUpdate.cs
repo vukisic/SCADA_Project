@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ServiceModel;
+using FTN.Common;
+using FTN.Services.NetworkModelService;
 
 namespace TMContracts
 {
@@ -8,5 +10,8 @@ namespace TMContracts
     {
         [OperationContract]
         bool ModelUpdate(Dictionary<string, List<string>> par);
+
+        [OperationContract]
+        bool ModelUpdate(Dictionary<DMSType, Container> model);
     }
 }
