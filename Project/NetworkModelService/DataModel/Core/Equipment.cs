@@ -1,4 +1,5 @@
 ﻿using FTN.Common;
+using FTN.Services.NetworkModelService.DataModel.Wires;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
@@ -6,6 +7,7 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
 {
     [DataContract]
     [KnownType(typeof(ConductingEquipment))]
+    [KnownType(typeof(PowerTransformer))]
     public class Equipment : PowerSystemResource
     {
         [DataMember]
