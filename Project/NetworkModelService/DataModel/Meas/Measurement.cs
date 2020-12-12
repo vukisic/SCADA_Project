@@ -1,23 +1,28 @@
-﻿using FTN.Common;
+﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
+using FTN.Common;
 using FTN.Services.NetworkModelService.DataModel.Core;
-using System.Collections.Generic;
 
 namespace FTN.Services.NetworkModelService.DataModel.Meas
 {
+    [DataContract]
+    [KnownType(typeof(Analog))]
+    [KnownType(typeof(Discrete))]
     public class Measurement : IdentifiedObject
     {
+        [DataMember]
         public int BaseAddress { get; set; }
-
+        [DataMember]
         public SignalDirection Direction { get; set; }
-
+        [DataMember]
         public MeasurementType MeasurementType { get; set; }
-
+        [DataMember]
         public string ObjectMRID { get; set; }
-
+        [DataMember]
         public long PSR { get; set; } = 0;
-
+        [DataMember]
         public long Terminals { get; set; } = 0;
-
+        [DataMember]
         public string TimeStamp { get; set; }
 
         public Measurement(long gID) : base(gID)

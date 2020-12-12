@@ -1,19 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NMSTransaction;
 using TMContracts;
 
 namespace TESTNMS
 {
-	class Program
-	{
-		static void Main(string[] args)
-		{
+    class Program
+    {
+        static void Main(string[] args)
+        {
             Console.WriteLine("NMS started working..");
-            
+
             NMSServer service = new NMSServer();
             service.Open();
 
@@ -45,6 +42,6 @@ namespace TESTNMS
             proxyForTM.EndEnlist(success);
 
             Console.ReadLine();
-		}
-	}
+        }
+    }
 }

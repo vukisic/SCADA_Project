@@ -1,9 +1,12 @@
-﻿using FTN.Common;
+﻿using System.Runtime.Serialization;
+using FTN.Common;
 
 namespace FTN.Services.NetworkModelService.DataModel.Core
 {
+    [DataContract]
     public class Substation : EquipmentContainer
     {
+        [DataMember]
         public int Capacity { get; set; }
 
         public Substation(long gID) : base(gID)

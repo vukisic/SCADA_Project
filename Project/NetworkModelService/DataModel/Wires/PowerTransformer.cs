@@ -1,11 +1,14 @@
 ﻿using FTN.Common;
 using FTN.Services.NetworkModelService.DataModel.Core;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace FTN.Services.NetworkModelService.DataModel.Wires
 {
+    [DataContract]
     public class PowerTransformer : Equipment
     {
+        [DataMember]
         public List<long> TransformerWindings { get; set; } = new List<long>();
 
         public PowerTransformer(long gID) : base(gID)

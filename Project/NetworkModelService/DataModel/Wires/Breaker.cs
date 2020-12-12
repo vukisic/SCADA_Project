@@ -1,5 +1,8 @@
-﻿namespace FTN.Services.NetworkModelService.DataModel.Wires
+﻿using System.Runtime.Serialization;
+
+namespace FTN.Services.NetworkModelService.DataModel.Wires
 {
+    [DataContract]
     public class Breaker : ProtectedSwitch
     {
         public Breaker(long gID) : base(gID)

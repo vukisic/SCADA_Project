@@ -48,6 +48,14 @@
     <Compile Include="SCADATransactionProvider.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{892cbe15-9ed7-4540-81fa-0eaaba592138}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NetworkModelService\DataModel\DataModel.csproj">
+      <Project>{ade96497-7c11-40b6-ae82-57f956c9f104}</Project>
+      <Name>DataModel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TMContracts\TMContracts.csproj">
       <Project>{f5d28aa0-b5f6-4c6a-867d-2d1187464a80}</Project>
       <Name>TMContracts</Name>

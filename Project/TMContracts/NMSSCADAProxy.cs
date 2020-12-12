@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TMContracts
 {
     public class NMSSCADAProxy
     {
-        private IModelUpdate proxy;
+        private readonly IModelUpdate proxy;
 
         public NMSSCADAProxy()
         {
@@ -17,9 +14,9 @@ namespace TMContracts
             proxy = channelFactory.CreateChannel();
         }
 
-        public bool ModelUpdate(Dictionary<string, List<string>> par)
+        public bool ModelUpdate(Dictionary<FTN.Common.DMSType, FTN.Services.NetworkModelService.Container> model)
         {
-            return proxy.ModelUpdate(par);
+            return proxy.ModelUpdate(model);
         }
     }
 }

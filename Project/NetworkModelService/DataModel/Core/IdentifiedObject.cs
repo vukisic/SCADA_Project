@@ -1,6 +1,9 @@
 ﻿using FTN.Common;
+using FTN.Services.NetworkModelService.DataModel.Meas;
+using FTN.Services.NetworkModelService.DataModel.Topology;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace FTN.Services.NetworkModelService.DataModel.Core
 {
@@ -11,19 +14,24 @@ namespace FTN.Services.NetworkModelService.DataModel.Core
         Both = 3,
     }
 
+    [DataContract]
+    [KnownType(typeof(PowerSystemResource))]
+    [KnownType(typeof(Measurement))]
+    [KnownType(typeof(ConnectivityNode))]
+    [KnownType(typeof(Terminal))]
     public class IdentifiedObject
     {
         /// <summary>
         /// Model Resources Description
         /// </summary>
         private static ModelResourcesDesc resourcesDescs = new ModelResourcesDesc();
-
+        [DataMember]
         public string Description { get; set; }
-
+        [DataMember]
         public long GID { get; set; }
-
+        [DataMember]
         public string MRID { get; set; }
-
+        [DataMember]
         public string Name { get; set; }
 
         public IdentifiedObject(long gID)

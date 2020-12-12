@@ -1,7 +1,10 @@
-﻿using FTN.Services.NetworkModelService.DataModel.Core;
+﻿using System.Runtime.Serialization;
+using FTN.Services.NetworkModelService.DataModel.Core;
 
 namespace FTN.Services.NetworkModelService.DataModel.Wires
 {
+    [DataContract]
+    [KnownType(typeof(AsynchronousMachine))]
     public class RegulatingCondEq : ConductingEquipment
     {
         public RegulatingCondEq(long gID) : base(gID)

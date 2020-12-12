@@ -1,13 +1,16 @@
 ﻿using FTN.Common;
 using FTN.Services.NetworkModelService.DataModel.Core;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace FTN.Services.NetworkModelService.DataModel.Topology
 {
+    [DataContract]
     public class ConnectivityNode : IdentifiedObject
     {
+        [DataMember]
         public long ConnectivityNodeContainer { get; set; } = 0;
-
+        [DataMember]
         public List<long> Terminals { get; set; } = new List<long>();
 
         public ConnectivityNode(long gID) : base(gID)

@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
+using FTN.Common;
+using FTN.Services.NetworkModelService;
 
 namespace TMContracts
 {
@@ -11,6 +9,6 @@ namespace TMContracts
     public interface IModelUpdate
     {
         [OperationContract]
-        bool ModelUpdate(Dictionary<string, List<string>> par);
+        bool ModelUpdate(Dictionary<DMSType, Container> model);
     }
 }

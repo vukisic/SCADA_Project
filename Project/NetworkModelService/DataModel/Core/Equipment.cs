@@ -1,10 +1,14 @@
 ﻿using FTN.Common;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace FTN.Services.NetworkModelService.DataModel.Core
 {
+    [DataContract]
+    [KnownType(typeof(ConductingEquipment))]
     public class Equipment : PowerSystemResource
     {
+        [DataMember]
         public long EquipmentContainer { get; set; } = 0;
 
         public Equipment(long gID) : base(gID)
