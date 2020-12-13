@@ -18,11 +18,6 @@ namespace TESTSKADA
             scada.OpenModel();
             scada.OpenTransaction();
 
-            //dobio si model, javi se da ucestvujes u transakciji
-            TransactionManagerProxy proxyForTM = new TransactionManagerProxy();
-            proxyForTM.Enlist();
-
-
             Console.ReadLine();
 		}
 	}

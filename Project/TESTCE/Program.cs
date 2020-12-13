@@ -18,10 +18,6 @@ namespace TESTCE
             ce.OpenModel();
             ce.OpenTransaction();
 
-            TransactionManagerProxy proxyForTM = new TransactionManagerProxy();
-            proxyForTM.Enlist();
-
-
             Console.ReadLine();
         }
     }
