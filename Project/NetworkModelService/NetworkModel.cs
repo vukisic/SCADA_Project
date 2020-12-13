@@ -868,17 +868,20 @@ namespace FTN.Services.NetworkModelService
         #region ITransactionSteps
         public bool Prepare()
         {
+            Console.WriteLine("NMS Prepare");
             return true;
         }
 
         public bool Commit()
         {
+            Console.WriteLine("NMS Commit");
             MergeModelsFinal();
             return true;
         }
 
         public void Rollback()
         {
+            Console.WriteLine("NMS Rollback");
             RestoreModel();
         }
         #endregion
