@@ -38,12 +38,8 @@ namespace FTN.Services.NetworkModelService
 
 		private void InitializeHosts()
 		{
-            var serviceHost = new ServiceHost(typeof(NetworkModel));
-            serviceHost.AddServiceEndpoint(typeof(ITransactionSteps), new NetTcpBinding(), new Uri("net.tcp://localhost:4001/ITransactionSteps"));
-            hosts = new List<ServiceHost>
-            {
-                serviceHost
-            };
+       
+            hosts = new List<ServiceHost>();
             hosts.Add(new ServiceHost(typeof(GenericDataAccess)));
         }
 

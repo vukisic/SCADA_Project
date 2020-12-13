@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using TMContracts;
 
@@ -16,6 +17,7 @@ namespace TransactionManager
         }
         public void StepsOfTransaction()
         {
+            Thread.Sleep(2000);
             bool everyServiceIsPrepared = false;
             bool everyServiceCommited = false;
 

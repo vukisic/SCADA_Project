@@ -11,7 +11,7 @@ using TMContracts;
 
 namespace FTN.Services.NetworkModelService
 {
-    public class NetworkModel : ITransactionSteps
+    public class NetworkModel
     {
         /// <summary>
         /// Dictionaru which contains all data: Key - DMSType, Value - Container
@@ -32,6 +32,8 @@ namespace FTN.Services.NetworkModelService
 
         private IDeltaDBRepository repo;
 
+        public static EventHandler<string> eventHandler;
+
         /// <summary>
         /// Initializes a new instance of the Model class.
         /// </summary>
@@ -42,7 +44,20 @@ namespace FTN.Services.NetworkModelService
             resourcesDescs = new ModelResourcesDesc();
             repo = new DeltaDBRepository();
             GidHelper = new Dictionary<long, long>();
+            eventHandler = new EventHandler<string>(HandleEvent);
             Initialize();
+
+        }
+
+        private void HandleEvent(object sender, string e)
+        {
+            switch (e.ToLower())
+            {
+                case "prepare":Prepare();break;
+                case "commit":Commit();break;
+                case "rollback":Rollback();break;
+                default:break;
+            }
         }
 
         #region Find
