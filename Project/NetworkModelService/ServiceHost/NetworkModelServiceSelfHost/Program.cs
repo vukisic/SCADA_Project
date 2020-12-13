@@ -5,6 +5,7 @@ using System.ServiceModel;
 using System.ServiceModel.Description;
 using System.ServiceModel.Channels;
 using FTN.Common;
+using TMContracts;
 
 namespace FTN.Services.NetworkModelService
 {
@@ -18,8 +19,10 @@ namespace FTN.Services.NetworkModelService
 				string message = "Starting Network Model Serivice...";
 				CommonTrace.WriteTrace(CommonTrace.TraceInfo, message);
 				Console.WriteLine("\n{0}\n", message);
-
-				using (NetworkModelService nms = new NetworkModelService())
+                var serviceHost = new ServiceHost(typeof(TransactionProvider));
+                serviceHost.AddServiceEndpoint(typeof(ITransactionSteps), new NetTcpBinding(), new Uri("net.tcp://localhost:4001/ITransactionSteps"));
+                serviceHost.Open();
+                using (NetworkModelService nms = new NetworkModelService())
 				{					
 					nms.Start();
 

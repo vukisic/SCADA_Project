@@ -70,6 +70,10 @@
     <DefineConstants>TRACE;DEBUG</DefineConstants>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>
+    </ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -102,6 +106,10 @@
     <ProjectReference Include="..\..\..\Common\Common.csproj">
       <Project>{892CBE15-9ED7-4540-81FA-0EAABA592138}</Project>
       <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\TMContracts\TMContracts.csproj">
+      <Project>{f5d28aa0-b5f6-4c6a-867d-2d1187464a80}</Project>
+      <Name>TMContracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\NetworkModelService.csproj">
       <Project>{2630d180-1b68-4e84-aeac-42ee8c88b50f}</Project>
@@ -147,6 +155,9 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="favicon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
