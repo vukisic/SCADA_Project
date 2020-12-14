@@ -1289,7 +1289,7 @@
 
     <cim:Measurement.baseAddress>16</cim:Measurement.baseAddress>
 
-    <cim:Measurement.direction>ReadWrite</cim:Measurement.direction>
+    <cim:Measurement.direction>Read</cim:Measurement.direction>
 
     <cim:Measurement.measurementType>Status</cim:Measurement.measurementType>
 
@@ -1320,7 +1320,7 @@
 
     <cim:Measurement.baseAddress>17</cim:Measurement.baseAddress>
 
-    <cim:Measurement.direction>ReadWrite</cim:Measurement.direction>
+    <cim:Measurement.direction>Read</cim:Measurement.direction>
 
     <cim:Measurement.measurementType>Status</cim:Measurement.measurementType>
 

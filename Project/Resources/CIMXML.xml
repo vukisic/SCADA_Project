@@ -948,7 +948,7 @@
     <cim:Discrete.minValue>0</cim:Discrete.minValue>
     <cim:Discrete.normalValue>0</cim:Discrete.normalValue>
     <cim:Measurement.baseAddress>16</cim:Measurement.baseAddress>
-    <cim:Measurement.direction>ReadWrite</cim:Measurement.direction>
+    <cim:Measurement.direction>Read</cim:Measurement.direction>
     <cim:Measurement.measurementType>Status</cim:Measurement.measurementType>
     <cim:Measurement.objectmRID></cim:Measurement.objectmRID>
     <cim:Measurement.PowerSystemResource rdf:resource=""/>
@@ -964,7 +964,7 @@
     <cim:Discrete.minValue>0</cim:Discrete.minValue>
     <cim:Discrete.normalValue>0</cim:Discrete.normalValue>
     <cim:Measurement.baseAddress>17</cim:Measurement.baseAddress>
-    <cim:Measurement.direction>ReadWrite</cim:Measurement.direction>
+    <cim:Measurement.direction>Read</cim:Measurement.direction>
     <cim:Measurement.measurementType>Status</cim:Measurement.measurementType>
     <cim:Measurement.objectmRID></cim:Measurement.objectmRID>
     <cim:Measurement.PowerSystemResource rdf:resource=""/>

@@ -55,38 +55,38 @@ namespace FTN.Common
 
 	public enum SignalDirection : short
 	{
-		Read = 1,
-		ReadWrite = 2,
-		Write = 3,
+		Read = 0,
+		ReadWrite = 1,
+		Write = 2,
 	}
 
     public enum MeasurementType : short
     {
-        Voltage = 1,
-        Current = 2,
-        ActivePower = 3,
-        ReactivePower = 4,
-        CosPi = 5,
-        Frequency = 6,
-        Temperature = 7,
-        ActiveEnergy = 8,
-        ReactiveEnergy = 9,
-        ApparentPower = 10,
-        VoltageAngle = 11,
-        Status = 12,
-        Discrete = 13,
-        SwitchStatus = 14,
-        Time = 15,
-        Length = 16,
-        Impedance = 17,
-        Admittance = 18,
-        FluidLevel = 19,
-        Flow = 20,
-        AdmittancePerLength = 21,
-        RelativeVoltage = 22,
-        CurrentAngle = 23,
-        RotationSpeed = 24,
-        Percent = 25
+        Voltage = 0,
+        Current = 1,
+        ActivePower = 2,
+        ReactivePower = 3,
+        CosPi = 4,
+        Frequency = 5,
+        Temperature = 6,
+        ActiveEnergy = 7,
+        ReactiveEnergy = 8,
+        ApparentPower = 9,
+        VoltageAngle = 10,
+        Status = 11,
+        Discrete = 12,
+        SwitchStatus = 13,
+        Time = 14,
+        Length = 15,
+        Impedance = 16,
+        Admittance = 17,
+        FluidLevel = 18,
+        Flow = 19,
+        AdmittancePerLength = 20,
+        RelativeVoltage = 21,
+        CurrentAngle = 22,
+        RotationSpeed = 23,
+        Percent = 24
     }
 
 }
