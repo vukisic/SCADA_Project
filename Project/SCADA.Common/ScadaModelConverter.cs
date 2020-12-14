@@ -26,14 +26,23 @@ namespace SCADA.Common
         public ConversionResult Convert(Dictionary<DMSType,Container> model)
         {
             ConversionResult result = new ConversionResult();
-            Container discreteContainer = model[DMSType.DISCRETE];
-            Container analogContainer = model[DMSType.ANALOG];
-            Container breakerContainer = model[DMSType.BREAKER];
-            Container disconnectorContainer = model[DMSType.DISCONNECTOR];
-            result.Points = ConvertPoints(analogContainer, discreteContainer);
-            result.Equipment = ConvertSwitchingEquipment(breakerContainer, disconnectorContainer);
-            result.Success = true;
+            try
+            {   
+                Container discreteContainer = model[DMSType.DISCRETE];
+                Container analogContainer = model[DMSType.ANALOG];
+                Container breakerContainer = model[DMSType.BREAKER];
+                Container disconnectorContainer = model[DMSType.DISCONNECTOR];
+                result.Points = ConvertPoints(analogContainer, discreteContainer);
+                result.Equipment = ConvertSwitchingEquipment(breakerContainer, disconnectorContainer);
+                result.Success = true;
+                
+            }
+            catch (Exception)
+            {
+                result.Success = false;
+            }
             return result;
+
         }
 
         private Dictionary<string, BasePoint> ConvertPoints(Container analogContainer, Container discreteContainer)
