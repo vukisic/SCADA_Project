@@ -18,28 +18,32 @@ namespace TransactionManager
         public void StepsOfTransaction()
         {
             Thread.Sleep(2000);
-            bool everyServiceIsPrepared = false;
-            bool everyServiceCommited = false;
+            bool isPreparedSCADA = false;
+            bool isPreparedNMS = false;
+            bool isPreparedCE = false;
+            bool commitedSCADA = false;
+            bool commitedNMS = false;
+            bool commitedCE = false;
 
             SCADATransactionProxy proxyForScada = new SCADATransactionProxy();
-            everyServiceIsPrepared = proxyForScada.Prepare();
+            isPreparedSCADA = proxyForScada.Prepare();
 
             CalculationEngineTransactionProxy proxyForCE = new CalculationEngineTransactionProxy();
-            everyServiceIsPrepared = proxyForCE.Prepare();
+            isPreparedCE = proxyForCE.Prepare();
 
             NMSProxy proxyForNms = new NMSProxy();
-            everyServiceIsPrepared = proxyForNms.Prepare();
+            isPreparedNMS = proxyForNms.Prepare();
 
 
-            if (everyServiceIsPrepared)
+            if (isPreparedSCADA && isPreparedCE && isPreparedNMS)
             {
                 Console.WriteLine("Every service is prepared to commit..calling commit");
-                everyServiceCommited = proxyForScada.Commit();
-                everyServiceCommited = proxyForCE.Commit();
-                everyServiceCommited = proxyForNms.Commit();
+                commitedSCADA = proxyForScada.Commit();
+                commitedNMS = proxyForCE.Commit();
+                commitedCE = proxyForNms.Commit();
             }
 
-            if (!everyServiceCommited)
+            if (!(commitedSCADA && commitedCE && commitedNMS))
             {
                 Console.WriteLine("ERROR..requesting rollback");
                 proxyForScada.Rollback();

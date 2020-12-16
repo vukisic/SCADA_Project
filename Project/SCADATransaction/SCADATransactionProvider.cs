@@ -15,7 +15,7 @@ namespace SCADATransaction
             Console.WriteLine("Prepared? YES");
             var converter = new ScadaModelConverter();
             DataBase.TransactionModel = converter.Convert(DataBase.CimModel).Points;
-            return false;
+            return true;
         }
 
         public bool Commit()
