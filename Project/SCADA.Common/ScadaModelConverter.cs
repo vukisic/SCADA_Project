@@ -45,36 +45,33 @@ namespace SCADA.Common
 
         }
 
-        private Dictionary<string, BasePoint> ConvertPoints(Container analogContainer, Container discreteContainer)
+        private Dictionary<Tuple<RegisterType, int>, BasePoint> ConvertPoints(Container analogContainer, Container discreteContainer)
         {
-            Dictionary<string, BasePoint> points = new Dictionary<string, BasePoint>();
+            Dictionary<Tuple<RegisterType, int>, BasePoint> points = new Dictionary<Tuple<RegisterType, int>, BasePoint>();
 
             foreach (var item in analogContainer.Entities.Values)
             {
                 if (item is Analog)
                 {
                     Analog analog = item as Analog;
-                    if (!points.ContainsKey(analog.MRID))
+
+                    AnalogPoint analogPoint = new AnalogPoint()
                     {
-                        AnalogPoint analogPoint = new AnalogPoint()
-                        {
-                            ClassType = ClassType.CLASS_1,
-                            Direction = analog.Direction,
-                            RegisterType = GetRegistryType(analog.Direction),
-                            Index = GetIndex(GetRegistryType(analog.Direction)),
-                            MaxValue = analog.MaxValue,
-                            MinValue = analog.MinValue,
-                            MeasurementType = analog.MeasurementType,
-                            Mrid = analog.MRID,
-                            NormalValue = analog.NormalValue,
-                            ObjectMrdi = analog.ObjectMRID ?? null,
-                            TimeStamp = String.Empty,
-                            Value = analog.NormalValue,
-                            Alarm = AlarmType.NO_ALARM
-                        };
-                        points.Add(analogPoint.Mrid, analogPoint);
-                    }
-                      
+                        ClassType = ClassType.CLASS_1,
+                        Direction = analog.Direction,
+                        RegisterType = GetRegistryType(analog.Direction),
+                        Index = GetIndex(GetRegistryType(analog.Direction)),
+                        MaxValue = analog.MaxValue,
+                        MinValue = analog.MinValue,
+                        MeasurementType = analog.MeasurementType,
+                        Mrid = analog.MRID,
+                        NormalValue = analog.NormalValue,
+                        ObjectMrdi = analog.ObjectMRID ?? null,
+                        TimeStamp = String.Empty,
+                        Value = analog.NormalValue,
+                        Alarm = AlarmType.NO_ALARM
+                    };
+                    points.Add(new Tuple<RegisterType, int>(analogPoint.RegisterType, analogPoint.Index), analogPoint);
                 }
             }
 
@@ -83,50 +80,46 @@ namespace SCADA.Common
                 if (item is Discrete)
                 {
                     Discrete discrete = item as Discrete;
-                    if (!points.ContainsKey(discrete.MRID))
+                    if (discrete.MRID.Contains("Tap"))
                     {
-                        if (discrete.MRID.Contains("Tap"))
+                        AnalogPoint discretePoint = new AnalogPoint()
                         {
-                            AnalogPoint discretePoint = new AnalogPoint()
-                            {
-                                ClassType = ClassType.CLASS_2,
-                                Direction = discrete.Direction,
-                                RegisterType = RegisterType.ANALOG_OUTPUT,
-                                Index = GetIndex(RegisterType.ANALOG_OUTPUT),
-                                MaxValue = discrete.MaxValue,
-                                MinValue = discrete.MinValue,
-                                MeasurementType = discrete.MeasurementType,
-                                Mrid = discrete.MRID,
-                                NormalValue = discrete.NormalValue,
-                                ObjectMrdi = discrete.ObjectMRID ?? null,
-                                TimeStamp = String.Empty,
-                                Value = discrete.NormalValue,
-                                Alarm = AlarmType.NO_ALARM
-                            };
-                            points.Add(discretePoint.Mrid, discretePoint);
-                        }
-                        else
-                        {
-                            DiscretePoint discretePoint = new DiscretePoint()
-                            {
-                                ClassType = ClassType.CLASS_2,
-                                Direction = discrete.Direction,
-                                RegisterType = GetRegistryType(discrete.Direction, true),
-                                Index = GetIndex(GetRegistryType(discrete.Direction, true)),
-                                MaxValue = discrete.MaxValue,
-                                MinValue = discrete.MinValue,
-                                MeasurementType = discrete.MeasurementType,
-                                Mrid = discrete.MRID,
-                                NormalValue = discrete.NormalValue,
-                                ObjectMrdi = discrete.ObjectMRID ?? null,
-                                TimeStamp = String.Empty,
-                                Value = discrete.NormalValue,
-                                Alarm = AlarmType.NO_ALARM
-                            };
-                            points.Add(discretePoint.Mrid, discretePoint);
-                        }
+                            ClassType = ClassType.CLASS_2,
+                            Direction = discrete.Direction,
+                            RegisterType = RegisterType.ANALOG_OUTPUT,
+                            Index = GetIndex(RegisterType.ANALOG_OUTPUT),
+                            MaxValue = discrete.MaxValue,
+                            MinValue = discrete.MinValue,
+                            MeasurementType = discrete.MeasurementType,
+                            Mrid = discrete.MRID,
+                            NormalValue = discrete.NormalValue,
+                            ObjectMrdi = discrete.ObjectMRID ?? null,
+                            TimeStamp = String.Empty,
+                            Value = discrete.NormalValue,
+                            Alarm = AlarmType.NO_ALARM
+                        };
+                        points.Add(new Tuple<RegisterType, int>(discretePoint.RegisterType, discretePoint.Index), discretePoint);
                     }
-
+                    else
+                    {
+                        DiscretePoint discretePoint = new DiscretePoint()
+                        {
+                            ClassType = ClassType.CLASS_2,
+                            Direction = discrete.Direction,
+                            RegisterType = GetRegistryType(discrete.Direction, true),
+                            Index = GetIndex(GetRegistryType(discrete.Direction, true)),
+                            MaxValue = discrete.MaxValue,
+                            MinValue = discrete.MinValue,
+                            MeasurementType = discrete.MeasurementType,
+                            Mrid = discrete.MRID,
+                            NormalValue = discrete.NormalValue,
+                            ObjectMrdi = discrete.ObjectMRID ?? null,
+                            TimeStamp = String.Empty,
+                            Value = discrete.NormalValue,
+                            Alarm = AlarmType.NO_ALARM
+                        };
+                        points.Add(new Tuple<RegisterType, int>(discretePoint.RegisterType, discretePoint.Index), discretePoint);
+                    }
                 }
             }
 

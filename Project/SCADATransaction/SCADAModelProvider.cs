@@ -15,16 +15,8 @@ namespace SCADATransaction
         public bool ModelUpdate(Dictionary<DMSType, Container> model)
         {
             Console.WriteLine("New update request!");
-            var converter = new ScadaModelConverter();
-            var result = converter.Convert(model);
-            foreach (var item in result.Equipment.Values)
-            {
-                Console.WriteLine($"{item.Mrid} - {item.ManipulationConut}");
-            }
-            foreach (var item in result.Points.Values)
-            {
-                Console.WriteLine($"{item.Mrid} - {item.RegisterType} - {item.Index}");
-            }
+            DataBase.CimModel = model;
+            
             //dobio si model, javi se da ucestvujes u transakciji
             EnList();
             return true;

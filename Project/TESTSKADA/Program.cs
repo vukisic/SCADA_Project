@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 using SCADATransaction;
 using TMContracts;
 
-namespace TESTSKADA
+namespace NDS
 {
 	class Program
 	{
 		static void Main(string[] args)
 		{
+            Console.Title = "NetworkDynamicService";
             Console.WriteLine("SCADA started working..");
 
             SCADAServer scada = new SCADAServer();

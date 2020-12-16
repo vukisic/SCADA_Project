@@ -26,6 +26,8 @@ namespace SCADA.Common.DataModel
         [EnumMember]
         NO_CLASS,
         [EnumMember]
+        CLASS_0,
+        [EnumMember]
         CLASS_1,
         [EnumMember]
         CLASS_2,
