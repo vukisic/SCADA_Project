@@ -44,12 +44,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConversionResult.cs" />
+    <Compile Include="CrcCalculator.cs" />
     <Compile Include="DataBase.cs" />
     <Compile Include="DataModel\AnalogPoint.cs" />
     <Compile Include="DataModel\BasePoint.cs" />
     <Compile Include="DataModel\DiscretePoint.cs" />
     <Compile Include="DataModel\Enums.cs" />
     <Compile Include="DataModel\SwitchingEquipment.cs" />
+    <Compile Include="Messaging\DNP3Function.cs" />
+    <Compile Include="Messaging\DNP3FunctionFactory.cs" />
+    <Compile Include="Messaging\IDNP3Function.cs" />
+    <Compile Include="Messaging\MessageHeaderBuilder.cs" />
+    <Compile Include="Messaging\Messages\ReadAnalogOutput.cs" />
+    <Compile Include="Messaging\Messages\ReadDescreteOutput.cs" />
+    <Compile Include="Messaging\Parameters\DNP3ApplicationObjectParameters.cs" />
+    <Compile Include="Messaging\Parameters\DNP3FunctionParameters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScadaModelConverter.cs" />
   </ItemGroup>

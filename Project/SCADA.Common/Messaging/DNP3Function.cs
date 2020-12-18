@@ -12,9 +12,10 @@ namespace SCADA.Common.Messaging
         private DNP3ApplicationObjectParameters commandParameters;
         private string commandOwner;
 
-        public DNP3Function(DNP3ApplicationObjectParameters commandParameters)
+        public DNP3Function(DNP3ApplicationObjectParameters commandParameters, string commandOwner)
         {
             this.commandParameters = commandParameters;
+            this.commandOwner = commandOwner;
         }
 
         public abstract byte[] PackRequest();
