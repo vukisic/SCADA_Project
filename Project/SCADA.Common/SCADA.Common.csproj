@@ -43,6 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Connection\IConnection.cs" />
+    <Compile Include="Connection\TCPConnection.cs" />
     <Compile Include="ConversionResult.cs" />
     <Compile Include="CrcCalculator.cs" />
     <Compile Include="DataBase.cs" />

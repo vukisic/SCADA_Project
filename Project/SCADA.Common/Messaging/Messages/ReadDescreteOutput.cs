@@ -10,7 +10,7 @@ namespace SCADA.Common.Messaging.Messages
     public class ReadDescreteOutput : DNP3Function
     {
         private MessageHeaderBuilder headerBuilder;
-        public ReadDescreteOutput(DNP3ApplicationObjectParameters commandParameters, string commandOwner) : base(commandParameters)
+        public ReadDescreteOutput(DNP3ApplicationObjectParameters commandParameters) : base(commandParameters)
         {
             headerBuilder = new MessageHeaderBuilder();
         }

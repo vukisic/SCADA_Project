@@ -11,7 +11,7 @@ namespace SCADA.Common.Messaging.Messages
     public class ReadAnalogOutput : DNP3Function
     {
         private MessageHeaderBuilder headerBuilder;
-        public ReadAnalogOutput(DNP3ApplicationObjectParameters commandParameters, string commandOwner) : base(commandParameters) 
+        public ReadAnalogOutput(DNP3ApplicationObjectParameters commandParameters) : base(commandParameters) 
         {
             headerBuilder = new MessageHeaderBuilder();
         }

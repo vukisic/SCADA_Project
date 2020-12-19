@@ -12,7 +12,7 @@ namespace SCADA.Common.Messaging.Messages
     {
         private MessageHeaderBuilder headerBuilder;
 
-        public ReadClass0(DNP3ApplicationObjectParameters commandParameters, string commandOwner) : base(commandParameters)
+        public ReadClass0(DNP3ApplicationObjectParameters commandParameters) : base(commandParameters)
         {
             headerBuilder = new MessageHeaderBuilder();
         }

@@ -24,7 +24,7 @@ namespace SCADA.Common.Messaging.Parameters
 
         public DNP3FunctionParameters(byte length, ushort destination, ushort source, byte transportControl)
         {
-            Start = 0x0564;
+            Start = 0x6405;
             Length = length;
             Control = 0x04;
             Destination = destination;
