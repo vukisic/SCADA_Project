@@ -12,6 +12,7 @@ namespace SCADA.Common.Messaging
         public byte[] Build(DNP3FunctionParameters param)
         {
             byte[] header = new byte[10];
+
             Buffer.BlockCopy(BitConverter.GetBytes((short)param.Start), 0, header, 0, 2);
             header[2] = param.Length;
             header[3] = param.Control;
@@ -24,6 +25,7 @@ namespace SCADA.Common.Messaging
             }
             crc = (ushort)(~crc);
             Buffer.BlockCopy(BitConverter.GetBytes((short)crc), 0, header, 8, 2);
+
             return header;
         }
     }

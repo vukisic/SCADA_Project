@@ -9,7 +9,7 @@ namespace SCADA.Common.Messaging
 {
     public class DNP3FunctionFactory
     {
-        public static IDNP3Function CreateFunction(DNP3ApplicationObjectParameters parameters, string commandOwner)
+        public static IDNP3Function CreateFunction(DNP3ApplicationObjectParameters parameters)
         {
             //TO DO
             return null;

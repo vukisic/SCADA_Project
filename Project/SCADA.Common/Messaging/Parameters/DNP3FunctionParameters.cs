@@ -8,23 +8,28 @@ namespace SCADA.Common.Messaging.Parameters
 {
     public abstract class DNP3FunctionParameters
     {
-        private ushort start = 0x0564;
+        /// <summary>
+        /// Data Link Layer
+        /// </summary>
+        private ushort start;
         private byte length;
-        private byte control = 0x04;
+        private byte control;
         private ushort destination;
         private ushort source;
         private ushort crc;
+        /// <summary>
+        /// Transport Function
+        /// </summary>
+        private byte transportControl;
 
-        private byte transportHeader;
-
-        public DNP3FunctionParameters(ushort start, byte length, byte control, ushort destination, ushort source, byte transportHeader)
+        public DNP3FunctionParameters(byte length, ushort destination, ushort source, byte transportControl)
         {
-            Start = start;
+            Start = 0x0564;
             Length = length;
-            Control = control;
+            Control = 0x04;
             Destination = destination;
             Source = source;
-            TransportHeader = transportHeader;
+            TransportControl = transportControl;
         }
 
         #region properties
@@ -100,15 +105,15 @@ namespace SCADA.Common.Messaging.Parameters
             }
         }
 
-        public byte TransportHeader
+        public byte TransportControl
         {
             get
             {
-                return transportHeader;
+                return transportControl;
             }
             set
             {
-                transportHeader = value;
+                transportControl = value;
             }
         }
         #endregion

@@ -8,25 +8,34 @@ namespace SCADA.Common.Messaging.Parameters
 {
     public class DNP3ApplicationObjectParameters : DNP3FunctionParameters
     {
+        /// <summary>
+        /// Aplication Layer
+        /// </summary>
         private byte aplicationControl;
         private byte functionCode;
-        private ushort typeField;
-        private byte qualifier = 0x28;
-        private uint range;
-        private uint objectPrefix;
-        private uint objectValue;
+        /// <summary>
+        /// Object Header
+        /// </summary>
+        private ushort objectTypeField;
+        private byte qualifier;
+        private uint rangeField;
+        /// <summary>
+        /// Objects
+        /// </summary>
+        private uint prefix;
+        private uint value;
 
 
-        public DNP3ApplicationObjectParameters(byte aplicationControl, byte functionCode, ushort typeField, byte qualifier, uint range, uint objectPrefix, uint objectValue, ushort start, byte length, byte control, ushort destination, ushort source, byte transportHeader)
-                : base(start, length, control, destination, source, transportHeader)
+        public DNP3ApplicationObjectParameters(byte aplicationControl, byte functionCode, ushort objectTypeField, byte qualifier, uint rangeField, 
+            uint prefix, uint value, byte length, ushort destination, ushort source, byte transportHeader) : base(length, destination, source, transportHeader)
         {
             AplicationControl = aplicationControl;
             FunctionCode = functionCode;
-            TypeField = typeField;
+            ObjectTypeField = objectTypeField;
             Qualifier = qualifier;
-            Range = range;
-            ObjectPrefix = objectPrefix;
-            ObjectValue = objectValue;
+            RangeField = rangeField;
+            Prefix = prefix;
+            Value = value;
         }
 
         #region properties
@@ -54,15 +63,15 @@ namespace SCADA.Common.Messaging.Parameters
             }
         }
 
-        public ushort TypeField
+        public ushort ObjectTypeField
         {
             get
             {
-                return typeField;
+                return objectTypeField;
             }
             set
             {
-                typeField = value;
+                objectTypeField = value;
             }
         }
 
@@ -78,39 +87,39 @@ namespace SCADA.Common.Messaging.Parameters
             }
         }
 
-        public uint Range
+        public uint RangeField
         {
             get
             {
-                return range;
+                return rangeField;
             }
             set
             {
-                range = value;
+                rangeField = value;
             }
         }
 
-        public uint ObjectPrefix
+        public uint Prefix
         {
             get
             {
-                return objectPrefix;
+                return prefix;
             }
             set
             {
-                objectPrefix = value;
+                prefix = value;
             }
         }
 
-        public uint ObjectValue
+        public uint Value
         {
             get
             {
-                return objectValue;
+                return value;
             }
             set
             {
-                objectValue = value;
+                this.value = value;
             }
         }
         #endregion

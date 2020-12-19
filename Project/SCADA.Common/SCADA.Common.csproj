@@ -56,6 +56,7 @@
     <Compile Include="Messaging\IDNP3Function.cs" />
     <Compile Include="Messaging\MessageHeaderBuilder.cs" />
     <Compile Include="Messaging\Messages\ReadAnalogOutput.cs" />
+    <Compile Include="Messaging\Messages\ReadClass0.cs" />
     <Compile Include="Messaging\Messages\ReadDescreteOutput.cs" />
     <Compile Include="Messaging\Parameters\DNP3ApplicationObjectParameters.cs" />
     <Compile Include="Messaging\Parameters\DNP3FunctionParameters.cs" />
