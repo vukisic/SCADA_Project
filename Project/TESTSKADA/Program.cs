@@ -21,7 +21,7 @@ namespace NDS
             connection.Connect();
 
             DNP3ApplicationObjectParameters dnp3 = new DNP3ApplicationObjectParameters(0xC, (byte)DNP3FunctionCode.READ, 0x3C01, 0x6, 0, 0, 0, 0, 1, 2, 0xd3);
-            ReadAnalogOutput rc0 = new ReadAnalogOutput(dnp3);
+            ReadClass0 rc0 = new ReadClass0(dnp3);
             while(true)
             {
                 Thread.Sleep(5000);
