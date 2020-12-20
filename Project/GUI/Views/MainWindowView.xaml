@@ -1,36 +1,60 @@
 ﻿<Controls:MetroWindow x:Class="GUI.Views.MainWindowView"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"  
         xmlns:cal="http://www.caliburnproject.org"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GUI.Views"
-        mc:Ignorable="d"
+        mc:Ignorable="d" Background="White"
         Title="Main Window View" Height="450" Width="800"
-        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
         TextOptions.TextFormattingMode="Ideal" 
         TextOptions.TextRenderingMode="Auto"        
-        Background="{DynamicResource MaterialDesignPaper}"
-        FontFamily="{DynamicResource MaterialDesignFont}"
         WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <!--<TextBlock Width="200" Grid.Row="2" Grid.Column="1" Height="100" Foreground="White" Text="{Binding SomeValue, Converter={StaticResource BoolToStringConverter} }"/>
-        <Button Content="Welcome!" Width="100" Height="20" Background="MediumSeaGreen" Margin="1,1,1,2" Grid.Column="0" />-->
-        <ContentControl x:Name="ActiveItem" />
+
+        <TextBlock Text="Client station" Grid.Row="0" Grid.Column="0" 
+                   Grid.ColumnSpan="2" TextAlignment="Center" FontWeight="Bold" FontStyle="Italic"></TextBlock>
+
+        <TextBlock Text="&#x0a;SCADA &#x0a;Team 2020" Grid.Row="1" 
+                   Grid.Column="0" TextAlignment="Center"></TextBlock>
+
+        <Button Grid.Row="2" Grid.Column="0" x:Name="LoadGraphicsView"
+            FontWeight="Bold" FontStyle="Italic">Graphics View</Button>
+
+        <Button Grid.Row="3" Grid.Column="0" x:Name="LoadScadaDataView"
+            FontWeight="Bold" FontStyle="Italic">SCADA data</Button>
+
+        <Button Grid.Row="4" Grid.Column="0" x:Name="LoadDomView"
+                    FontWeight="Bold" FontStyle="Italic">DOM</Button>
+
+        <Button Grid.Row="5" Grid.Column="0" x:Name="LoadAlarmingView"
+                    FontWeight="Bold" FontStyle="Italic">Alarming</Button>
+
+        <Button Grid.Row="6" Grid.Column="0" x:Name="LoadHistoryView"
+                    FontWeight="Bold" FontStyle="Italic">History</Button>
+
+        <Button Grid.Row="7" Grid.Column="0" x:Name="CEDataView"
+                    FontWeight="Bold" FontStyle="Italic">CE data</Button>
+
+        <ContentControl Grid.Row="1" Grid.Column="1" Grid.RowSpan="7" 
+                        x:Name="ActiveItem" />
     </Grid>
 </Controls:MetroWindow>
 
