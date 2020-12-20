@@ -25,10 +25,7 @@ namespace SCADA.Common.Connection
             {
                 socket.Connect(remoteEndpoint);
             }
-            catch(Exception e)
-            {
-
-            }
+            catch { }
         }
 
         public void Disconect()

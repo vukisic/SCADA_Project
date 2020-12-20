@@ -26,7 +26,7 @@ namespace SCADA.Common.Messaging.Parameters
         {
             Start = 0x6405;
             Length = length;
-            Control = 0x04;
+            Control = 0xc4;
             Destination = destination;
             Source = source;
             TransportControl = transportControl;
