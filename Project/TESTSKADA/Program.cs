@@ -1,25 +1,38 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
-using SCADA.Common.Connection;
-using SCADA.Common.DataModel;
-using SCADA.Common.Messaging;
-using SCADA.Common.Messaging.Messages;
-using SCADA.Common.Messaging.Parameters;
+using Core.Common.ServiceBus.Events;
+using NDS.ServiceBus;
+using NServiceBus;
+using NServiceBus.Logging;
 using SCADATransaction;
-using TMContracts;
 
 namespace NDS
 {
-	class Program
+    class Program
 	{
 		static void Main(string[] args)
 		{
+            AsyncMain().GetAwaiter().GetResult();
+        }
+
+        static readonly ILog log = LogManager.GetLogger<Program>();
+
+        private static async Task AsyncMain()
+        {
             Console.Title = "NetworkDynamicService";
-            Console.WriteLine("SCADA started working..");
+            
+            log.Info("SCADA started working..");
+
+            var endpoint = await ServiceBusStartup.StartInstance()
+                .ConfigureAwait(false);
+
+            // Command example: 
+            // await endpoint.Send(new DemoCommand { DemoProperty = "Do something!" });
+            // NOTE: Don't forget to add routes for each command in ServiceBusStartup! (you don't need to do this for events)
+
+            // Event example:
+            await endpoint.Publish(new DemoEvent { DemoProperty = "Something happened!" })
+                .ConfigureAwait(false);
 
             SCADAServer scada = new SCADAServer();
             scada.OpenModel();
