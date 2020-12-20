@@ -1,0 +1,3 @@
+﻿1. Umjesto mainview pocinjemo sa Bootstrapper-om
+2. folderi Models, Views-user interface, ViewModel-here lives code that supportes views
+3. Convention over Configuration
