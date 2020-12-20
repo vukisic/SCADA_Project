@@ -21,7 +21,7 @@ namespace FEP
             connection.Connect();
 
             var param = new DNP3ApplicationObjectParameters(0xc4, (byte)DNP3FunctionCode.DIRECT_OPERATE, (ushort)TypeField.BINARY_COMMAND, 0x28, 0x01, 0, 1, 0, 1, 2, 0xc1);
-            param = new DNP3ApplicationObjectParameters(0xc4, (byte)DNP3FunctionCode.DIRECT_OPERATE, (ushort)TypeField.ANALOG_OUTPUT_16BIT, 0x28, 0x01, 0, 10, 0, 1, 2, 0xc1);
+            //param = new DNP3ApplicationObjectParameters(0xc4, (byte)DNP3FunctionCode.DIRECT_OPERATE, (ushort)TypeField.ANALOG_OUTPUT_16BIT, 0x28, 0x01, 0, 10, 0, 1, 2, 0xc1);
             while (true)
             {
                 Thread.Sleep(5000);
