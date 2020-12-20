@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{B065B3B6-D3E0-4C60-A4F9-30F6087C733C}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>TESTSKADA</RootNamespace>
+    <RootNamespace>NDS</RootNamespace>
     <AssemblyName>TESTSKADA</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -33,8 +33,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="NServiceBus.Core, Version=7.0.0.0, Culture=neutral, PublicKeyToken=9fc386479f8a226c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NServiceBus.7.4.4\lib\net452\NServiceBus.Core.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -45,11 +51,18 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceBus\Handlers\DemoHandler.cs" />
+    <Compile Include="ServiceBus\ServiceBusStartup.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Core.Common\Core.Common.csproj">
+      <Project>{83773854-5d2a-458a-a6e5-299dd7e6240a}</Project>
+      <Name>Core.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SCADA.Common\SCADA.Common.csproj">
       <Project>{6e79fca4-42e3-4d2f-b4a3-28e691bf04c3}</Project>
       <Name>SCADA.Common</Name>
@@ -62,6 +75,9 @@
       <Project>{f5d28aa0-b5f6-4c6a-867d-2d1187464a80}</Project>
       <Name>TMContracts</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\NServiceBus.7.4.4\analyzers\dotnet\cs\NServiceBus.Core.Analyzer.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
