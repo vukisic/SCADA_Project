@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using SCADA.Common.Messaging.Parameters;
@@ -23,8 +24,7 @@ namespace SCADA.Common.Messaging.Messages
             request[10] = CommandParameters.TransportControl;
             request[11] = CommandParameters.AplicationControl;
             request[12] = CommandParameters.FunctionCode;
-            request[13] = BitConverter.GetBytes((short)CommandParameters.ObjectTypeField)[1];
-            request[14] = BitConverter.GetBytes((short)CommandParameters.ObjectTypeField)[0];
+            Buffer.BlockCopy(BitConverter.GetBytes(IPAddress.HostToNetworkOrder((short)CommandParameters.ObjectTypeField)), 0, request, 13, 2);
             request[15] = CommandParameters.Qualifier;
             request[16] = (byte)CommandParameters.RangeField;
             request[17] = (byte)CommandParameters.RangeField;
