@@ -4,9 +4,30 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GUI.Views"
-             mc:Ignorable="d"  Background="Green"
+             mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
+
     <Grid>
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        
+        <DataGrid SelectionMode="Single" AutoGenerateColumns="False"
+				  CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False"
+				  SelectionUnit="FullRow">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Index" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Header="Mrid" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Header="Object Mrid" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Header="Register type" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Header="Timestamp" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Header="Measurment type" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Header="Alarm" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Header="Class type" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Header="Direction" IsReadOnly="True" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>  
     </Grid>
 </UserControl>

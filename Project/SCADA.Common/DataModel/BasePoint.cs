@@ -22,7 +22,7 @@ namespace SCADA.Common.DataModel
         [DataMember]
         public string Mrid { get; set; }
         [DataMember]
-        public string ObjectMrdi { get; set; }
+        public string ObjectMrid { get; set; }
         [DataMember]
         public RegisterType RegisterType { get; set; }
         [DataMember]

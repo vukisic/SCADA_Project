@@ -66,7 +66,7 @@ namespace SCADA.Common
                         MeasurementType = analog.MeasurementType,
                         Mrid = analog.MRID,
                         NormalValue = analog.NormalValue,
-                        ObjectMrdi = analog.ObjectMRID ?? null,
+                        ObjectMrid = analog.ObjectMRID ?? null,
                         TimeStamp = String.Empty,
                         Value = analog.NormalValue,
                         Alarm = AlarmType.NO_ALARM
@@ -93,7 +93,7 @@ namespace SCADA.Common
                             MeasurementType = discrete.MeasurementType,
                             Mrid = discrete.MRID,
                             NormalValue = discrete.NormalValue,
-                            ObjectMrdi = discrete.ObjectMRID ?? null,
+                            ObjectMrid = discrete.ObjectMRID ?? null,
                             TimeStamp = String.Empty,
                             Value = discrete.NormalValue,
                             Alarm = AlarmType.NO_ALARM
@@ -113,7 +113,7 @@ namespace SCADA.Common
                             MeasurementType = discrete.MeasurementType,
                             Mrid = discrete.MRID,
                             NormalValue = discrete.NormalValue,
-                            ObjectMrdi = discrete.ObjectMRID ?? null,
+                            ObjectMrid = discrete.ObjectMRID ?? null,
                             TimeStamp = String.Empty,
                             Value = discrete.NormalValue,
                             Alarm = AlarmType.NO_ALARM
