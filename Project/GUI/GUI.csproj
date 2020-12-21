@@ -120,6 +120,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Command\MyICommand.cs" />
+    <Compile Include="Converters\PointTypeToVisibilityConverter.cs" />
     <Compile Include="Models\AnalogPointDto.cs" />
     <Compile Include="Models\BasePointDto.cs" />
     <Compile Include="Models\DiscretePointDto.cs" />
@@ -186,9 +187,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Converters\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Page Include="Views\AlarmingView.xaml">
       <SubType>Designer</SubType>

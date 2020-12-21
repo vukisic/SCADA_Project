@@ -9,103 +9,49 @@ namespace GUI.Command
 {
     public class MyICommand : ICommand
     {
-        Action _TargetExecuteMethod;
-        Func<bool> _TargetCanExecuteMethod;
+        #region Fields
 
-        public MyICommand(Action executeMethod)
+        private readonly Action<object> _execute;
+        private readonly Predicate<object> _canExecute;
+
+        #endregion Fields
+
+        #region Constructors
+
+        public MyICommand(Action<object> execute)
+            : this(execute, null)
         {
-            _TargetExecuteMethod = executeMethod;
         }
 
-        public MyICommand(Action executeMethod, Func<bool> canExecuteMethod)
+        public MyICommand(Action<object> execute, Predicate<object> canExecute)
         {
-            _TargetExecuteMethod = executeMethod;
-            _TargetCanExecuteMethod = canExecuteMethod;
+            if (execute == null)
+                throw new ArgumentNullException("execute");
+
+            _execute = execute;
+            _canExecute = canExecute;
         }
 
-        public void RaiseCanExecuteChanged()
-        {
-            CanExecuteChanged(this, EventArgs.Empty);
-        }
-
-        bool ICommand.CanExecute(object parameter)
-        {
-
-            if (_TargetCanExecuteMethod != null)
-            {
-                return _TargetCanExecuteMethod();
-            }
-
-            if (_TargetExecuteMethod != null)
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        public event EventHandler CanExecuteChanged = delegate { };
-
-        void ICommand.Execute(object parameter)
-        {
-            if (_TargetExecuteMethod != null)
-            {
-                _TargetExecuteMethod();
-            }
-        }
-    }
-
-    public class MyICommand<T> : ICommand
-    {
-
-        Action<T> _TargetExecuteMethod;
-        Func<T, bool> _TargetCanExecuteMethod;
-
-        public MyICommand(Action<T> executeMethod)
-        {
-            _TargetExecuteMethod = executeMethod;
-        }
-
-        public MyICommand(Action<T> executeMethod, Func<T, bool> canExecuteMethod)
-        {
-            _TargetExecuteMethod = executeMethod;
-            _TargetCanExecuteMethod = canExecuteMethod;
-        }
-
-        public void RaiseCanExecuteChanged()
-        {
-            CanExecuteChanged(this, EventArgs.Empty);
-        }
+        #endregion Constructors
 
         #region ICommand Members
 
-        bool ICommand.CanExecute(object parameter)
+        public bool CanExecute(object parameter)
         {
-
-            if (_TargetCanExecuteMethod != null)
-            {
-                T tparm = (T)parameter;
-                return _TargetCanExecuteMethod(tparm);
-            }
-
-            if (_TargetExecuteMethod != null)
-            {
-                return true;
-            }
-
-            return false;
+            return _canExecute == null ? true : _canExecute(parameter);
         }
 
-        public event EventHandler CanExecuteChanged = delegate { };
-
-        void ICommand.Execute(object parameter)
+        public event EventHandler CanExecuteChanged
         {
-            if (_TargetExecuteMethod != null)
-            {
-                _TargetExecuteMethod((T)parameter);
-            }
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
         }
 
-        #endregion
+        public void Execute(object parameter)
+        {
+            _execute(parameter);
+        }
+
+        #endregion ICommand Members
     }
 }

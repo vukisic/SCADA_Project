@@ -45,7 +45,24 @@ namespace GUI.ViewModels
                 Alarm = AlarmType.NO_ALARM
             };
 
-           DiscretePointDto discretePoint = new DiscretePointDto()
+            AnalogPointDto analogPoint2 = new AnalogPointDto()
+            {
+                ClassType = ClassType.CLASS_1,
+                Direction = FTN.Common.SignalDirection.ReadWrite,
+                RegisterType = RegisterType.ANALOG_INPUT,
+                Index = 200,
+                MaxValue = 400,
+                MinValue = 100,
+                MeasurementType = FTN.Common.MeasurementType.Current,
+                Mrid = "mrid1",
+                NormalValue = 200,
+                ObjectMrid = "NotNull",
+                TimeStamp = "Timestampp",
+                Value = 200,
+                Alarm = AlarmType.NO_ALARM
+            };
+
+            DiscretePointDto discretePoint = new DiscretePointDto()
             {
                 ClassType = ClassType.CLASS_2,
                 Direction = FTN.Common.SignalDirection.ReadWrite,
@@ -63,6 +80,7 @@ namespace GUI.ViewModels
             };
            
             Points.Add(analogPoint);
+            Points.Add(analogPoint2);
             Points.Add(discretePoint);
         }
     }

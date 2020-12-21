@@ -28,7 +28,7 @@ namespace GUI.Views
         public ControlView(BasePointDto dataContext) : this()
         {
             this.DataContext = dataContext;
-            Title = string.Format("Control Window - {0}", dataContext.Index);
+            Title = string.Format("Control Window");
         }
     }
 }

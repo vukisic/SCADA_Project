@@ -7,7 +7,13 @@
         mc:Ignorable="d"
         Height="170" Width="300"
 		ShowInTaskbar="False" ResizeMode="NoResize"
-		WindowStartupLocation="CenterOwner">
+		WindowStartupLocation="CenterOwner"
+        xmlns:converters="clr-namespace:GUI.Converters">
+
+    <Window.Resources>
+        <converters:PointTypeToVisibilityConverter x:Key="PointTypeConverter" />
+    </Window.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -18,11 +24,11 @@
 
         <StackPanel Orientation="Horizontal" Grid.Row="0">
             <GroupBox Header="Current Value" Width="290">
-                <TextBlock Text="{Binding DisplayValue}" />
+                <TextBlock Text="{Binding Value}" />
             </GroupBox>
         </StackPanel>
 
-        <StackPanel Orientation="Horizontal" Grid.Row="1" Width="290" >
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Width="290"  Visibility="{Binding RegisterType, Converter={StaticResource ResourceKey=PointTypeConverter}}">
             <Label Content="Commanded Value: " />
             <Label>
                 <TextBox MinWidth="100" MaxWidth="100" Text="{Binding CommandedValue, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
@@ -40,9 +46,8 @@
                 </TextBox>
             </Label>
         </StackPanel>
-
         <Button Grid.Row="2" Content="Write" Command="{Binding WriteCommand}" Margin="5"
-					 />
+					Visibility="{Binding RegisterType, Converter={StaticResource ResourceKey=PointTypeConverter}}" />
         <Button Grid.Row="3" Content="Read" Command="{Binding ReadCommand}" Margin="5" />
     </Grid>
 </Window>
