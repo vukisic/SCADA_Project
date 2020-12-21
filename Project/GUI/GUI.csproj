@@ -139,6 +139,9 @@
     <Compile Include="Views\CEDataView.xaml.cs">
       <DependentUpon>CEDataView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ControlView.xaml.cs">
+      <DependentUpon>ControlView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\DOMView.xaml.cs">
       <DependentUpon>DOMView.xaml</DependentUpon>
     </Compile>
@@ -192,6 +195,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CEDataView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ControlView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

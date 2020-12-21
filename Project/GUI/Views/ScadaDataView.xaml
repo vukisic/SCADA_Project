@@ -6,6 +6,11 @@
              xmlns:local="clr-namespace:GUI.Views"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style TargetType="DataGridRow" x:Name="BaseStyle">
+            <EventSetter Event="MouseDoubleClick" Handler="DataGrid_MouseDoubleClick" />
+        </Style>
+    </UserControl.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -16,7 +21,8 @@
 
         <DataGrid x:Name="Points" ItemsSource="{Binding Path=Points}" SelectionMode="Single" AutoGenerateColumns="False"
 				  CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False"
-				  SelectionUnit="FullRow">
+				  SelectionUnit="FullRow"
+				  SelectionChanged="Points_SelectionChanged">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Index" Binding="{Binding Index}" IsReadOnly="True" Width="*"/>
                 <DataGridTextColumn Header="Mrid" Binding="{Binding Mrid}" IsReadOnly="True" Width="*"/>
