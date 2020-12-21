@@ -10,10 +10,17 @@ namespace GUI.Models
     {
         public AnalogPointDto() { }
 
+        #region Fields
+
         private float minValue;
         private float maxValue;
         private float normalValue;
         private float value;
+
+        #endregion
+
+        #region Properties
+
 
         public float MinValue
         {
@@ -51,5 +58,26 @@ namespace GUI.Models
                 this.NotifyOfPropertyChange(() => this.Value);
             }
         }
+
+        #endregion
+
+        #region Command
+        protected override bool WriteCommand_CanExecute(object obj)
+        {
+            return !(CommandedValue < 100|| CommandedValue > 400);
+        }
+
+        protected override void WriteCommand_Execute(object obj)
+        {
+            try
+            {
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+        #endregion
     }
 }

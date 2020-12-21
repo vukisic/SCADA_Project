@@ -5,13 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using FTN.Common;
+using GUI.Command;
 using SCADA.Common.DataModel;
 
 namespace GUI.Models
 {
-    public class BasePointDto : PropertyChangedBase
+    public abstract class BasePointDto : PropertyChangedBase
     {
-        public BasePointDto() { }
+        #region Fields
+        public MyICommand WriteCommand { get; set; }
+        public MyICommand ReadCommand { get; set; }
 
         private ClassType classType;
         private SignalDirection direction;
@@ -22,8 +25,23 @@ namespace GUI.Models
         private string timeStamp;
         private MeasurementType measurementType;
         private AlarmType alarm;
-
-
+        private double commandedValue;
+        #endregion
+        public BasePointDto()
+        {
+            WriteCommand = new MyICommand(WriteCommand_Execute, WriteCommand_CanExecute);
+            ReadCommand = new MyICommand(ReadCommand_Execute);
+        }
+        #region Properties
+        public double CommandedValue
+        {
+            get { return this.commandedValue; }
+            set
+            {
+                this.commandedValue = value;
+                this.NotifyOfPropertyChange(() => this.CommandedValue);
+            }
+        }
         public ClassType ClassType
         {
             get { return this.classType; }
@@ -111,5 +129,22 @@ namespace GUI.Models
                 this.NotifyOfPropertyChange(() => this.Alarm);
             }
         }
+        #endregion
+
+        #region Commands
+        protected abstract bool WriteCommand_CanExecute(object obj);
+        protected abstract void WriteCommand_Execute(object obj);
+
+        private void ReadCommand_Execute(object obj)
+        {
+            try
+            {
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+        #endregion 
     }
 }
