@@ -13,20 +13,20 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        
-        <DataGrid SelectionMode="Single" AutoGenerateColumns="False"
+
+        <DataGrid x:Name="Points" ItemsSource="{Binding Path=Points}" SelectionMode="Single" AutoGenerateColumns="False"
 				  CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False"
 				  SelectionUnit="FullRow">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Index" IsReadOnly="True" Width="*"/>
-                <DataGridTextColumn Header="Mrid" IsReadOnly="True" Width="*"/>
-                <DataGridTextColumn Header="Object Mrid" IsReadOnly="True" Width="*"/>
-                <DataGridTextColumn Header="Register type" IsReadOnly="True" Width="*"/>
-                <DataGridTextColumn Header="Timestamp" IsReadOnly="True" Width="*"/>
-                <DataGridTextColumn Header="Measurment type" IsReadOnly="True" Width="*"/>
-                <DataGridTextColumn Header="Alarm" IsReadOnly="True" Width="*"/>
-                <DataGridTextColumn Header="Class type" IsReadOnly="True" Width="*"/>
-                <DataGridTextColumn Header="Direction" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Header="Index" Binding="{Binding Index}" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Header="Mrid" Binding="{Binding Mrid}" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Header="Object Mrid" Binding="{Binding ObjectMrid}" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Header="Register type" Binding="{Binding RegisterType}" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Header="Timestamp" Binding="{Binding TimeStamp}" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Header="Measurement type" Binding="{Binding MeasurementType}" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Header="Alarm" Binding="{Binding Alarm}" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Header="Class type" Binding="{Binding ClassType}" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Header="Direction" Binding="{Binding Direction}" IsReadOnly="True" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>  
     </Grid>

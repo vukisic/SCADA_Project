@@ -11,7 +11,7 @@ namespace SCADA.Common.DataModel
     [DataContract]
     [KnownType(typeof(AnalogPoint))]
     [KnownType(typeof(DiscretePoint))]
-    public class BasePoint
+    public class BasePoint  
     {
         [DataMember]
         public ClassType ClassType { get; set; }

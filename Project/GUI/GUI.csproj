@@ -120,6 +120,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Command\MyICommand.cs" />
+    <Compile Include="Models\AnalogPointDto.cs" />
+    <Compile Include="Models\BasePointDto.cs" />
+    <Compile Include="Models\DiscretePointDto.cs" />
     <Compile Include="Services\INotificationService.cs" />
     <Compile Include="Services\NotificationService.cs" />
     <Compile Include="Services\NotificationType.cs" />
@@ -181,11 +184,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="TextFile1.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Converters\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Views\AlarmingView.xaml">
@@ -216,6 +215,16 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{892CBE15-9ED7-4540-81FA-0EAABA592138}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SCADA.Common\SCADA.Common.csproj">
+      <Project>{6e79fca4-42e3-4d2f-b4a3-28e691bf04c3}</Project>
+      <Name>SCADA.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.6.3.0\build\Fody.targets" Condition="Exists('..\packages\Fody.6.3.0\build\Fody.targets')" />
