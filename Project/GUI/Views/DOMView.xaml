@@ -7,6 +7,20 @@
              mc:Ignorable="d" Background="Blue"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <DataGrid x:Name="Points" ItemsSource="{Binding Path=TableData}" SelectionMode="Single" AutoGenerateColumns="False"
+				  CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False"
+				  SelectionUnit="FullRow">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Mrid" Binding="{Binding Mrid}" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Header="Manipulation Count" Binding="{Binding ManipulationConut}" IsReadOnly="True" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
     </Grid>
 </UserControl>
