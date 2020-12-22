@@ -13,12 +13,12 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <DataGrid x:Name="Points" ItemsSource="{Binding Path=TableData}" SelectionMode="Single" AutoGenerateColumns="False"
+        <DataGrid x:Name="Data" ItemsSource="{Binding Path=TableData}" SelectionMode="Single" AutoGenerateColumns="False"
 				  CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False"
-				  SelectionUnit="FullRow">
+				  SelectionUnit="FullRow" Style="{StaticResource DataGridStyle}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Mrid" Binding="{Binding Mrid}" IsReadOnly="True" Width="*"/>
-                <DataGridTextColumn Header="Manipulation Count" Binding="{Binding ManipulationConut}" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Header="Mrid" Binding="{Binding Mrid}" IsReadOnly="True" Width="*" HeaderStyle="{StaticResource DataGridColumnStyle}"  CellStyle="{StaticResource DataGridCellStyle}"/>
+                <DataGridTextColumn Header="Manipulation Count" Binding="{Binding ManipulationConut}" IsReadOnly="True" Width="*" HeaderStyle="{StaticResource DataGridColumnStyle}"  CellStyle="{StaticResource DataGridCellStyle}"/>
             </DataGrid.Columns>
         </DataGrid>
 

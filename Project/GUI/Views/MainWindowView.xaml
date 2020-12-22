@@ -15,7 +15,8 @@
         WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="147.5"/>
+            <ColumnDefinition Width="52.5"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -29,31 +30,31 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Client station" Grid.Row="0" Grid.Column="0" 
-                   Grid.ColumnSpan="2" TextAlignment="Center" FontWeight="Bold" FontStyle="Italic"></TextBlock>
+        <TextBlock Text="Client station" Grid.Row="0" Grid.Column="0" Style="{StaticResource TextBlockStyle}"
+                   Grid.ColumnSpan="3" TextAlignment="Center" FontWeight="Bold" FontStyle="Italic"></TextBlock>
 
-        <TextBlock Text="&#x0a;SCADA &#x0a;Team 2020" Grid.Row="1" 
-                   Grid.Column="0" TextAlignment="Center"></TextBlock>
+        <TextBlock Text="&#x0a;SCADA &#x0a;Team 2020" Grid.Row="1" Style="{StaticResource TextBlockStyle}"
+                   Grid.Column="0" TextAlignment="Center" Grid.ColumnSpan="2"></TextBlock>
 
-        <Button Grid.Row="2" Grid.Column="0" x:Name="LoadGraphicsView"
-            FontWeight="Bold" FontStyle="Italic">Graphics View</Button>
+        <Button Grid.Row="2" Grid.Column="0" x:Name="LoadGraphicsView" Style="{StaticResource ButtonStyle}"
+            FontWeight="Bold" FontStyle="Italic" Grid.ColumnSpan="2">Graphics View</Button>
 
-        <Button Grid.Row="3" Grid.Column="0" x:Name="LoadScadaDataView"
-            FontWeight="Bold" FontStyle="Italic">SCADA data</Button>
+        <Button Grid.Row="3" Grid.Column="0" x:Name="LoadScadaDataView" Style="{StaticResource ButtonStyle}"
+            FontWeight="Bold" FontStyle="Italic" Grid.ColumnSpan="2">SCADA data</Button>
 
-        <Button Grid.Row="4" Grid.Column="0" x:Name="LoadDomView"
-                    FontWeight="Bold" FontStyle="Italic">DOM</Button>
+        <Button Grid.Row="4" Grid.Column="0" x:Name="LoadDomView" Style="{StaticResource ButtonStyle}"
+                    FontWeight="Bold" FontStyle="Italic" Grid.ColumnSpan="2">DOM</Button>
 
-        <Button Grid.Row="5" Grid.Column="0" x:Name="LoadAlarmingView"
-                    FontWeight="Bold" FontStyle="Italic">Alarming</Button>
+        <Button Grid.Row="5" Grid.Column="0" x:Name="LoadAlarmingView" Style="{StaticResource ButtonStyle}"
+                    FontWeight="Bold" FontStyle="Italic" Grid.ColumnSpan="2">Alarming</Button>
 
-        <Button Grid.Row="6" Grid.Column="0" x:Name="LoadHistoryView"
-                    FontWeight="Bold" FontStyle="Italic">History</Button>
+        <Button Grid.Row="6" Grid.Column="0" x:Name="LoadHistoryView" Style="{StaticResource ButtonStyle}"
+                    FontWeight="Bold" FontStyle="Italic" Grid.ColumnSpan="2">History</Button>
 
-        <Button Grid.Row="7" Grid.Column="0" x:Name="CEDataView"
-                    FontWeight="Bold" FontStyle="Italic">CE data</Button>
+        <Button Grid.Row="7" Grid.Column="0" x:Name="CEDataView" Style="{StaticResource ButtonStyle}"
+                    FontWeight="Bold" FontStyle="Italic" Grid.ColumnSpan="2">CE data</Button>
 
-        <ContentControl Grid.Row="1" Grid.Column="1" Grid.RowSpan="7" 
+        <ContentControl Grid.Row="1" Grid.Column="2" Grid.RowSpan="7" 
                         x:Name="ActiveItem" />
     </Grid>
 </Controls:MetroWindow>

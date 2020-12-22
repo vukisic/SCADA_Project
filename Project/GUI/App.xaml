@@ -5,11 +5,33 @@
 
     <Application.Resources>
         <ResourceDictionary>
+            <Style x:Key="DataGridStyle" TargetType="DataGrid">
+                <Setter Property="Background" Value="Black"></Setter>
+                <Setter Property="Foreground" Value="White"></Setter>
+            </Style>
+            <Style x:Key="DataGridColumnStyle" TargetType="DataGridColumnHeader">
+                <Setter Property="Background" Value="Black"></Setter>
+                <Setter Property="Foreground" Value="White"></Setter>
+            </Style>
+            <Style x:Key="DataGridCellStyle" TargetType="DataGridCell">
+                <Setter Property="Background" Value="Black"></Setter>
+                <Setter Property="Foreground" Value="White"></Setter>
+            </Style>
+            <Style x:Key="TextBlockStyle" TargetType="TextBlock">
+                <Setter Property="Background" Value="Black"></Setter>
+                <Setter Property="Foreground" Value="White"></Setter>
+            </Style>
+            <Style x:Key="ButtonStyle" TargetType="Button">
+                <Setter Property="Background" Value="Black"></Setter>
+                <Setter Property="Foreground" Value="White"></Setter>
+            </Style>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary>
                     <local:Bootstrapper x:Key="Bootstrapper"/>
+                    
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
+
     </Application.Resources>
 </Application>
