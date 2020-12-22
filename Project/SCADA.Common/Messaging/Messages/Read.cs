@@ -8,10 +8,10 @@ using SCADA.Common.Messaging.Parameters;
 
 namespace SCADA.Common.Messaging.Messages
 {
-    public class ReadDescreteOutput : DNP3Function
+    public class Read : DNP3Function
     {
         private MessageHeaderBuilder headerBuilder;
-        public ReadDescreteOutput(DNP3ApplicationObjectParameters commandParameters) : base(commandParameters)
+        public Read(DNP3ApplicationObjectParameters commandParameters) : base(commandParameters)
         {
             headerBuilder = new MessageHeaderBuilder();
         }

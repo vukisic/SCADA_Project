@@ -18,13 +18,9 @@ namespace SCADA.Common.Messaging
                 case DNP3FunctionCode.READ:
                     switch ((TypeField)parameters.ObjectTypeField)
                     {
-                        case TypeField.BINARY_OUTPUT_PACKED_FORMAT:
-                            return new ReadDescreteOutput(parameters);
-                        case TypeField.ANALOG_OUTPUT_16BIT:
-                            return new ReadAnalogOutput(parameters);
                         case TypeField.CLASS_0_DATA:
                             return new ReadClass0(parameters);
-                        default: return null;
+                        default: return new Read(parameters);
                     }
                 case DNP3FunctionCode.DIRECT_OPERATE:
                     switch ((TypeField)parameters.ObjectTypeField)
