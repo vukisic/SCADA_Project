@@ -4,10 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using Core.Common.ServiceBus.Commands;
 using FTN.Common;
 using FTN.Services.NetworkModelService.DataModel.Core;
 using FTN.Services.NetworkModelService.DeltaDB;
 using TMContracts;
+using NServiceBus;
 
 namespace FTN.Services.NetworkModelService
 {
@@ -46,7 +48,6 @@ namespace FTN.Services.NetworkModelService
             GidHelper = new Dictionary<long, long>();
             eventHandler = new EventHandler<string>(HandleEvent);
             Initialize();
-
         }
 
         private void HandleEvent(object sender, string e)
@@ -769,6 +770,17 @@ namespace FTN.Services.NetworkModelService
                 success = true;
 
             proxyForTM.EndEnlist(success);
+            try
+            {
+                var instance = NMSServiceBus.StartInstance().GetAwaiter().GetResult();
+                var command = new ModelUpdateCommand
+                {
+                    Model = networkDataModelCopy
+                };
+                instance.Send(command).ConfigureAwait(false).GetAwaiter().GetResult();
+            }
+            catch { }
+            
             return success;
         }
 
