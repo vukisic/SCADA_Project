@@ -9,6 +9,10 @@ namespace GUI.ViewModels
 {
     public class MainWindowViewModel : Conductor<object>
     {
+        public MainWindowViewModel()
+        {
+            LoadScadaDataView();
+        }
         public void LoadGraphicsView()
         {
             ActivateItem(new GraphicsViewModel());

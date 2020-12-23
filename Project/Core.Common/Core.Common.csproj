@@ -55,6 +55,7 @@
     <Compile Include="ServiceBus\Commands\ModelUpdateCommand.cs" />
     <Compile Include="ServiceBus\EndpointNames.cs" />
     <Compile Include="ServiceBus\Events\DemoEvent.cs" />
+    <Compile Include="ServiceBus\Events\ScadaUpdateEvent.cs" />
     <Compile Include="WeatherApi\Data\Day.cs" />
     <Compile Include="WeatherApi\Data\Forecast.cs" />
     <Compile Include="WeatherApi\Data\ForecastDay.cs" />
@@ -77,6 +78,10 @@
     <ProjectReference Include="..\NetworkModelService\DataModel\DataModel.csproj">
       <Project>{ade96497-7c11-40b6-ae82-57f956c9f104}</Project>
       <Name>DataModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SCADA.Common\SCADA.Common.csproj">
+      <Project>{6e79fca4-42e3-4d2f-b4a3-28e691bf04c3}</Project>
+      <Name>SCADA.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

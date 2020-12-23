@@ -22,6 +22,7 @@ namespace SCADATransaction
         {
             Console.WriteLine("Commited? YES");
             DataBase.Model = DataBase.TransactionModel;
+            SCADAServer.updateEvent?.Invoke(this, null);
             return true;
         }
 

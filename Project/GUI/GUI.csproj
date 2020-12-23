@@ -132,6 +132,7 @@
     </Compile>
     <Compile Include="Command\MyICommand.cs" />
     <Compile Include="Converters\PointTypeToVisibilityConverter.cs" />
+    <Compile Include="Core\Data.cs" />
     <Compile Include="Core\Mapper.cs" />
     <Compile Include="Models\AnalogPointDto.cs" />
     <Compile Include="Models\BasePointDto.cs" />

@@ -14,7 +14,7 @@ namespace GUI
         {
             var model = message.Model;
 
-            return null;
+            return Task.CompletedTask;
         }
     }
 }

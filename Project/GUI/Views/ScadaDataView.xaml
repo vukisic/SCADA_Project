@@ -28,7 +28,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <DataGrid x:Name="Points" ItemsSource="{Binding Path=Points}" SelectionMode="Single" AutoGenerateColumns="False"
+        <DataGrid x:Name="Points" ItemsSource="{Binding Path=Points, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectionMode="Single" AutoGenerateColumns="False"
 				  CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False"
 				  SelectionUnit="FullRow" Style="{StaticResource DataGridStyle}"
 				  SelectionChanged="Points_SelectionChanged">

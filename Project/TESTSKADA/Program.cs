@@ -31,10 +31,11 @@ namespace NDS
             // NOTE: Don't forget to add routes for each command in ServiceBusStartup! (you don't need to do this for events)
 
             // Event example:
-            await endpoint.Publish(new DemoEvent { DemoProperty = "Something happened!" })
-                .ConfigureAwait(false);
-
+            //await endpoint.Publish(new DemoEvent { DemoProperty = "Something happened!" })
+            //    .ConfigureAwait(false);
+            SCADAServer.instace = endpoint;
             SCADAServer scada = new SCADAServer();
+            
             scada.OpenModel();
             scada.OpenTransaction();
 

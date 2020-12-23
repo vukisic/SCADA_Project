@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Core.Common.ServiceBus;
 using Core.Common.ServiceBus.Commands;
+using Core.Common.ServiceBus.Events;
 using NServiceBus;
 
 namespace NDS.ServiceBus
@@ -27,11 +28,10 @@ namespace NDS.ServiceBus
             var endpointConfiguration = new EndpointConfiguration(endpointName);
 
             var transport = endpointConfiguration.UseTransport<LearningTransport>();
-
             var routing = transport.Routing();
 
             // Route example: 
-            // routing.RouteToEndpoint(typeof(DemoCommand), EndpointNames.GUI);
+            //routing.RouteToEndpoint(typeof(ScadaUpdateEvent), EndpointNames.GUI);
             // Note: you only need to define routes for commands (no need to do so for events!)
 
             return endpointConfiguration;
