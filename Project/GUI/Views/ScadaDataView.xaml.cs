@@ -25,7 +25,6 @@ namespace GUI.Views
         public ScadaDataView()
         {
             InitializeComponent();
-
         }
         private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {

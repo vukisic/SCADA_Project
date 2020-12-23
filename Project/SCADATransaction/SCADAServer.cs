@@ -4,6 +4,9 @@ using System.Linq;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
+using Core.Common.ServiceBus.Events;
+using NServiceBus;
+using SCADA.Common;
 using TMContracts;
 
 namespace SCADATransaction
@@ -12,6 +15,9 @@ namespace SCADATransaction
     {
         private ServiceHost modelServiceHost;
         private ServiceHost transactionServiceHost;
+        public static EventHandler updateEvent = new EventHandler(OnUpdateEvent);
+        public static IEndpointInstance instace;
+
 
         public SCADAServer()
         {
@@ -69,6 +75,19 @@ namespace SCADATransaction
             {
 
             }
+        }
+
+        private static void OnUpdateEvent(object sender, EventArgs e)
+        {
+            ScadaUpdateEvent ev = new ScadaUpdateEvent()
+            {
+                Points = DataBase.Model.Values.ToList()
+            };
+            try
+            {
+                instace.Publish(ev).ConfigureAwait(false).GetAwaiter().GetResult();
+            }
+            catch (Exception ex) { }
         }
     }
 }
