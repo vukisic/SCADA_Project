@@ -49,6 +49,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FrontEnd\FEP.cs" />
+    <Compile Include="FrontEnd\IFEP.cs" />
+    <Compile Include="FrontEnd\UpdateArgs.cs" />
+    <Compile Include="ProcessingModule\Acquisitor.cs" />
+    <Compile Include="ProcessingModule\IProcessingManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceBus\Handlers\DemoHandler.cs" />

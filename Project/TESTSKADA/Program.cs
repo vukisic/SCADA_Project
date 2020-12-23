@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Core.Common.ServiceBus.Events;
+using NDS.FrontEnd;
 using NDS.ServiceBus;
 using NServiceBus;
 using NServiceBus.Logging;
@@ -26,6 +27,12 @@ namespace NDS
             var endpoint = await ServiceBusStartup.StartInstance()
                 .ConfigureAwait(false);
 
+            IFEP fep = new FEP();
+            fep.updateEvent += Fep_updateEvent;
+            // UnComment if you want to start FEP
+            //fep.Start();
+            Console.WriteLine("FEP Started!");
+
             // Command example: 
             // await endpoint.Send(new DemoCommand { DemoProperty = "Do something!" });
             // NOTE: Don't forget to add routes for each command in ServiceBusStartup! (you don't need to do this for events)
@@ -41,5 +48,11 @@ namespace NDS
 
             Console.ReadLine();
 		}
-	}
+
+        private static void Fep_updateEvent(object sender, UpdateArgs e)
+        {
+            // Update event handler
+            // Use endpoint to publish
+        }
+    }
 }
