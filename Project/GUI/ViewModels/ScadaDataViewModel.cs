@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 using Caliburn.Micro;
 using Core.Common.ServiceBus.Events;
 using FTN.Common;
@@ -16,7 +17,7 @@ using SCADA.Common.DataModel;
 
 namespace GUI.ViewModels
 {
-    public class ScadaDataViewModel : Conductor<object>, IHandleMessages<ScadaUpdateEvent>
+    public class ScadaDataViewModel : Conductor<object>
     {
         private ObservableCollection<BasePointDto> _points;
         public ObservableCollection<BasePointDto> Points
@@ -29,40 +30,41 @@ namespace GUI.ViewModels
             }
         }
 
-        public ScadaDataViewModel()
+        public ScadaDataViewModel(EventHandler<ScadaUpdateEvent> eventHandler)
         {
             Points = new ObservableCollection<BasePointDto>();
             foreach (var item in Data.Points)
             {
                 Points.Add(item);
             }
-            
         }
 
-        public Task Handle(ScadaUpdateEvent message, IMessageHandlerContext context)
+        public void Update(object sender, ScadaUpdateEvent e)
         {
-            UpdatePoints(message.Points);
-            return Task.CompletedTask;
+            UpdatePoints(e.Points);
         }
 
-        private void UpdatePoints(List<BasePoint> points)
+        public void UpdatePoints(List<BasePoint> points)
         {
-            Data.Points.Clear();
-            Points = new ObservableCollection<BasePointDto>();
-            foreach (var item in points)
+            App.Current.Dispatcher.Invoke((System.Action)delegate 
             {
-                if (item.RegisterType == RegisterType.ANALOG_INPUT || item.RegisterType == RegisterType.ANALOG_OUTPUT)
+                Data.Points.Clear();
+                Points = new ObservableCollection<BasePointDto>();
+                foreach (var item in points)
                 {
-                    Points.Add(Mapper.Map<AnalogPointDto>(item));
-                    Data.Points.Add(Mapper.Map<AnalogPointDto>(item));
-                }
-                else
-                {
-                    Points.Add(Mapper.Map<DiscretePointDto>(item));
-                    Data.Points.Add(Mapper.Map<DiscretePointDto>(item));
-                }
+                    if (item.RegisterType == RegisterType.ANALOG_INPUT || item.RegisterType == RegisterType.ANALOG_OUTPUT)
+                    {
+                        Points.Add(Mapper.Map<AnalogPointDto>(item));
+                        Data.Points.Add(Mapper.Map<AnalogPointDto>(item));
+                    }
+                    else
+                    {
+                        Points.Add(Mapper.Map<DiscretePointDto>(item));
+                        Data.Points.Add(Mapper.Map<DiscretePointDto>(item));
+                    }
 
-            }
+                }
+            });
         }
     }
 }
