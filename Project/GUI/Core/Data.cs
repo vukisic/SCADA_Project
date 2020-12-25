@@ -10,5 +10,6 @@ namespace GUI.Core
     public class Data
     {
         public static List<BasePointDto> Points = new List<BasePointDto>();
+        public static List<SwitchingEquipmentDto> Dom = new List<SwitchingEquipmentDto>();
     }
 }

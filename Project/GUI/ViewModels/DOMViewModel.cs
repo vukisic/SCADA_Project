@@ -5,8 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
+using Core.Common.ServiceBus.Events;
 using GUI.Models;
-
+using GUI.Core;
 namespace GUI.ViewModels
 {
     public class DOMViewModel : Conductor<object>
@@ -23,13 +24,25 @@ namespace GUI.ViewModels
         }
         public DOMViewModel()
         {
-            tableData = new ObservableCollection<SwitchingEquipmentDto>();
+            TableData = new ObservableCollection<SwitchingEquipmentDto>();
+            foreach (var item in Data.Dom)
+            {
+                TableData.Add(item);
+            }
+        }
 
-            SwitchingEquipmentDto first = new SwitchingEquipmentDto() { ManipulationConut = 3, Mrid = "id of first" };
-            SwitchingEquipmentDto sec = new SwitchingEquipmentDto() { ManipulationConut = 3, Mrid = "id of sec" };
-
-            tableData.Add(first);
-            tableData.Add(sec);
+        internal void Update(object sender, DomUpdateEvent e)
+        {
+            App.Current.Dispatcher.Invoke((System.Action)delegate
+            {
+                Data.Dom.Clear();
+                TableData =  new ObservableCollection<SwitchingEquipmentDto>();
+                foreach (var item in e.DomData)
+                {
+                    TableData.Add(Mapper.Map<SwitchingEquipmentDto>(item));
+                    Data.Dom.Add(Mapper.Map<SwitchingEquipmentDto>(item));
+                }
+            });
         }
     }
 }

@@ -14,5 +14,6 @@ namespace SCADA.Common
         public static Dictionary<Tuple<RegisterType, int>, BasePoint> Model { get; set; }
         public static Dictionary<Tuple<RegisterType, int>, BasePoint> TransactionModel { get; set; }
         public static Dictionary<DMSType, Container> CimModel { get; set; }
+        public static List<SwitchingEquipment> Dom { get; set; }
     }
 }

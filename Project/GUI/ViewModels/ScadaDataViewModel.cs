@@ -30,7 +30,7 @@ namespace GUI.ViewModels
             }
         }
 
-        public ScadaDataViewModel(EventHandler<ScadaUpdateEvent> eventHandler)
+        public ScadaDataViewModel()
         {
             Points = new ObservableCollection<BasePointDto>();
             foreach (var item in Data.Points)
