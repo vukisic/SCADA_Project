@@ -83,9 +83,16 @@ namespace SCADATransaction
             {
                 Points = DataBase.Model.Values.ToList()
             };
+
+            DomUpdateEvent dom = new DomUpdateEvent()
+            {
+                DomData = DataBase.Dom
+            };
+
             try
             {
                 instace.Publish(ev).ConfigureAwait(false).GetAwaiter().GetResult();
+                instace.Publish(dom).ConfigureAwait(false).GetAwaiter().GetResult();
             }
             catch (Exception ex) { }
         }

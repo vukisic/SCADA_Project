@@ -38,7 +38,7 @@
                 <DataGridTextColumn Header="Value" Binding="{Binding Value}" IsReadOnly="True" Width="*" HeaderStyle="{StaticResource DataGridColumnStyle}" CellStyle="{StaticResource DataGridCellStyle}"/>
                 <DataGridTextColumn Header="Register type" Binding="{Binding RegisterType}" IsReadOnly="True" Width="*" HeaderStyle="{StaticResource DataGridColumnStyle}" CellStyle="{StaticResource DataGridCellStyle}"/>
                 <DataGridTextColumn Header="Timestamp" Binding="{Binding TimeStamp}" IsReadOnly="True" Width="*" HeaderStyle="{StaticResource DataGridColumnStyle}" CellStyle="{StaticResource DataGridCellStyle}"/>
-                <DataGridTextColumn Header="Measurement type" Binding="{Binding MeasurementType}" IsReadOnly="True" Width="*" HeaderStyle="{StaticResource DataGridColumnStyle}" CellStyle="{StaticResource DataGridCellStyle}"/>
+                <DataGridTextColumn Header="Type" Binding="{Binding MeasurementType}" IsReadOnly="True" Width="*" HeaderStyle="{StaticResource DataGridColumnStyle}" CellStyle="{StaticResource DataGridCellStyle}"/>
                 <DataGridTextColumn Header="Alarm" Binding="{Binding Alarm}" IsReadOnly="True" Width="*" HeaderStyle="{StaticResource DataGridColumnStyle}" CellStyle="{StaticResource DataGridCellStyle}"/>
                 <DataGridTextColumn Header="Class type" Binding="{Binding ClassType}" IsReadOnly="True" Width="*" HeaderStyle="{StaticResource DataGridColumnStyle}" CellStyle="{StaticResource DataGridCellStyle}"/>
                 <DataGridTextColumn Header="Direction" Binding="{Binding Direction}" IsReadOnly="True" Width="*" HeaderStyle="{StaticResource DataGridColumnStyle}" CellStyle="{StaticResource DataGridCellStyle}"/>

@@ -6,8 +6,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GUI.Views"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d" Background="White"
-        Title="Main Window View" Height="450" Width="1200"
+        Title="Client Station" Height="600" Width="1200"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
         TextOptions.TextFormattingMode="Ideal" 
@@ -20,7 +21,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="0*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
@@ -30,29 +31,56 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Client station" Grid.Row="0" Grid.Column="0" Style="{StaticResource TextBlockStyle}"
-                   Grid.ColumnSpan="3" TextAlignment="Center" FontWeight="Bold" FontStyle="Italic"></TextBlock>
-
         <TextBlock Text="&#x0a;SCADA &#x0a;Team 2020" Grid.Row="1" Style="{StaticResource TextBlockStyle}"
-                   Grid.Column="0" TextAlignment="Center" Grid.ColumnSpan="2"></TextBlock>
+                   Grid.Column="0" TextAlignment="Center" Grid.ColumnSpan="2" Background="#52796f"></TextBlock>
 
         <Button Grid.Row="2" Grid.Column="0" x:Name="LoadGraphicsView" Style="{StaticResource ButtonStyle}"
-            FontWeight="Bold" FontStyle="Italic" Grid.ColumnSpan="2">Graphics View</Button>
+            FontWeight="Bold" FontStyle="Italic" Grid.ColumnSpan="2" Background="#84a98c">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Graphics View" Height="30" Margin="10,0"/>
+                <materialDesign:PackIcon Kind="Network" Height="20" Width="20"/>
+            </StackPanel>
+        </Button>
 
         <Button Grid.Row="3" Grid.Column="0" x:Name="LoadScadaDataView" Style="{StaticResource ButtonStyle}"
-            FontWeight="Bold" FontStyle="Italic" Grid.ColumnSpan="2">SCADA data</Button>
+            FontWeight="Bold" FontStyle="Italic" Grid.ColumnSpan="2" Background="#84a98c">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="SCADA data" Height="30" Margin="10,0"/>
+                <materialDesign:PackIcon Kind="AppleKeyboardCommand" Height="20" Width="20"/>
+            </StackPanel>
+        </Button>
 
         <Button Grid.Row="4" Grid.Column="0" x:Name="LoadDomView" Style="{StaticResource ButtonStyle}"
-                    FontWeight="Bold" FontStyle="Italic" Grid.ColumnSpan="2">DOM</Button>
+                    FontWeight="Bold" FontStyle="Italic" Grid.ColumnSpan="2" Background="#84a98c">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="DOM" Height="30" Margin="10,0"/>
+                <materialDesign:PackIcon Kind="ElectricSwitch" Height="20" Width="20"/>
+            </StackPanel>
+        </Button>
 
         <Button Grid.Row="5" Grid.Column="0" x:Name="LoadAlarmingView" Style="{StaticResource ButtonStyle}"
-                    FontWeight="Bold" FontStyle="Italic" Grid.ColumnSpan="2">Alarming</Button>
+                    FontWeight="Bold" FontStyle="Italic" Grid.ColumnSpan="2" Background="#84a98c">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Alarming" Height="30" Margin="10,0"/>
+                <materialDesign:PackIcon Kind="AlertCircle" Height="20" Width="20"/>
+            </StackPanel>
+        </Button>
 
         <Button Grid.Row="6" Grid.Column="0" x:Name="LoadHistoryView" Style="{StaticResource ButtonStyle}"
-                    FontWeight="Bold" FontStyle="Italic" Grid.ColumnSpan="2">History</Button>
+                    FontWeight="Bold" FontStyle="Italic" Grid.ColumnSpan="2" Background="#84a98c">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="History" Height="30" Margin="10,0"/>
+                <materialDesign:PackIcon Kind="History" Height="20" Width="20"/>
+            </StackPanel>
+        </Button>
 
         <Button Grid.Row="7" Grid.Column="0" x:Name="CEDataView" Style="{StaticResource ButtonStyle}"
-                    FontWeight="Bold" FontStyle="Italic" Grid.ColumnSpan="2">CE data</Button>
+                    FontWeight="Bold" FontStyle="Italic" Grid.ColumnSpan="2" Background="#84a98c">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="CE data" Height="30" Margin="10,0"/>
+                <materialDesign:PackIcon Kind="CalculatorVariant" Height="20" Width="20"/>
+            </StackPanel>
+        </Button>
 
         <ContentControl Grid.Row="1" Grid.Column="2" Grid.RowSpan="7" 
                         x:Name="ActiveItem" />

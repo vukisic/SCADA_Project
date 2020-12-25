@@ -55,6 +55,7 @@
     <Compile Include="ServiceBus\Commands\ModelUpdateCommand.cs" />
     <Compile Include="ServiceBus\EndpointNames.cs" />
     <Compile Include="ServiceBus\Events\DemoEvent.cs" />
+    <Compile Include="ServiceBus\Events\DomUpdateEvent.cs" />
     <Compile Include="ServiceBus\Events\ScadaUpdateEvent.cs" />
     <Compile Include="WeatherApi\Data\Day.cs" />
     <Compile Include="WeatherApi\Data\Forecast.cs" />
