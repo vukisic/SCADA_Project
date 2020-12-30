@@ -80,7 +80,7 @@ namespace SCADA.Common
                 if (item is Discrete)
                 {
                     Discrete discrete = item as Discrete;
-                    if (discrete.MRID.Contains("Tap"))
+                    if (discrete.MRID.Contains("Discrete_Tap"))
                     {
                         AnalogPoint discretePoint = new AnalogPoint()
                         {

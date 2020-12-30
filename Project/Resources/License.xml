@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<license type="Non-Production Development" Applications="All" expiration="2021-03-30" id="a3329726-54a7-4ec8-a200-aed6ebdcaa41">
+  <name>visicev@gmail.com</name>
+  <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+    <SignedInfo>
+      <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />
+      <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" />
+      <Reference URI="">
+        <Transforms>
+          <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />
+        </Transforms>
+        <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+        <DigestValue>R006CSOGzCD2ygPmSqW1+u5l3yo=</DigestValue>
+      </Reference>
+    </SignedInfo>
+    <SignatureValue>Vp3jn/pCkwGXvRixy+cQBVA0yR+jQWrv9bS95LlgeXvnLzZg6HOJ3xNm/vGI6kXNjpfjhnodtMMkYOYMGgvyQsQoGok/9bf0TtKjAb0TG0VAbPVIVyzsmXqdihItWxjRXcAV6VSbRL2+eU9nXstfV9AFPzdns3D0QT166kHOi/4=</SignatureValue>
+  </Signature>
+</license>

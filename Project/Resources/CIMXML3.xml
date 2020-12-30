@@ -1414,7 +1414,7 @@
 
     <cim:Measurement.baseAddress>1</cim:Measurement.baseAddress>
 
-    <cim:Measurement.direction>ReadWrite</cim:Measurement.direction>
+    <cim:Measurement.direction>Read</cim:Measurement.direction>
 
     <cim:Measurement.measurementType>FluidLevel</cim:Measurement.measurementType>
 
@@ -1569,7 +1569,7 @@
 
     <cim:Measurement.baseAddress>8</cim:Measurement.baseAddress>
 
-    <cim:Measurement.direction>ReadWrite</cim:Measurement.direction>
+    <cim:Measurement.direction>Read</cim:Measurement.direction>
 
     <cim:Measurement.measurementType>Voltage</cim:Measurement.measurementType>
 
@@ -1600,7 +1600,7 @@
 
     <cim:Measurement.baseAddress>9</cim:Measurement.baseAddress>
 
-    <cim:Measurement.direction>ReadWrite</cim:Measurement.direction>
+    <cim:Measurement.direction>Read</cim:Measurement.direction>
 
     <cim:Measurement.measurementType>Voltage</cim:Measurement.measurementType>
 
@@ -1631,7 +1631,7 @@
 
     <cim:Measurement.baseAddress>11</cim:Measurement.baseAddress>
 
-    <cim:Measurement.direction>ReadWrite</cim:Measurement.direction>
+    <cim:Measurement.direction>Read</cim:Measurement.direction>
 
     <cim:Measurement.measurementType>Current</cim:Measurement.measurementType>
 
@@ -1662,7 +1662,7 @@
 
     <cim:Measurement.baseAddress>12</cim:Measurement.baseAddress>
 
-    <cim:Measurement.direction>ReadWrite</cim:Measurement.direction>
+    <cim:Measurement.direction>Read</cim:Measurement.direction>
 
     <cim:Measurement.measurementType>Current</cim:Measurement.measurementType>
 
