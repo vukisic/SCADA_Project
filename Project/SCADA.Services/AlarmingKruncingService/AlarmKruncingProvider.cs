@@ -13,7 +13,7 @@ namespace SCADA.Services.AlarmingKruncingService
     {
         public AlarmKruncingProvider() { }
 
-        public List<BasePoint> checking(List<BasePoint> points)
+        public List<BasePoint> Check(List<BasePoint> points)
         {
             foreach (var point in points)
             {

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Core.Common.ServiceBus.Events;
 using NDS.FrontEnd;
+using NDS.Proxies;
 using NDS.ServiceBus;
 using NServiceBus;
 using NServiceBus.Logging;
@@ -46,6 +47,8 @@ namespace NDS
             scada.OpenModel();
             scada.OpenTransaction();
 
+            AlarmKruncingProxy p = new AlarmKruncingProxy();
+            p.Check();
             Console.ReadLine();
 		}
 

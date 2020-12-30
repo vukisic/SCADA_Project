@@ -40,6 +40,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -56,6 +57,7 @@
     <Compile Include="ProcessingModule\IProcessingManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Proxies\AlarmKruncingProxy.cs" />
     <Compile Include="ServiceBus\Handlers\DemoHandler.cs" />
     <Compile Include="ServiceBus\ServiceBusStartup.cs" />
   </ItemGroup>

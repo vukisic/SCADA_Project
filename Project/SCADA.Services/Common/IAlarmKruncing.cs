@@ -12,6 +12,6 @@ namespace SCADA.Services.Common
     public interface IAlarmKruncing
     {
         [OperationContract]
-        List<BasePoint> checking(List<BasePoint> points);
+        List<BasePoint> Check(List<BasePoint> points);
     }
 }
