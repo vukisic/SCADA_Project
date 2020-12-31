@@ -56,10 +56,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AlarmingKruncingService\AlarmKruncingProvider.cs" />
+    <Compile Include="AlarmingKruncingService\DOMProvider.cs" />
     <Compile Include="Common\IAlarmKruncing.cs" />
+    <Compile Include="Common\IDom.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AlarmingKruncingHost.cs" />
+    <Compile Include="Services\DOMHost.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -70,6 +73,10 @@
     <ProjectReference Include="..\SCADA.Common\SCADA.Common.csproj">
       <Project>{6e79fca4-42e3-4d2f-b4a3-28e691bf04c3}</Project>
       <Name>SCADA.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SCADA.DB\SCADA.DB.csproj">
+      <Project>{c3874f6c-c4f8-4db8-8908-12469b22aa7b}</Project>
+      <Name>SCADA.DB</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -4,20 +4,21 @@ using System.Linq;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
+using SCADA.DB.Repositories;
 using SCADA.Services.AlarmingKruncingService;
 using SCADA.Services.Common;
 
 namespace SCADA.Services.Services
 {
-    public class AlarmingKruncingHost
+    public class DOMHost
     {
         private ServiceHost serviceHost;
 
-        public AlarmingKruncingHost()
+        public DOMHost()
         {
-            serviceHost = new ServiceHost(typeof(AlarmKruncingProvider));
-            serviceHost.AddServiceEndpoint(typeof(IAlarmKruncing), new NetTcpBinding(),
-                new Uri("net.tcp://localhost:7001/IAlarmKruncing"));
+            serviceHost = new ServiceHost(typeof(DOMProvider));
+            serviceHost.AddServiceEndpoint(typeof(IDom), new NetTcpBinding(),
+                new Uri("net.tcp://localhost:7002/IDom"));
         }
 
         public void Open()

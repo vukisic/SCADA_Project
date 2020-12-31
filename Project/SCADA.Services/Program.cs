@@ -17,6 +17,9 @@ namespace SCADA.Services
             AlarmingKruncingHost ak = new AlarmingKruncingHost();
             ak.Open();
 
+            DOMHost dom = new DOMHost();
+            dom.Open();
+
             Console.ReadLine();
         }
     }

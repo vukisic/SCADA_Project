@@ -48,7 +48,7 @@ namespace NDS
             scada.OpenTransaction();
 
             AlarmKruncingProxy p = new AlarmKruncingProxy();
-            p.Check();
+            //p.Check();
             Console.ReadLine();
 		}
 

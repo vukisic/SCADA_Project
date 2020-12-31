@@ -61,6 +61,7 @@
     <Compile Include="Access\ScadaDbContext.cs" />
     <Compile Include="Access\ScadaDbInitializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Providers\DomRepository.cs" />
     <Compile Include="Repositories\IDomRepository.cs" />
     <Compile Include="Repositories\IHistoryRepository.cs" />
   </ItemGroup>
