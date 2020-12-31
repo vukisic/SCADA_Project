@@ -4,6 +4,7 @@ using System.Linq;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
+using SCADA.DB.Models;
 using SCADA.DB.Repositories;
 using SCADA.Services.Common;
 
@@ -22,9 +23,21 @@ namespace NDS.Proxies
 
         }
 
-        public void Check()
-        {         
-            //proxy.methods
+        void AddOrUpdate(DomDbModel model)
+        {
+            proxy.AddOrUpdate(model);
+        }
+        void AddOrUpdateRange(List<DomDbModel> list)
+        {
+            proxy.AddOrUpdateRange(list);
+        }
+        void UpdateSingle(DomDbModel model)
+        {
+            proxy.UpdateSingle(model);
+        }
+        List<DomDbModel> GetAll()
+        {
+            return proxy.GetAll();
         }
     }
 }
