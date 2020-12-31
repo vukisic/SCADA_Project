@@ -19,22 +19,51 @@ namespace SCADA.DB.Providers
 
         public void AddOrUpdate(DomDbModel model)
         {
-            throw new NotImplementedException();
+            DomDbModel m = _context.Dom.FirstOrDefault(d => d.Id == model.Id);
+
+            if(m == null)
+            {
+                _context.Dom.Add(model);
+            }
+            else
+            {
+                m.ManipulationConut++;
+            }
+
+            _context.SaveChanges();
         }
 
         public void AddOrUpdateRange(List<DomDbModel> list)
         {
-            throw new NotImplementedException();
+            foreach(var model in list)
+            {
+                DomDbModel m = _context.Dom.FirstOrDefault(d => d.Id == model.Id);
+
+                if (m == null)
+                {
+                    _context.Dom.Add(model);
+                }
+                else
+                {
+                    m.ManipulationConut++;
+                }
+            }
+            _context.SaveChanges();
         }
 
         public List<DomDbModel> GetAll()
         {
-            throw new NotImplementedException();
+            return _context.Dom.ToList();
         }
 
         public void UpdateSingle(DomDbModel model)
         {
-            throw new NotImplementedException();
+            DomDbModel m = _context.Dom.FirstOrDefault(d => d.Id == model.Id);
+
+            if (m != null)
+                m.ManipulationConut++;
+
+            _context.SaveChanges();
         }
     }
 }
