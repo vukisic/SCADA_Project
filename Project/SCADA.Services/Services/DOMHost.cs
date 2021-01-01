@@ -18,7 +18,7 @@ namespace SCADA.Services.Services
         {
             serviceHost = new ServiceHost(typeof(DOMProvider));
             serviceHost.AddServiceEndpoint(typeof(IDom), new NetTcpBinding(),
-                new Uri("net.tcp://localhost:7002/IDom"));
+                new Uri("net.tcp://localhost:7029/IDom"));
         }
 
         public void Open()

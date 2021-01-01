@@ -16,6 +16,7 @@ namespace SCADA.Common.Connection
         public TCPConnection()
         {
             this.socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            socket.Blocking = false;
             remoteEndpoint = CreateRemoteEndpoint();
 
         }
@@ -23,6 +24,15 @@ namespace SCADA.Common.Connection
         {
             try
             {
+                if (socket != null && socket.Connected)
+                {
+                    socket.Disconnect(false);
+                    socket = null;
+                    
+                }
+                this.socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                socket.Blocking = false;
+                remoteEndpoint = CreateRemoteEndpoint();
                 socket.Connect(remoteEndpoint);
             }
             catch { }

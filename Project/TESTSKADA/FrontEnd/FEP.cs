@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using SCADA.Common;
 using SCADA.Common.Connection;
 using SCADA.Common.DataModel;
 using SCADA.Common.Messaging;
@@ -37,9 +38,10 @@ namespace NDS.FrontEnd
             try
             {
                 executionFlag = true;
-                connection.Connect();
+               
                 while (executionFlag)
                 {
+                    connection.Connect();
                     // Logic
                     // TO DO: start FunctionExecutor, ProcessingManager and Acquisitor
                     var param = new DNP3ApplicationObjectParameters(0xc4, (byte)DNP3FunctionCode.DIRECT_OPERATE, (ushort)TypeField.BINARY_COMMAND, 0x28, 0x01, 0, 1, 0, 1, 2, 0xc1);
@@ -47,6 +49,9 @@ namespace NDS.FrontEnd
                     var result = DNP3FunctionFactory.CreateFunction(param);
                     byte[] m = result.PackRequest();
                     connection.Send(m);
+                    //Temp
+                    if(DataBase.Model != null)
+                      updateEvent.Invoke(this, new UpdateArgs() { Points = DataBase.Model.Values.ToList() });
                     Thread.Sleep(5000);
                 }
             }
