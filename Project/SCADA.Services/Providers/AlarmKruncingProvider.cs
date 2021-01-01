@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using SCADA.Common.DataModel;
 using SCADA.Services.Common;
 
-namespace SCADA.Services.AlarmingKruncingService
+namespace SCADA.Services.Providers
 {
     public class AlarmKruncingProvider : IAlarmKruncing
     {

@@ -9,7 +9,7 @@ using SCADA.DB.Providers;
 using SCADA.DB.Repositories;
 using SCADA.Services.Common;
 
-namespace SCADA.Services.AlarmingKruncingService
+namespace SCADA.Services.Providers
 {
     public class DOMProvider : IDom
     {
