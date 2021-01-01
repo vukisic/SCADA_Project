@@ -5,7 +5,7 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using SCADA.DB.Repositories;
-using SCADA.Services.AlarmingKruncingService;
+using SCADA.Services.Providers;
 using SCADA.Services.Common;
 
 namespace SCADA.Services.Services

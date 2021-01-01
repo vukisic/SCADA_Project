@@ -55,8 +55,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AlarmingKruncingService\AlarmKruncingProvider.cs" />
-    <Compile Include="AlarmingKruncingService\DOMProvider.cs" />
+    <Compile Include="Providers\AlarmKruncingProvider.cs" />
+    <Compile Include="Providers\DOMProvider.cs" />
     <Compile Include="Common\IAlarmKruncing.cs" />
     <Compile Include="Common\IDom.cs" />
     <Compile Include="Program.cs" />
