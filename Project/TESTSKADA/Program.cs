@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Core.Common.ServiceBus.Events;
 using NDS.FrontEnd;
@@ -6,6 +7,7 @@ using NDS.Proxies;
 using NDS.ServiceBus;
 using NServiceBus;
 using NServiceBus.Logging;
+using SCADA.Common;
 using SCADATransaction;
 
 namespace NDS
@@ -18,20 +20,20 @@ namespace NDS
         }
 
         static readonly ILog log = LogManager.GetLogger<Program>();
-
+        static IEndpointInstance endpoint;
         private static async Task AsyncMain()
         {
             Console.Title = "NetworkDynamicService";
             
             log.Info("SCADA started working..");
 
-            var endpoint = await ServiceBusStartup.StartInstance()
+            endpoint = await ServiceBusStartup.StartInstance()
                 .ConfigureAwait(false);
 
             IFEP fep = new FEP();
             fep.updateEvent += Fep_updateEvent;
             // UnComment if you want to start FEP
-            //fep.Start();
+           // fep.Start();
             Console.WriteLine("FEP Started!");
 
             // Command example: 
@@ -52,6 +54,7 @@ namespace NDS
 
         private static void Fep_updateEvent(object sender, UpdateArgs e)
         {
+            
             // Update event handler
             // Use endpoint to publish
         }

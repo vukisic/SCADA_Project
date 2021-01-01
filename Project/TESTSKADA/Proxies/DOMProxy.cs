@@ -18,24 +18,24 @@ namespace NDS.Proxies
         {
 
             ChannelFactory<IDom> channelFactory = new ChannelFactory<IDom>
-               (new NetTcpBinding(), new EndpointAddress("net.tcp://localhost:7002/IDom"));
+               (new NetTcpBinding(), new EndpointAddress("net.tcp://localhost:7029/IDom"));
             proxy = channelFactory.CreateChannel();
 
         }
 
-        void AddOrUpdate(DomDbModel model)
+        public void AddOrUpdate(DomDbModel model)
         {
             proxy.AddOrUpdate(model);
         }
-        void AddOrUpdateRange(List<DomDbModel> list)
+        public void AddOrUpdateRange(List<DomDbModel> list)
         {
             proxy.AddOrUpdateRange(list);
         }
-        void UpdateSingle(DomDbModel model)
+        public void UpdateSingle(DomDbModel model)
         {
             proxy.UpdateSingle(model);
         }
-        List<DomDbModel> GetAll()
+        public List<DomDbModel> GetAll()
         {
             return proxy.GetAll();
         }

@@ -15,10 +15,12 @@ namespace GUI.ViewModels
         private static EventHandler<DomUpdateEvent> domUpdate = delegate { };
         private ScadaDataViewModel scada = new ScadaDataViewModel();
         private DOMViewModel dom = new DOMViewModel();
+        private AlarmingViewModel alarms = new AlarmingViewModel();
         public MainWindowViewModel()
         {
             scadaUpdate += scada.Update;
             domUpdate += dom.Update;
+            scadaUpdate += alarms.Update;
             LoadScadaDataView();
         }
         public void LoadGraphicsView()

@@ -14,9 +14,9 @@ namespace SCADA.Services.Providers
     public class DOMProvider : IDom
     {
         IDomRepository repo;
-        public DOMProvider(ScadaDbContext context)
+        public DOMProvider()
         {
-            repo = new DomRepository(context);
+            repo = new DomRepository(new ScadaDbContext());
         }
         public void AddOrUpdate(DomDbModel model)
         {

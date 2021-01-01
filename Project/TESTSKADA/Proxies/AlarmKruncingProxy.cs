@@ -22,30 +22,9 @@ namespace NDS.Proxies
 
         }
 
-        public void Check()
+        public List<BasePoint> Check(List<BasePoint> points)
         {
-                List<BasePoint> par = new List<BasePoint>();
-             /*  AnalogPoint analogPoint = new AnalogPoint()
-                {
-                    ClassType = ClassType.CLASS_1,
-                    Direction = FTN.Common.SignalDirection.ReadWrite,
-                    RegisterType = RegisterType.ANALOG_INPUT,
-                    Index = 0,
-                    MaxValue = 200,
-                    MinValue = 100,
-                    MeasurementType = FTN.Common.MeasurementType.ActiveEnergy,
-                    Mrid = "asdfg",
-                    NormalValue = 120,
-                    ObjectMrid = null,
-                    TimeStamp = String.Empty,
-                    Value = 210,
-                    Alarm = AlarmType.NO_ALARM
-                };
-                par.Add(analogPoint);
-            */
-             
-            //proxy.Check(DataBase.Model.Values.ToList());
-            proxy.Check(par);
+            return proxy.Check(points);
         }
     }
 }

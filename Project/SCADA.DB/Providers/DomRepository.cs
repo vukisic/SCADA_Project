@@ -19,7 +19,7 @@ namespace SCADA.DB.Providers
 
         public void AddOrUpdate(DomDbModel model)
         {
-            DomDbModel m = _context.Dom.FirstOrDefault(d => d.Id == model.Id);
+            DomDbModel m = _context.Dom.FirstOrDefault(d => d.Mrid == model.Mrid);
 
             if(m == null)
             {
@@ -28,6 +28,7 @@ namespace SCADA.DB.Providers
             else
             {
                 m.ManipulationConut++;
+                _context.Entry(m).State = System.Data.Entity.EntityState.Modified;
             }
 
             _context.SaveChanges();
@@ -37,7 +38,7 @@ namespace SCADA.DB.Providers
         {
             foreach(var model in list)
             {
-                DomDbModel m = _context.Dom.FirstOrDefault(d => d.Id == model.Id);
+                DomDbModel m = _context.Dom.FirstOrDefault(d => d.Mrid == model.Mrid);
 
                 if (m == null)
                 {
@@ -46,6 +47,7 @@ namespace SCADA.DB.Providers
                 else
                 {
                     m.ManipulationConut++;
+                    _context.Entry(m).State = System.Data.Entity.EntityState.Modified;
                 }
             }
             _context.SaveChanges();
@@ -58,10 +60,14 @@ namespace SCADA.DB.Providers
 
         public void UpdateSingle(DomDbModel model)
         {
-            DomDbModel m = _context.Dom.FirstOrDefault(d => d.Id == model.Id);
+            DomDbModel m = _context.Dom.FirstOrDefault(d => d.Mrid == model.Mrid);
 
             if (m != null)
+            {
                 m.ManipulationConut++;
+                _context.Entry(m).State = System.Data.Entity.EntityState.Modified;
+            }
+                
 
             _context.SaveChanges();
         }
