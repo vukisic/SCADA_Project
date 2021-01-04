@@ -2,6 +2,7 @@
 SCADA Master Project
 
 # Getting started
+- Copy Project/packages/dnp3_protocol/runtime/`dnp3win32.dll` to Project/Simulator/bin/Debug
 - Open up solution in `VisualStudio`
 - Solution -> Properties -> Multiple StartUp Projects Configuration
 - Set the following order and foreach set `Start` option
