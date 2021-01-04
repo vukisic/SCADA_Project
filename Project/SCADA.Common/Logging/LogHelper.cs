@@ -20,7 +20,7 @@ namespace SCADA.Common.Logging
             BasicConfigurator.Configure();
             Logger = LogManager.GetLogger(loggerName);
             SetLevel(loggerName, "ALL");
-            AddAppender(Logger, CreateFileAppender(loggerName + "appender", $"{loggerName}.txt"));
+            AddAppender(Logger, CreateFileAppender(loggerName + "appender", $"../../../{loggerName}.txt"));
 
         }
         private void SetLevel(string loggerName, string levelName)
