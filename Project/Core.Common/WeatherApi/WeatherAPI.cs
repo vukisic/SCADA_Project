@@ -12,6 +12,7 @@ namespace Core.Common.WeatherApi
 {
     public class WeatherAPI
     {
+        public WeatherAPI() { }
         public List<double> GetResultsForNext6Hours()
         {
             List<double> results = new List<double>();

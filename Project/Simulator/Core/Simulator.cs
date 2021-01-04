@@ -1,4 +1,5 @@
-﻿using dnp3_protocol;
+﻿using Core.Common.WeatherApi;
+using dnp3_protocol;
 using Simulator.Core.Model;
 using System;
 using System.Collections.Generic;
@@ -9,12 +10,17 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace Simulator.Core
 {
 
     public class Simulator : ISimulator, IDisposable
     {
+        private System.Timers.Timer timerOnHour;
+
+        private int hour = 0;
+        private List<double> hours = new List<double>();
         private Thread worker;
         private bool executionFlag;
         private static IntPtr DNP3serverhandle;
@@ -27,16 +33,35 @@ namespace Simulator.Core
         private List<Point> prevList;
         private dnp3_protocol.dnp3types.sDNP3ConfigurationParameters sDNP3Config;
         private static bool configChange;
-        private static Tuple<ushort, ushort, ushort, ushort> config;
+        private static Tuple<ushort, ushort, ushort, ushort> config; //koliko ima kojih tacaka
+        private WeatherAPI WA;
+        private float FullTank;
+        private float EmptyTank;
+        private dnp3_protocol.dnp3types.sDNPServerDatabase db;
+        
 
-        private int interval;
+        public int interval { get; set; }
         public Simulator()
         {
             prevList = new List<Point>();
             operateCallback = new dnp3_protocol.dnp3types.DNP3ControlOperateCallback(cbOperate);
             debugCallback = new dnp3_protocol.dnp3types.DNP3DebugMessageCallback(cbDebug);
             interval = Int32.Parse(ConfigurationManager.AppSettings["interval"]);
+            FullTank = float.Parse(ConfigurationManager.AppSettings["FullTank"]);
+            EmptyTank = float.Parse(ConfigurationManager.AppSettings["EmptyTank"]);
+            WA = new WeatherAPI();
+            hours = WA.GetResultsForNext6Hours();
+            StartTimers();
+            db = new dnp3_protocol.dnp3types.sDNPServerDatabase();
         }
+        private void StartTimers()
+        {
+            timerOnHour = new System.Timers.Timer(15000); //10000 radi testiranja
+            timerOnHour.Elapsed += OnEveryHour;
+            timerOnHour.AutoReset = true;
+            timerOnHour.Start();
+        }
+
         public void LoadConfifg(Tuple<ushort, ushort, ushort, ushort> points)
         {
             GeneratePoints(ref psDNP3Objects, points);
@@ -111,10 +136,70 @@ namespace Simulator.Core
             }
            
         }
+        private void OnEveryHour(object sender, ElapsedEventArgs e)
+        {
+            if (hour == 5)
+            {
+                hour = 0;
+                hours = WA.GetResultsForNext6Hours();
+            }
+            
+            //PUNJENJE REZERVOARA
 
+            //hours[hour] - kolicina padavina za prvi sat
+
+            
+            dnp3_protocol.dnp3api.DNP3GetServerDatabaseValue(DNP3serverhandle, ref db, ref ptErrorValue);
+
+            if (db.u32TotalPoints != 15 && db.u32TotalPoints != 24 && db.u32TotalPoints != 33)
+                return;
+
+            MarshalUnmananagedArray2Struct(db.psServerDatabasePoint, (int)db.u32TotalPoints, out dnp3_protocol.dnp3types.sServerDatabasePoint[] points);
+
+            var result = ConvertToPoints(points);
+
+
+            foreach (var item in result)
+            {
+                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_INPUT || item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_OUTPUTS)
+                {
+                    var point = item as AnalogPoint;
+                    if (point.Index == 1) //FLUID LEVER - AI
+                    {
+                        SingleInt32Union analogValue = new SingleInt32Union();
+                        analogValue.f = point.Value + (float)hours[hour];
+                        Update(1, dnp3types.eDNP3GroupID.ANALOG_INPUT, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue, ref ptErrorValue);
+
+                        if (point.Value < EmptyTank) //EMPTY TENK
+                        {
+                            SingleInt32Union digitalValue = new SingleInt32Union();
+                            digitalValue.i = 1;
+                            Update(0, dnp3types.eDNP3GroupID.BINARY_INPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digitalValue, ref ptErrorValue);
+                        }
+                        if (point.Value > FullTank) //FULL TENK
+                        {
+                            SingleInt32Union digitalValue = new SingleInt32Union();
+                            digitalValue.i = 1;
+                            Update(1, dnp3types.eDNP3GroupID.BINARY_INPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digitalValue, ref ptErrorValue);
+                        }
+                        if (point.Value >= EmptyTank && point.Value <= FullTank)
+                        {
+                            SingleInt32Union digitalValue = new SingleInt32Union();
+                            digitalValue.i = 0;
+                            Update(0, dnp3types.eDNP3GroupID.BINARY_INPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digitalValue, ref ptErrorValue);
+                            Update(1, dnp3types.eDNP3GroupID.BINARY_INPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digitalValue, ref ptErrorValue);
+                        }
+                    }
+                }
+                else
+                {
+                    var point = item as BinaryPoint;
+                }
+            }
+            hour++;
+        }
         private void Simulation()
         {
-            // Define custom simulation logic.
         }
 
         private bool Prepare()
