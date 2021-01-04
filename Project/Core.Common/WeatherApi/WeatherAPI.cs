@@ -30,6 +30,8 @@ namespace Core.Common.WeatherApi
                 // For this day
                 for (int i = index; i < 24; i++)
                 {
+                    if (results.Count == 6)
+                        break;
                     results.Add(weather.Forecast.ForecastDay.Days[0].Hour[i].GetPrecipValue());
                 }
                 // For next day

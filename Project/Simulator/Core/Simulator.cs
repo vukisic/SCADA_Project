@@ -17,9 +17,7 @@ namespace Simulator.Core
 
     public class Simulator : ISimulator, IDisposable
     {
-        private System.Timers.Timer timerOnHour;
-
-        private int hour = 0;
+        private int hourIndex = 0;
         private List<double> hours = new List<double>();
         private Thread worker;
         private bool executionFlag;
@@ -33,14 +31,14 @@ namespace Simulator.Core
         private List<Point> prevList;
         private dnp3_protocol.dnp3types.sDNP3ConfigurationParameters sDNP3Config;
         private static bool configChange;
-        private static Tuple<ushort, ushort, ushort, ushort> config; //koliko ima kojih tacaka
+        private static Tuple<ushort, ushort, ushort, ushort> config;
         private WeatherAPI WA;
         private float FullTank;
         private float EmptyTank;
         private dnp3_protocol.dnp3types.sDNPServerDatabase db;
-        
-
+        private int secondsCount = 0;
         public int interval { get; set; }
+
         public Simulator()
         {
             prevList = new List<Point>();
@@ -51,20 +49,15 @@ namespace Simulator.Core
             EmptyTank = float.Parse(ConfigurationManager.AppSettings["EmptyTank"]);
             WA = new WeatherAPI();
             hours = WA.GetResultsForNext6Hours();
-            StartTimers();
             db = new dnp3_protocol.dnp3types.sDNPServerDatabase();
         }
-        private void StartTimers()
-        {
-            timerOnHour = new System.Timers.Timer(15000); //10000 radi testiranja
-            timerOnHour.Elapsed += OnEveryHour;
-            timerOnHour.AutoReset = true;
-            timerOnHour.Start();
-        }
 
-        public void LoadConfifg(Tuple<ushort, ushort, ushort, ushort> points)
+        public void LoadConfifg(Tuple<ushort, ushort, ushort, ushort> pointsNum)
         {
-            GeneratePoints(ref psDNP3Objects, points);
+            dnp3_protocol.dnp3api.DNP3GetServerDatabaseValue(DNP3serverhandle, ref db, ref ptErrorValue);
+            MarshalUnmananagedArray2Struct(db.psServerDatabasePoint, (int)db.u32TotalPoints, out dnp3_protocol.dnp3types.sServerDatabasePoint[] points);
+            var result = ConvertToPoints(points);
+            GeneratePoints(ref psDNP3Objects, pointsNum);
             iErrorCode = dnp3_protocol.dnp3api.DNP3LoadConfiguration(DNP3serverhandle, ref sDNP3Config, ref ptErrorValue);
             if (iErrorCode != 0)
             {
@@ -73,6 +66,28 @@ namespace Simulator.Core
                 Trace.TraceError("iErrorValue {0:D}: {1}", ptErrorValue, errorvaluestring(ptErrorValue));
             }
             configChange = false;
+            SetValues(result);
+        }
+
+        private void SetValues(List<Point> oldPoints)
+        {
+            foreach (var item in oldPoints)
+            {
+                if(item.GroupId == dnp3types.eDNP3GroupID.ANALOG_INPUT || item.GroupId == dnp3types.eDNP3GroupID.ANALOG_OUTPUTS)
+                {
+                    var point = item as AnalogPoint;
+                    SingleInt32Union analogValue = new SingleInt32Union();
+                    analogValue.f = point.Value;
+                    Update(item.Index, item.GroupId, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA,analogValue, ref ptErrorValue);
+                }
+                else
+                {
+                    var point = item as BinaryPoint;
+                    SingleInt32Union binaryValue = new SingleInt32Union();
+                    binaryValue.i = point.Value;
+                    Update(item.Index, item.GroupId, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, binaryValue, ref ptErrorValue);
+                }
+            }
         }
 
         public void Start()
@@ -136,19 +151,14 @@ namespace Simulator.Core
             }
            
         }
-        private void OnEveryHour(object sender, ElapsedEventArgs e)
+        private void OnEveryHour()
         {
-            if (hour == 5)
+            if (hourIndex == 5)
             {
-                hour = 0;
+                hourIndex = 0;
                 hours = WA.GetResultsForNext6Hours();
             }
-            
-            //PUNJENJE REZERVOARA
 
-            //hours[hour] - kolicina padavina za prvi sat
-
-            
             dnp3_protocol.dnp3api.DNP3GetServerDatabaseValue(DNP3serverhandle, ref db, ref ptErrorValue);
 
             if (db.u32TotalPoints != 15 && db.u32TotalPoints != 24 && db.u32TotalPoints != 33)
@@ -164,10 +174,11 @@ namespace Simulator.Core
                 if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_INPUT || item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_OUTPUTS)
                 {
                     var point = item as AnalogPoint;
-                    if (point.Index == 1) //FLUID LEVER - AI
+                    if (point.Index == 1 && point.GroupId==dnp3types.eDNP3GroupID.ANALOG_INPUT) //FLUID LEVER - AI
                     {
                         SingleInt32Union analogValue = new SingleInt32Union();
-                        analogValue.f = point.Value + (float)hours[hour];
+                        analogValue.f = point.Value + (float)hours[hourIndex];
+                        point.Value += (float)hours[hourIndex];
                         Update(1, dnp3types.eDNP3GroupID.ANALOG_INPUT, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue, ref ptErrorValue);
 
                         if (point.Value < EmptyTank) //EMPTY TENK
@@ -191,15 +202,21 @@ namespace Simulator.Core
                         }
                     }
                 }
-                else
-                {
-                    var point = item as BinaryPoint;
-                }
             }
-            hour++;
+            hourIndex++;
         }
         private void Simulation()
         {
+            if(secondsCount == 3600)
+            {
+                OnEveryHour();
+                secondsCount = 0;
+            }
+            else
+            {
+                //Define logic
+                secondsCount++;
+            }
         }
 
         private bool Prepare()
@@ -362,7 +379,7 @@ namespace Simulator.Core
             sDNP3Config.sDNP3ServerSet.psDNP3Objects = System.Runtime.InteropServices.Marshal.AllocHGlobal(
                 sDNP3Config.sDNP3ServerSet.u16NoofObject * System.Runtime.InteropServices.Marshal.SizeOf(psDNP3Objects[0]));
             
-            GeneratePoints(ref psDNP3Objects, Tuple.Create<ushort,ushort,ushort,ushort>(5,5,5,5));
+            GeneratePoints(ref psDNP3Objects, Tuple.Create<ushort,ushort,ushort,ushort>(1,1,1,1));
 
             // Load configuration
             iErrorCode = dnp3_protocol.dnp3api.DNP3LoadConfiguration(DNP3serverhandle, ref sDNP3Config, ref ptErrorValue);

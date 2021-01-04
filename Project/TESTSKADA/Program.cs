@@ -49,6 +49,9 @@ namespace NDS
             scada.OpenModel();
             scada.OpenTransaction();
 
+            LoggingProxy proxy = new LoggingProxy();
+            proxy.Log(new SCADA.Common.Logging.LogEventModel() { EventType = SCADA.Common.Logging.LogEventType.INFO, Message = "Hello World!" });
+
             Console.ReadLine();
 		}
 

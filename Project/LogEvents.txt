@@ -1,0 +1,1 @@
+2021-01-04 16:28:22,592-[4]-INFO -[LogEvents]-INFO Hello World!
