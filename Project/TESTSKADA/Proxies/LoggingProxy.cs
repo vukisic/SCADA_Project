@@ -5,6 +5,7 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using SCADA.Services.Common;
+using SCADA.Common.Logging;
 
 namespace NDS.Proxies
 {
@@ -21,9 +22,9 @@ namespace NDS.Proxies
 
         }
 
-        public void Log(string level, string message)
+        public void Log(LogEventModel logModel)
         {
-            proxy.Log(level, message);
+            proxy.Log(logModel);
         }
     }
 }

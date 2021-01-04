@@ -4,6 +4,7 @@ using System.Linq;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
+using SCADA.Common.Logging;
 
 namespace SCADA.Services.Common
 {
@@ -11,6 +12,6 @@ namespace SCADA.Services.Common
     public interface ILogging
     {
         [OperationContract]
-        void Log(string level, string message);
+        void Log(LogEventModel logModel);
     }
 }

@@ -25,18 +25,18 @@ namespace SCADA.Services.Providers
                 return instance;
             }
         }
-        public void Log(string level, string message)
+        public void Log(LogEventModel logModel)
         {
             lock (obj)
             {
                 logHelper = new LogHelper();
-                switch (level)
+                switch (logModel.EventType)
                 {
-                    case "DEBUG": logHelper.Logger.Debug($"{level} {message}"); break;
-                    case "INFO": logHelper.Logger.Info($"{level} {message}"); break;
-                    case "WARN": logHelper.Logger.Warn($"{level} {message}"); break;
-                    case "ERROR": logHelper.Logger.Error($"{level} {message}"); break;
-                    case "FATAL": logHelper.Logger.Fatal($"{level} {message}"); break;
+                    case LogEventType.DEBUG: logHelper.Logger.Debug($"{logModel.EventType.ToString()} {logModel.Message}"); break;
+                    case LogEventType.INFO: logHelper.Logger.Info($"{logModel.EventType.ToString()} {logModel.Message}"); break;
+                    case LogEventType.WARN: logHelper.Logger.Warn($"{logModel.EventType.ToString()} {logModel.Message}"); break;
+                    case LogEventType.ERROR: logHelper.Logger.Error($"{logModel.EventType.ToString()} {logModel.Message}"); break;
+                    case LogEventType.FATAL: logHelper.Logger.Fatal($"{logModel.EventType.ToString()} {logModel.Message}"); break;
 
                 }
                 logHelper = null;
