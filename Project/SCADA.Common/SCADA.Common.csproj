@@ -31,10 +31,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=2.0.12.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.12\lib\net45\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -53,6 +58,9 @@
     <Compile Include="DataModel\DiscretePoint.cs" />
     <Compile Include="DataModel\Enums.cs" />
     <Compile Include="DataModel\SwitchingEquipment.cs" />
+    <Compile Include="Logging\LogEventModel.cs" />
+    <Compile Include="Logging\LogEventType.cs" />
+    <Compile Include="Logging\LogHelper.cs" />
     <Compile Include="Messaging\DNP3Function.cs" />
     <Compile Include="Messaging\DNP3FunctionFactory.cs" />
     <Compile Include="Messaging\IDNP3Function.cs" />
@@ -76,6 +84,9 @@
       <Project>{ade96497-7c11-40b6-ae82-57f956c9f104}</Project>
       <Name>DataModel</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

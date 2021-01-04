@@ -20,6 +20,9 @@ namespace SCADA.Services
             DOMHost dom = new DOMHost();
             dom.Open();
 
+            LoggingHost logHost = new LoggingHost();
+            logHost.Open();
+
             Console.ReadLine();
         }
     }
