@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Timers;
 using System.Threading.Tasks;
 using Core.Common.ServiceBus.Events;
 using NDS.FrontEnd;
@@ -8,6 +10,7 @@ using NDS.ServiceBus;
 using NServiceBus;
 using NServiceBus.Logging;
 using SCADA.Common;
+using SCADA.DB.Models;
 using SCADATransaction;
 
 namespace NDS
@@ -21,6 +24,8 @@ namespace NDS
 
         static readonly ILog log = LogManager.GetLogger<Program>();
         static IEndpointInstance endpoint;
+        private static System.Timers.Timer timer;
+
         private static async Task AsyncMain()
         {
             Console.Title = "NetworkDynamicService";
@@ -49,8 +54,12 @@ namespace NDS
             scada.OpenModel();
             scada.OpenTransaction();
 
-            LoggingProxy proxy = new LoggingProxy();
-            proxy.Log(new SCADA.Common.Logging.LogEventModel() { EventType = SCADA.Common.Logging.LogEventType.INFO, Message = "Hello World!" });
+            //LoggingProxy proxy = new LoggingProxy();
+            //proxy.Log(new SCADA.Common.Logging.LogEventModel() { EventType = SCADA.Common.Logging.LogEventType.INFO, Message = "Hello World!" });
+
+            SetTimer();
+            timer.Start();
+            //timer.Dispose();
 
             Console.ReadLine();
 		}
@@ -60,6 +69,20 @@ namespace NDS
             
             // Update event handler
             // Use endpoint to publish
+        }
+        private static void SetTimer()
+        {
+            timer = new System.Timers.Timer(30000);
+            timer.Elapsed += OnTimedEvent;
+            timer.AutoReset = true;
+            timer.Enabled = true;
+        }
+
+        private static void OnTimedEvent(object source, ElapsedEventArgs e)
+        {
+            HistoryProxy proxy = new HistoryProxy();
+            proxy.Add(new HistoryDbModel { TimeStamp = DateTime.Now.ToString() });
+            Console.WriteLine("The Elapsed event was raised at {0:HH:mm:ss}", e.SignalTime);
         }
     }
 }

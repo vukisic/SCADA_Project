@@ -23,6 +23,9 @@ namespace SCADA.Services
             LoggingHost logHost = new LoggingHost();
             logHost.Open();
 
+            HistoryHost historyHost = new HistoryHost();
+            historyHost.Open();
+
             Console.ReadLine();
         }
     }
