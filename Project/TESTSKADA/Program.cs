@@ -52,8 +52,8 @@ namespace NDS
             scada.OpenModel();
             scada.OpenTransaction();
 
-            LoggingProxy proxy = new LoggingProxy();
-            proxy.Log(new SCADA.Common.Logging.LogEventModel() { EventType = SCADA.Common.Logging.LogEventType.INFO, Message = "NDS Started!" });
+            //LoggingProxy proxy = new LoggingProxy();
+            //proxy.Log(new SCADA.Common.Logging.LogEventModel() { EventType = SCADA.Common.Logging.LogEventType.INFO, Message = "NDS Started!" });
 
             Console.ReadLine();
 		}

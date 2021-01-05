@@ -17,21 +17,40 @@ namespace Simulator.Core
 
     public class Simulator : ISimulator, IDisposable
     {
-        
+        AnalogPoint pump1temp = null;
+        AnalogPoint pump1flow = null;
+        AnalogPoint tapChanger1 = null;
+
         AnalogPoint pump2temp = null;
         AnalogPoint pump2flow = null;
         AnalogPoint tapChanger2 = null;
 
-        BinaryPoint dis12 = null;
-        BinaryPoint dis22 = null;
+        AnalogPoint pump3temp = null;
+        AnalogPoint pump3flow = null;
+        AnalogPoint tapChanger3 = null;
+
         BinaryPoint dis01 = null;
         BinaryPoint dis02 = null;
-        BinaryPoint breaker12 = null;
-        BinaryPoint breaker22 = null;
+        BinaryPoint dis11 = null;
+        BinaryPoint dis12 = null;
+        BinaryPoint dis13 = null;
+        BinaryPoint dis21 = null;
+        BinaryPoint dis22 = null;
+        BinaryPoint dis23 = null;
         BinaryPoint breaker01 = null;
+        BinaryPoint breaker11 = null;
+        BinaryPoint breaker12 = null;
+        BinaryPoint breaker13 = null;
+        BinaryPoint breaker21 = null;
+        BinaryPoint breaker22 = null;
+        BinaryPoint breaker23 = null;
 
-        AnalogPoint TRVoltage = null;
-        AnalogPoint TRCurrent = null;
+        AnalogPoint TRVoltage1 = null;
+        AnalogPoint TRVoltage2 = null;
+        AnalogPoint TRVoltage3 = null;
+        AnalogPoint TRCurrent1 = null;
+        AnalogPoint TRCurrent2 = null;
+        AnalogPoint TRCurrent3 = null;
 
         AnalogPoint fluidLever = null;
 
@@ -311,92 +330,263 @@ namespace Simulator.Core
 
             foreach (var item in result)
             {
-                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.BINARY_OUTPUT && item.Index == 5)
-                    dis12 = item as BinaryPoint;
-                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.BINARY_OUTPUT && item.Index == 1)
-                    breaker12 = item as BinaryPoint;
-                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.BINARY_OUTPUT && item.Index == 6)
-                    dis22 = item as BinaryPoint;
-                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.BINARY_OUTPUT && item.Index == 3)
-                    dis01 = item as BinaryPoint;
-                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.BINARY_OUTPUT && item.Index == 4)
-                    dis02 = item as BinaryPoint;
-                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.BINARY_OUTPUT && item.Index == 2)
-                    breaker22 = item as BinaryPoint;
+                /////// BINARY OUTPUT
+
                 if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.BINARY_OUTPUT && item.Index == 0)
                     breaker01 = item as BinaryPoint;
+                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.BINARY_OUTPUT && item.Index == 1)
+                    breaker11 = item as BinaryPoint;
+                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.BINARY_OUTPUT && item.Index == 2)
+                    breaker12 = item as BinaryPoint;
+                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.BINARY_OUTPUT && item.Index == 3)
+                    breaker13 = item as BinaryPoint;
+                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.BINARY_OUTPUT && item.Index == 4)
+                    breaker21 = item as BinaryPoint;
+                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.BINARY_OUTPUT && item.Index == 5)
+                    breaker22 = item as BinaryPoint;
+                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.BINARY_OUTPUT && item.Index == 6)
+                    breaker23 = item as BinaryPoint;
+                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.BINARY_OUTPUT && item.Index == 7)
+                    dis01 = item as BinaryPoint;
+                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.BINARY_OUTPUT && item.Index == 8)
+                    dis02 = item as BinaryPoint;
+                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.BINARY_OUTPUT && item.Index == 9)
+                    dis11 = item as BinaryPoint;
+                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.BINARY_OUTPUT && item.Index == 10)
+                    dis12 = item as BinaryPoint;
+                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.BINARY_OUTPUT && item.Index == 11)
+                    dis13 = item as BinaryPoint;
+                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.BINARY_OUTPUT && item.Index == 12)
+                    dis21 = item as BinaryPoint;
+                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.BINARY_OUTPUT && item.Index == 13)
+                    dis22 = item as BinaryPoint;
+                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.BINARY_OUTPUT && item.Index == 14)
+                    dis23 = item as BinaryPoint;
+
+
+                /////// ANALOG OUTPUT
+
                 if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_OUTPUTS && item.Index == 6)
+                    tapChanger1 = item as AnalogPoint;
+                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_OUTPUTS && item.Index == 7)
                     tapChanger2 = item as AnalogPoint;
-                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_OUTPUTS && item.Index == 1)
+                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_OUTPUTS && item.Index == 8)
+                    tapChanger3 = item as AnalogPoint;
+                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_OUTPUTS && item.Index == 3)
+                    pump1temp = item as AnalogPoint;
+                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_OUTPUTS && item.Index == 4)
                     pump2temp = item as AnalogPoint;
+                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_OUTPUTS && item.Index == 5)
+                    pump3temp = item as AnalogPoint;
                 if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_OUTPUTS && item.Index == 0)
+                    pump1flow = item as AnalogPoint;
+                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_OUTPUTS && item.Index == 1)
                     pump2flow = item as AnalogPoint;
+                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_OUTPUTS && item.Index == 2)
+                    pump3flow = item as AnalogPoint;
+
+
+                /////// ANALOG INPUT
+
                 if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_INPUT && item.Index == 0)
-                    TRCurrent = item as AnalogPoint;
-                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_INPUT && item.Index == 2)
-                    TRVoltage = item as AnalogPoint;
+                    TRCurrent1 = item as AnalogPoint;
                 if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_INPUT && item.Index == 1)
+                    TRCurrent2 = item as AnalogPoint;
+                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_INPUT && item.Index == 2)
+                    TRCurrent3 = item as AnalogPoint;
+                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_INPUT && item.Index == 4)
+                    TRVoltage1 = item as AnalogPoint;
+                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_INPUT && item.Index == 5)
+                    TRVoltage2 = item as AnalogPoint;
+                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_INPUT && item.Index == 6)
+                    TRVoltage3 = item as AnalogPoint;
+                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_INPUT && item.Index == 3)
                     fluidLever = item as AnalogPoint;
             }
         }
         private void UpdatePoints()
         {
+            /////// ANALOG INPUT
+
             SingleInt32Union analogValue = new SingleInt32Union();
             analogValue.f = fluidLever.Value;
-            Update(1, dnp3types.eDNP3GroupID.ANALOG_INPUT, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue, ref ptErrorValue);
+            Update(3, dnp3types.eDNP3GroupID.ANALOG_INPUT, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue, ref ptErrorValue);
 
             SingleInt32Union analogValue2 = new SingleInt32Union();
-            analogValue2.f = TRCurrent.Value;
+            analogValue2.f = TRCurrent1.Value;
             Update(0, dnp3types.eDNP3GroupID.ANALOG_INPUT, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue2, ref ptErrorValue);
 
             SingleInt32Union analogValue3 = new SingleInt32Union();
-            analogValue3.f = TRCurrent.Value;
-            Update(2, dnp3types.eDNP3GroupID.ANALOG_INPUT, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue3, ref ptErrorValue);
+            analogValue3.f = TRCurrent2.Value;
+            Update(1, dnp3types.eDNP3GroupID.ANALOG_INPUT, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue3, ref ptErrorValue);
 
             SingleInt32Union analogValue4 = new SingleInt32Union();
-            analogValue4.f = tapChanger2.Value;
-            Update(6, dnp3types.eDNP3GroupID.ANALOG_OUTPUTS, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue4, ref ptErrorValue);
+            analogValue4.f = TRCurrent3.Value;
+            Update(2, dnp3types.eDNP3GroupID.ANALOG_INPUT, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue4, ref ptErrorValue);
 
             SingleInt32Union analogValue5 = new SingleInt32Union();
-            analogValue5.f = pump2temp.Value;
-            Update(1, dnp3types.eDNP3GroupID.ANALOG_OUTPUTS, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue5, ref ptErrorValue);
+            analogValue5.f = TRVoltage1.Value;
+            Update(4, dnp3types.eDNP3GroupID.ANALOG_INPUT, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue5, ref ptErrorValue);
 
             SingleInt32Union analogValue6 = new SingleInt32Union();
-            analogValue6.f = pump2flow.Value;
-            Update(0, dnp3types.eDNP3GroupID.ANALOG_OUTPUTS, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue6, ref ptErrorValue);
+            analogValue6.f = TRVoltage2.Value;
+            Update(5, dnp3types.eDNP3GroupID.ANALOG_INPUT, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue6, ref ptErrorValue);
+            
+            SingleInt32Union analogValue7 = new SingleInt32Union();
+            analogValue7.f = TRVoltage3.Value;
+            Update(6, dnp3types.eDNP3GroupID.ANALOG_INPUT, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue7, ref ptErrorValue);
+
+
+            /////// ANALOG OUTPUT
+
+            SingleInt32Union analogValue8 = new SingleInt32Union();
+            analogValue8.f = tapChanger1.Value;
+            Update(6, dnp3types.eDNP3GroupID.ANALOG_OUTPUTS, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue8, ref ptErrorValue);
+
+            SingleInt32Union analogValue9 = new SingleInt32Union();
+            analogValue9.f = tapChanger2.Value;
+            Update(7, dnp3types.eDNP3GroupID.ANALOG_OUTPUTS, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue9, ref ptErrorValue);
+
+            SingleInt32Union analogValue10 = new SingleInt32Union();
+            analogValue10.f = tapChanger3.Value;
+            Update(8, dnp3types.eDNP3GroupID.ANALOG_OUTPUTS, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue10, ref ptErrorValue);
+
+            SingleInt32Union analogValue11 = new SingleInt32Union();
+            analogValue11.f = pump1temp.Value;
+            Update(3, dnp3types.eDNP3GroupID.ANALOG_OUTPUTS, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue11, ref ptErrorValue);
+
+            SingleInt32Union analogValue12 = new SingleInt32Union();
+            analogValue12.f = pump2temp.Value;
+            Update(4, dnp3types.eDNP3GroupID.ANALOG_OUTPUTS, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue12, ref ptErrorValue);
+
+            SingleInt32Union analogValue13 = new SingleInt32Union();
+            analogValue13.f = pump3temp.Value;
+            Update(5, dnp3types.eDNP3GroupID.ANALOG_OUTPUTS, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue13, ref ptErrorValue);
+
+            SingleInt32Union analogValue14 = new SingleInt32Union();
+            analogValue14.f = pump1flow.Value;
+            Update(0, dnp3types.eDNP3GroupID.ANALOG_OUTPUTS, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue14, ref ptErrorValue);
+
+            SingleInt32Union analogValue15 = new SingleInt32Union();
+            analogValue15.f = pump2flow.Value;
+            Update(1, dnp3types.eDNP3GroupID.ANALOG_OUTPUTS, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue15, ref ptErrorValue);
+
+            SingleInt32Union analogValue16 = new SingleInt32Union();
+            analogValue16.f = pump3flow.Value;
+            Update(2, dnp3types.eDNP3GroupID.ANALOG_OUTPUTS, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue16, ref ptErrorValue);
+
+
+            /////// BINARY OUTPUT
 
             SingleInt32Union digitalValue = new SingleInt32Union();
             digitalValue.i = breaker01.Value;
             Update(0, dnp3types.eDNP3GroupID.BINARY_OUTPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digitalValue, ref ptErrorValue);
 
             SingleInt32Union digitalValue2 = new SingleInt32Union();
-            digitalValue2.i = breaker22.Value;
-            Update(2, dnp3types.eDNP3GroupID.BINARY_OUTPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digitalValue2, ref ptErrorValue);
+            digitalValue2.i = breaker11.Value;
+            Update(1, dnp3types.eDNP3GroupID.BINARY_OUTPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digitalValue2, ref ptErrorValue);
 
             SingleInt32Union digitalValue3 = new SingleInt32Union();
-            digitalValue3.i = dis01.Value;
-            Update(3, dnp3types.eDNP3GroupID.BINARY_OUTPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digitalValue3, ref ptErrorValue);
+            digitalValue3.i = breaker12.Value;
+            Update(2, dnp3types.eDNP3GroupID.BINARY_OUTPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digitalValue3, ref ptErrorValue);
 
             SingleInt32Union digitalValue4 = new SingleInt32Union();
-            digitalValue4.i = dis02.Value;
-            Update(4, dnp3types.eDNP3GroupID.BINARY_OUTPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digitalValue4, ref ptErrorValue);
+            digitalValue4.i = breaker13.Value;
+            Update(3, dnp3types.eDNP3GroupID.BINARY_OUTPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digitalValue4, ref ptErrorValue);
 
             SingleInt32Union digitalValue5 = new SingleInt32Union();
-            digitalValue5.i = dis12.Value;
-            Update(5, dnp3types.eDNP3GroupID.BINARY_OUTPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digitalValue5, ref ptErrorValue);
+            digitalValue5.i = breaker21.Value;
+            Update(4, dnp3types.eDNP3GroupID.BINARY_OUTPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digitalValue5, ref ptErrorValue);
 
             SingleInt32Union digitalValue6 = new SingleInt32Union();
-            digitalValue6.i = breaker12.Value;
-            Update(1, dnp3types.eDNP3GroupID.BINARY_OUTPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digitalValue6, ref ptErrorValue);
+            digitalValue6.i = breaker22.Value;
+            Update(5, dnp3types.eDNP3GroupID.BINARY_OUTPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digitalValue6, ref ptErrorValue);
 
             SingleInt32Union digitalValue7 = new SingleInt32Union();
-            digitalValue7.i = dis22.Value;
+            digitalValue7.i = breaker23.Value;
             Update(6, dnp3types.eDNP3GroupID.BINARY_OUTPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digitalValue7, ref ptErrorValue);
+
+            SingleInt32Union digitalValue8 = new SingleInt32Union();
+            digitalValue8.i = dis01.Value;
+            Update(7, dnp3types.eDNP3GroupID.BINARY_OUTPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digitalValue8, ref ptErrorValue);
+
+            SingleInt32Union digitalValue9 = new SingleInt32Union();
+            digitalValue9.i = dis02.Value;
+            Update(8, dnp3types.eDNP3GroupID.BINARY_OUTPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digitalValue9, ref ptErrorValue);
+
+            SingleInt32Union digitalValue10 = new SingleInt32Union();
+            digitalValue10.i = dis11.Value;
+            Update(9, dnp3types.eDNP3GroupID.BINARY_OUTPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digitalValue10, ref ptErrorValue);
+
+            SingleInt32Union digitalValue11 = new SingleInt32Union();
+            digitalValue11.i = dis12.Value;
+            Update(10, dnp3types.eDNP3GroupID.BINARY_OUTPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digitalValue11, ref ptErrorValue);
+
+            SingleInt32Union digitalValue12 = new SingleInt32Union();
+            digitalValue12.i = dis13.Value;
+            Update(11, dnp3types.eDNP3GroupID.BINARY_OUTPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digitalValue12, ref ptErrorValue);
+
+            SingleInt32Union digitalValue13 = new SingleInt32Union();
+            digitalValue13.i = dis21.Value;
+            Update(12, dnp3types.eDNP3GroupID.BINARY_OUTPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digitalValue13, ref ptErrorValue);
+
+            SingleInt32Union digitalValue14 = new SingleInt32Union();
+            digitalValue14.i = dis22.Value;
+            Update(13, dnp3types.eDNP3GroupID.BINARY_OUTPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digitalValue14, ref ptErrorValue);
+
+            SingleInt32Union digitalValue15 = new SingleInt32Union();
+            digitalValue15.i = dis23.Value;
+            Update(14, dnp3types.eDNP3GroupID.BINARY_OUTPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digitalValue15, ref ptErrorValue);
+
         }
 
         private void Configuration2()
         {
+            GetPoints();
 
+            if (colding && pump1temp.Value <= MinTemp)
+                colding = false;
+
+            if (pump1temp.Value > MaxTemp)
+                colding = true;
+
+
+            if (fluidLever.Value > EmptyTank && breaker01.Value == 1 && dis01.Value == 1 && dis02.Value == 1 &&
+                dis12.Value == 1 && dis22.Value == 1 && breaker22.Value == 1 && breaker12.Value == 1 &&
+                dis11.Value == 1 && dis21.Value == 1 && breaker21.Value == 1 && breaker11.Value == 1 && !colding)
+            {
+                pump1flow.Value = tapChanger1.Value * VoltageFactor * ConstPumpFlow;
+
+                if (fluidLever.Value - pump1flow.Value >= EmptyTank)
+                {
+                    pump1temp.Value = (float)(pump1temp.Value + HeatingConst * tapChanger1.Value * VoltageFactor);
+                    fluidLever.Value -= pump1flow.Value;
+                }
+            }
+            else
+            {
+                if (colding)
+                {
+                    pump1temp.Value -= ColdingConst;
+                }
+            }
+
+            if (fluidLever.Value < EmptyTank) //EMPTY TENK
+            {
+                SingleInt32Union digVal = new SingleInt32Union();
+                digVal.i = 1;
+                Update(0, dnp3types.eDNP3GroupID.BINARY_INPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digVal, ref ptErrorValue);
+            }
+
+            if (fluidLever.Value >= EmptyTank && fluidLever.Value <= FullTank)
+            {
+                SingleInt32Union digVal = new SingleInt32Union();
+                digVal.i = 0;
+                Update(0, dnp3types.eDNP3GroupID.BINARY_INPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digVal, ref ptErrorValue);
+                Update(1, dnp3types.eDNP3GroupID.BINARY_INPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digVal, ref ptErrorValue);
+            }
+
+            UpdatePoints();
         }
 
         private void Configuration3()
