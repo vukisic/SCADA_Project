@@ -17,6 +17,28 @@ namespace Simulator.Core
 
     public class Simulator : ISimulator, IDisposable
     {
+        
+        AnalogPoint pump2temp = null;
+        AnalogPoint pump2flow = null;
+        AnalogPoint tapChanger2 = null;
+
+        BinaryPoint dis12 = null;
+        BinaryPoint dis22 = null;
+        BinaryPoint dis01 = null;
+        BinaryPoint dis02 = null;
+        BinaryPoint breaker12 = null;
+        BinaryPoint breaker22 = null;
+        BinaryPoint breaker01 = null;
+
+        AnalogPoint TRVoltage = null;
+        AnalogPoint TRCurrent = null;
+
+        AnalogPoint fluidLever = null;
+
+        private bool Pump2Running = false;
+        private float MaxTemp;
+        private float MinTemp;
+        private bool colding = false;
         private int hourIndex = 0;
         private List<double> hours = new List<double>();
         private Thread worker;
@@ -35,6 +57,11 @@ namespace Simulator.Core
         private WeatherAPI WA;
         private float FullTank;
         private float EmptyTank;
+        private float HeatingConst;
+        private float VoltageFactor;
+        private float ColdingConst;
+        private float ConstPumpFlow;
+        private float TankSurface;
         private dnp3_protocol.dnp3types.sDNPServerDatabase db;
         private int secondsCount = 0;
         public int interval { get; set; }
@@ -47,6 +74,13 @@ namespace Simulator.Core
             interval = Int32.Parse(ConfigurationManager.AppSettings["interval"]);
             FullTank = float.Parse(ConfigurationManager.AppSettings["FullTank"]);
             EmptyTank = float.Parse(ConfigurationManager.AppSettings["EmptyTank"]);
+            MaxTemp = float.Parse(ConfigurationManager.AppSettings["MaxTemp"]);
+            MinTemp = float.Parse(ConfigurationManager.AppSettings["MinTemp"]);
+            HeatingConst = float.Parse(ConfigurationManager.AppSettings["HeatingConst"]);
+            VoltageFactor = float.Parse(ConfigurationManager.AppSettings["VoltageFactor"]);
+            ColdingConst = float.Parse(ConfigurationManager.AppSettings["ColdingConst"]);
+            ConstPumpFlow = float.Parse(ConfigurationManager.AppSettings["ConstPumpFlow"]);
+            TankSurface = float.Parse(ConfigurationManager.AppSettings["TankSurface"]);
             WA = new WeatherAPI();
             hours = WA.GetResultsForNext6Hours();
             db = new dnp3_protocol.dnp3types.sDNPServerDatabase();
@@ -177,29 +211,17 @@ namespace Simulator.Core
                     if (point.Index == 1 && point.GroupId==dnp3types.eDNP3GroupID.ANALOG_INPUT) //FLUID LEVER - AI
                     {
                         SingleInt32Union analogValue = new SingleInt32Union();
-                        analogValue.f = point.Value + (float)hours[hourIndex];
-                        point.Value += (float)hours[hourIndex];
+
+                        analogValue.f = point.Value + (float)hours[hourIndex] * TankSurface;
+                        //analogValue.f = point.Value + 1000; -- TEST
                         Update(1, dnp3types.eDNP3GroupID.ANALOG_INPUT, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue, ref ptErrorValue);
 
-                        if (point.Value < EmptyTank) //EMPTY TENK
-                        {
-                            SingleInt32Union digitalValue = new SingleInt32Union();
-                            digitalValue.i = 1;
-                            Update(0, dnp3types.eDNP3GroupID.BINARY_INPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digitalValue, ref ptErrorValue);
-                        }
                         if (point.Value > FullTank) //FULL TENK
                         {
                             SingleInt32Union digitalValue = new SingleInt32Union();
                             digitalValue.i = 1;
                             Update(1, dnp3types.eDNP3GroupID.BINARY_INPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digitalValue, ref ptErrorValue);
-                        }
-                        if (point.Value >= EmptyTank && point.Value <= FullTank)
-                        {
-                            SingleInt32Union digitalValue = new SingleInt32Union();
-                            digitalValue.i = 0;
-                            Update(0, dnp3types.eDNP3GroupID.BINARY_INPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digitalValue, ref ptErrorValue);
-                            Update(1, dnp3types.eDNP3GroupID.BINARY_INPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digitalValue, ref ptErrorValue);
-                        }
+                        }                   
                     }
                 }
             }
@@ -207,18 +229,180 @@ namespace Simulator.Core
         }
         private void Simulation()
         {
-            if(secondsCount == 3600)
+            if (secondsCount == 3600)
             {
                 OnEveryHour();
                 secondsCount = 0;
             }
             else
             {
-                //Define logic
+                //emptying the tank
+
+                dnp3_protocol.dnp3api.DNP3GetServerDatabaseValue(DNP3serverhandle, ref db, ref ptErrorValue);
+
+                if (db.u32TotalPoints == 15)
+                {
+                    Configuration1();
+                }
+                else if (db.u32TotalPoints == 24)
+                {
+                    Configuration2();
+                }
+                else if (db.u32TotalPoints == 33)
+                {
+                    Configuration3();
+                }
                 secondsCount++;
             }
         }
+        private void Configuration1()
+        {
 
+            GetPoints();
+
+            if (colding && pump2temp.Value <= MinTemp)
+                colding = false;
+
+            if (pump2temp.Value > MaxTemp)
+                colding = true;
+            
+
+            if (fluidLever.Value > EmptyTank &&breaker01.Value == 1 && dis01.Value == 1 && dis02.Value == 1 && dis12.Value == 1 && dis22.Value == 1 && breaker22.Value == 1 && breaker12.Value == 1 && !colding) //all closed
+            {
+                pump2flow.Value = tapChanger2.Value * VoltageFactor * ConstPumpFlow; // 1 * 100 * 1 => 100 l/s
+
+                if (fluidLever.Value - pump2flow.Value >= EmptyTank)
+                {
+                    pump2temp.Value = (float)(pump2temp.Value + HeatingConst * tapChanger2.Value * VoltageFactor); // 0.1 * 1 * 100
+                    fluidLever.Value -= pump2flow.Value;
+                }
+            }
+            else
+            {
+                if (colding)
+                {
+                    pump2temp.Value -= ColdingConst;
+                }
+            }
+    
+            if (fluidLever.Value < EmptyTank) //EMPTY TENK
+            {
+                SingleInt32Union digVal = new SingleInt32Union();
+                digVal.i = 1;
+                Update(0, dnp3types.eDNP3GroupID.BINARY_INPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digVal, ref ptErrorValue);
+            }
+
+            if (fluidLever.Value >= EmptyTank && fluidLever.Value <= FullTank)
+            {
+                SingleInt32Union digVal = new SingleInt32Union();
+                digVal.i = 0;
+                Update(0, dnp3types.eDNP3GroupID.BINARY_INPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digVal, ref ptErrorValue);
+                Update(1, dnp3types.eDNP3GroupID.BINARY_INPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digVal, ref ptErrorValue);
+            }
+
+            UpdatePoints();
+        }
+        
+        private void GetPoints()
+        {
+            MarshalUnmananagedArray2Struct(db.psServerDatabasePoint, (int)db.u32TotalPoints, out dnp3_protocol.dnp3types.sServerDatabasePoint[] points);
+
+            var result = ConvertToPoints(points);
+
+            foreach (var item in result)
+            {
+                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.BINARY_OUTPUT && item.Index == 5)
+                    dis12 = item as BinaryPoint;
+                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.BINARY_OUTPUT && item.Index == 1)
+                    breaker12 = item as BinaryPoint;
+                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.BINARY_OUTPUT && item.Index == 6)
+                    dis22 = item as BinaryPoint;
+                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.BINARY_OUTPUT && item.Index == 3)
+                    dis01 = item as BinaryPoint;
+                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.BINARY_OUTPUT && item.Index == 4)
+                    dis02 = item as BinaryPoint;
+                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.BINARY_OUTPUT && item.Index == 2)
+                    breaker22 = item as BinaryPoint;
+                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.BINARY_OUTPUT && item.Index == 0)
+                    breaker01 = item as BinaryPoint;
+                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_OUTPUTS && item.Index == 6)
+                    tapChanger2 = item as AnalogPoint;
+                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_OUTPUTS && item.Index == 1)
+                    pump2temp = item as AnalogPoint;
+                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_OUTPUTS && item.Index == 0)
+                    pump2flow = item as AnalogPoint;
+                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_INPUT && item.Index == 0)
+                    TRCurrent = item as AnalogPoint;
+                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_INPUT && item.Index == 2)
+                    TRVoltage = item as AnalogPoint;
+                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_INPUT && item.Index == 1)
+                    fluidLever = item as AnalogPoint;
+            }
+        }
+        private void UpdatePoints()
+        {
+            SingleInt32Union analogValue = new SingleInt32Union();
+            analogValue.f = fluidLever.Value;
+            Update(1, dnp3types.eDNP3GroupID.ANALOG_INPUT, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue, ref ptErrorValue);
+
+            SingleInt32Union analogValue2 = new SingleInt32Union();
+            analogValue2.f = TRCurrent.Value;
+            Update(0, dnp3types.eDNP3GroupID.ANALOG_INPUT, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue2, ref ptErrorValue);
+
+            SingleInt32Union analogValue3 = new SingleInt32Union();
+            analogValue3.f = TRCurrent.Value;
+            Update(2, dnp3types.eDNP3GroupID.ANALOG_INPUT, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue3, ref ptErrorValue);
+
+            SingleInt32Union analogValue4 = new SingleInt32Union();
+            analogValue4.f = tapChanger2.Value;
+            Update(6, dnp3types.eDNP3GroupID.ANALOG_OUTPUTS, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue4, ref ptErrorValue);
+
+            SingleInt32Union analogValue5 = new SingleInt32Union();
+            analogValue5.f = pump2temp.Value;
+            Update(1, dnp3types.eDNP3GroupID.ANALOG_OUTPUTS, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue5, ref ptErrorValue);
+
+            SingleInt32Union analogValue6 = new SingleInt32Union();
+            analogValue6.f = pump2flow.Value;
+            Update(0, dnp3types.eDNP3GroupID.ANALOG_OUTPUTS, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue6, ref ptErrorValue);
+
+            SingleInt32Union digitalValue = new SingleInt32Union();
+            digitalValue.i = breaker01.Value;
+            Update(0, dnp3types.eDNP3GroupID.BINARY_OUTPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digitalValue, ref ptErrorValue);
+
+            SingleInt32Union digitalValue2 = new SingleInt32Union();
+            digitalValue2.i = breaker22.Value;
+            Update(2, dnp3types.eDNP3GroupID.BINARY_OUTPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digitalValue2, ref ptErrorValue);
+
+            SingleInt32Union digitalValue3 = new SingleInt32Union();
+            digitalValue3.i = dis01.Value;
+            Update(3, dnp3types.eDNP3GroupID.BINARY_OUTPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digitalValue3, ref ptErrorValue);
+
+            SingleInt32Union digitalValue4 = new SingleInt32Union();
+            digitalValue4.i = dis02.Value;
+            Update(4, dnp3types.eDNP3GroupID.BINARY_OUTPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digitalValue4, ref ptErrorValue);
+
+            SingleInt32Union digitalValue5 = new SingleInt32Union();
+            digitalValue5.i = dis12.Value;
+            Update(5, dnp3types.eDNP3GroupID.BINARY_OUTPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digitalValue5, ref ptErrorValue);
+
+            SingleInt32Union digitalValue6 = new SingleInt32Union();
+            digitalValue6.i = breaker12.Value;
+            Update(1, dnp3types.eDNP3GroupID.BINARY_OUTPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digitalValue6, ref ptErrorValue);
+
+            SingleInt32Union digitalValue7 = new SingleInt32Union();
+            digitalValue7.i = dis22.Value;
+            Update(6, dnp3types.eDNP3GroupID.BINARY_OUTPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digitalValue7, ref ptErrorValue);
+        }
+
+        private void Configuration2()
+        {
+
+        }
+
+        private void Configuration3()
+        {
+
+        }
         private bool Prepare()
         {
            
@@ -378,8 +562,8 @@ namespace Simulator.Core
             psDNP3Objects = new dnp3_protocol.dnp3types.sDNP3Object[sDNP3Config.sDNP3ServerSet.u16NoofObject];
             sDNP3Config.sDNP3ServerSet.psDNP3Objects = System.Runtime.InteropServices.Marshal.AllocHGlobal(
                 sDNP3Config.sDNP3ServerSet.u16NoofObject * System.Runtime.InteropServices.Marshal.SizeOf(psDNP3Objects[0]));
-            
-            GeneratePoints(ref psDNP3Objects, Tuple.Create<ushort,ushort,ushort,ushort>(1,1,1,1));
+
+            GeneratePoints(ref psDNP3Objects, Tuple.Create<ushort, ushort, ushort, ushort>(5, 5, 5, 5));
 
             // Load configuration
             iErrorCode = dnp3_protocol.dnp3api.DNP3LoadConfiguration(DNP3serverhandle, ref sDNP3Config, ref ptErrorValue);
