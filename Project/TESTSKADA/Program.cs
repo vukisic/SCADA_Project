@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Timers;
 using System.Threading.Tasks;
 using Core.Common.ServiceBus.Events;
 using NDS.FrontEnd;
@@ -8,6 +10,7 @@ using NDS.ServiceBus;
 using NServiceBus;
 using NServiceBus.Logging;
 using SCADA.Common;
+using SCADA.DB.Models;
 using SCADATransaction;
 
 namespace NDS
@@ -50,7 +53,7 @@ namespace NDS
             scada.OpenTransaction();
 
             LoggingProxy proxy = new LoggingProxy();
-            proxy.Log(new SCADA.Common.Logging.LogEventModel() { EventType = SCADA.Common.Logging.LogEventType.INFO, Message = "Hello World!" });
+            proxy.Log(new SCADA.Common.Logging.LogEventModel() { EventType = SCADA.Common.Logging.LogEventType.INFO, Message = "NDS Started!" });
 
             Console.ReadLine();
 		}

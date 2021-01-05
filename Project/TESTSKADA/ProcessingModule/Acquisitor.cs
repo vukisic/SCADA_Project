@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using NDS.Proxies;
 
 namespace NDS.ProcessingModule
 {
@@ -12,6 +13,7 @@ namespace NDS.ProcessingModule
         private AutoResetEvent acquisitionTrigger;
         private IProcessingManager processingManager;
         private Thread acquisitionWorker;
+        private HistoryProxy historian;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Acquisitor"/> class.
@@ -23,6 +25,7 @@ namespace NDS.ProcessingModule
         {
             this.acquisitionTrigger = acquisitionTrigger;
             this.processingManager = processingManager;
+            historian = new HistoryProxy();
             this.InitializeAcquisitionThread();
             this.StartAcquisitionThread();
         }

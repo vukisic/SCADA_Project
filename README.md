@@ -6,6 +6,7 @@ SCADA Master Project
 - Open up solution in `VisualStudio`
 - Solution -> Properties -> Multiple StartUp Projects Configuration
 - Set the following order and foreach set `Start` option
+  - `Scada.Services`
   - `Simulator`
   - `GUI`
   - `NetworkModelServiceSelfHost`
