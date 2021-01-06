@@ -513,13 +513,7 @@ namespace Simulator.Core
 
             if (fluidLever.Value > EmptyTank && breaker01.Value == 1 && dis01.Value == 1 && dis02.Value == 1 && dis12.Value == 1 && dis22.Value == 1 && breaker22.Value == 1 && breaker12.Value == 1 && !colding2Pump) //all closed
             {
-                pump2flow.Value = tapChanger2.Value * VoltageFactor * ConstPumpFlow; // 1 * 100 * 1 => 100 l/s
-
-                if (fluidLever.Value - pump2flow.Value >= EmptyTank)
-                {
-                    pump2temp.Value = (float)(pump2temp.Value + HeatingConst * tapChanger2.Value * VoltageFactor); // 0.1 * 1 * 100
-                    fluidLever.Value -= pump2flow.Value;
-                }
+                PumpRunning(pump2flow, pump2temp, tapChanger2);
             }
             else
             {
@@ -568,13 +562,7 @@ namespace Simulator.Core
             if (fluidLever.Value > EmptyTank && breaker01.Value == 1 && dis01.Value == 1 && dis02.Value == 1 &&
                 dis12.Value == 1 && dis22.Value == 1 && breaker22.Value == 1 && breaker12.Value == 1 && !colding2Pump) //all closed
             {
-                pump2flow.Value = tapChanger2.Value * VoltageFactor * ConstPumpFlow; // 1 * 100 * 1 => 100 l/s
-
-                if (fluidLever.Value - pump2flow.Value >= EmptyTank)
-                {
-                    pump2temp.Value = (float)(pump2temp.Value + HeatingConst * tapChanger2.Value * VoltageFactor); // 0.1 * 1 * 100
-                    fluidLever.Value -= pump2flow.Value;
-                }
+                PumpRunning(pump2flow, pump2temp, tapChanger2);
             }
             else
             {
@@ -588,13 +576,7 @@ namespace Simulator.Core
             if (fluidLever.Value > EmptyTank && breaker01.Value == 1 && dis01.Value == 1 && dis02.Value == 1 &&      
                 dis11.Value == 1 && dis21.Value == 1 && breaker21.Value == 1 && breaker11.Value == 1 && !colding1Pump )
             {
-                pump1flow.Value = tapChanger1.Value * VoltageFactor * ConstPumpFlow;
-
-                if (fluidLever.Value - pump1flow.Value >= EmptyTank)
-                {
-                    pump1temp.Value = (float)(pump1temp.Value + HeatingConst * tapChanger1.Value * VoltageFactor);
-                    fluidLever.Value -= pump1flow.Value;
-                }
+                PumpRunning(pump1flow, pump1temp, tapChanger1);
             }
             else
             {
@@ -651,13 +633,7 @@ namespace Simulator.Core
             if (fluidLever.Value > EmptyTank && breaker01.Value == 1 && dis01.Value == 1 && dis02.Value == 1 &&
                 dis12.Value == 1 && dis22.Value == 1 && breaker22.Value == 1 && breaker12.Value == 1 && !colding2Pump) //all closed
             {
-                pump2flow.Value = tapChanger2.Value * VoltageFactor * ConstPumpFlow; // 1 * 100 * 1 => 100 l/s
-
-                if (fluidLever.Value - pump2flow.Value >= EmptyTank)
-                {
-                    pump2temp.Value = (float)(pump2temp.Value + HeatingConst * tapChanger2.Value * VoltageFactor); // 0.1 * 1 * 100
-                    fluidLever.Value -= pump2flow.Value;
-                }
+                PumpRunning(pump2flow, pump2temp, tapChanger2);
             }
             else
             {
@@ -671,13 +647,7 @@ namespace Simulator.Core
             if (fluidLever.Value > EmptyTank && breaker01.Value == 1 && dis01.Value == 1 && dis02.Value == 1 &&
                 dis11.Value == 1 && dis21.Value == 1 && breaker21.Value == 1 && breaker11.Value == 1 && !colding1Pump)
             {
-                pump1flow.Value = tapChanger1.Value * VoltageFactor * ConstPumpFlow;
-
-                if (fluidLever.Value - pump1flow.Value >= EmptyTank)
-                {
-                    pump1temp.Value = (float)(pump1temp.Value + HeatingConst * tapChanger1.Value * VoltageFactor);
-                    fluidLever.Value -= pump1flow.Value;
-                }
+                PumpRunning(pump1flow, pump1temp, tapChanger1);
             }
             else
             {
@@ -690,13 +660,7 @@ namespace Simulator.Core
             if (fluidLever.Value > EmptyTank && breaker01.Value == 1 && dis01.Value == 1 && dis02.Value == 1 &&
                dis13.Value == 1 && dis23.Value == 1 && breaker23.Value == 1 && breaker13.Value == 1 && !colding3Pump)
             {
-                pump3flow.Value = tapChanger3.Value * VoltageFactor * ConstPumpFlow;
-
-                if (fluidLever.Value - pump3flow.Value >= EmptyTank)
-                {
-                    pump3temp.Value = (float)(pump3temp.Value + HeatingConst * tapChanger3.Value * VoltageFactor);
-                    fluidLever.Value -= pump3flow.Value;
-                }
+                PumpRunning(pump3flow, pump3temp, tapChanger3);
             }
             else
             {
@@ -722,6 +686,17 @@ namespace Simulator.Core
             }
 
             UpdatePoints();
+        }
+
+        private void PumpRunning(AnalogPoint pumpFlow, AnalogPoint pumpTemp, AnalogPoint tapChanger)
+        {
+            pumpFlow.Value = tapChanger.Value * VoltageFactor * ConstPumpFlow; 
+
+            if (fluidLever.Value - pumpFlow.Value >= EmptyTank)
+            {
+                pumpTemp.Value = (float)(pumpTemp.Value + HeatingConst * tapChanger.Value * VoltageFactor); // 0.1 * 1 * 100
+                fluidLever.Value -= pumpFlow.Value;
+            }
         }
 
         private bool Prepare()
