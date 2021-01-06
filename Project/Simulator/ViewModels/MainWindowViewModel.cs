@@ -44,7 +44,8 @@ namespace Simulator.ViewModels
             _windowManager = windowManager;
             _applyEvent += MainWindowViewModel_applyEvent;
             Points = new ObservableCollection<Point>();
-            _simulator = new Core.Simulator();
+            ISimulatorConfiguration config = new SimulatorConfiguration();
+            _simulator = new Core.Simulator(config);
             _simulator.updateEvent += Simulator_updateEvent;
             _simulator.Start();
             serviceHost = new ServiceHost(typeof(Simulator.Core.ConfigurationService));

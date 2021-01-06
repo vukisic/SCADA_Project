@@ -129,9 +129,12 @@
     <Compile Include="Core\Model\AnalogPoint.cs" />
     <Compile Include="Core\Model\BinaryPoint.cs" />
     <Compile Include="Core\Model\ClickEventArgs.cs" />
+    <Compile Include="Core\ISimulatorConfiguration.cs" />
     <Compile Include="Core\Model\Point.cs" />
     <Compile Include="Core\Model\UpdateEventArgs.cs" />
+    <Compile Include="Core\SimulationLogic.cs" />
     <Compile Include="Core\Simulator.cs" />
+    <Compile Include="Core\SimulatorConfiguration.cs" />
     <Compile Include="Services\IMessageService.cs" />
     <Compile Include="Services\MessageBoxService.cs" />
     <Compile Include="ViewModels\ControlWindowViewModel.cs" />
