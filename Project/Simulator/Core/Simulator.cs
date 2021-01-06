@@ -513,7 +513,7 @@ namespace Simulator.Core
 
             if (fluidLever.Value > EmptyTank && breaker01.Value == 1 && dis01.Value == 1 && dis02.Value == 1 && dis12.Value == 1 && dis22.Value == 1 && breaker22.Value == 1 && breaker12.Value == 1 && !colding2Pump) //all closed
             {
-                PumpRunning(pump2flow, pump2temp, tapChanger2);
+                PumpRunning(pump2flow, pump2temp, tapChanger2, TRVoltage2);
             }
             else
             {
@@ -523,20 +523,7 @@ namespace Simulator.Core
                 }
             }
 
-            if (fluidLever.Value < EmptyTank) //EMPTY TENK
-            {
-                SingleInt32Union digVal = new SingleInt32Union();
-                digVal.i = 1;
-                Update(pairs["EmptyTank"], dnp3types.eDNP3GroupID.BINARY_INPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digVal, ref ptErrorValue);
-            }
-
-            if (fluidLever.Value >= EmptyTank && fluidLever.Value <= FullTank)
-            {
-                SingleInt32Union digVal = new SingleInt32Union();
-                digVal.i = 0;
-                Update(pairs["EmptyTank"], dnp3types.eDNP3GroupID.BINARY_INPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digVal, ref ptErrorValue);
-                Update(pairs["FullTank"], dnp3types.eDNP3GroupID.BINARY_INPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digVal, ref ptErrorValue);
-            }
+            CheckFluidLevel();
 
             UpdatePoints();
         }
@@ -562,7 +549,7 @@ namespace Simulator.Core
             if (fluidLever.Value > EmptyTank && breaker01.Value == 1 && dis01.Value == 1 && dis02.Value == 1 &&
                 dis12.Value == 1 && dis22.Value == 1 && breaker22.Value == 1 && breaker12.Value == 1 && !colding2Pump) //all closed
             {
-                PumpRunning(pump2flow, pump2temp, tapChanger2);
+                PumpRunning(pump2flow, pump2temp, tapChanger2, TRVoltage2);
             }
             else
             {
@@ -576,7 +563,7 @@ namespace Simulator.Core
             if (fluidLever.Value > EmptyTank && breaker01.Value == 1 && dis01.Value == 1 && dis02.Value == 1 &&      
                 dis11.Value == 1 && dis21.Value == 1 && breaker21.Value == 1 && breaker11.Value == 1 && !colding1Pump )
             {
-                PumpRunning(pump1flow, pump1temp, tapChanger1);
+                PumpRunning(pump1flow, pump1temp, tapChanger1, TRVoltage1);
             }
             else
             {
@@ -586,27 +573,13 @@ namespace Simulator.Core
                 }
             }
 
-            if (fluidLever.Value < EmptyTank) //EMPTY TENK
-            {
-                SingleInt32Union digVal = new SingleInt32Union();
-                digVal.i = 1;
-                Update(pairs["EmptyTank"], dnp3types.eDNP3GroupID.BINARY_INPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digVal, ref ptErrorValue);
-            }
-
-            if (fluidLever.Value >= EmptyTank && fluidLever.Value <= FullTank)
-            {
-                SingleInt32Union digVal = new SingleInt32Union();
-                digVal.i = 0;
-                Update(pairs["EmptyTank"], dnp3types.eDNP3GroupID.BINARY_INPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digVal, ref ptErrorValue);
-                Update(pairs["FullTank"], dnp3types.eDNP3GroupID.BINARY_INPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digVal, ref ptErrorValue);
-            }
+            CheckFluidLevel();
 
             UpdatePoints();
         }
 
         private void Configuration3()
         {
-
             GetPoints();
 
             //colding first pump
@@ -633,7 +606,7 @@ namespace Simulator.Core
             if (fluidLever.Value > EmptyTank && breaker01.Value == 1 && dis01.Value == 1 && dis02.Value == 1 &&
                 dis12.Value == 1 && dis22.Value == 1 && breaker22.Value == 1 && breaker12.Value == 1 && !colding2Pump) //all closed
             {
-                PumpRunning(pump2flow, pump2temp, tapChanger2);
+                PumpRunning(pump2flow, pump2temp, tapChanger2, TRVoltage2);
             }
             else
             {
@@ -647,7 +620,7 @@ namespace Simulator.Core
             if (fluidLever.Value > EmptyTank && breaker01.Value == 1 && dis01.Value == 1 && dis02.Value == 1 &&
                 dis11.Value == 1 && dis21.Value == 1 && breaker21.Value == 1 && breaker11.Value == 1 && !colding1Pump)
             {
-                PumpRunning(pump1flow, pump1temp, tapChanger1);
+                PumpRunning(pump1flow, pump1temp, tapChanger1, TRVoltage1);
             }
             else
             {
@@ -660,7 +633,7 @@ namespace Simulator.Core
             if (fluidLever.Value > EmptyTank && breaker01.Value == 1 && dis01.Value == 1 && dis02.Value == 1 &&
                dis13.Value == 1 && dis23.Value == 1 && breaker23.Value == 1 && breaker13.Value == 1 && !colding3Pump)
             {
-                PumpRunning(pump3flow, pump3temp, tapChanger3);
+                PumpRunning(pump3flow, pump3temp, tapChanger3, TRVoltage3);
             }
             else
             {
@@ -670,6 +643,13 @@ namespace Simulator.Core
                 }
             }
 
+            CheckFluidLevel();
+
+            UpdatePoints();
+        }
+
+        private void CheckFluidLevel()
+        {
             if (fluidLever.Value < EmptyTank) //EMPTY TENK
             {
                 SingleInt32Union digVal = new SingleInt32Union();
@@ -684,17 +664,16 @@ namespace Simulator.Core
                 Update(pairs["EmptyTank"], dnp3types.eDNP3GroupID.BINARY_INPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digVal, ref ptErrorValue);
                 Update(pairs["FullTank"], dnp3types.eDNP3GroupID.BINARY_INPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digVal, ref ptErrorValue);
             }
-
-            UpdatePoints();
         }
 
-        private void PumpRunning(AnalogPoint pumpFlow, AnalogPoint pumpTemp, AnalogPoint tapChanger)
+        private void PumpRunning(AnalogPoint pumpFlow, AnalogPoint pumpTemp, AnalogPoint tapChanger, AnalogPoint voltage)
         {
             pumpFlow.Value = tapChanger.Value * VoltageFactor * ConstPumpFlow; 
 
             if (fluidLever.Value - pumpFlow.Value >= EmptyTank)
             {
-                pumpTemp.Value = (float)(pumpTemp.Value + HeatingConst * tapChanger.Value * VoltageFactor); // 0.1 * 1 * 100
+                voltage.Value = tapChanger.Value * VoltageFactor;
+                pumpTemp.Value += HeatingConst * voltage.Value; // 0.1 * 1 * 100
                 fluidLever.Value -= pumpFlow.Value;
             }
         }
