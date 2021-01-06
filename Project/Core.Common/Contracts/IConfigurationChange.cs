@@ -11,6 +11,6 @@ namespace Core.Common.Contracts
     public interface IConfigurationChange
     {
         [OperationContract]
-        void UpdateConfig(Tuple<ushort, ushort, ushort, ushort> points);
+        void UpdateConfig(Tuple<ushort, ushort, ushort, ushort> points, Dictionary<string, ushort> pairs);
     }
 }

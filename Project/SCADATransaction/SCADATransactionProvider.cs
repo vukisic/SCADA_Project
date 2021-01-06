@@ -10,11 +10,12 @@ namespace SCADATransaction
 {
     public class SCADATransactionProvider : ITransactionSteps
     {
+        ConversionResult result;
         public bool Prepare()
         {
             Console.WriteLine("Prepared? YES");
             var converter = new ScadaModelConverter();
-            var result = converter.Convert(DataBase.CimModel);
+            result = converter.Convert(DataBase.CimModel);
             DataBase.TransactionModel = result.Points;
             DataBase.Dom = result.Equipment.Values.ToList();
             return true;
@@ -26,7 +27,7 @@ namespace SCADATransaction
             DataBase.Model = DataBase.TransactionModel;
             SCADAServer.updateEvent?.Invoke(this, null);
             ConfigurationChangeInvoker invoker = new ConfigurationChangeInvoker();
-            invoker.Update();
+            invoker.Update(result.MridIndexPairs);
             invoker = null;
             return true;
         }

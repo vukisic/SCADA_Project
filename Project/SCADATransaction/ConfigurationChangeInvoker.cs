@@ -19,14 +19,14 @@ namespace SCADATransaction
             proxy = channelFactory.CreateChannel();
         }
 
-        public void Update()
+        public void Update(Dictionary<string,ushort> pairs)
         {
             ushort aiCount = (ushort)(DataBase.Model.Values.Where(x => x.RegisterType == SCADA.Common.DataModel.RegisterType.ANALOG_INPUT).Count());
             ushort aoCount = (ushort)(DataBase.Model.Values.Where(x => x.RegisterType == SCADA.Common.DataModel.RegisterType.ANALOG_OUTPUT).Count());
             ushort biCount = (ushort)(DataBase.Model.Values.Where(x => x.RegisterType == SCADA.Common.DataModel.RegisterType.BINARY_INPUT).Count());
             ushort boCount = (ushort)(DataBase.Model.Values.Where(x => x.RegisterType == SCADA.Common.DataModel.RegisterType.BINARY_OUTPUT).Count());
 
-            proxy.UpdateConfig(Tuple.Create<ushort, ushort, ushort, ushort>(biCount,boCount,aiCount,aoCount));
+            proxy.UpdateConfig(Tuple.Create<ushort, ushort, ushort, ushort>(biCount,boCount,aiCount,aoCount), pairs);
         }
     }
 }
