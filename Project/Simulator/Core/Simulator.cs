@@ -350,7 +350,7 @@ namespace Simulator.Core
             Update(0, dnp3types.eDNP3GroupID.ANALOG_INPUT, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue2, ref ptErrorValue);
 
             SingleInt32Union analogValue3 = new SingleInt32Union();
-            analogValue3.f = TRCurrent.Value;
+            analogValue3.f = TRVoltage.Value;
             Update(2, dnp3types.eDNP3GroupID.ANALOG_INPUT, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue3, ref ptErrorValue);
 
             SingleInt32Union analogValue4 = new SingleInt32Union();
