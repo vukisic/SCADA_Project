@@ -84,6 +84,8 @@ namespace Simulator.Core
         private float TankSurface;
         private dnp3_protocol.dnp3types.sDNPServerDatabase db;
         private int secondsCount = 0;
+        private static  Dictionary<string, ushort> pairs;
+        private static  Dictionary<string, ushort> incomingPairs;
         public int interval { get; set; }
 
         public Simulator()
@@ -119,6 +121,7 @@ namespace Simulator.Core
                 Trace.TraceError("iErrorCode {0:D}: {1}", iErrorCode, errorcodestring(iErrorCode));
                 Trace.TraceError("iErrorValue {0:D}: {1}", ptErrorValue, errorvaluestring(ptErrorValue));
             }
+            pairs = incomingPairs;
             configChange = false;
             SetValues(result);
         }
@@ -1223,10 +1226,11 @@ namespace Simulator.Core
             worker.Abort();
         }
 
-        public static void UpdateConfig(Tuple<ushort, ushort, ushort, ushort> points)
+        public static void UpdateConfig(Tuple<ushort, ushort, ushort, ushort> points, Dictionary<string,ushort> pairs)
         {
             configChange = true;
             config = points;
+            incomingPairs = pairs;
         }
     }
 }

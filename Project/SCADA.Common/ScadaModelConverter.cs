@@ -23,6 +23,16 @@ namespace SCADA.Common
 
         }
 
+        public Dictionary<string,ushort> GetMrdidIndexPairs(List<BasePoint> list)
+        {
+            var result = new Dictionary<string, ushort>();
+            foreach (var item in list)
+            {
+                result.Add(item.Mrid, (ushort)(item.Index));
+            }
+            return result;
+        }
+
         public ConversionResult Convert(Dictionary<DMSType,Container> model)
         {
             ConversionResult result = new ConversionResult();
@@ -34,6 +44,7 @@ namespace SCADA.Common
                 Container disconnectorContainer = model[DMSType.DISCONNECTOR];
                 result.Points = ConvertPoints(analogContainer, discreteContainer);
                 result.Equipment = ConvertSwitchingEquipment(breakerContainer, disconnectorContainer);
+                result.MridIndexPairs = GetMrdidIndexPairs(result.Points.Values.ToList());
                 result.Success = true;
                 
             }
