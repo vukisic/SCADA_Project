@@ -58,6 +58,7 @@ namespace Simulator.Core
         private float MinTemp;
         private bool colding1Pump = false;
         private bool colding2Pump = false;
+        private bool colding3Pump = false;
         private int hourIndex = 0;
         private List<double> hours = new List<double>();
         private Thread worker;
@@ -231,8 +232,8 @@ namespace Simulator.Core
                     {
                         SingleInt32Union analogValue = new SingleInt32Union();
 
-                        analogValue.f = point.Value + (float)hours[hourIndex] * TankSurface;
-                        //analogValue.f = point.Value + 1000; -- TEST
+                        //analogValue.f = point.Value + (float)hours[hourIndex] * TankSurface;
+                        analogValue.f = point.Value + 1000; 
                         Update(1, dnp3types.eDNP3GroupID.ANALOG_INPUT, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue, ref ptErrorValue);
 
                         if (point.Value > FullTank) //FULL TENK
@@ -246,9 +247,10 @@ namespace Simulator.Core
             }
             hourIndex++;
         }
+
         private void Simulation()
         {
-            if (secondsCount == 3600)
+            if (secondsCount == 20)
             {
                 OnEveryHour();
                 secondsCount = 0;
@@ -274,54 +276,7 @@ namespace Simulator.Core
                 secondsCount++;
             }
         }
-        private void Configuration1()
-        {
 
-            GetPoints();
-
-            if (colding1Pump && pump2temp.Value <= MinTemp)
-                colding1Pump = false;
-
-            if (pump2temp.Value > MaxTemp)
-                colding1Pump = true;
-            
-
-            if (fluidLever.Value > EmptyTank &&breaker01.Value == 1 && dis01.Value == 1 && dis02.Value == 1 && dis12.Value == 1 && dis22.Value == 1 && breaker22.Value == 1 && breaker12.Value == 1 && !colding2Pump) //all closed
-            {
-                pump2flow.Value = tapChanger2.Value * VoltageFactor * ConstPumpFlow; // 1 * 100 * 1 => 100 l/s
-
-                if (fluidLever.Value - pump2flow.Value >= EmptyTank)
-                {
-                    pump2temp.Value = (float)(pump2temp.Value + HeatingConst * tapChanger2.Value * VoltageFactor); // 0.1 * 1 * 100
-                    fluidLever.Value -= pump2flow.Value;
-                }
-            }
-            else
-            {
-                if (colding1Pump)
-                {
-                    pump2temp.Value -= ColdingConst;
-                }
-            }
-    
-            if (fluidLever.Value < EmptyTank) //EMPTY TENK
-            {
-                SingleInt32Union digVal = new SingleInt32Union();
-                digVal.i = 1;
-                Update(0, dnp3types.eDNP3GroupID.BINARY_INPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digVal, ref ptErrorValue);
-            }
-
-            if (fluidLever.Value >= EmptyTank && fluidLever.Value <= FullTank)
-            {
-                SingleInt32Union digVal = new SingleInt32Union();
-                digVal.i = 0;
-                Update(0, dnp3types.eDNP3GroupID.BINARY_INPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digVal, ref ptErrorValue);
-                Update(1, dnp3types.eDNP3GroupID.BINARY_INPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digVal, ref ptErrorValue);
-            }
-
-            UpdatePoints();
-        }
-        
         private void GetPoints()
         {
             MarshalUnmananagedArray2Struct(db.psServerDatabasePoint, (int)db.u32TotalPoints, out dnp3_protocol.dnp3types.sServerDatabasePoint[] points);
@@ -402,6 +357,7 @@ namespace Simulator.Core
 
             }
         }
+
         private void UpdatePoints()
         {
             /////// ANALOG INPUT
@@ -538,18 +494,11 @@ namespace Simulator.Core
 
         }
 
-        private void Configuration2()
+        private void Configuration1()
         {
+
             GetPoints();
 
-            //colding first pump
-            if (colding1Pump && pump1temp.Value <= MinTemp)
-                colding1Pump = false;
-
-            if (pump1temp.Value > MaxTemp)
-                colding1Pump = true;
-
-            //colding second pump
             if (colding2Pump && pump2temp.Value <= MinTemp)
                 colding2Pump = false;
 
@@ -557,24 +506,18 @@ namespace Simulator.Core
                 colding2Pump = true;
 
 
-            if (fluidLever.Value > EmptyTank && breaker01.Value == 1 && dis01.Value == 1 && dis02.Value == 1 &&
-                dis12.Value == 1 && dis22.Value == 1 && breaker22.Value == 1 && breaker12.Value == 1 &&
-                dis11.Value == 1 && dis21.Value == 1 && breaker21.Value == 1 && breaker11.Value == 1 && !colding1Pump && !colding2Pump)
+            if (fluidLever.Value > EmptyTank && breaker01.Value == 1 && dis01.Value == 1 && dis02.Value == 1 && dis12.Value == 1 && dis22.Value == 1 && breaker22.Value == 1 && breaker12.Value == 1 && !colding2Pump) //all closed
             {
-                pump1flow.Value = tapChanger1.Value * VoltageFactor * ConstPumpFlow;
+                pump2flow.Value = tapChanger2.Value * VoltageFactor * ConstPumpFlow; // 1 * 100 * 1 => 100 l/s
 
-                if (fluidLever.Value - pump1flow.Value >= EmptyTank)
+                if (fluidLever.Value - pump2flow.Value >= EmptyTank)
                 {
-                    pump1temp.Value = (float)(pump1temp.Value + HeatingConst * tapChanger1.Value * VoltageFactor);
-                    fluidLever.Value -= pump1flow.Value;
+                    pump2temp.Value = (float)(pump2temp.Value + HeatingConst * tapChanger2.Value * VoltageFactor); // 0.1 * 1 * 100
+                    fluidLever.Value -= pump2flow.Value;
                 }
             }
             else
             {
-                if (colding1Pump)
-                {
-                    pump1temp.Value -= ColdingConst;
-                }
                 if (colding2Pump)
                 {
                     pump2temp.Value -= ColdingConst;
@@ -599,10 +542,183 @@ namespace Simulator.Core
             UpdatePoints();
         }
 
+        private void Configuration2()
+        {
+            GetPoints();
+
+            //colding first pump
+            if (colding1Pump && pump1temp.Value <= MinTemp)
+                colding1Pump = false;
+
+            if (pump1temp.Value > MaxTemp)
+                colding1Pump = true;
+
+            //colding second pump
+            if (colding2Pump && pump2temp.Value <= MinTemp)
+                colding2Pump = false;
+
+            if (pump2temp.Value > MaxTemp)
+                colding2Pump = true;
+
+            if (fluidLever.Value > EmptyTank && breaker01.Value == 1 && dis01.Value == 1 && dis02.Value == 1 &&
+                dis12.Value == 1 && dis22.Value == 1 && breaker22.Value == 1 && breaker12.Value == 1 && !colding2Pump) //all closed
+            {
+                pump2flow.Value = tapChanger2.Value * VoltageFactor * ConstPumpFlow; // 1 * 100 * 1 => 100 l/s
+
+                if (fluidLever.Value - pump2flow.Value >= EmptyTank)
+                {
+                    pump2temp.Value = (float)(pump2temp.Value + HeatingConst * tapChanger2.Value * VoltageFactor); // 0.1 * 1 * 100
+                    fluidLever.Value -= pump2flow.Value;
+                }
+            }
+            else
+            {
+                if (colding2Pump)
+                {
+                    pump2temp.Value -= ColdingConst;
+                }
+            }
+
+
+            if (fluidLever.Value > EmptyTank && breaker01.Value == 1 && dis01.Value == 1 && dis02.Value == 1 &&      
+                dis11.Value == 1 && dis21.Value == 1 && breaker21.Value == 1 && breaker11.Value == 1 && !colding1Pump )
+            {
+                pump1flow.Value = tapChanger1.Value * VoltageFactor * ConstPumpFlow;
+
+                if (fluidLever.Value - pump1flow.Value >= EmptyTank)
+                {
+                    pump1temp.Value = (float)(pump1temp.Value + HeatingConst * tapChanger1.Value * VoltageFactor);
+                    fluidLever.Value -= pump1flow.Value;
+                }
+            }
+            else
+            {
+                if (colding1Pump)
+                {
+                    pump1temp.Value -= ColdingConst;
+                }
+            }
+
+            if (fluidLever.Value < EmptyTank) //EMPTY TENK
+            {
+                SingleInt32Union digVal = new SingleInt32Union();
+                digVal.i = 1;
+                Update(0, dnp3types.eDNP3GroupID.BINARY_INPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digVal, ref ptErrorValue);
+            }
+
+            if (fluidLever.Value >= EmptyTank && fluidLever.Value <= FullTank)
+            {
+                SingleInt32Union digVal = new SingleInt32Union();
+                digVal.i = 0;
+                Update(0, dnp3types.eDNP3GroupID.BINARY_INPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digVal, ref ptErrorValue);
+                Update(1, dnp3types.eDNP3GroupID.BINARY_INPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digVal, ref ptErrorValue);
+            }
+
+            UpdatePoints();
+        }
+
         private void Configuration3()
         {
 
+            GetPoints();
+
+            //colding first pump
+            if (colding1Pump && pump1temp.Value <= MinTemp)
+                colding1Pump = false;
+
+            if (pump1temp.Value > MaxTemp)
+                colding1Pump = true;
+
+            //colding second pump
+            if (colding2Pump && pump2temp.Value <= MinTemp)
+                colding2Pump = false;
+
+            if (pump2temp.Value > MaxTemp)
+                colding2Pump = true;
+
+            //colding third pump
+            if (colding2Pump && pump2temp.Value <= MinTemp)
+                colding2Pump = false;
+
+            if (pump2temp.Value > MaxTemp)
+                colding2Pump = true;
+
+            if (fluidLever.Value > EmptyTank && breaker01.Value == 1 && dis01.Value == 1 && dis02.Value == 1 &&
+                dis12.Value == 1 && dis22.Value == 1 && breaker22.Value == 1 && breaker12.Value == 1 && !colding2Pump) //all closed
+            {
+                pump2flow.Value = tapChanger2.Value * VoltageFactor * ConstPumpFlow; // 1 * 100 * 1 => 100 l/s
+
+                if (fluidLever.Value - pump2flow.Value >= EmptyTank)
+                {
+                    pump2temp.Value = (float)(pump2temp.Value + HeatingConst * tapChanger2.Value * VoltageFactor); // 0.1 * 1 * 100
+                    fluidLever.Value -= pump2flow.Value;
+                }
+            }
+            else
+            {
+                if (colding2Pump)
+                {
+                    pump2temp.Value -= ColdingConst;
+                }
+            }
+
+
+            if (fluidLever.Value > EmptyTank && breaker01.Value == 1 && dis01.Value == 1 && dis02.Value == 1 &&
+                dis11.Value == 1 && dis21.Value == 1 && breaker21.Value == 1 && breaker11.Value == 1 && !colding1Pump)
+            {
+                pump1flow.Value = tapChanger1.Value * VoltageFactor * ConstPumpFlow;
+
+                if (fluidLever.Value - pump1flow.Value >= EmptyTank)
+                {
+                    pump1temp.Value = (float)(pump1temp.Value + HeatingConst * tapChanger1.Value * VoltageFactor);
+                    fluidLever.Value -= pump1flow.Value;
+                }
+            }
+            else
+            {
+                if (colding1Pump)
+                {
+                    pump1temp.Value -= ColdingConst;
+                }
+            }
+
+            if (fluidLever.Value > EmptyTank && breaker01.Value == 1 && dis01.Value == 1 && dis02.Value == 1 &&
+               dis13.Value == 1 && dis23.Value == 1 && breaker23.Value == 1 && breaker13.Value == 1 && !colding3Pump)
+            {
+                pump3flow.Value = tapChanger3.Value * VoltageFactor * ConstPumpFlow;
+
+                if (fluidLever.Value - pump3flow.Value >= EmptyTank)
+                {
+                    pump3temp.Value = (float)(pump3temp.Value + HeatingConst * tapChanger3.Value * VoltageFactor);
+                    fluidLever.Value -= pump3flow.Value;
+                }
+            }
+            else
+            {
+                if (colding3Pump)
+                {
+                    pump3temp.Value -= ColdingConst;
+                }
+            }
+
+            if (fluidLever.Value < EmptyTank) //EMPTY TENK
+            {
+                SingleInt32Union digVal = new SingleInt32Union();
+                digVal.i = 1;
+                Update(0, dnp3types.eDNP3GroupID.BINARY_INPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digVal, ref ptErrorValue);
+            }
+
+            if (fluidLever.Value >= EmptyTank && fluidLever.Value <= FullTank)
+            {
+                SingleInt32Union digVal = new SingleInt32Union();
+                digVal.i = 0;
+                Update(0, dnp3types.eDNP3GroupID.BINARY_INPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digVal, ref ptErrorValue);
+                Update(1, dnp3types.eDNP3GroupID.BINARY_INPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digVal, ref ptErrorValue);
+            }
+
+            UpdatePoints();
         }
+
         private bool Prepare()
         {
            
