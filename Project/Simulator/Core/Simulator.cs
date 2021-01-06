@@ -232,8 +232,8 @@ namespace Simulator.Core
                     {
                         SingleInt32Union analogValue = new SingleInt32Union();
 
-                        //analogValue.f = point.Value + (float)hours[hourIndex] * TankSurface;
-                        analogValue.f = point.Value + 1000; 
+                        analogValue.f = point.Value + (float)hours[hourIndex] * TankSurface;
+                        //analogValue.f = point.Value + 1000; -- TEST
                         Update(1, dnp3types.eDNP3GroupID.ANALOG_INPUT, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue, ref ptErrorValue);
 
                         if (point.Value > FullTank) //FULL TENK
@@ -250,7 +250,7 @@ namespace Simulator.Core
 
         private void Simulation()
         {
-            if (secondsCount == 20)
+            if (secondsCount == 3600)
             {
                 OnEveryHour();
                 secondsCount = 0;
