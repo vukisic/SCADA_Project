@@ -41,5 +41,10 @@ namespace NDS.Proxies
         {
             return proxy.GetInInverval(from, to);
         }
+
+        public List<HistoryDbModel> GetAll()
+        {
+            return proxy.GetAll();
+        }
     }
 }

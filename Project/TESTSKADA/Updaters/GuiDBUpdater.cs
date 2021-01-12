@@ -42,8 +42,15 @@ namespace NDS.Updaters
                 {
                     DomData = ScadaProxyFactory.Instance().DOMProxy().GetAll().ToSwitchingEquipment()
                 };
+
+                HistoryUpdateEvent history = new HistoryUpdateEvent()
+                {
+                    History = ScadaProxyFactory.Instance().HistoryProxy().GetAll()
+                };
                 if(dom.DomData.Count > 0)
                     endpoint.Publish(dom).ConfigureAwait(false).GetAwaiter().GetResult();
+                if(history.History.Count > 0)
+                    endpoint.Publish(history).ConfigureAwait(false).GetAwaiter().GetResult();
                 Thread.Sleep(GetConfigTime());
             }
         }

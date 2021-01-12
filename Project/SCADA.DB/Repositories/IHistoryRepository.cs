@@ -13,5 +13,6 @@ namespace SCADA.DB.Repositories
         void AddRange(List<HistoryDbModel> list);
         List<HistoryDbModel> GetByTimestamp(DateTime timestamp);
         List<HistoryDbModel> GetInInverval(DateTime from, DateTime to);
+        List<HistoryDbModel> GetAll();
     }
 }

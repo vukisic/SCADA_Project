@@ -22,5 +22,7 @@ namespace SCADA.Services.Common
 
         [OperationContract]
         List<HistoryDbModel> GetInInverval(DateTime from, DateTime to);
+        [OperationContract]
+        List<HistoryDbModel> GetAll();
     }
 }

@@ -9,18 +9,21 @@ using NServiceBus;
 
 namespace GUI.ViewModels
 {
-    public class MainWindowViewModel : Conductor<object>, IHandleMessages<ScadaUpdateEvent>, IHandleMessages<DomUpdateEvent>
+    public class MainWindowViewModel : Conductor<object>, IHandleMessages<ScadaUpdateEvent>, IHandleMessages<DomUpdateEvent>, IHandleMessages<HistoryUpdateEvent>
     {
         private static EventHandler<ScadaUpdateEvent> scadaUpdate = delegate { };
         private static EventHandler<DomUpdateEvent> domUpdate = delegate { };
+        private static EventHandler<HistoryUpdateEvent> historyUpdate = delegate { };
         private ScadaDataViewModel scada = new ScadaDataViewModel();
         private DOMViewModel dom = new DOMViewModel();
         private AlarmingViewModel alarms = new AlarmingViewModel();
+        private HistoryViewModel history = new HistoryViewModel();
         public MainWindowViewModel()
         {
             scadaUpdate += scada.Update;
             domUpdate += dom.Update;
             scadaUpdate += alarms.Update;
+            historyUpdate += history.Update;
             LoadScadaDataView();
         }
         public void LoadGraphicsView()
@@ -45,7 +48,7 @@ namespace GUI.ViewModels
 
         public void LoadHistoryView()
         {
-            ActivateItem(new HistoryViewModel());
+            ActivateItem(history);
         }
 
         public void CEDataView()
@@ -62,6 +65,12 @@ namespace GUI.ViewModels
         public Task Handle(DomUpdateEvent message, IMessageHandlerContext context)
         {
             domUpdate.Invoke(this, message);
+            return Task.CompletedTask;
+        }
+
+        public Task Handle(HistoryUpdateEvent message, IMessageHandlerContext context)
+        {
+            historyUpdate.Invoke(this, message);
             return Task.CompletedTask;
         }
     }
