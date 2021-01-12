@@ -61,7 +61,6 @@
     <Compile Include="Proxies\DOMProxy.cs" />
     <Compile Include="Proxies\HistoryProxy.cs" />
     <Compile Include="Proxies\LoggingProxy.cs" />
-    <Compile Include="Proxies\ScadaProxyFactory.cs" />
     <Compile Include="ServiceBus\Handlers\DemoHandler.cs" />
     <Compile Include="ServiceBus\ServiceBusStartup.cs" />
   </ItemGroup>
