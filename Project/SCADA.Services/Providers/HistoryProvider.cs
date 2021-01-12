@@ -30,6 +30,11 @@ namespace SCADA.Services.Providers
             historyRepository.AddRange(list);
         }
 
+        public List<HistoryDbModel> GetAll()
+        {
+            return historyRepository.GetAll();
+        }
+
         public List<HistoryDbModel> GetByTimestamp(DateTime timestamp)
         {
             return historyRepository.GetByTimestamp(timestamp);

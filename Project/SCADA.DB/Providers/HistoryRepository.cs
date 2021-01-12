@@ -33,6 +33,11 @@ namespace SCADA.DB.Providers
             _context.SaveChanges();
         }
 
+        public List<HistoryDbModel> GetAll()
+        {
+            return _context.History.ToList();
+        }
+
         public List<HistoryDbModel> GetByTimestamp(DateTime timestamp)
         {
             string strTimeStamp = timestamp.ToString();
