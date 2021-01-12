@@ -14,7 +14,6 @@ SCADA Master Project
   - `ModelLabsApp`
   - `TestCE`
   - `NDS`
-- Start Outstation simulator
 - Build and Run
 
 # NServiceBus Licence

@@ -12,6 +12,17 @@ namespace GUI.ViewModels
 {
     public class DOMViewModel : Conductor<object>
     {
+        private string timeStamp;
+        public string TimeStamp
+        {
+            get { return timeStamp; }
+            set
+            {
+                timeStamp = value;
+                NotifyOfPropertyChange(() => TimeStamp);
+            }
+        }
+
         private ObservableCollection<SwitchingEquipmentDto> tableData;
         public ObservableCollection<SwitchingEquipmentDto> TableData
         {
@@ -22,6 +33,9 @@ namespace GUI.ViewModels
                 NotifyOfPropertyChange(() => TableData);
             }
         }
+
+        
+
         public DOMViewModel()
         {
             TableData = new ObservableCollection<SwitchingEquipmentDto>();
@@ -35,6 +49,7 @@ namespace GUI.ViewModels
         {
             App.Current.Dispatcher.Invoke((System.Action)delegate
             {
+                TimeStamp = DateTime.Now.ToString();
                 Data.Dom.Clear();
                 TableData =  new ObservableCollection<SwitchingEquipmentDto>();
                 foreach (var item in e.DomData)

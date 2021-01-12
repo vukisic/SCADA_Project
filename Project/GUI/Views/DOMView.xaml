@@ -16,16 +16,23 @@
                 FontFamily="{DynamicResource MaterialDesignFont}">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="0.06*" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="Last Update:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"  HorizontalAlignment="Right"/>
+        <TextBlock Text="{Binding TimeStamp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.ColumnSpan="2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+        
         <DataGrid x:Name="Data" ItemsSource="{Binding Path=TableData}" SelectionMode="Single" AutoGenerateColumns="False"
 				  CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False"
-				  SelectionUnit="FullRow" Style="{StaticResource DataGridStyle}">
+				  SelectionUnit="FullRow" Style="{StaticResource DataGridStyle}" Grid.Row="1" Grid.ColumnSpan="4">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Mrid" Binding="{Binding Mrid}" IsReadOnly="True" Width="*" HeaderStyle="{StaticResource DataGridColumnStyle}"  CellStyle="{StaticResource DataGridCellStyle}"/>
+                <DataGridTextColumn Header="Mrid" Binding="{Binding Mrid}" IsReadOnly="True" Width="*"  HeaderStyle="{StaticResource DataGridColumnStyle}"  CellStyle="{StaticResource DataGridCellStyle}"/>
                 <DataGridTextColumn Header="Manipulation Count" Binding="{Binding ManipulationConut}" IsReadOnly="True" Width="*" HeaderStyle="{StaticResource DataGridColumnStyle}"  CellStyle="{StaticResource DataGridCellStyle}"/>
             </DataGrid.Columns>
         </DataGrid>

@@ -12,6 +12,7 @@ using NServiceBus.Logging;
 using SCADA.Common;
 using SCADA.DB.Models;
 using SCADATransaction;
+using NDS.Updaters;
 
 namespace NDS
 {
@@ -52,10 +53,14 @@ namespace NDS
             scada.OpenModel();
             scada.OpenTransaction();
 
+            GuiDBUpdater updater = new GuiDBUpdater(endpoint);
+            updater.Start();
+
             //LoggingProxy proxy = new LoggingProxy();
             //proxy.Log(new SCADA.Common.Logging.LogEventModel() { EventType = SCADA.Common.Logging.LogEventType.INFO, Message = "NDS Started!" });
 
             Console.ReadLine();
+            updater.Stop();
 		}
 
         private static void Fep_updateEvent(object sender, UpdateArgs e)
