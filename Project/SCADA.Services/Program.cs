@@ -12,8 +12,6 @@ namespace SCADA.Services
         // For each service make new folder and instanciate service here!
         static void Main(string[] args)
         {
-            Console.WriteLine("Services are working..");
-
             AlarmingKruncingHost ak = new AlarmingKruncingHost();
             ak.Open();
 
@@ -26,6 +24,10 @@ namespace SCADA.Services
             HistoryHost historyHost = new HistoryHost();
             historyHost.Open();
 
+            ScadaExportService scadaExportService = new ScadaExportService();
+            scadaExportService.Open(); 
+            
+            Console.WriteLine("Services are working..");
             Console.ReadLine();
         }
     }
