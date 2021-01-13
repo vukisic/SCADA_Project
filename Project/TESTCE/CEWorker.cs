@@ -47,7 +47,7 @@ namespace CE
 
         public void Start()
         {
-            _worker = new Thread(DoWorkNew());
+            _worker = new Thread(DoWorkNew);
             endFlag = true;
             _worker.Name = "CE Worker";
             weatherAPI = new WeatherAPI();
@@ -95,6 +95,98 @@ namespace CE
                     secundsForWeather += 10;
                     hourIndexChanged += 10;
                 }
+            }
+        }
+        private void CheckState()
+        {
+            ScadaExportProxy proxy = new ScadaExportProxy();
+            var measurements = proxy.GetData();
+
+            if (!measurements.ContainsKey("FluidLevel_Tank"))
+                return;
+            var fluidLevel = measurements["FluidLevel_Tank"] as AnalogPoint;
+
+            if (LevelIsOptimal(fluidLevel.Value))
+            {
+                // SendCommands To TurOff Breakers for pumps
+                TurnOffPumps();
+            }
+
+            graph.Pump1.YAxe.Add(DateTime.Now);
+            graph.Pump1.XAxe.Add(pump1Time);
+            if (measurements.ContainsKey("Flow_AM1"))
+            {
+                var flow1 = measurements["Flow_AM1"] as AnalogPoint;
+                if (flow1 != null && flow1.Value > 0)
+                    pump1Time += 10;
+            }
+
+
+            graph.Pump2.YAxe.Add(DateTime.Now);
+            graph.Pump2.XAxe.Add(pump2Time);
+            if (measurements.ContainsKey("Flow_AM2"))
+            {
+                var flow2 = measurements["Flow_AM2"] as AnalogPoint;
+                if (flow2 != null && flow2.Value > 0)
+                    pump2Time += 10;
+            }
+
+            graph.Pump3.YAxe.Add(DateTime.Now);
+            graph.Pump3.XAxe.Add(pump3Time);
+            if (measurements.ContainsKey("Flow_AM3"))
+            {
+                var flow3 = measurements["Flow_AM3"] as AnalogPoint;
+                if (flow3 != null && flow3.Value > 0)
+                    pump3Time += 10;
+            }
+
+            //endpoint.Publish(graph).GetAwaiter().GetResult();
+        }
+
+        private void TurnOffPumps()
+        {
+
+            ScadaExportProxy proxy = new ScadaExportProxy();
+            var points = proxy.GetData();
+
+            if (points.ContainsKey("Breaker_21Status"))
+            {
+                var breaker1 = points["Breaker_21Status"] as AnalogPoint;
+                var command1 = new ScadaCommandingEvent()
+                {
+                    Index = (uint)breaker1.Index,
+                    RegisterType = breaker1.RegisterType,
+                    Value = 0,
+                    Milliseconds = 0
+                };
+                endpoint.Publish(command1).ConfigureAwait(false);
+            }
+
+            if (points.ContainsKey("Breaker_21Status"))
+            {
+                var breaker2 = points["Breaker_22Status"] as AnalogPoint;
+                var command2 = new ScadaCommandingEvent()
+                {
+                    Index = (uint)breaker2.Index,
+                    RegisterType = breaker2.RegisterType,
+                    Value = 0,
+                    Milliseconds = 0
+                };
+
+                endpoint.Publish(command2).ConfigureAwait(false);
+            }
+
+            if (points.ContainsKey("Breaker_21Status"))
+            {
+                var breaker3 = points["Breaker_23Status"] as AnalogPoint;
+                var command3 = new ScadaCommandingEvent()
+                {
+                    Index = (uint)breaker3.Index,
+                    RegisterType = breaker3.RegisterType,
+                    Value = 0,
+                    Milliseconds = 0
+                };
+                endpoint.Publish(command3).ConfigureAwait(false);
             }
         }
         private void Calculations()
@@ -173,19 +265,7 @@ namespace CE
                         };
 
                         endpoint.Publish(command1).ConfigureAwait(false);
-
-                        if (onOff == 1)
-                        {
-                            var command3 = new ScadaCommandingEvent()
-                            {
-                                Index = (uint)breaker2.Index,
-                                RegisterType = breaker2.RegisterType,
-                                Value = 0,
-                                Milliseconds = (uint)((counter + time) * 60 * 1000)
-                            };
-
-                            endpoint.Publish(command3).ConfigureAwait(false);
-                        }
+                      
                     }
 
                     if (points.ContainsKey($"Discrete_Tap{i + 1}") && onOff == 1)
