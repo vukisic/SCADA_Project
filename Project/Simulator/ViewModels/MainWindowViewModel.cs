@@ -45,12 +45,13 @@ namespace Simulator.ViewModels
             _applyEvent += MainWindowViewModel_applyEvent;
             Points = new ObservableCollection<Point>();
             ISimulatorConfiguration config = new SimulatorConfiguration();
-            _simulator = new Core.Simulator(config);
-            _simulator.updateEvent += Simulator_updateEvent;
-            _simulator.Start();
             serviceHost = new ServiceHost(typeof(Simulator.Core.ConfigurationService));
             serviceHost.AddServiceEndpoint(typeof(IConfigurationChange), new NetTcpBinding(), new Uri("net.tcp://localhost:30000/IConfigurationChange"));
             serviceHost.Open();
+            _simulator = new Core.Simulator(config);
+            _simulator.updateEvent += Simulator_updateEvent;
+            _simulator.Start();
+           
         }
 
         private void MainWindowViewModel_applyEvent(object sender, ClickEventArgs e)
