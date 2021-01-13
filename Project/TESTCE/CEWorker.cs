@@ -16,6 +16,14 @@ namespace CE
 {
     public class CEWorker : IDisposable
     {
+
+        private long seconds = 0;
+        private long pump1Time;
+        private long pump2Time;
+        private long pump3Time;
+
+        private WorkingGraph graph = new WorkingGraph();
+
         private IFitnessFunction algorithm;
         private Thread _worker;
         public EventHandler<int> _updateEvent = delegate { };
@@ -25,6 +33,9 @@ namespace CE
         private WeatherAPI weatherAPI;
         private IEndpointInstance endpoint;
         private static bool skip = false;
+        private int secundsForWeather = 60;
+        private int hourIndex = 0;
+        private int hourIndexChanged = 0;
 
         private DNA<float> result;
 
@@ -36,7 +47,7 @@ namespace CE
 
         public void Start()
         {
-            _worker = new Thread(DoWork);
+            _worker = new Thread(DoWorkNew());
             endFlag = true;
             _worker.Name = "CE Worker";
             weatherAPI = new WeatherAPI();
@@ -49,49 +60,90 @@ namespace CE
             _worker.Abort();
             _worker = null;
         }
-
-        private void DoWork()
+        private void DoWorkNew()
         {
             while (endFlag)
             {
-                if (points > 0 && points < 4)
+                if (pointUpdateOccures)
                 {
-                    if (pointUpdateOccures)
+                    if (hourIndexChanged == 3600)
                     {
-                        ChangeStrategy();
+                        hourIndex++;
                     }
 
-
-                    var forecastResult = new CeForecast();
-                    var area = GetSurfaceArea();
-                    var weatherForecast = weatherAPI.GetResultsForNext6Hours();
-                    var weather = new List<double>();
-                    weatherForecast.ForEach(x => weather.Add(x * area));
-                    float current = GetCurrentFluidLevel();
-
-                    for (int i = 0; i < weatherForecast.Count; i++)
+                    if (secundsForWeather == 60)
                     {
-                        current += (float)weather[i];
-                        if (skip && i==0)
-                        {
-                            current -= (float)weather[i];
-                            skip = false;
-                        }
-                        ChangeStrategy();
-
-                        result = algorithm.Start(current);
-                        var processedResult = ProcessResults(current, result);
-                        forecastResult.Results.AddRange(processedResult);
-                        current -= GetTotalFromResults(result.Genes);
+                        CheckWeather();
+                        secundsForWeather = 0;
                     }
 
-                    // Update and Command
-                    SendCommand(forecastResult);
-                    Update(forecastResult, weather);
-                    Thread.Sleep(10800000);
+                    if (seconds == 10800 || seconds == 0)
+                    {
+                        // 3hrs
+                        Calculations();
+                        seconds = 0;
+                    }
+                    else
+                    {
+                        CheckState();
+                    }
+
+                    // Sleep for 10s
+                    Thread.Sleep(10000);
+                    // Add 10s to seconds
+                    seconds += 10;
+                    secundsForWeather += 10;
+                    hourIndexChanged += 10;
+                }
+            }
+        }
+        private void Calculations()
+        {
+
+            if (points > 0 && points < 4)
+            {
+                if (pointUpdateOccures)
+                {
+                    ChangeStrategy();
                 }
 
+                var forecastResult = new CeForecast();
+                var area = GetSurfaceArea();
+                var weatherForecast = weatherAPI.GetResultsForNext6Hours();
+                var weather = new List<double>();
+                weatherForecast.ForEach(x => weather.Add(x * area));
+                float current = GetCurrentFluidLevel();
+
+                for (int i = 0; i < weatherForecast.Count; i++)
+                {
+
+                    if (skip && i == 0)
+                    {
+                        current -= (float)weather[i];
+                        skip = false;
+                    }
+                    ChangeStrategy();
+
+                    result = algorithm.Start(current);
+                    var processedResult = ProcessResults(current, result);
+                    forecastResult.Results.AddRange(processedResult);
+                    current -= GetTotalFromResults(result.Genes);
+                }
+
+                // Update and Command
+                SendCommand(forecastResult);
+                Update(forecastResult, weather);
+
             }
+        }
+        private bool LevelIsOptimal(float fluidLevel)
+        {
+            return true;
+        }
+
+        private void CheckWeather()
+        {
+          
         }
 
         private void SendCommand(CeForecast forecastResult)
