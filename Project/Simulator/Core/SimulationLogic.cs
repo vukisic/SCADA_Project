@@ -66,6 +66,7 @@ namespace Simulator.Core
         private float TankSurface;
         private dnp3types.sDNPServerDatabase db;
         private int secondsCount = 0;
+        private int minutesCount = 0;
         private List<double> hours = new List<double>();
         private Dictionary<string, ushort> pairs;
         ISimulator simulator;
@@ -86,10 +87,10 @@ namespace Simulator.Core
             WA = new WeatherAPI();
             hours = WA.GetResultsForNext6Hours();
             db = new dnp3_protocol.dnp3types.sDNPServerDatabase();
-            secondsCount = 3600;
+            secondsCount = 60;
         }
 
-        private void OnEveryHour()
+        private void OnEveryMinute()
         {
             if (hourIndex == 5)
             {
@@ -102,12 +103,12 @@ namespace Simulator.Core
             var result = simulator.ConvertToPoints(points);
 
             var item = result.SingleOrDefault(x => x.GroupId == dnp3types.eDNP3GroupID.ANALOG_INPUT && x.Index == pairs["FluidLevel_Tank"]);
-            if(item != null)
+            if (item != null)
             {
                 var point = item as AnalogPoint;
                 SingleInt32Union analogValue = new SingleInt32Union();
 
-                analogValue.f = (int)(point.Value + (float)hours[hourIndex] * TankSurface);
+                analogValue.f = (int)(point.Value + (float)hours[hourIndex] / 60 * TankSurface);
                 simulator.UpdatePoint(pairs["FluidLevel_Tank"], dnp3types.eDNP3GroupID.ANALOG_INPUT, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue);
 
                 if (point.Value > FullTank)
@@ -117,7 +118,11 @@ namespace Simulator.Core
                     simulator.UpdatePoint(pairs["FullTank"], dnp3types.eDNP3GroupID.BINARY_INPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digitalValue);
                 }
             }
-            hourIndex++;
+            if (minutesCount == 60)
+            {
+                hourIndex++;
+                minutesCount = 0;
+            }
         }
         public void Simulate(dnp3types.sDNPServerDatabase db, Dictionary<string, ushort> pairs)
         {
@@ -125,10 +130,11 @@ namespace Simulator.Core
             this.pairs = pairs;
             if (db.u32TotalPoints != 15 && db.u32TotalPoints != 24 && db.u32TotalPoints != 33)
                 return;
-            if (secondsCount == 3600)
+            if (secondsCount == 60)
             {
-                OnEveryHour();
+                OnEveryMinute();
                 secondsCount = 0;
+                minutesCount++;
             }
             else
             {
@@ -231,7 +237,7 @@ namespace Simulator.Core
                 if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_INPUT && item.Index == pairs["Flow_AM2"])
                     pump2flow = item as AnalogPoint;
                 if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_INPUT && item.Index == pairs["Temp_AM2"])
-                    pump2temp = item as AnalogPoint;         
+                    pump2temp = item as AnalogPoint;
                 if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_OUTPUTS && item.Index == pairs["Discrete_Tap2"])
                     tapChanger2 = item as AnalogPoint;
                 if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_INPUT && item.Index == pairs["Current_Tap2"])
@@ -260,11 +266,11 @@ namespace Simulator.Core
             SingleInt32Union analogValue12 = new SingleInt32Union();
             analogValue12.f = pump1temp.Value;
             simulator.UpdatePoint(pairs["Temp_AM1"], dnp3types.eDNP3GroupID.ANALOG_INPUT, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue12);
-           
+
             SingleInt32Union analogValue16 = new SingleInt32Union();
             analogValue16.f = pump1flow.Value;
             simulator.UpdatePoint(pairs["Flow_AM1"], dnp3types.eDNP3GroupID.ANALOG_INPUT, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue16);
-            
+
             SingleInt32Union digitalValue8 = new SingleInt32Union();
             digitalValue8.i = breaker11.Value;
             simulator.UpdatePoint(pairs["Breaker_11Status"], dnp3types.eDNP3GroupID.BINARY_OUTPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digitalValue8);
@@ -272,11 +278,11 @@ namespace Simulator.Core
             SingleInt32Union digitalValue10 = new SingleInt32Union();
             digitalValue10.i = breaker21.Value;
             simulator.UpdatePoint(pairs["Breaker_21Status"], dnp3types.eDNP3GroupID.BINARY_OUTPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digitalValue10);
-           
+
             SingleInt32Union digitalValue12 = new SingleInt32Union();
             digitalValue12.i = dis11.Value;
             simulator.UpdatePoint(pairs["Discrete_Disc11"], dnp3types.eDNP3GroupID.BINARY_OUTPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digitalValue12);
-           
+
             SingleInt32Union digitalValue14 = new SingleInt32Union();
             digitalValue14.i = dis21.Value;
             simulator.UpdatePoint(pairs["Discrete_Disc21"], dnp3types.eDNP3GroupID.BINARY_OUTPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digitalValue14);
@@ -287,7 +293,7 @@ namespace Simulator.Core
             SingleInt32Union analogValue5 = new SingleInt32Union();
             analogValue5.f = TRCurrent3.Value;
             simulator.UpdatePoint(pairs["Current_Tap3"], dnp3types.eDNP3GroupID.ANALOG_INPUT, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue5);
-           
+
             SingleInt32Union analogValue7 = new SingleInt32Union();
             analogValue7.f = TRVoltage3.Value;
             simulator.UpdatePoint(pairs["Voltage_Tap3"], dnp3types.eDNP3GroupID.ANALOG_INPUT, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue7);
@@ -402,12 +408,12 @@ namespace Simulator.Core
                 }
                 else
                 {
-                    if(pump2temp.Value > MinTemp)
+                    if (pump2temp.Value > MinTemp)
                         pump2temp.Value -= ColdingConst;
                 }
             }
 
-            if(breaker01.Value == 0 || dis01.Value == 0 || dis02.Value == 0 || dis12.Value == 0 || dis22.Value == 0 || breaker12.Value == 0 || breaker22.Value == 0)
+            if (breaker01.Value == 0 || dis01.Value == 0 || dis02.Value == 0 || dis12.Value == 0 || dis22.Value == 0 || breaker12.Value == 0 || breaker22.Value == 0)
             {
                 TRCurrent2.Value = 0;
                 TRVoltage2.Value = 0;
@@ -415,7 +421,7 @@ namespace Simulator.Core
 
             CheckFluidLevel();
 
-            UpdatePoints();         
+            UpdatePoints();
         }
 
         private void Configuration2()
@@ -481,7 +487,7 @@ namespace Simulator.Core
                 }
             }
 
-            if(breaker01.Value == 0 || dis01.Value == 0 || dis02.Value == 0 || dis11.Value == 0 || dis21.Value == 0 || breaker11.Value == 0 || breaker21.Value == 0)
+            if (breaker01.Value == 0 || dis01.Value == 0 || dis02.Value == 0 || dis11.Value == 0 || dis21.Value == 0 || breaker11.Value == 0 || breaker21.Value == 0)
             {
                 TRCurrent1.Value = 0;
                 TRVoltage1.Value = 0;
@@ -590,7 +596,7 @@ namespace Simulator.Core
                 }
             }
 
-            if(breaker01.Value == 0 || dis01.Value == 0 || dis02.Value == 0 || dis13.Value == 0 || dis23.Value == 0 || breaker13.Value == 0 || breaker23.Value == 0)
+            if (breaker01.Value == 0 || dis01.Value == 0 || dis02.Value == 0 || dis13.Value == 0 || dis23.Value == 0 || breaker13.Value == 0 || breaker23.Value == 0)
             {
                 TRCurrent3.Value = 0;
                 TRVoltage3.Value = 0;
