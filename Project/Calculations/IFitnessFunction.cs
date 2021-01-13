@@ -8,6 +8,9 @@ namespace Calculations
 {
     public interface IFitnessFunction
     {
-        void Compute(string test);
+        void Start();
+        void Update();
+        char GetRandomGene();
+        float FitnessFunction(int index);
     }
 }

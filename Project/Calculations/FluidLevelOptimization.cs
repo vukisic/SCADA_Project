@@ -8,7 +8,24 @@ namespace Calculations
 {
     public class FluidLevelOptimization : IFitnessFunction
     {
-        public void Compute(string test)
+        private GeneticAlgorithm<char> ga; 
+
+        public float FitnessFunction(int index)
+        {
+            throw new NotImplementedException();
+        }
+
+        public char GetRandomGene()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Start()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Update()
         {
             throw new NotImplementedException();
         }
