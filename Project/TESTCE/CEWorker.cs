@@ -230,12 +230,23 @@ namespace CE
         }
         private bool LevelIsOptimal(float fluidLevel)
         {
-            return true;
+            var results = ReadConfiguration();
+
+            float lowerBound = results.OptimalFluidLevel * (1.0f - (results.Percetage / 100));
+            float upperBound = results.OptimalFluidLevel * (1.0f + (results.Percetage / 100));
+            bool ret = (fluidLevel <= upperBound && fluidLevel >= lowerBound);
+
+            return ret;
         }
 
         private void CheckWeather()
         {
-          
+            var weatherForecast = weatherAPI.GetResultsForNext6Hours();
+            var weather = new List<double>();
+            var area = GetSurfaceArea();
+            weatherForecast.ForEach(x => weather.Add(x * area));
+            float current = GetCurrentFluidLevel();
+            current += (float)weather[hourIndex] / 60;
         }
 
         private void SendCommand(CeForecast forecastResult)
