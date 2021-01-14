@@ -65,15 +65,7 @@ namespace Calculations
         //7. Bira se najbolja jedinka od ove nove generacije
         public void NewGeneration(int numNewDNA = 0, bool crossoverNewDNA = false)
         {
-            foreach(var m in model)
-            {
-                foreach(var e in m.Value.Entities)
-                {
-                    if(e.Value.MRID == "PUMP1")
-                    {
-                    }
-                }
-            }
+ 
             int finalCount = Population.Count + numNewDNA;
 
             if (finalCount <= 0)

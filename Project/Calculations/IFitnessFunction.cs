@@ -10,7 +10,7 @@ namespace Calculations
     {
         void Start();
         void Update();
-        char GetRandomGene();
+        float GetRandomGene();
         float FitnessFunction(int index);
     }
 }
