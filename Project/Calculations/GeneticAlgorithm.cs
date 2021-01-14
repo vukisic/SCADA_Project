@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FTN.Common;
+using FTN.Services.NetworkModelService;
 
 namespace Calculations
 {
     public class GeneticAlgorithm<T>
     {
+
         public List<DNA<T>> Population { get; private set; }
         public int Generation { get; private set; }
         public float BestFitness { get; private set; }
@@ -22,6 +25,7 @@ namespace Calculations
         private int dnaSize;
         private Func<T> getRandomGene;
         private Func<int, float> fitnessFunction;
+
 
         public GeneticAlgorithm(int populationSize, int dnaSize, Random random, Func<T> getRandomGene, Func<int, float> fitnessFunction,
             int elitism, float mutationRate = 0.01f)
@@ -43,9 +47,33 @@ namespace Calculations
                 Population.Add(new DNA<T>(dnaSize, random, getRandomGene, fitnessFunction, shouldInitGenes: true));
             }
         }
+        //1. a1b1c1X1 + a2b2c2X2 + a3b3c3X3 <= 1000
+        //2. a - 0 ili 1 - da li pumpa radi
+        //3. b - pozicija tap changera - 1-5
+        //4. c - vrijeme rada
+        //5. POCETNA --- 1*2*2*X1 + 0 + 0 <= 1000
+        //6. NOVA GENERACIJA...
+        /*
+                1*2*2*X1 + 0*0*0*X2 + 0*0*0*X3 <= 1000
+                0*2*2*X1 + 1*2*0.1*X2 + 0*0*0*X3 <= 1000
+                1*1*2*X1 + 1*1*0.1*X2 + 0*0*0*X3 <= 1000
 
+                (1, 2, 2, 0, 0, 0, 0, 0, 0)
+                (0, 2, 2, 1, 2, 0.1, 0, 0, 0)
+                (1, 1, 2, 1, 1, 0.1, 0, 0, 0)
+        */
+        //7. Bira se najbolja jedinka od ove nove generacije
         public void NewGeneration(int numNewDNA = 0, bool crossoverNewDNA = false)
         {
+            foreach(var m in model)
+            {
+                foreach(var e in m.Value.Entities)
+                {
+                    if(e.Value.MRID == "PUMP1")
+                    {
+                    }
+                }
+            }
             int finalCount = Population.Count + numNewDNA;
 
             if (finalCount <= 0)

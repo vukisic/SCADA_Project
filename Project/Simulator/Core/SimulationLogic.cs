@@ -392,6 +392,7 @@ namespace Simulator.Core
             }
             else
             {
+                pump2flow.Value = 0;
                 if (colding2Pump)
                 {
                     pump2temp.Value -= ColdingConst;
@@ -428,6 +429,7 @@ namespace Simulator.Core
             }
             else
             {
+                pump2flow.Value = 0;
                 if (colding2Pump)
                 {
                     pump2temp.Value -= ColdingConst;
@@ -442,6 +444,7 @@ namespace Simulator.Core
             }
             else
             {
+                pump1flow.Value = 0;
                 if (colding1Pump)
                 {
                     pump1temp.Value -= ColdingConst;
@@ -485,6 +488,7 @@ namespace Simulator.Core
             }
             else
             {
+                pump2flow.Value = 0;
                 if (colding2Pump)
                 {
                     pump2temp.Value -= ColdingConst;
@@ -499,6 +503,7 @@ namespace Simulator.Core
             }
             else
             {
+                pump1flow.Value = 0;
                 if (colding1Pump)
                 {
                     pump1temp.Value -= ColdingConst;
@@ -512,6 +517,7 @@ namespace Simulator.Core
             }
             else
             {
+                pump3flow.Value = 0;
                 if (colding3Pump)
                 {
                     pump3temp.Value -= ColdingConst;
