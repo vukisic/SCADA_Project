@@ -17,6 +17,11 @@ namespace Calculations
         private GeneticAlgorithm<float> ga;
         private int elitism = 1;
         private float mutationRate = 0.01f;
+        private List<DNA<float>> hromozomes = new List<DNA<float>>();
+        float[] firstGenes;
+        int index = 0;
+        float[] limits1 = new float[] { 0.0f, 1.0f };
+        float[] limits2 = new float[] { 100.0f, 200.0f, 300.0f, 400.0f, 500.0f };
 
         AnalogPoint pump1flow = null;
         AnalogPoint tapChanger1 = null;
@@ -38,9 +43,28 @@ namespace Calculations
             throw new NotImplementedException();
         }
 
+        public float[] GetGene()
+        {
+            return firstGenes;
+        }
+
         public float GetRandomGene()
         {
-            throw new NotImplementedException();
+            float gene = 0.1f;
+            random = new Random();
+
+            if (index == 9)
+                index = 0;
+
+            if (index % 3 == 0)
+                gene = limits1[random.Next(limits1.Length)];
+            else if (index % 3 == 1)
+                gene = limits2[random.Next(limits2.Length)];
+            //else if (index % 3 == 2)
+            //gene = limits1[random.Next(limits1.Length)];
+
+            index++;
+            return gene;
         }
 
         public void Start()
@@ -48,9 +72,6 @@ namespace Calculations
             ScadaExportProxy proxy = new ScadaExportProxy();
             model = proxy.GetData();
             random = new Random();
-
-            ga = new GeneticAlgorithm<float>(1, 9, random, GetRandomGene, FitnessFunction, elitism, mutationRate);
-            
             
             foreach(var m in model)
             {
@@ -85,15 +106,23 @@ namespace Calculations
 
             //PRVA GENERACIJA IMA JEDNU JEDINKU
 
-            float[] array = { isWorking1, pump1flow.Value, 0.1f,
+            firstGenes = new float[]{ isWorking1, pump1flow.Value, 0.1f,
                               isWorking2, pump2flow.Value, 0.1f,
                               isWorking3, pump3flow.Value, 0.1f
-                            };
+            };
+
+            DNA<float> firstHromozome = new DNA<float>(9, random, GetRandomGene, FitnessFunction, true, GetGene, false);
+
+            hromozomes.Add(firstHromozome);
+            ga = new GeneticAlgorithm<float>(1, 9, random, GetRandomGene, FitnessFunction, elitism, hromozomes, GetGene, mutationRate);
+
+            Update();
         }
 
         public void Update()
         {
-            throw new NotImplementedException();
+            ga.NewGeneration(4);
+
         }
     }
 }

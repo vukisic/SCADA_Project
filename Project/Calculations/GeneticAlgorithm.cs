@@ -24,11 +24,12 @@ namespace Calculations
         private float fitnessSum;
         private int dnaSize;
         private Func<T> getRandomGene;
+        private Func<T[]> getGene;
         private Func<int, float> fitnessFunction;
 
 
         public GeneticAlgorithm(int populationSize, int dnaSize, Random random, Func<T> getRandomGene, Func<int, float> fitnessFunction,
-            int elitism, float mutationRate = 0.01f)
+            int elitism, List<DNA<T>> hromozomes, Func<T[]> getGene, float mutationRate = 0.01f)
         {
             Generation = 1;
             Elitism = elitism;
@@ -38,13 +39,22 @@ namespace Calculations
             this.random = random;
             this.dnaSize = dnaSize;
             this.getRandomGene = getRandomGene;
+            this.getGene = getGene;
             this.fitnessFunction = fitnessFunction;
 
             BestGenes = new T[dnaSize];
 
-            for (int i = 0; i < populationSize; i++)
+            if (hromozomes.Count > 0)
             {
-                Population.Add(new DNA<T>(dnaSize, random, getRandomGene, fitnessFunction, shouldInitGenes: true));
+                foreach (var h in hromozomes)
+                    Population.Add(h);
+            }
+            else
+            {
+                for (int i = 0; i < populationSize; i++)
+                {
+                    Population.Add(new DNA<T>(dnaSize, random, getRandomGene, fitnessFunction, false, getGene, shouldInitGenes: true));
+                }
             }
         }
         //1. a1b1c1X1 + a2b2c2X2 + a3b3c3X3 <= 1000
@@ -86,7 +96,7 @@ namespace Calculations
                 {
                     newPopulation.Add(Population[i]);
                 }
-                else if (i < Population.Count || crossoverNewDNA)
+                else if ((i < Population.Count || crossoverNewDNA) && Population.Count > 1)
                 {
                     DNA<T> parent1 = ChooseParent();
                     DNA<T> parent2 = ChooseParent();
@@ -99,7 +109,7 @@ namespace Calculations
                 }
                 else
                 {
-                    newPopulation.Add(new DNA<T>(dnaSize, random, getRandomGene, fitnessFunction, shouldInitGenes: true));
+                    newPopulation.Add(new DNA<T>(dnaSize, random, getRandomGene, fitnessFunction, false, getGene, shouldInitGenes: true));
                 }
             }
 
