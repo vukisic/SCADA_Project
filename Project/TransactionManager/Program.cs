@@ -11,6 +11,7 @@ namespace TransactionManager
 	{
 		static void Main(string[] args)
 		{
+            Console.Title = "TM";
 
             Console.WriteLine("Trasanction Manager starter working..");
 

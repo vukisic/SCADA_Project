@@ -12,6 +12,7 @@ namespace TESTCE
     {
         static void Main(string[] args)
         {
+            Console.Title = "CE";
             Console.WriteLine("SCADA started working..");
 
             CEServer ce = new CEServer();
