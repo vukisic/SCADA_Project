@@ -5,15 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CE.Common.Proxies;
-using FTN.Common;
-using FTN.Services.NetworkModelService;
 using SCADA.Common.DataModel;
 
 namespace Calculations
 {
-    public class FluidLevelOptimization : IFitnessFunction
+    public class FluidLevelOptimization1 : IFitnessFunction
     {
-        private List<Tuple<float, float, float>> workingTimes;
+        private List<Tuple<float>> workingTimes;
         private float[] results = new float[] { };
         private List<DNA<float>> population;
         private Dictionary<string, BasePoint> model;
@@ -37,24 +35,17 @@ namespace Calculations
         AnalogPoint pump1flow = null;
         AnalogPoint tapChanger1 = null;
 
-        AnalogPoint pump2flow = null;
-        AnalogPoint tapChanger2 = null;
-
-        AnalogPoint pump3flow = null;
-        AnalogPoint tapChanger3 = null;
         AnalogPoint fluidLevel = null;
 
         public int isWorking1 = 0;
-        public int isWorking2 = 0;
-        public int isWorking3 = 0;
 
-        public FluidLevelOptimization()
+        public FluidLevelOptimization1()
         {
             Start();
             population = ga.Population;
-            workingTimes = new List<Tuple<float, float, float>>();
-            
-            if(!float.TryParse(ConfigurationManager.AppSettings["Percetage"], out percentage))
+            workingTimes = new List<Tuple<float>>();
+
+            if (!float.TryParse(ConfigurationManager.AppSettings["Percetage"], out percentage))
             {
                 percentage = 5;
             }
@@ -76,18 +67,12 @@ namespace Calculations
 
             DNA<float> individual = population[index];
 
-            for(int i = 0; i < individual.Genes.Count(); i++)
+            for (int i = 0; i < individual.Genes.Count(); i++)
             {
-                ret = individual.Genes[0] * individual.Genes[1] * individual.Genes[2] +
-                    + individual.Genes[3] * individual.Genes[4] * individual.Genes[5]
-                    + individual.Genes[6] * individual.Genes[7] * individual.Genes[8];
+                ret = individual.Genes[0] * individual.Genes[1] * individual.Genes[2];
 
-                workingTimes.Add(new Tuple<float, float, float>(individual.Genes[2],
-                                                                individual.Genes[5],
-                                                                individual.Genes[8]
-                                                                )
-                    );
-            }  
+                workingTimes.Add(new Tuple<float>(individual.Genes[2]));
+            }
 
             return ret;
         }
@@ -102,7 +87,7 @@ namespace Calculations
             float gene = 0.1f;
             random = new Random();
 
-            if (index == 9)
+            if (index == 3)
                 index = 0;
 
             if (index % 3 == 0)
@@ -120,21 +105,13 @@ namespace Calculations
         {
             model = CeProxyFactory.Instance().ScadaExportProxy().GetData();
             random = new Random();
-            
-            foreach(var m in model)
+
+            foreach (var m in model)
             {
                 if (m.Value.Mrid == "Flow_AM1")
                     pump1flow = m.Value as AnalogPoint;
-                else if (m.Value.Mrid == "Flow_AM2")
-                    pump2flow = m.Value as AnalogPoint;
-                else if (m.Value.Mrid == "Flow_AM3")
-                    pump3flow = m.Value as AnalogPoint;
                 else if (m.Value.Mrid == "Discrete_Tap1")
                     tapChanger1 = m.Value as AnalogPoint;
-                else if (m.Value.Mrid == "Discrete_Tap2")
-                    tapChanger2 = m.Value as AnalogPoint;
-                else if (m.Value.Mrid == "Discrete_Tap3")
-                    tapChanger3 = m.Value as AnalogPoint;
                 else if (m.Value.Mrid == "FluidLevel_Tank")
                     fluidLevel = m.Value as AnalogPoint;
             }
@@ -143,26 +120,13 @@ namespace Calculations
                 isWorking1 = 0;
             else
                 isWorking1 = 1;
-            if (pump2flow.Value > 0)
-                isWorking2 = 0;
-            else
-                isWorking2 = 1;
-            if (pump3flow.Value > 0)
-                isWorking3 = 0;
-            else
-                isWorking3 = 1;
 
-            //PRVA GENERACIJA IMA JEDNU JEDINKU
+            firstGenes = new float[]{ isWorking1, pump1flow.Value, 0.1f };
 
-            firstGenes = new float[]{ isWorking1, pump1flow.Value, 0.1f,
-                              isWorking2, pump2flow.Value, 0.1f,
-                              isWorking3, pump3flow.Value, 0.1f
-            };
-
-            DNA<float> firstHromozome = new DNA<float>(9, random, GetRandomGene, FitnessFunction, true, GetGene, false);
+            DNA<float> firstHromozome = new DNA<float>(3, random, GetRandomGene, FitnessFunction, true, GetGene, false);
 
             hromozomes.Add(firstHromozome);
-            ga = new GeneticAlgorithm<float>(1, 9, random, GetRandomGene, FitnessFunction, elitism, hromozomes, GetGene, mutationRate);
+            ga = new GeneticAlgorithm<float>(1, 3, random, GetRandomGene, FitnessFunction, elitism, hromozomes, GetGene, mutationRate);
 
             Update();
 
@@ -180,28 +144,28 @@ namespace Calculations
             return potentialSolutions.Min();
         }
 
-        private List<float> FindPotentialSolutions(float[] results, List<Tuple<float,float,float>> times)
+        private List<float> FindPotentialSolutions(float[] results, List<Tuple<float>> times)
         {
             var solutions = new List<float>();
-            for(int i=0; i< results.Count(); i++)
+            for (int i = 0; i < results.Count(); i++)
             {
                 if (IsSolutionCorrect(results[i], times[i]))
                     solutions.Add(results[i]);
             }
             foreach (var item in results)
             {
-               
+
             }
 
             return solutions;
         }
 
-        private bool IsSolutionCorrect(float solution, Tuple<float,float,float> times)
+        private bool IsSolutionCorrect(float solution, Tuple<float> times)
         {
             float lowerBound = optimalFluidLevel * (1.0f - (percentage / 100));
             float upperBound = optimalFluidLevel * (1.0f + (percentage / 100));
-            bool criterium1 =  (solution <= upperBound && solution >= lowerBound);
-            bool criterium2 = (Math.Abs(times.Item1 - times.Item2) <= timeFactor && Math.Abs(times.Item1 - times.Item3) <= timeFactor && Math.Abs(times.Item2 - times.Item3) <= timeFactor);
+            bool criterium1 = (solution <= upperBound && solution >= lowerBound);
+            bool criterium2 = times.Item1 <= timeFactor;
             return criterium1 && criterium2;
         }
 
