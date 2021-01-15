@@ -4,6 +4,8 @@ using System.Linq;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
+using FTN.Common;
+using FTN.Services.NetworkModelService;
 using TMContracts;
 
 namespace CETransaction
@@ -12,9 +14,10 @@ namespace CETransaction
     {
         private ServiceHost modelServiceHost;
         private ServiceHost transactionServiceHost;
-
-        public CEServer()
+        public static EventHandler<Dictionary<DMSType, Container>> _pointUpdate = delegate { };
+        public CEServer(EventHandler<Dictionary<DMSType, Container>> pointUpdate)
         {
+            _pointUpdate = pointUpdate;
             modelServiceHost = new ServiceHost(typeof(CEModelProvider));
             modelServiceHost.AddServiceEndpoint(typeof(IModelUpdate), new NetTcpBinding(),
                 new Uri("net.tcp://localhost:5002/IModelUpdate"));

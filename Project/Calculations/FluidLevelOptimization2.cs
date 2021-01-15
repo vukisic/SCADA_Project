@@ -47,7 +47,6 @@ namespace Calculations
 
         public FluidLevelOptimization2()
         {
-            Start();
             population = ga.Population;
             workingTimes = new List<Tuple<float, float>>();
 

@@ -6,20 +6,21 @@ using System.Threading.Tasks;
 using CETransaction;
 using TMContracts;
 
-namespace TESTCE
+namespace CE
 {
     class Program
     {
         static void Main(string[] args)
         {
             Console.Title = "CE";
-            Console.WriteLine("SCADA started working..");
+            Console.WriteLine("CE started working..");
 
-            CEServer ce = new CEServer();
-            ce.OpenModel();
-            ce.OpenTransaction();
+            CEServiceInvoker serviceInvoker = new CEServiceInvoker();
+            serviceInvoker.Start();
 
             Console.ReadLine();
+
+            serviceInvoker.Stop();
         }
     }
 }

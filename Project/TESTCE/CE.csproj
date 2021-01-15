@@ -43,6 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CEServiceInvoker.cs" />
+    <Compile Include="CEWorker.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -50,9 +52,21 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Calculations\Calculations.csproj">
+      <Project>{6427bcba-076f-495e-843d-630c9585cdd2}</Project>
+      <Name>Calculations</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CETransaction\CETransaction.csproj">
       <Project>{AB741CE2-D3AE-4B84-9B78-580304CACD8A}</Project>
       <Name>CETransaction</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{892cbe15-9ed7-4540-81fa-0eaaba592138}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NetworkModelService\DataModel\DataModel.csproj">
+      <Project>{ade96497-7c11-40b6-ae82-57f956c9f104}</Project>
+      <Name>DataModel</Name>
     </ProjectReference>
     <ProjectReference Include="..\TMContracts\TMContracts.csproj">
       <Project>{F5D28AA0-B5F6-4C6A-867D-2D1187464A80}</Project>

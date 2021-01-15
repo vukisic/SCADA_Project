@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CE.Common;
 using TMContracts;
 
 namespace CETransaction
@@ -17,6 +18,7 @@ namespace CETransaction
         public bool Commit()
         {
             Console.WriteLine("Commited? YES");
+            CEServer._pointUpdate.Invoke(this, CeDataBase.Model);
             return true;
         }
 
