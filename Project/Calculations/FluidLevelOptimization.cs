@@ -13,6 +13,7 @@ namespace Calculations
 {
     public class FluidLevelOptimization : IFitnessFunction
     {
+        private List<Tuple<float, float, float>> workingTimes;
         private float[] results = new float[] { };
         private List<DNA<float>> population;
         private Dictionary<string, BasePoint> model;
@@ -25,6 +26,10 @@ namespace Calculations
         int index = 0;
         float[] limits1 = new float[] { 0.0f, 1.0f };
         float[] limits2 = new float[] { 100.0f, 200.0f, 300.0f, 400.0f, 500.0f };
+        float[] limits3 = new float[] { 1800.0f, 3600.0f, 5400.0f, 7200.0f, 9000.0f, 10800.0f, 12600.0f,
+                                        14400.0f, 18000.0f, 19800.0f, 21600.0f, 23400.0f,
+                                        25200.0f, 27000.0f, 28800.0f, 30600.0f, 32400.0f,
+                                        34200.0f, 36000.0f, 37800.0f, 39600.0f, 41400.0f, 43200.0f};
         float percentage;
         float optimalFluidLevel;
 
@@ -46,6 +51,8 @@ namespace Calculations
         {
             Start();
             population = ga.Population;
+            workingTimes = new List<Tuple<float, float, float>>();
+            
             if(!float.TryParse(ConfigurationManager.AppSettings["Percetage"], out percentage))
             {
                 percentage = 5;
@@ -65,9 +72,15 @@ namespace Calculations
 
             for(int i = 0; i < individual.Genes.Count(); i++)
             {
-                ret = individual.Genes[0] * individual.Genes[1] * 0.1f +
-                    + individual.Genes[3] * individual.Genes[4] * 0.1f
-                    + individual.Genes[6] * individual.Genes[7] * 0.1f;
+                ret = individual.Genes[0] * individual.Genes[1] * individual.Genes[2] +
+                    + individual.Genes[3] * individual.Genes[4] * individual.Genes[5]
+                    + individual.Genes[6] * individual.Genes[7] * individual.Genes[8];
+
+                workingTimes.Add(new Tuple<float, float, float>(individual.Genes[2],
+                                                                individual.Genes[5],
+                                                                individual.Genes[8]
+                                                                )
+                    );
             }  
 
             return ret;
@@ -90,8 +103,8 @@ namespace Calculations
                 gene = limits1[random.Next(limits1.Length)];
             else if (index % 3 == 1)
                 gene = limits2[random.Next(limits2.Length)];
-            //else if (index % 3 == 2)
-            //gene = limits1[random.Next(limits1.Length)];
+            else if (index % 3 == 2)
+                gene = limits3[random.Next(limits3.Length)];
 
             index++;
             return gene;
@@ -177,6 +190,7 @@ namespace Calculations
         {
             float lowerBound = optimalFluidLevel * (1.0f - (percentage / 100));
             float upperBound = optimalFluidLevel * (1.0f + (percentage / 100));
+       
             return (solution <= upperBound && solution >= lowerBound);
         }
 
