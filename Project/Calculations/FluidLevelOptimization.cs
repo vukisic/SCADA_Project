@@ -32,6 +32,7 @@ namespace Calculations
                                         34200.0f, 36000.0f, 37800.0f, 39600.0f, 41400.0f, 43200.0f};
         float percentage;
         float optimalFluidLevel;
+        float timeFactor;
 
         AnalogPoint pump1flow = null;
         AnalogPoint tapChanger1 = null;
@@ -61,6 +62,11 @@ namespace Calculations
             {
                 optimalFluidLevel = 1000;
             }
+            if (!float.TryParse(ConfigurationManager.AppSettings["TimeFactor"], out timeFactor))
+            {
+                timeFactor = 1800;
+            }
+
 
         }
 
@@ -165,7 +171,7 @@ namespace Calculations
                 results[i] = FitnessFunction(i);
             }
 
-            List<float> potentialSolutions = FindPotentialSolutions(results);
+            List<float> potentialSolutions = FindPotentialSolutions(results, workingTimes);
             float bestSolution = FindBestSolution(potentialSolutions);
         }
 
@@ -174,24 +180,29 @@ namespace Calculations
             return potentialSolutions.Min();
         }
 
-        private List<float> FindPotentialSolutions(float[] results)
+        private List<float> FindPotentialSolutions(float[] results, List<Tuple<float,float,float>> times)
         {
             var solutions = new List<float>();
+            for(int i=0; i< results.Count(); i++)
+            {
+                if (IsSolutionCorrect(results[i], times[i]))
+                    solutions.Add(results[i]);
+            }
             foreach (var item in results)
             {
-                if (IsSolutionCorrect(item))
-                    solutions.Add(item);
+               
             }
 
             return solutions;
         }
 
-        private bool IsSolutionCorrect(float solution)
+        private bool IsSolutionCorrect(float solution, Tuple<float,float,float> times)
         {
             float lowerBound = optimalFluidLevel * (1.0f - (percentage / 100));
             float upperBound = optimalFluidLevel * (1.0f + (percentage / 100));
-       
-            return (solution <= upperBound && solution >= lowerBound);
+            bool criterium1 =  (solution <= upperBound && solution >= lowerBound);
+            bool criterium2 = (Math.Abs(times.Item1 - times.Item2) <= timeFactor && Math.Abs(times.Item1 - times.Item3) <= timeFactor && Math.Abs(times.Item2 - times.Item3) <= timeFactor);
+            return criterium1 && criterium2;
         }
 
         public void Update()
