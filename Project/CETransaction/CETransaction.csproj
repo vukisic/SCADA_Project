@@ -58,6 +58,10 @@
       <Project>{6427bcba-076f-495e-843d-630c9585cdd2}</Project>
       <Name>Calculations</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CE.Common\CE.Common.csproj">
+      <Project>{b440de64-0b7c-490b-afb7-8f4bfa249afc}</Project>
+      <Name>CE.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{892cbe15-9ed7-4540-81fa-0eaaba592138}</Project>
       <Name>Common</Name>
