@@ -87,8 +87,7 @@ namespace Calculations
 
         public void Start()
         {
-            ScadaExportProxy proxy = new ScadaExportProxy();
-            model = proxy.GetData();
+            model = CeProxyFactory.Instance().ScadaExportProxy().GetData();
             random = new Random();
             
             foreach(var m in model)

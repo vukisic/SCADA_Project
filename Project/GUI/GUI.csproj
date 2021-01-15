@@ -139,7 +139,6 @@
     <Compile Include="Models\DiscretePointDto.cs" />
     <Compile Include="Models\HistoryDto.cs" />
     <Compile Include="Models\SwitchingEquipmentDto.cs" />
-    <Compile Include="ModelUpdateHandler.cs" />
     <Compile Include="Services\INotificationService.cs" />
     <Compile Include="Services\NotificationService.cs" />
     <Compile Include="Services\NotificationType.cs" />

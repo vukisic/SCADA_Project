@@ -12,6 +12,7 @@ namespace SCADA.Services
         // For each service make new folder and instanciate service here!
         static void Main(string[] args)
         {
+            Console.Title = "SCADA Services";
             AlarmingKruncingHost ak = new AlarmingKruncingHost();
             ak.Open();
 
