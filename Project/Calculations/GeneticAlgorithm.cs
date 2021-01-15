@@ -29,7 +29,7 @@ namespace Calculations
 
 
         public GeneticAlgorithm(int populationSize, int dnaSize, Random random, Func<T> getRandomGene, Func<int, float> fitnessFunction,
-            int elitism, List<DNA<T>> hromozomes, Func<T[]> getGene, float mutationRate = 0.01f)
+            int elitism, float mutationRate = 0.01f, List<DNA<T>> hromozomes = null, Func<T[]> getGene = null)
         {
             Generation = 1;
             Elitism = elitism;
@@ -53,7 +53,7 @@ namespace Calculations
             {
                 for (int i = 0; i < populationSize; i++)
                 {
-                    Population.Add(new DNA<T>(dnaSize, random, getRandomGene, fitnessFunction, false, getGene, shouldInitGenes: true));
+                    Population.Add(new DNA<T>(dnaSize, random, getRandomGene, fitnessFunction, shouldInitGenes: true));
                 }
             }
         }
@@ -109,7 +109,7 @@ namespace Calculations
                 }
                 else
                 {
-                    newPopulation.Add(new DNA<T>(dnaSize, random, getRandomGene, fitnessFunction, false, getGene, shouldInitGenes: true));
+                    newPopulation.Add(new DNA<T>(dnaSize, random, getRandomGene, fitnessFunction, shouldInitGenes: true));
                 }
             }
 

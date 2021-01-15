@@ -43,7 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DNA.cs" />
-    <Compile Include="FluidLevelOptimization.cs" />
+    <Compile Include="FluidLevelOptimization1.cs" />
     <Compile Include="FluidLevelOptimization3.cs" />
     <Compile Include="FluidLevelOptimization2.cs" />
     <Compile Include="GeneticAlgorithm.cs" />

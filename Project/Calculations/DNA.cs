@@ -17,7 +17,7 @@ namespace Calculations
         private Func<int, float> fitnessFunction;
 
         public DNA(int size, Random random, Func<T> getRandomGene, Func<int, float> fitnessFunction,
-             bool isFirstGenes, Func<T[]> getGene, bool shouldInitGenes = true)
+             bool shouldInitGenes = true, bool isFirstGenes = false, Func<T[]> getGene = null)
         {
             Genes = new T[size];
             this.random = random;
@@ -47,7 +47,7 @@ namespace Calculations
 
         public DNA<T> Crossover(DNA<T> otherParent)
         {
-            DNA<T> child = new DNA<T>(Genes.Length, random, getRandomGene, fitnessFunction, false, getGene, shouldInitGenes: false);
+            DNA<T> child = new DNA<T>(Genes.Length, random, getRandomGene, fitnessFunction, shouldInitGenes: false);
 
             for (int i = 0; i < Genes.Length; i++)
             {

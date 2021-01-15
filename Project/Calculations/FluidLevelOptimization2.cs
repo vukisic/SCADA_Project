@@ -143,10 +143,10 @@ namespace Calculations
                               isWorking2, pump2flow.Value, 0.1f                     
             };
 
-            DNA<float> firstHromozome = new DNA<float>(6, random, GetRandomGene, FitnessFunction, true, GetGene, false);
+            DNA<float> firstHromozome = new DNA<float>(6, random, GetRandomGene, FitnessFunction, false, true, GetGene);
 
             hromozomes.Add(firstHromozome);
-            ga = new GeneticAlgorithm<float>(1, 6, random, GetRandomGene, FitnessFunction, elitism, hromozomes, GetGene, mutationRate);
+            ga = new GeneticAlgorithm<float>(1, 6, random, GetRandomGene, FitnessFunction, elitism, mutationRate, hromozomes, GetGene);
 
             Update();
 
