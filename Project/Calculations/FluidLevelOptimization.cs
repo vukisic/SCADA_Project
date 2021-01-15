@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,6 +25,8 @@ namespace Calculations
         int index = 0;
         float[] limits1 = new float[] { 0.0f, 1.0f };
         float[] limits2 = new float[] { 100.0f, 200.0f, 300.0f, 400.0f, 500.0f };
+        float percentage;
+        float optimalFluidLevel;
 
         AnalogPoint pump1flow = null;
         AnalogPoint tapChanger1 = null;
@@ -43,6 +46,15 @@ namespace Calculations
         {
             Start();
             population = ga.Population;
+            if(!float.TryParse(ConfigurationManager.AppSettings["Percetage"], out percentage))
+            {
+                percentage = 5;
+            }
+            if (!float.TryParse(ConfigurationManager.AppSettings["OptimalFluidLevel"], out optimalFluidLevel))
+            {
+                optimalFluidLevel = 1000;
+            }
+
         }
 
         public float FitnessFunction(int index)
@@ -138,7 +150,34 @@ namespace Calculations
             for (int i = 0; i < population.Count(); i++)
             {
                 results[i] = FitnessFunction(i);
-            }   
+            }
+
+            List<float> potentialSolutions = FindPotentialSolutions(results);
+            float bestSolution = FindBestSolution(potentialSolutions);
+        }
+
+        private float FindBestSolution(List<float> potentialSolutions)
+        {
+            return potentialSolutions.Min();
+        }
+
+        private List<float> FindPotentialSolutions(float[] results)
+        {
+            var solutions = new List<float>();
+            foreach (var item in results)
+            {
+                if (IsSolutionCorrect(item))
+                    solutions.Add(item);
+            }
+
+            return solutions;
+        }
+
+        private bool IsSolutionCorrect(float solution)
+        {
+            float lowerBound = optimalFluidLevel * (1.0f - (percentage / 100));
+            float upperBound = optimalFluidLevel * (1.0f + (percentage / 100));
+            return (solution <= upperBound && solution >= lowerBound);
         }
 
         public void Update()
