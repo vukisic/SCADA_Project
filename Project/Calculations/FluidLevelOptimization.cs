@@ -12,6 +12,8 @@ namespace Calculations
 {
     public class FluidLevelOptimization : IFitnessFunction
     {
+        private float[] results = new float[] { };
+        private List<DNA<float>> population;
         private Dictionary<string, BasePoint> model;
         private Random random;
         private GeneticAlgorithm<float> ga;
@@ -33,14 +35,30 @@ namespace Calculations
         AnalogPoint tapChanger3 = null;
         AnalogPoint fluidLevel = null;
 
-        private int isWorking1;
-        private int isWorking2;
-        private int isWorking3;
+        public int isWorking1 = 0;
+        public int isWorking2 = 0;
+        public int isWorking3 = 0;
+
+        public FluidLevelOptimization()
+        {
+            Start();
+            population = ga.Population;
+        }
 
         public float FitnessFunction(int index)
         {
+            float ret = 0.0f;
 
-            throw new NotImplementedException();
+            DNA<float> individual = population[index];
+
+            for(int i = 0; i < individual.Genes.Count(); i++)
+            {
+                ret = individual.Genes[0] * individual.Genes[1] * 0.1f +
+                    + individual.Genes[3] * individual.Genes[4] * 0.1f
+                    + individual.Genes[6] * individual.Genes[7] * 0.1f;
+            }  
+
+            return ret;
         }
 
         public float[] GetGene()
@@ -117,12 +135,16 @@ namespace Calculations
             ga = new GeneticAlgorithm<float>(1, 9, random, GetRandomGene, FitnessFunction, elitism, hromozomes, GetGene, mutationRate);
 
             Update();
+
+            for (int i = 0; i < population.Count(); i++)
+            {
+                results[i] = FitnessFunction(i);
+            }   
         }
 
         public void Update()
         {
             ga.NewGeneration(4);
-
         }
     }
 }
