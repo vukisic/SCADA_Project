@@ -1,19 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FTN.Common;
-using SCADA.Common.DataModel;
-using FTN.Services.NetworkModelService;
 
 namespace SCADA.Common
 {
-    public class DataBase
+    public static class DataBase
     {
-        public static Dictionary<Tuple<RegisterType, int>, BasePoint> Model { get; set; }
-        public static Dictionary<Tuple<RegisterType, int>, BasePoint> TransactionModel { get; set; }
-        public static Dictionary<DMSType, Container> CimModel { get; set; }
-        public static List<SwitchingEquipment> Dom { get; set; }
+        private static readonly Lazy<DataBaseInstance> instance = new Lazy<DataBaseInstance>(() => new DataBaseInstance());
+        public static IDataBaseInstance Instance
+        {
+            get
+            {
+                return instance.Value;
+            }
+        }
     }
 }

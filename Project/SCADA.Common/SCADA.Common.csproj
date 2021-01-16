@@ -53,11 +53,13 @@
     <Compile Include="ConversionResult.cs" />
     <Compile Include="CrcCalculator.cs" />
     <Compile Include="DataBase.cs" />
+    <Compile Include="DataBaseInstance.cs" />
     <Compile Include="DataModel\AnalogPoint.cs" />
     <Compile Include="DataModel\BasePoint.cs" />
     <Compile Include="DataModel\DiscretePoint.cs" />
     <Compile Include="DataModel\Enums.cs" />
     <Compile Include="DataModel\SwitchingEquipment.cs" />
+    <Compile Include="IDataBaseInstance.cs" />
     <Compile Include="Logging\LogEventModel.cs" />
     <Compile Include="Logging\LogEventType.cs" />
     <Compile Include="Logging\LogHelper.cs" />

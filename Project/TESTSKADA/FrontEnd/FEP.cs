@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using SCADA.Common;
 using SCADA.Common.Connection;
 using SCADA.Common.DataModel;
@@ -38,7 +35,7 @@ namespace NDS.FrontEnd
             try
             {
                 executionFlag = true;
-               
+
                 while (executionFlag)
                 {
                     connection.Connect();
@@ -50,8 +47,8 @@ namespace NDS.FrontEnd
                     byte[] m = result.PackRequest();
                     connection.Send(m);
                     //Temp
-                    if(DataBase.Model != null)
-                      updateEvent.Invoke(this, new UpdateArgs() { Points = DataBase.Model.Values.ToList() });
+                    if (DataBase.Instance.Model != null)
+                        updateEvent.Invoke(this, new UpdateArgs() { Points = DataBase.Instance.Model.Values.ToList() });
                     Thread.Sleep(5000);
                 }
             }

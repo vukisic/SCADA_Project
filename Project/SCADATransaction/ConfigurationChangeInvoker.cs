@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
 using Core.Common.Contracts;
 using SCADA.Common;
 
@@ -19,14 +17,15 @@ namespace SCADATransaction
             proxy = channelFactory.CreateChannel();
         }
 
-        public void Update(Dictionary<string,ushort> pairs)
+        public void Update(Dictionary<string, ushort> pairs)
         {
-            ushort aiCount = (ushort)(DataBase.Model.Values.Where(x => x.RegisterType == SCADA.Common.DataModel.RegisterType.ANALOG_INPUT).Count());
-            ushort aoCount = (ushort)(DataBase.Model.Values.Where(x => x.RegisterType == SCADA.Common.DataModel.RegisterType.ANALOG_OUTPUT).Count());
-            ushort biCount = (ushort)(DataBase.Model.Values.Where(x => x.RegisterType == SCADA.Common.DataModel.RegisterType.BINARY_INPUT).Count());
-            ushort boCount = (ushort)(DataBase.Model.Values.Where(x => x.RegisterType == SCADA.Common.DataModel.RegisterType.BINARY_OUTPUT).Count());
+            var dbModel = DataBase.Instance.Model;
+            ushort aiCount = (ushort)dbModel.Values.Count(x => x.RegisterType == SCADA.Common.DataModel.RegisterType.ANALOG_INPUT);
+            ushort aoCount = (ushort)dbModel.Values.Count(x => x.RegisterType == SCADA.Common.DataModel.RegisterType.ANALOG_OUTPUT);
+            ushort biCount = (ushort)dbModel.Values.Count(x => x.RegisterType == SCADA.Common.DataModel.RegisterType.BINARY_INPUT);
+            ushort boCount = (ushort)dbModel.Values.Count(x => x.RegisterType == SCADA.Common.DataModel.RegisterType.BINARY_OUTPUT);
 
-            proxy.UpdateConfig(Tuple.Create<ushort, ushort, ushort, ushort>(biCount,boCount,aiCount,aoCount), pairs);
+            proxy.UpdateConfig(Tuple.Create(biCount, boCount, aiCount, aoCount), pairs);
         }
     }
 }

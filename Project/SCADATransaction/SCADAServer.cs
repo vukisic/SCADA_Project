@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
 using Core.Common.ServiceBus.Events;
 using NServiceBus;
 using SCADA.Common;
@@ -13,8 +10,8 @@ namespace SCADATransaction
 {
     public class SCADAServer
     {
-        private ServiceHost modelServiceHost;
-        private ServiceHost transactionServiceHost;
+        private readonly ServiceHost modelServiceHost;
+        private readonly ServiceHost transactionServiceHost;
         public static EventHandler updateEvent = new EventHandler(OnUpdateEvent);
         public static IEndpointInstance instace;
 
@@ -22,9 +19,8 @@ namespace SCADATransaction
         public SCADAServer()
         {
             modelServiceHost = new ServiceHost(typeof(SCADAModelProvider));
-            modelServiceHost.AddServiceEndpoint(typeof(IModelUpdate), new NetTcpBinding(), 
+            modelServiceHost.AddServiceEndpoint(typeof(IModelUpdate), new NetTcpBinding(), new Uri("net.tcp://localhost:5001/IModelUpdate"));
 
-                new Uri("net.tcp://localhost:5001/IModelUpdate"));
             transactionServiceHost = new ServiceHost(typeof(SCADATransactionProvider));
             transactionServiceHost.AddServiceEndpoint(typeof(ITransactionSteps), new NetTcpBinding(), new Uri("net.tcp://localhost:4002/ITransactionSteps"));
         }
@@ -35,43 +31,43 @@ namespace SCADATransaction
             {
                 modelServiceHost.Open();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
 
             }
         }
-        
+
         public void CloseModel()
         {
             try
             {
                 modelServiceHost.Close();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
 
             }
         }
-        
+
         public void OpenTransaction()
         {
             try
             {
                 transactionServiceHost.Open();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
 
             }
         }
-        
+
         public void CloseTransaction()
         {
             try
             {
                 transactionServiceHost.Close();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
 
             }
@@ -81,12 +77,12 @@ namespace SCADATransaction
         {
             ScadaUpdateEvent ev = new ScadaUpdateEvent()
             {
-                Points = DataBase.Model.Values.ToList()
+                Points = DataBase.Instance.Model.Values.ToList()
             };
 
             DomUpdateEvent dom = new DomUpdateEvent()
             {
-                DomData = DataBase.Dom
+                DomData = DataBase.Instance.Dom
             };
 
             try
