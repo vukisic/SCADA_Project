@@ -34,6 +34,10 @@ namespace Calculations
         float optimalFluidLevel;
         float timeFactor;
 
+        int countIteration = 0;
+        float lastBestSolution = 0.0f;
+        DNA<float> bestIndividual;
+
         AnalogPoint pump1flow = null;
         AnalogPoint tapChanger1 = null;
 
@@ -160,34 +164,62 @@ namespace Calculations
 
             hromozomes.Add(firstHromozome);
             ga = new GeneticAlgorithm<float>(1, 9, random, GetRandomGene, FitnessFunction, elitism, mutationRate, hromozomes, GetGene);
-
-            Update();
-
-            for (int i = 0; i < population.Count(); i++)
+            do
             {
-                results[i] = FitnessFunction(i);
+                Update();
+
+                population = ga.Population;
+
+                for (int i = 0; i < population.Count(); i++)
+                {
+                    results[i] = FitnessFunction(i);
+                }
+
+                List<Tuple<int, float>> potentialSolutions = FindPotentialSolutions(results, workingTimes);
+                Tuple<int, float> bestSolution = FindBestSolution(potentialSolutions);
+
+                if (bestSolution.Item2 < lastBestSolution)
+                {
+                    lastBestSolution = bestSolution.Item2;
+                    bestIndividual = population[bestSolution.Item1];
+                }
+
+                countIteration++;
+
+            } while (countIteration == 100);
+        }
+
+        private Tuple<int, float> FindBestSolution(List<Tuple<int, float>> potentialSolutions)
+        {
+            Tuple<int, float> bestSolution;
+            int indexSolution = potentialSolutions[0].Item1;
+            float minSolution = potentialSolutions[0].Item2;
+
+            foreach (var solution in potentialSolutions)
+            {
+                if (solution.Item2 < minSolution)
+                {
+                    indexSolution = solution.Item1;
+                    minSolution = solution.Item2;
+                }
             }
 
-            List<float> potentialSolutions = FindPotentialSolutions(results, workingTimes);
-            float bestSolution = FindBestSolution(potentialSolutions);
+            bestSolution = new Tuple<int, float>(indexSolution, minSolution);
+
+            return bestSolution;
         }
 
-        private float FindBestSolution(List<float> potentialSolutions)
+        private List<Tuple<int, float>> FindPotentialSolutions(float[] results, List<Tuple<float, float, float>> times)
         {
-            return potentialSolutions.Min();
-        }
-
-        private List<float> FindPotentialSolutions(float[] results, List<Tuple<float,float,float>> times)
-        {
-            var solutions = new List<float>();
-            for(int i=0; i< results.Count(); i++)
+            var solutions = new List<Tuple<int, float>>();
+            for (int i = 0; i < results.Count(); i++)
             {
                 if (IsSolutionCorrect(results[i], times[i]))
-                    solutions.Add(results[i]);
+                    solutions.Add(new Tuple<int, float>(i, results[i]));
             }
             foreach (var item in results)
             {
-               
+
             }
 
             return solutions;
