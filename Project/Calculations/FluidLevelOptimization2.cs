@@ -22,7 +22,10 @@ namespace Calculations
         private List<DNA<float>> hromozomes = new List<DNA<float>>();
 
         float[] firstGenes;
-        int index = 0;
+        int index = 0; 
+        int countIteration = 0;
+        float lastBestSolution = 0.0f;
+        DNA<float> bestIndividual;
 
         float[] limits1 = new float[] { 0.0f, 1.0f };
         float[] limits2 = new float[] { 100.0f, 200.0f, 300.0f, 400.0f, 500.0f };
@@ -47,7 +50,6 @@ namespace Calculations
 
         public FluidLevelOptimization2()
         {
-            population = ga.Population;
             workingTimes = new List<Tuple<float, float>>();
 
             if (!float.TryParse(ConfigurationManager.AppSettings["Percetage"], out percentage))
@@ -62,6 +64,8 @@ namespace Calculations
             {
                 timeFactor = 1800;
             }
+
+            Start();
         }
 
         public float FitnessFunction(int index)
@@ -76,9 +80,7 @@ namespace Calculations
                     + individual.Genes[3] * individual.Genes[4] * individual.Genes[5];
                    
                 workingTimes.Add(new Tuple<float, float>(individual.Genes[2],
-                                                         individual.Genes[5]
-                                                                )
-                    );
+                                                         individual.Genes[5] ));
             }
 
             return ret;
@@ -147,29 +149,58 @@ namespace Calculations
             hromozomes.Add(firstHromozome);
             ga = new GeneticAlgorithm<float>(1, 6, random, GetRandomGene, FitnessFunction, elitism, mutationRate, hromozomes, GetGene);
 
-            Update();
-
-            for (int i = 0; i < population.Count(); i++)
+            do
             {
-                results[i] = FitnessFunction(i);
+                Update();
+
+                population = ga.Population;
+
+                for (int i = 0; i < population.Count(); i++)
+                {
+                    results[i] = FitnessFunction(i);
+                }
+
+                List<Tuple<int, float>> potentialSolutions = FindPotentialSolutions(results, workingTimes);
+                Tuple<int, float> bestSolution = FindBestSolution(potentialSolutions);
+
+                if (bestSolution.Item2 < lastBestSolution)
+                {
+                    lastBestSolution = bestSolution.Item2;
+                    bestIndividual = population[bestSolution.Item1];
+                }
+
+                countIteration++;
+
+            } while (countIteration == 100);
+        }
+
+        private Tuple<int, float> FindBestSolution(List<Tuple<int, float>> potentialSolutions)
+        {
+            Tuple<int, float> bestSolution;
+            int indexSolution = potentialSolutions[0].Item1;
+            float minSolution = potentialSolutions[0].Item2;
+
+            foreach (var solution in potentialSolutions)
+            {
+                if (solution.Item2 < minSolution)
+                {
+                    indexSolution = solution.Item1;
+                    minSolution = solution.Item2;
+                }
             }
 
-            List<float> potentialSolutions = FindPotentialSolutions(results, workingTimes);
-            float bestSolution = FindBestSolution(potentialSolutions);
+            bestSolution = new Tuple<int, float>(indexSolution, minSolution);
+
+            return bestSolution;
         }
 
-        private float FindBestSolution(List<float> potentialSolutions)
+        private List<Tuple<int, float>> FindPotentialSolutions(float[] results, List<Tuple<float, float>> times)
         {
-            return potentialSolutions.Min();
-        }
-
-        private List<float> FindPotentialSolutions(float[] results, List<Tuple<float, float>> times)
-        {
-            var solutions = new List<float>();
+            var solutions = new List<Tuple<int, float>>();
             for (int i = 0; i < results.Count(); i++)
             {
                 if (IsSolutionCorrect(results[i], times[i]))
-                    solutions.Add(results[i]);
+                    solutions.Add(new Tuple<int, float>(i, results[i]));
             }
             foreach (var item in results)
             {
