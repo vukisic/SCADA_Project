@@ -112,7 +112,7 @@ namespace Calculations
             return gene;
         }
 
-        public void Start()
+        public DNA<float> Start()
         {
             model = CeProxyFactory.Instance().ScadaExportProxy().GetData();
             random = new Random();
@@ -183,6 +183,9 @@ namespace Calculations
                 countIteration++;
 
             } while (countIteration == iterations || utils.IsSolutionCorrect(lastBestSolution, workingTimes[bestSolutionIndex]));
+
+            return bestIndividual;
+
         }
 
         public void Update()

@@ -98,7 +98,7 @@ namespace Calculations
             return gene;
         }
 
-        public void Start()
+        public DNA<float> Start()
         {
             model = CeProxyFactory.Instance().ScadaExportProxy().GetData();
             random = new Random();
@@ -151,6 +151,7 @@ namespace Calculations
             } while (countIteration == iterations || utils.IsSolutionCorrect(lastBestSolution, workingTimes[bestSolutionIndex]));
 
             // bestIndividual send to scada
+            return bestIndividual;
         }
 
         public void Update()
