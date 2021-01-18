@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Core.Common.Contracts;
 using SCADA.Common;
+using SCADA.Services;
 
 namespace SCADATransaction
 {
@@ -21,10 +22,12 @@ namespace SCADATransaction
 
         public void Update(Dictionary<string,ushort> pairs)
         {
-            ushort aiCount = (ushort)(DataBase.Model.Values.Where(x => x.RegisterType == SCADA.Common.DataModel.RegisterType.ANALOG_INPUT).Count());
-            ushort aoCount = (ushort)(DataBase.Model.Values.Where(x => x.RegisterType == SCADA.Common.DataModel.RegisterType.ANALOG_OUTPUT).Count());
-            ushort biCount = (ushort)(DataBase.Model.Values.Where(x => x.RegisterType == SCADA.Common.DataModel.RegisterType.BINARY_INPUT).Count());
-            ushort boCount = (ushort)(DataBase.Model.Values.Where(x => x.RegisterType == SCADA.Common.DataModel.RegisterType.BINARY_OUTPUT).Count());
+            var storage = new ScadaStorageProxy();
+            var model = storage.GetModel();
+            ushort aiCount = (ushort)(model.Values.Where(x => x.RegisterType == SCADA.Common.DataModel.RegisterType.ANALOG_INPUT).Count());
+            ushort aoCount = (ushort)(model.Values.Where(x => x.RegisterType == SCADA.Common.DataModel.RegisterType.ANALOG_OUTPUT).Count());
+            ushort biCount = (ushort)(model.Values.Where(x => x.RegisterType == SCADA.Common.DataModel.RegisterType.BINARY_INPUT).Count());
+            ushort boCount = (ushort)(model.Values.Where(x => x.RegisterType == SCADA.Common.DataModel.RegisterType.BINARY_OUTPUT).Count());
 
             proxy.UpdateConfig(Tuple.Create<ushort, ushort, ushort, ushort>(biCount,boCount,aiCount,aoCount), pairs);
         }

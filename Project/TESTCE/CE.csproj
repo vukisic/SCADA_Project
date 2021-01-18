@@ -34,6 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -47,6 +48,7 @@
     <Compile Include="CEWorker.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReadConfigResults.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -55,6 +57,10 @@
     <ProjectReference Include="..\Calculations\Calculations.csproj">
       <Project>{6427bcba-076f-495e-843d-630c9585cdd2}</Project>
       <Name>Calculations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CE.Common\CE.Common.csproj">
+      <Project>{b440de64-0b7c-490b-afb7-8f4bfa249afc}</Project>
+      <Name>CE.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\CETransaction\CETransaction.csproj">
       <Project>{AB741CE2-D3AE-4B84-9B78-580304CACD8A}</Project>
@@ -67,6 +73,10 @@
     <ProjectReference Include="..\NetworkModelService\DataModel\DataModel.csproj">
       <Project>{ade96497-7c11-40b6-ae82-57f956c9f104}</Project>
       <Name>DataModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SCADA.Common\SCADA.Common.csproj">
+      <Project>{6e79fca4-42e3-4d2f-b4a3-28e691bf04c3}</Project>
+      <Name>SCADA.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\TMContracts\TMContracts.csproj">
       <Project>{F5D28AA0-B5F6-4C6A-867D-2D1187464A80}</Project>

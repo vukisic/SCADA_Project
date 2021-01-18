@@ -13,6 +13,7 @@ using SCADA.Common;
 using SCADA.DB.Models;
 using SCADATransaction;
 using NDS.Updaters;
+using SCADA.Services.Services;
 
 namespace NDS
 {
@@ -48,6 +49,8 @@ namespace NDS
             //await endpoint.Publish(new DemoEvent { DemoProperty = "Something happened!" })
             //    .ConfigureAwait(false);
             SCADAServer.instace = endpoint;
+            ScadaStorageService storage = new ScadaStorageService();
+            storage.Open();
             SCADAServer scada = new SCADAServer();
             
             scada.OpenModel();
@@ -60,6 +63,7 @@ namespace NDS
             //proxy.Log(new SCADA.Common.Logging.LogEventModel() { EventType = SCADA.Common.Logging.LogEventType.INFO, Message = "NDS Started!" });
 
             Console.ReadLine();
+            storage.Close();
             updater.Stop();
 		}
 

@@ -62,6 +62,7 @@
     <Compile Include="Common\IHistory.cs" />
     <Compile Include="Common\ILogging.cs" />
     <Compile Include="Common\IScadaExport.cs" />
+    <Compile Include="Common\IScadaStorage.cs" />
     <Compile Include="Providers\AlarmKruncingProvider.cs" />
     <Compile Include="Providers\DOMProvider.cs" />
     <Compile Include="Common\IAlarmKruncing.cs" />
@@ -71,11 +72,14 @@
     <Compile Include="Providers\HistoryProvider.cs" />
     <Compile Include="Providers\LoggingProvider.cs" />
     <Compile Include="Providers\ScadaExport.cs" />
+    <Compile Include="Providers\ScadaStorageProvider.cs" />
+    <Compile Include="ScadaStorageProxy.cs" />
     <Compile Include="Services\AlarmingKruncingHost.cs" />
     <Compile Include="Services\DOMHost.cs" />
     <Compile Include="Services\HistoryHost.cs" />
     <Compile Include="Services\LoggingHost.cs" />
     <Compile Include="Services\ScadaExportService.cs" />
+    <Compile Include="Services\ScadaStorageService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -83,6 +87,14 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{892cbe15-9ed7-4540-81fa-0eaaba592138}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NetworkModelService\DataModel\DataModel.csproj">
+      <Project>{ade96497-7c11-40b6-ae82-57f956c9f104}</Project>
+      <Name>DataModel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SCADA.Common\SCADA.Common.csproj">
       <Project>{6e79fca4-42e3-4d2f-b4a3-28e691bf04c3}</Project>
       <Name>SCADA.Common</Name>

@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SCADA.Common;
+using SCADA.Services;
+using SCADA.Services.Providers;
+using SCADA.Services.Services;
 using TMContracts;
 
 namespace SCADATransaction
@@ -13,18 +16,20 @@ namespace SCADATransaction
         ConversionResult result;
         public bool Prepare()
         {
+            ScadaStorageProxy proxy = new ScadaStorageProxy();
             Console.WriteLine("Prepared? YES");
             var converter = new ScadaModelConverter();
-            result = converter.Convert(DataBase.CimModel);
-            DataBase.TransactionModel = result.Points;
-            DataBase.Dom = result.Equipment.Values.ToList();
+            result = converter.Convert(proxy.GetCimModel());
+            proxy.SetTransactionModel(result.Points);
+            proxy.SetDomModel(result.Equipment.Values.ToList());
             return true;
         }
 
         public bool Commit()
         {
+            ScadaStorageProxy proxy = new ScadaStorageProxy();
             Console.WriteLine("Commited? YES");
-            DataBase.Model = DataBase.TransactionModel;
+            proxy.SetModel(proxy.GetTransactionModel());
             SCADAServer.updateEvent?.Invoke(this, null);
             ConfigurationChangeInvoker invoker = new ConfigurationChangeInvoker();
             invoker.Update(result.MridIndexPairs);
@@ -34,8 +39,9 @@ namespace SCADATransaction
 
         public void Rollback()
         {
+            ScadaStorageProxy proxy = new ScadaStorageProxy();
             Console.WriteLine("Request for rollback!");
-            DataBase.TransactionModel = null;
+            proxy.SetTransactionModel(null);
         }
     }
 }

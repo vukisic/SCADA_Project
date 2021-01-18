@@ -9,6 +9,7 @@ using SCADA.Common.Connection;
 using SCADA.Common.DataModel;
 using SCADA.Common.Messaging;
 using SCADA.Common.Messaging.Parameters;
+using SCADA.Services;
 
 namespace NDS.FrontEnd
 {
@@ -19,7 +20,7 @@ namespace NDS.FrontEnd
         private Thread fepWorker;
         private bool executionFlag;
         private IConnection connection;
-
+        private ScadaStorageProxy proxy;
         public void Command()
         {
             // Implement command logic to ProcessingManager
@@ -30,6 +31,7 @@ namespace NDS.FrontEnd
             connection = new TCPConnection();
             this.fepWorker = new Thread(Fep_DoWork);
             this.fepWorker.Name = "Fep thread";
+            proxy = new ScadaStorageProxy();
             fepWorker.Start();
         }
 
@@ -50,8 +52,9 @@ namespace NDS.FrontEnd
                     byte[] m = result.PackRequest();
                     connection.Send(m);
                     //Temp
-                    if(DataBase.Model != null)
-                      updateEvent.Invoke(this, new UpdateArgs() { Points = DataBase.Model.Values.ToList() });
+                    var model = proxy.GetModel();
+                    if(model != null)
+                      updateEvent.Invoke(this, new UpdateArgs() { Points = model.Values.ToList() });
                     Thread.Sleep(5000);
                 }
             }

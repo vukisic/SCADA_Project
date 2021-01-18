@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Calculations;
+using CE.Common.Proxies;
 
 namespace CE
 {
@@ -42,24 +44,52 @@ namespace CE
         {
             while (endFlag)
             {
-                //if (pointUpdateOccures)
-                //    ChangeStrategy();
-                // If u want scada measurments use CeProxyFactory.Instance().ScadaExportProxy().GetData();
-                // Call Calculations
-                // algorithm.Start();
+                if (pointUpdateOccures)
+                {
+                    ChangeStrategy();
+                }
+                 
                 Thread.Sleep(2000);
             }
         }
 
         private void ChangeStrategy()
         {
+            var results = ReadConfiguration();
             switch (points)
             {
-                case 1: algorithm = new FluidLevelOptimization1(); break;
-                case 2: algorithm = new FluidLevelOptimization2(); break;
-                case 3: algorithm = new FluidLevelOptimization3(); break;
+                case 1: algorithm = new FluidLevelOptimization1(results.OptimalFluidLevel,results.Percetage,results.TimeFactor,results.Iterations); break;
+                case 2: algorithm = new FluidLevelOptimization2(results.OptimalFluidLevel, results.Percetage, results.TimeFactor, results.Iterations); break;
+                case 3: algorithm = new FluidLevelOptimization3(results.OptimalFluidLevel, results.Percetage, results.TimeFactor, results.Iterations); break;
             }
+               
+            //algorithm.Start();
             pointUpdateOccures = false;
+        }
+
+        private ReadConfigResults ReadConfiguration()
+        {
+            float percentage;
+            float optimalFluidLevel;
+            float timeFactor;
+            int iterations;
+            if (!float.TryParse(ConfigurationManager.AppSettings["Percetage"], out percentage))
+            {
+                percentage = 5;
+            }
+            if (!float.TryParse(ConfigurationManager.AppSettings["OptimalFluidLevel"], out optimalFluidLevel))
+            {
+                optimalFluidLevel = 1000;
+            }
+            if (!float.TryParse(ConfigurationManager.AppSettings["TimeFactor"], out timeFactor))
+            {
+                timeFactor = 1800;
+            }
+            if (!Int32.TryParse(ConfigurationManager.AppSettings["Iterations"], out iterations))
+            {
+                iterations = 1000;
+            }
+            return new ReadConfigResults(percentage, optimalFluidLevel, timeFactor, iterations);
         }
 
         public void Dispose()

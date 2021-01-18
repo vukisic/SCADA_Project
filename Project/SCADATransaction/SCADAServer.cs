@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Core.Common.ServiceBus.Events;
 using NServiceBus;
 using SCADA.Common;
+using SCADA.Services;
 using TMContracts;
 
 namespace SCADATransaction
@@ -79,14 +80,15 @@ namespace SCADATransaction
 
         private static void OnUpdateEvent(object sender, EventArgs e)
         {
+            ScadaStorageProxy proxy = new ScadaStorageProxy();
             ScadaUpdateEvent ev = new ScadaUpdateEvent()
             {
-                Points = DataBase.Model.Values.ToList()
+                Points = proxy.GetModel().Values.ToList()
             };
 
             DomUpdateEvent dom = new DomUpdateEvent()
             {
-                DomData = DataBase.Dom
+                DomData = proxy.GetDomModel()
             };
 
             try
