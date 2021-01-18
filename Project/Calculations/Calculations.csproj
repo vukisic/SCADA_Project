@@ -43,12 +43,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DNA.cs" />
-    <Compile Include="FluidLevelOptimization1.cs" />
-    <Compile Include="FluidLevelOptimization3.cs" />
-    <Compile Include="FluidLevelOptimization2.cs" />
+    <Compile Include="Strategies\FluidLevelOptimization1.cs" />
+    <Compile Include="Strategies\FluidLevelOptimization3.cs" />
+    <Compile Include="Strategies\FluidLevelOptimization2.cs" />
     <Compile Include="GeneticAlgorithm.cs" />
-    <Compile Include="IFitnessFunction.cs" />
+    <Compile Include="Strategies\IFitnessFunction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Strategies\Utils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

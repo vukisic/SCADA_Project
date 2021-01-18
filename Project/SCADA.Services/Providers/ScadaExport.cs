@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using SCADA.Common;
@@ -13,8 +14,10 @@ namespace SCADA.Services.Providers
     {
         public Dictionary<string, BasePoint> GetData()
         {
+            ScadaStorageProxy proxy = new ScadaStorageProxy();
             Dictionary<string, BasePoint> points = new Dictionary<string, BasePoint>();
-            foreach (var item in DataBase.Model.Values)
+            var model = proxy.GetModel();
+            foreach (var item in model.Values)
             {
                 points.Add(item.Mrid, item);
             }

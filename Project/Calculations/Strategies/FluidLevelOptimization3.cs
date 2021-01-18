@@ -13,6 +13,7 @@ namespace Calculations
 {
     public class FluidLevelOptimization3 : IFitnessFunction
     {
+        private Utils utils;
         private List<Tuple<float, float, float>> workingTimes;
         private float[] results = new float[] { };
         private List<DNA<float>> population;
@@ -35,7 +36,9 @@ namespace Calculations
         float timeFactor;
 
         int countIteration = 0;
+        int iterations;
         float lastBestSolution = 0.0f;
+        int bestSolutionIndex;
         DNA<float> bestIndividual;
 
         AnalogPoint pump1flow = null;
@@ -52,23 +55,15 @@ namespace Calculations
         public int isWorking2 = 0;
         public int isWorking3 = 0;
 
-        public FluidLevelOptimization3()
+        public FluidLevelOptimization3(float optimalFluidLevel, float percentage, float timeFactor, int iterations)
         {
-            population = ga.Population;
-            workingTimes = new List<Tuple<float, float, float>>();
             
-            if(!float.TryParse(ConfigurationManager.AppSettings["Percetage"], out percentage))
-            {
-                percentage = 5;
-            }
-            if (!float.TryParse(ConfigurationManager.AppSettings["OptimalFluidLevel"], out optimalFluidLevel))
-            {
-                optimalFluidLevel = 1000;
-            }
-            if (!float.TryParse(ConfigurationManager.AppSettings["TimeFactor"], out timeFactor))
-            {
-                timeFactor = 1800;
-            }
+            workingTimes = new List<Tuple<float, float, float>>();
+            this.percentage = percentage;
+            this.optimalFluidLevel = optimalFluidLevel;
+            this.timeFactor = timeFactor;
+            this.iterations = iterations;
+            utils = new Utils(optimalFluidLevel,percentage,timeFactor);
         }
 
         public float FitnessFunction(int index)
@@ -175,63 +170,19 @@ namespace Calculations
                     results[i] = FitnessFunction(i);
                 }
 
-                List<Tuple<int, float>> potentialSolutions = FindPotentialSolutions(results, workingTimes);
-                Tuple<int, float> bestSolution = FindBestSolution(potentialSolutions);
+                List<Tuple<int, float>> potentialSolutions = utils.FindPotentialSolutions(results, workingTimes);
+                Tuple<int, float> bestSolution = utils.FindBestSolution(potentialSolutions);
 
                 if (bestSolution.Item2 < lastBestSolution)
                 {
                     lastBestSolution = bestSolution.Item2;
+                    bestSolutionIndex = bestSolution.Item1;
                     bestIndividual = population[bestSolution.Item1];
                 }
 
                 countIteration++;
 
-            } while (countIteration == 100);
-        }
-
-        private Tuple<int, float> FindBestSolution(List<Tuple<int, float>> potentialSolutions)
-        {
-            Tuple<int, float> bestSolution;
-            int indexSolution = potentialSolutions[0].Item1;
-            float minSolution = potentialSolutions[0].Item2;
-
-            foreach (var solution in potentialSolutions)
-            {
-                if (solution.Item2 < minSolution)
-                {
-                    indexSolution = solution.Item1;
-                    minSolution = solution.Item2;
-                }
-            }
-
-            bestSolution = new Tuple<int, float>(indexSolution, minSolution);
-
-            return bestSolution;
-        }
-
-        private List<Tuple<int, float>> FindPotentialSolutions(float[] results, List<Tuple<float, float, float>> times)
-        {
-            var solutions = new List<Tuple<int, float>>();
-            for (int i = 0; i < results.Count(); i++)
-            {
-                if (IsSolutionCorrect(results[i], times[i]))
-                    solutions.Add(new Tuple<int, float>(i, results[i]));
-            }
-            foreach (var item in results)
-            {
-
-            }
-
-            return solutions;
-        }
-
-        private bool IsSolutionCorrect(float solution, Tuple<float,float,float> times)
-        {
-            float lowerBound = optimalFluidLevel * (1.0f - (percentage / 100));
-            float upperBound = optimalFluidLevel * (1.0f + (percentage / 100));
-            bool criterium1 =  (solution <= upperBound && solution >= lowerBound);
-            bool criterium2 = (Math.Abs(times.Item1 - times.Item2) <= timeFactor && Math.Abs(times.Item1 - times.Item3) <= timeFactor && Math.Abs(times.Item2 - times.Item3) <= timeFactor);
-            return criterium1 && criterium2;
+            } while (countIteration == iterations || utils.IsSolutionCorrect(lastBestSolution, workingTimes[bestSolutionIndex]));
         }
 
         public void Update()
