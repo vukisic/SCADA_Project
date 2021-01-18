@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using Core.Common.ServiceBus.Commands;
+using Core.Common.ServiceBus.Events;
 
 namespace GUI.ViewModels
 {
@@ -14,7 +15,15 @@ namespace GUI.ViewModels
         {
             App.Current.Dispatcher.Invoke((System.Action)delegate
             {
-                // Update code
+                // Update code nms
+            });
+        }
+
+        internal void UpdateMeasurements(object sender, ScadaUpdateEvent e)
+        {
+            App.Current.Dispatcher.Invoke((System.Action)delegate
+            {
+                // Update code scada measurements
             });
         }
     }

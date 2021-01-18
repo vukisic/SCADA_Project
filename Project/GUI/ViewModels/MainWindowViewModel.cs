@@ -26,6 +26,7 @@ namespace GUI.ViewModels
         public MainWindowViewModel()
         {
             scadaUpdate += scada.Update;
+            scadaUpdate += graphics.UpdateMeasurements;
             domUpdate += dom.Update;
             scadaUpdate += alarms.Update;
             historyUpdate += history.Update;
