@@ -13,10 +13,10 @@ namespace Calculations
     {
         private Utils utils;
         private List<Tuple<float, float>> workingTimes;
-        private float[] results = new float[] { };
+        private List<float> results = new List<float>();
         private List<DNA<float>> population;
         private Dictionary<string, BasePoint> model;
-        private Random random;
+        private static Random random = new Random();
         private GeneticAlgorithm<float> ga;
         private int elitism = 1;
         private float mutationRate = 0.01f;
@@ -65,14 +65,12 @@ namespace Calculations
 
             DNA<float> individual = population[index];
 
-            for (int i = 0; i < individual.Genes.Count(); i++)
-            {
-                ret = individual.Genes[0] * individual.Genes[1] * individual.Genes[2]
-                    + individual.Genes[3] * individual.Genes[4] * individual.Genes[5];
-                   
-                workingTimes.Add(new Tuple<float, float>(individual.Genes[2],
-                                                         individual.Genes[5] ));
-            }
+            ret = individual.Genes[0] * individual.Genes[1] * individual.Genes[2]
+                + individual.Genes[3] * individual.Genes[4] * individual.Genes[5];
+
+            workingTimes.Add(new Tuple<float, float>(individual.Genes[2],
+                                                     individual.Genes[5]));
+
 
             return ret;
         }
@@ -85,7 +83,6 @@ namespace Calculations
         public float GetRandomGene()
         {
             float gene = 0.1f;
-            random = new Random();
 
             if (index == 6)
                 index = 0;
@@ -104,8 +101,7 @@ namespace Calculations
         public DNA<float> Start(float currentFluidLevel)
         {
             model = CeProxyFactory.Instance().ScadaExportProxy().GetData();
-            random = new Random();
-
+           
             if (currentFluidLevel == 0)
             {
                 var ret = new DNA<float>();
@@ -147,25 +143,32 @@ namespace Calculations
             hromozomes.Add(firstHromozome);
             ga = new GeneticAlgorithm<float>(1, 6, random, GetRandomGene, FitnessFunction, elitism, mutationRate, hromozomes, GetGene);
 
+            population = ga.Population;
+
             do
             {
                 Update();
 
                 population = ga.Population;
 
+                results = new List<float>();
                 for (int i = 0; i < population.Count(); i++)
                 {
-                    results[i] = currentFluidLevel - FitnessFunction(i);
+                    results.Add(currentFluidLevel - FitnessFunction(i));
                 }
 
                 List<Tuple<int, float>> potentialSolutions = utils.FindPotentialSolutions(results, workingTimes);
-                Tuple<int, float> bestSolution = utils.FindBestSolution(potentialSolutions);
-
-                if (bestSolution.Item2 < lastBestSolution)
+                
+                if (potentialSolutions.Count() > 0)
                 {
-                    lastBestSolution = bestSolution.Item2;
-                    bestSolutionIndex = bestSolution.Item1;
-                    bestIndividual = population[bestSolution.Item1];
+                    Tuple<int, float> bestSolution = utils.FindBestSolution(potentialSolutions);
+
+                    if (bestSolution.Item2 < lastBestSolution)
+                    {
+                        lastBestSolution = bestSolution.Item2;
+                        bestSolutionIndex = bestSolution.Item1;
+                        bestIndividual = population[bestSolution.Item1];
+                    }
                 }
 
                 countIteration++;

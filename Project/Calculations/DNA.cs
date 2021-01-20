@@ -66,6 +66,7 @@ namespace Calculations
         {
             for (int i = 0; i < Genes.Length; i++)
             {
+                random = new Random();
                 if (random.NextDouble() < mutationRate)
                 {
                     Genes[i] = getRandomGene();

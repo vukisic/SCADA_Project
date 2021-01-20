@@ -52,7 +52,7 @@ namespace Calculations
             return solutions;
         }
 
-        public List<Tuple<int, float>> FindPotentialSolutions(float[] results, List<Tuple<float, float>> times)
+        public List<Tuple<int, float>> FindPotentialSolutions(List<float> results, List<Tuple<float, float>> times)
         {
             var solutions = new List<Tuple<int, float>>();
             for (int i = 0; i < results.Count(); i++)
@@ -63,7 +63,7 @@ namespace Calculations
             return solutions;
         }
 
-        public List<Tuple<int, float>> FindPotentialSolutions(float[] results, List<Tuple<float>> times)
+        public List<Tuple<int, float>> FindPotentialSolutions(List<float> results, List<Tuple<float>> times)
         {
             var solutions = new List<Tuple<int, float>>();
             for (int i = 0; i < results.Count(); i++)

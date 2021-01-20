@@ -18,7 +18,7 @@ namespace Calculations
         private List<float> results = new List<float>();
         private List<DNA<float>> population = new List<DNA<float>>();
         private Dictionary<string, BasePoint> model;
-        private Random random;
+        private static Random random = new Random();
         private GeneticAlgorithm<float> ga;
         private int elitism = 1;
         private float mutationRate = 0.01f;
@@ -65,7 +65,6 @@ namespace Calculations
 
         public float FitnessFunction(int index)
         {
-            population = ga.Population;
             float ret = 0.0f;
 
             DNA<float> individual = population[index];
@@ -90,7 +89,6 @@ namespace Calculations
         public float GetRandomGene()
         {
             float gene = 0.1f;
-            random = new Random();
 
             if (index == 9)
                 index = 0;
@@ -109,8 +107,7 @@ namespace Calculations
         public DNA<float> Start(float currentFluidLevel)
         {
             model = CeProxyFactory.Instance().ScadaExportProxy().GetData();
-            random = new Random();
-
+            
             if(currentFluidLevel == 0)
             {
                 var ret = new DNA<float>();
@@ -159,9 +156,10 @@ namespace Calculations
             DNA<float> firstHromozome = new DNA<float>(9, random, GetRandomGene, FitnessFunction, false, true, GetGene);
 
             hromozomes.Add(firstHromozome);
-
             ga = new GeneticAlgorithm<float>(1, 9, random, GetRandomGene, FitnessFunction, elitism, mutationRate, hromozomes, GetGene);
-            
+
+            population = ga.Population;
+
             do
             {
                 Update();
