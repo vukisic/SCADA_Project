@@ -79,7 +79,7 @@ namespace SCADA.Common
                         NormalValue = analog.NormalValue,
                         ObjectMrid = analog.ObjectMRID ?? null,
                         TimeStamp = String.Empty,
-                        Value = analog.NormalValue,
+                        Value = 0,
                         Alarm = AlarmType.NO_ALARM
                     };
                     points.Add(new Tuple<RegisterType, int>(analogPoint.RegisterType, analogPoint.Index), analogPoint);
