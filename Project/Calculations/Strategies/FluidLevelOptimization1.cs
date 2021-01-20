@@ -32,10 +32,7 @@ namespace Calculations
 
         float[] limits1 = new float[] { 0.0f, 1.0f };
         float[] limits2 = new float[] { 100.0f, 200.0f, 300.0f, 400.0f, 500.0f };
-        float[] limits3 = new float[] { 1800.0f, 3600.0f, 5400.0f, 7200.0f, 9000.0f, 10800.0f, 12600.0f,
-                                        14400.0f, 18000.0f, 19800.0f, 21600.0f, 23400.0f,
-                                        25200.0f, 27000.0f, 28800.0f, 30600.0f, 32400.0f,
-                                        34200.0f, 36000.0f, 37800.0f, 39600.0f, 41400.0f, 43200.0f};
+        int[] limits3 = Enumerable.Range(1, 30).ToArray();
         float percentage;
         float optimalFluidLevel;
         float timeFactor;
@@ -103,6 +100,13 @@ namespace Calculations
             model = CeProxyFactory.Instance().ScadaExportProxy().GetData();
             random = new Random();
 
+            if (currentFluidLevel == 0)
+            {
+                var ret = new DNA<float>();
+                ret.Genes = new float[] { 0, 0, 0 };
+                return ret;
+            }
+
             foreach (var m in model)
             {
                 if (m.Value.Mrid == "Flow_AM1")
@@ -147,8 +151,10 @@ namespace Calculations
                 }
 
                 countIteration++;
+                if (countIteration == iterations || utils.IsSolutionCorrect(lastBestSolution, workingTimes[bestSolutionIndex]))
+                    break;
 
-            } while (countIteration == iterations || utils.IsSolutionCorrect(lastBestSolution, workingTimes[bestSolutionIndex]));
+            } while (true);
 
             // bestIndividual send to scada
             return bestIndividual;

@@ -8,13 +8,18 @@ namespace Calculations
 {
     public class DNA<T>
     {
-        public T[] Genes { get; private set; }
+        public T[] Genes { get;  set; }
         public float Fitness { get; private set; }
 
         private Random random;
         private Func<T> getRandomGene;
         private Func<T[]> getGene;
         private Func<int, float> fitnessFunction;
+
+        public DNA()
+        {
+
+        }
 
         public DNA(int size, Random random, Func<T> getRandomGene, Func<int, float> fitnessFunction,
              bool shouldInitGenes = true, bool isFirstGenes = false, Func<T[]> getGene = null)

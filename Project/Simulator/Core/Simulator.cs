@@ -489,7 +489,11 @@ namespace Simulator.Core
             if(value > 10000000)
             {
                 if (prevList != null && prevList.Count > 0)
-                    return (prevList.Single(x => x.GroupId == group && x.Index == index) as AnalogPoint).Value;
+                {
+                    var single = prevList.SingleOrDefault(x => x.GroupId == group && x.Index == index) as AnalogPoint;
+                    return single != null? single.Value : 0;
+                }
+                    
             }
             return value;
         }
@@ -499,7 +503,11 @@ namespace Simulator.Core
             if (value > 10000000)
             {
                 if (prevList != null && prevList.Count > 0)
-                    return (prevList.Single(x => x.GroupId == group && x.Index == index) as BinaryPoint).Value;
+                {
+                    var single = prevList.SingleOrDefault(x => x.GroupId == group && x.Index == index) as BinaryPoint;
+                    return single != null? single.Value: 0;
+                }
+                    
             }
             return value;
         }

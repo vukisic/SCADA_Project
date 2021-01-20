@@ -66,7 +66,6 @@ namespace CE
                     for (int i = 0; i < weatherForecast.Count; i++)
                     {
                         current += (float)weatherForecast[i];
-                     
                         result = algorithm.Start(current);
                         var processedResult = ProcessResults(current, result);
                         forecastResult.Results.AddRange(processedResult);
@@ -97,8 +96,8 @@ namespace CE
                 for (int j = 0; j < result.Genes.Count(); j+=3)
                 {
                     item.Pumps.Add(result.Genes[j]);
-                    item.Times.Add(result.Genes[j+1]);
-                    item.Flows.Add(result.Genes[j+2]);
+                    item.Times.Add(result.Genes[j+2]);
+                    item.Flows.Add(result.Genes[j+1]);
                 }
                 results.Add(item);
             }
