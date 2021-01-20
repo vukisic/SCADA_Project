@@ -7,6 +7,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Calculations;
 using CE.Common.Proxies;
+using CE.Data;
+using Core.Common.WeatherApi;
+using SCADA.Common.DataModel;
 
 namespace CE
 {
@@ -18,6 +21,7 @@ namespace CE
         private bool pointUpdateOccures;
         private bool endFlag;
         private int points = 0;
+        private WeatherAPI weatherAPI;
 
         private DNA<float> result;
 
@@ -31,6 +35,7 @@ namespace CE
             _worker = new Thread(DoWork);
             endFlag = true;
             _worker.Name = "CE Worker";
+            weatherAPI = new WeatherAPI();
             _worker.Start();
         }
 
@@ -45,13 +50,75 @@ namespace CE
         {
             while (endFlag)
             {
-                if (pointUpdateOccures)
+                if(points > 0 && points < 4)
                 {
-                    ChangeStrategy();
+                    if (pointUpdateOccures)
+                    {
+                        ChangeStrategy();
+                    }
+
+                    var forecastResult = new CeForecast();
+                    var area = GetSurfaceArea();
+                    var weatherForecast = weatherAPI.GetResultsForNext6Hours();
+                    weatherForecast.ForEach(x => x = x * area);
+                    float current = GetCurrentFluidLevel();
+                    for (int i = 0; i < weatherForecast.Count; i++)
+                    {
+                        current += (float)weatherForecast[i];
+                        //result = algorithm.Start(current);
+                        //var processedResult = ProcessResults(current, result);
+                        //forecastResult.Results.AddRange(processedResult);
+                        //current = processedResult.Last().EndFluidLevel;
+                    }
+
+                    // Update & Command
+                    //Thread.Sleep(10800000); // 3hrs
+                    // Test
+                    Thread.Sleep(2000);
                 }
-                 
-                Thread.Sleep(2000);
+               
             }
+        }
+
+        private List<CeForecastResult> ProcessResults(float current, DNA<float> result)
+        {
+            var results = new List<CeForecastResult>();
+            float totalPerIteration = (GetTotalFromResults(result.Genes) / 4);
+            for(int i = 0; i< 4; i++)
+            {
+                var item = new CeForecastResult();
+                item.Result = result;
+                item.StartFluidLevel = current;
+                item.EndFluidLevel = current - totalPerIteration;
+                current -= totalPerIteration;
+                
+                for (int j = 0; j < result.Genes.Count(); j+=3)
+                {
+                    item.Pumps.Add(result.Genes[j]);
+                    item.Times.Add(result.Genes[j+1]);
+                    item.Flows.Add(result.Genes[j+2]);
+                }
+                results.Add(item);
+            }
+            return results;
+        }
+
+        private float GetCurrentFluidLevel()
+        {
+            ScadaExportProxy proxy = new ScadaExportProxy();
+            var point = (proxy.GetData()["FluidLevel_Tank"] as AnalogPoint);
+            return point.Value;
+        }
+
+        private float GetTotalFromResults(float[] results)
+        {
+            float total = 0;
+            for (int i = 0; i < results.Count(); i+=3)
+            {
+                total += (results[i] * results[i+1] * results[i+2]);
+            }
+
+            return total;
         }
 
         private void ChangeStrategy()
@@ -63,8 +130,6 @@ namespace CE
                 case 2: algorithm = new FluidLevelOptimization2(results.OptimalFluidLevel, results.Percetage, results.TimeFactor, results.Iterations); break;
                 case 3: algorithm = new FluidLevelOptimization3(results.OptimalFluidLevel, results.Percetage, results.TimeFactor, results.Iterations); break;
             }
-               
-            result = algorithm.Start();
 
             //result - najbolje rjesenje (jedinka)
             // result.Genes[0] - prvi gen (da li pumpa radi ili ne radi)
@@ -98,6 +163,16 @@ namespace CE
                 iterations = 1000;
             }
             return new ReadConfigResults(percentage, optimalFluidLevel, timeFactor, iterations);
+        }
+
+        private float GetSurfaceArea()
+        {
+            float area;
+            if (!float.TryParse(ConfigurationManager.AppSettings["Surface"], out area))
+            {
+                area = 10000f;
+            }
+            return area;
         }
 
         public void Dispose()

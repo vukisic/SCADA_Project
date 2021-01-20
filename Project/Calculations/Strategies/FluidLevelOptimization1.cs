@@ -98,7 +98,7 @@ namespace Calculations
             return gene;
         }
 
-        public DNA<float> Start()
+        public DNA<float> Start(float currentFluidLevel)
         {
             model = CeProxyFactory.Instance().ScadaExportProxy().GetData();
             random = new Random();
@@ -133,7 +133,7 @@ namespace Calculations
 
                 for (int i = 0; i < population.Count(); i++)
                 {
-                    results[i] = FitnessFunction(i);
+                    results[i] = currentFluidLevel - FitnessFunction(i);
                 }
 
                 List<Tuple<int, float>> potentialSolutions = utils.FindPotentialSolutions(results, workingTimes);

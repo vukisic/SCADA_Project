@@ -14,7 +14,6 @@ namespace CE
         private CEServer _server;
         private CEWorker _worker;
         public static EventHandler<Dictionary<DMSType, Container>> _pointUpdate = delegate { };
-        //private EventHandler<> pointUpdate = delegate { };
 
         public CEServiceInvoker()
         {

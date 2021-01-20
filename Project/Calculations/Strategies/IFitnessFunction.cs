@@ -8,7 +8,7 @@ namespace Calculations
 {
     public interface IFitnessFunction
     {
-        DNA<float> Start();
+        DNA<float> Start(float currentFluidLevel);
         void Update();
         float[] GetGene();
         float GetRandomGene();
