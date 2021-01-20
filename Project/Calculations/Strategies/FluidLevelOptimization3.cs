@@ -15,8 +15,8 @@ namespace Calculations
     {
         private Utils utils;
         private List<Tuple<float, float, float>> workingTimes;
-        private float[] results = new float[] { };
-        private List<DNA<float>> population;
+        private List<float> results = new List<float>();
+        private List<DNA<float>> population = new List<DNA<float>>();
         private Dictionary<string, BasePoint> model;
         private Random random;
         private GeneticAlgorithm<float> ga;
@@ -27,17 +27,17 @@ namespace Calculations
         int index = 0;
         float[] limits1 = new float[] { 0.0f, 1.0f };
         float[] limits2 = new float[] { 100.0f, 200.0f, 300.0f, 400.0f, 500.0f };
-        float[] limits3 = new float[] { 1800.0f, 3600.0f, 5400.0f, 7200.0f, 9000.0f, 10800.0f, 12600.0f,
-                                        14400.0f, 18000.0f, 19800.0f, 21600.0f, 23400.0f,
-                                        25200.0f, 27000.0f, 28800.0f, 30600.0f, 32400.0f,
-                                        34200.0f, 36000.0f, 37800.0f, 39600.0f, 41400.0f, 43200.0f};
+        float[] limits3 = new float[] { 30.0f, 60.0f, 90.0f, 120.0f, 150.0f, 180.0f, 210.0f,
+                                        240.0f, 270.0f, 300.0f, 330.0f, 360.0f,
+                                        390.0f, 420.0f, 450.0f, 480.0f, 510.0f,
+                                        540.0f, 570.0f, 600.0f, 630.0f, 660.0f, 690.0f};
         float percentage;
         float optimalFluidLevel;
         float timeFactor;
 
         int countIteration = 0;
         int iterations;
-        float lastBestSolution = 0.0f;
+        float lastBestSolution = 20000.0f;
         int bestSolutionIndex;
         DNA<float> bestIndividual;
 
@@ -68,22 +68,19 @@ namespace Calculations
 
         public float FitnessFunction(int index)
         {
+            population = ga.Population;
             float ret = 0.0f;
 
             DNA<float> individual = population[index];
 
-            for(int i = 0; i < individual.Genes.Count(); i++)
-            {
-                ret = individual.Genes[0] * individual.Genes[1] * individual.Genes[2] +
-                    + individual.Genes[3] * individual.Genes[4] * individual.Genes[5]
-                    + individual.Genes[6] * individual.Genes[7] * individual.Genes[8];
+            ret = individual.Genes[0] * individual.Genes[1] * individual.Genes[2] +
+                        +individual.Genes[3] * individual.Genes[4] * individual.Genes[5]
+                        + individual.Genes[6] * individual.Genes[7] * individual.Genes[8];
 
-                workingTimes.Add(new Tuple<float, float, float>(individual.Genes[2],
-                                                                individual.Genes[5],
-                                                                individual.Genes[8]
-                                                                )
-                    );
-            }  
+            workingTimes.Add(new Tuple<float, float, float>(individual.Genes[2],
+                                                            individual.Genes[5],
+                                                            individual.Genes[8]
+                                                           ));
 
             return ret;
         }
@@ -158,31 +155,38 @@ namespace Calculations
             DNA<float> firstHromozome = new DNA<float>(9, random, GetRandomGene, FitnessFunction, false, true, GetGene);
 
             hromozomes.Add(firstHromozome);
+
             ga = new GeneticAlgorithm<float>(1, 9, random, GetRandomGene, FitnessFunction, elitism, mutationRate, hromozomes, GetGene);
+            
             do
             {
                 Update();
 
                 population = ga.Population;
 
+                results = new List<float>();
                 for (int i = 0; i < population.Count(); i++)
                 {
-                    results[i] = currentFluidLevel - FitnessFunction(i);
+                    results.Add(currentFluidLevel - FitnessFunction(i));
                 }
 
                 List<Tuple<int, float>> potentialSolutions = utils.FindPotentialSolutions(results, workingTimes);
-                Tuple<int, float> bestSolution = utils.FindBestSolution(potentialSolutions);
 
-                if (bestSolution.Item2 < lastBestSolution)
+                if (potentialSolutions.Count() > 0)
                 {
-                    lastBestSolution = bestSolution.Item2;
-                    bestSolutionIndex = bestSolution.Item1;
-                    bestIndividual = population[bestSolution.Item1];
+                    Tuple<int, float> bestSolution = utils.FindBestSolution(potentialSolutions);
+
+                    if (bestSolution.Item2 < lastBestSolution)
+                    {
+                        lastBestSolution = bestSolution.Item2;
+                        bestSolutionIndex = bestSolution.Item1;
+                        bestIndividual = population[bestSolution.Item1];
+                    }
                 }
 
                 countIteration++;
 
-            } while (countIteration == iterations || utils.IsSolutionCorrect(lastBestSolution, workingTimes[bestSolutionIndex]));
+            } while (countIteration != iterations || !utils.IsSolutionCorrect(lastBestSolution, workingTimes[bestSolutionIndex]));
 
             return bestIndividual;
 

@@ -62,13 +62,15 @@ namespace CE
                     var weatherForecast = weatherAPI.GetResultsForNext6Hours();
                     weatherForecast.ForEach(x => x = x * area);
                     float current = GetCurrentFluidLevel();
+
                     for (int i = 0; i < weatherForecast.Count; i++)
                     {
                         current += (float)weatherForecast[i];
-                        //result = algorithm.Start(current);
-                        //var processedResult = ProcessResults(current, result);
-                        //forecastResult.Results.AddRange(processedResult);
-                        //current = processedResult.Last().EndFluidLevel;
+                     
+                        result = algorithm.Start(current);
+                        var processedResult = ProcessResults(current, result);
+                        forecastResult.Results.AddRange(processedResult);
+                        current = processedResult.Last().EndFluidLevel;
                     }
 
                     // Update & Command

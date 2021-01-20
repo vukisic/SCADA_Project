@@ -96,7 +96,7 @@ namespace Calculations
                 {
                     newPopulation.Add(Population[i]);
                 }
-                else if ((i < Population.Count || crossoverNewDNA) && Population.Count > 1)
+                /*else if ((i < Population.Count || crossoverNewDNA) && Population.Count > 1)
                 {
                     DNA<T> parent1 = ChooseParent();
                     DNA<T> parent2 = ChooseParent();
@@ -106,12 +106,11 @@ namespace Calculations
                     child.Mutate(MutationRate);
 
                     newPopulation.Add(child);
-                }
-                else
-                {
-                    newPopulation.Add(new DNA<T>(dnaSize, random, getRandomGene, fitnessFunction, shouldInitGenes: true));
-                }
+                }*/
             }
+
+            for(int i = 0; i < numNewDNA; i++)
+                newPopulation.Add(new DNA<T>(dnaSize, random, getRandomGene, fitnessFunction, shouldInitGenes: true));
 
             List<DNA<T>> tmpList = Population;
             Population = newPopulation;

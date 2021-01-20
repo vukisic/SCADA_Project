@@ -22,6 +22,7 @@ namespace Calculations
         public Tuple<int, float> FindBestSolution(List<Tuple<int, float>> potentialSolutions)
         {
             Tuple<int, float> bestSolution;
+            
             int indexSolution = potentialSolutions[0].Item1;
             float minSolution = potentialSolutions[0].Item2;
 
@@ -39,7 +40,7 @@ namespace Calculations
             return bestSolution;
         }
 
-        public List<Tuple<int, float>> FindPotentialSolutions(float[] results, List<Tuple<float, float, float>> times)
+        public List<Tuple<int, float>> FindPotentialSolutions(List<float> results, List<Tuple<float, float, float>> times)
         {
             var solutions = new List<Tuple<int, float>>();
             for (int i = 0; i < results.Count(); i++)
