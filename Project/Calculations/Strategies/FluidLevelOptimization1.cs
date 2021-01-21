@@ -23,7 +23,6 @@ namespace Calculations
         private float mutationRate = 0.01f;
         private List<DNA<float>> hromozomes = new List<DNA<float>>();
         float[] firstGenes;
-        int index = 0;
         int countIteration = 0;
         int iterations;
         float lastBestSolution = 0.0f;
@@ -74,12 +73,15 @@ namespace Calculations
             return firstGenes;
         }
 
-        public float GetRandomGene()
+        public float GetRandomGene(int index)
         {
             float gene = 0.1f;
 
             if (index == 3)
+            {
                 index = 0;
+                DNA<float>.index = 0;
+            }
 
             if (index % 3 == 0)
                 gene = limits1[random.Next(limits1.Length)];

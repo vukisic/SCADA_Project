@@ -80,12 +80,15 @@ namespace Calculations
             return firstGenes;
         }
 
-        public float GetRandomGene()
+        public float GetRandomGene(int index)
         {
             float gene = 0.1f;
 
             if (index == 6)
+            {
                 index = 0;
+                DNA<float>.index = 0;
+            }
 
             if (index % 3 == 0)
                 gene = limits1[random.Next(limits1.Length)];

@@ -23,13 +23,13 @@ namespace Calculations
         private Random random;
         private float fitnessSum;
         private int dnaSize;
-        private Func<T> getRandomGene;
-        private Func<T[]> getGene;
+        private Func<int, float> getRandomGene;
+        private Func<float[]> getGene;
         private Func<int, float> fitnessFunction;
 
 
-        public GeneticAlgorithm(int populationSize, int dnaSize, Random random, Func<T> getRandomGene, Func<int, float> fitnessFunction,
-            int elitism, float mutationRate = 0.01f, List<DNA<T>> hromozomes = null, Func<T[]> getGene = null)
+        public GeneticAlgorithm(int populationSize, int dnaSize, Random random, Func<int, float> getRandomGene, Func<int, float> fitnessFunction,
+            int elitism, float mutationRate = 0.01f, List<DNA<T>> hromozomes = null, Func<float[]> getGene = null)
         {
             Generation = 1;
             Elitism = elitism;
@@ -135,7 +135,6 @@ namespace Calculations
                 return 0;
             }
         }
-
         private void CalculateFitness()
         {
             fitnessSum = 0;
