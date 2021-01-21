@@ -10,7 +10,7 @@ namespace SCADA.Common.Messaging.Messages
     public class Confirm : DNP3Function
     {
         private MessageHeaderBuilder headerBuilder;
-        public Confirm(DNP3ApplicationObjectParameters commandParameters) : base(commandParameters)
+        public Confirm(DNP3CommandParameters commandParameters) : base(commandParameters)
         {
             headerBuilder = new MessageHeaderBuilder();
         }
@@ -19,11 +19,13 @@ namespace SCADA.Common.Messaging.Messages
         {
             byte[] message = new byte[15];
 
+            DNP3ConfirmCommandParamters commandParam = (DNP3ConfirmCommandParamters)CommandParameters;
+
             CommandParameters.Length = 0x08;
             Buffer.BlockCopy(headerBuilder.Build(CommandParameters), 0, message, 0, 10);
-            message[10] = CommandParameters.TransportControl;
-            message[11] = CommandParameters.AplicationControl;
-            message[12] = CommandParameters.FunctionCode;
+            message[10] = commandParam.TransportControl;
+            message[11] = commandParam.AplicationControl;
+            message[12] = commandParam.FunctionCode;
 
             ushort crc = 0;
             for (int i = 10; i < 13; i++)
