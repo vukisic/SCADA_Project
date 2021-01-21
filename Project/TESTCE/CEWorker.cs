@@ -52,10 +52,7 @@ namespace CE
             {
                 if(points > 0 && points < 4)
                 {
-                    if (pointUpdateOccures)
-                    {
-                        ChangeStrategy();
-                    }
+                    ChangeStrategy();
 
                     var forecastResult = new CeForecast();
                     var area = GetSurfaceArea();
@@ -66,7 +63,7 @@ namespace CE
                     for (int i = 0; i < weatherForecast.Count; i++)
                     {
                         current += (float)weatherForecast[i];
-                        result = algorithm.Start(current);
+                        result = algorithm.Start(10000);
                         var processedResult = ProcessResults(current, result);
                         forecastResult.Results.AddRange(processedResult);
                         current = processedResult.Last().EndFluidLevel;

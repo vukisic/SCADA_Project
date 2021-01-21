@@ -59,11 +59,15 @@ namespace Calculations
         {
             DNA<T> child = new DNA<T>(Genes.Length, random, getRandomGene, fitnessFunction, shouldInitGenes: false);
 
-            for (int i = 0; i < Genes.Length; i++)
+            for (int i = 0; i < 3; i++)
             {
-                child.Genes[i] = random.NextDouble() < 0.5 ? Genes[i] : otherParent.Genes[i];
+                child.Genes[i] = Genes[i];
             }
 
+            for (int i = 3; i < Genes.Length; i++)
+            {
+                child.Genes[i] = otherParent.Genes[i];
+            }
             return child;
         }
 

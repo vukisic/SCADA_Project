@@ -98,18 +98,21 @@ namespace Calculations
                 }
                 else if ((i < Population.Count || crossoverNewDNA) && Population.Count > 1)
                 {
+                    DNA<float>.index = 0;
                     DNA<T> parent1 = ChooseParent();
                     DNA<T> parent2 = ChooseParent();
 
                     DNA<T> child = parent1.Crossover(parent2);
 
-                    child.Mutate(MutationRate);
+                    ; child.Mutate(MutationRate);
 
                     newPopulation.Add(child);
                 }
                 else
                 {
-                    newPopulation.Add(new DNA<T>(dnaSize, random, getRandomGene, fitnessFunction, shouldInitGenes: true));
+                    DNA<float>.index = 0;
+                    DNA<T> nw = new DNA<T>(dnaSize, random, getRandomGene, fitnessFunction, shouldInitGenes: true);
+                    newPopulation.Add(nw);
                 }
             }
 
