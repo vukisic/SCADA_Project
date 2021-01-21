@@ -23,13 +23,13 @@ namespace Calculations
         private Random random;
         private float fitnessSum;
         private int dnaSize;
-        private Func<T> getRandomGene;
-        private Func<T[]> getGene;
+        private Func<int, float> getRandomGene;
+        private Func<float[]> getGene;
         private Func<int, float> fitnessFunction;
+        private int indexParent = -1;
 
-
-        public GeneticAlgorithm(int populationSize, int dnaSize, Random random, Func<T> getRandomGene, Func<int, float> fitnessFunction,
-            int elitism, float mutationRate = 0.01f, List<DNA<T>> hromozomes = null, Func<T[]> getGene = null)
+        public GeneticAlgorithm(int populationSize, int dnaSize, Random random, Func<int, float> getRandomGene, Func<int, float> fitnessFunction,
+            int elitism, float mutationRate = 0.01f, List<DNA<T>> hromozomes = null, Func<float[]> getGene = null)
         {
             Generation = 1;
             Elitism = elitism;
@@ -90,27 +90,33 @@ namespace Calculations
             }
             newPopulation.Clear();
 
-            for (int i = 0; i < Population.Count; i++)
+            for (int i = 0; i < finalCount; i++)
             {
                 if (i < Elitism && i < Population.Count)
                 {
                     newPopulation.Add(Population[i]);
                 }
-                /*else if ((i < Population.Count || crossoverNewDNA) && Population.Count > 1)
+                else if ((i < Population.Count || crossoverNewDNA) && Population.Count > 1)
                 {
+                    DNA<float>.index = 0;
                     DNA<T> parent1 = ChooseParent();
                     DNA<T> parent2 = ChooseParent();
 
+                    indexParent = -1;
+
                     DNA<T> child = parent1.Crossover(parent2);
 
-                    child.Mutate(MutationRate);
+                    ; child.Mutate(MutationRate);
 
                     newPopulation.Add(child);
-                }*/
+                }
+                else
+                {
+                    DNA<float>.index = 0;
+                    DNA<T> nw = new DNA<T>(dnaSize, random, getRandomGene, fitnessFunction, shouldInitGenes: true);
+                    newPopulation.Add(nw);
+                }
             }
-
-            for(int i = 0; i < numNewDNA; i++)
-                newPopulation.Add(new DNA<T>(dnaSize, random, getRandomGene, fitnessFunction, shouldInitGenes: true));
 
             List<DNA<T>> tmpList = Population;
             Population = newPopulation;
@@ -134,7 +140,6 @@ namespace Calculations
                 return 0;
             }
         }
-
         private void CalculateFitness()
         {
             fitnessSum = 0;
@@ -156,13 +161,18 @@ namespace Calculations
 
         private DNA<T> ChooseParent()
         {
+            random = new Random();
             double randomNumber = random.NextDouble() * fitnessSum;
 
             for (int i = 0; i < Population.Count; i++)
             {
-                if (randomNumber < Population[i].Fitness)
+                if (randomNumber <= Population[i].Fitness)
                 {
-                    return Population[i];
+                    if (indexParent != i)
+                    {
+                        indexParent = i;
+                        return Population[i];
+                    }
                 }
 
                 randomNumber -= Population[i].Fitness;

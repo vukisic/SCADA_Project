@@ -56,6 +56,7 @@ namespace CE
                     {
                         ChangeStrategy();
                     }
+                    
 
                     var forecastResult = new CeForecast();
                     var area = GetSurfaceArea();
@@ -66,7 +67,7 @@ namespace CE
                     for (int i = 0; i < weatherForecast.Count; i++)
                     {
                         current += (float)weatherForecast[i];
-                        result = algorithm.Start(current);
+                        result = algorithm.Start(10000);
                         var processedResult = ProcessResults(current, result);
                         forecastResult.Results.AddRange(processedResult);
                         current = processedResult.Last().EndFluidLevel;

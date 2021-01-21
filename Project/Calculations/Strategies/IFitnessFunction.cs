@@ -11,7 +11,7 @@ namespace Calculations
         DNA<float> Start(float currentFluidLevel);
         void Update();
         float[] GetGene();
-        float GetRandomGene();
+        float GetRandomGene(int index);
         float FitnessFunction(int index);
     }
 }

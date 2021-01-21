@@ -8,23 +8,23 @@ namespace Calculations
 {
     public class DNA<T>
     {
-        public T[] Genes { get;  set; }
+        public float[] Genes { get;  set; }
         public float Fitness { get; private set; }
 
         private Random random;
-        private Func<T> getRandomGene;
-        private Func<T[]> getGene;
+        private Func<int, float> getRandomGene;
+        private Func<float[]> getGene;
         private Func<int, float> fitnessFunction;
-
+        public static int index = 0;
         public DNA()
         {
 
         }
 
-        public DNA(int size, Random random, Func<T> getRandomGene, Func<int, float> fitnessFunction,
-             bool shouldInitGenes = true, bool isFirstGenes = false, Func<T[]> getGene = null)
+        public DNA(int size, Random random, Func<int, float> getRandomGene, Func<int, float> fitnessFunction,
+             bool shouldInitGenes = true, bool isFirstGenes = false, Func<float[]> getGene = null)
         {
-            Genes = new T[size];
+            Genes = new float[size];
             this.random = random;
             this.getRandomGene = getRandomGene;
             this.getGene = getGene;
@@ -34,7 +34,7 @@ namespace Calculations
             {
                 for (int i = 0; i < Genes.Length; i++)
                 {
-                    Genes[i] = getRandomGene();
+                    Genes[i] = CalculateGene();
                 }
             }
 
@@ -43,7 +43,12 @@ namespace Calculations
                 Genes = getGene();
             }
         }
-
+        public float CalculateGene()
+        {
+            float gene = getRandomGene(index);
+            index++;
+            return gene;
+        }
         public float CalculateFitness(int index)
         {
             Fitness = fitnessFunction(index);
@@ -66,9 +71,10 @@ namespace Calculations
         {
             for (int i = 0; i < Genes.Length; i++)
             {
+                random = new Random();
                 if (random.NextDouble() < mutationRate)
                 {
-                    Genes[i] = getRandomGene();
+                    Genes[i] = CalculateGene();
                 }
             }
         }
