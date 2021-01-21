@@ -96,7 +96,7 @@ namespace Calculations
         {
             model = CeProxyFactory.Instance().ScadaExportProxy().GetData();
             
-            if (currentFluidLevel == 0)
+            if (currentFluidLevel == 0 || IsCurrentOptimal(currentFluidLevel))
             {
                 var ret = new DNA<float>();
                 ret.Genes = new float[] { 0, 0, 0 };
@@ -161,6 +161,13 @@ namespace Calculations
 
             // bestIndividual send to scada
             return bestIndividual;
+        }
+
+        public bool IsCurrentOptimal(float current)
+        {
+            float lowerBound = optimalFluidLevel * (1.0f - (percentage / 100));
+            float upperBound = optimalFluidLevel * (1.0f + (percentage / 100));
+            return (current <= upperBound && current >= lowerBound);
         }
 
         public void Update()
