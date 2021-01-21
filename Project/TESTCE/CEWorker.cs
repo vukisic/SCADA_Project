@@ -52,7 +52,11 @@ namespace CE
             {
                 if(points > 0 && points < 4)
                 {
-                    ChangeStrategy();
+                    if (pointUpdateOccures)
+                    {
+                        ChangeStrategy();
+                    }
+                    
 
                     var forecastResult = new CeForecast();
                     var area = GetSurfaceArea();
