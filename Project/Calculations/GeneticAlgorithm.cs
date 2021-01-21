@@ -26,7 +26,7 @@ namespace Calculations
         private Func<int, float> getRandomGene;
         private Func<float[]> getGene;
         private Func<int, float> fitnessFunction;
-
+        private int indexParent = -1;
 
         public GeneticAlgorithm(int populationSize, int dnaSize, Random random, Func<int, float> getRandomGene, Func<int, float> fitnessFunction,
             int elitism, float mutationRate = 0.01f, List<DNA<T>> hromozomes = null, Func<float[]> getGene = null)
@@ -102,6 +102,8 @@ namespace Calculations
                     DNA<T> parent1 = ChooseParent();
                     DNA<T> parent2 = ChooseParent();
 
+                    indexParent = -1;
+
                     DNA<T> child = parent1.Crossover(parent2);
 
                     ; child.Mutate(MutationRate);
@@ -164,9 +166,13 @@ namespace Calculations
 
             for (int i = 0; i < Population.Count; i++)
             {
-                if (randomNumber < Population[i].Fitness)
+                if (randomNumber <= Population[i].Fitness)
                 {
-                    return Population[i];
+                    if (indexParent != i)
+                    {
+                        indexParent = i;
+                        return Population[i];
+                    }
                 }
 
                 randomNumber -= Population[i].Fitness;
