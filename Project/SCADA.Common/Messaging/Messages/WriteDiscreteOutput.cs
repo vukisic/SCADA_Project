@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using SCADA.Common.DataModel;
 using SCADA.Common.Messaging.Parameters;
 
 namespace SCADA.Common.Messaging.Messages
@@ -70,6 +71,11 @@ namespace SCADA.Common.Messaging.Messages
             Buffer.BlockCopy(BitConverter.GetBytes(crc1), 0, request, 33, 2);
 
             return request;
+        }
+
+        public override Dictionary<Tuple<RegisterType, ushort>, ushort> PareseResponse(byte[] response)
+        {
+            throw new NotImplementedException();
         }
     }
 }

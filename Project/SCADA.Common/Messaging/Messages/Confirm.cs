@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SCADA.Common.DataModel;
 using SCADA.Common.Messaging.Parameters;
 
 namespace SCADA.Common.Messaging.Messages
@@ -19,24 +20,29 @@ namespace SCADA.Common.Messaging.Messages
         {
             byte[] message = new byte[15];
 
-            //DNP3ConfirmCommandParamters commandParam = (DNP3ConfirmCommandParamters)CommandParameters;
+            DNP3ConfirmCommandParamters commandParam = (DNP3ConfirmCommandParamters)CommandParameters;
 
-            //CommandParameters.Length = 0x08;
-            //Buffer.BlockCopy(headerBuilder.Build(CommandParameters), 0, message, 0, 10);
-            //message[10] = commandParam.TransportControl;
-            //message[11] = commandParam.AplicationControl;
-            //message[12] = commandParam.FunctionCode;
+            CommandParameters.Length = 0x08;
+            Buffer.BlockCopy(headerBuilder.Build(CommandParameters), 0, message, 0, 10);
+            message[10] = commandParam.TransportControl;
+            message[11] = commandParam.AplicationControl;
+            message[12] = commandParam.FunctionCode;
 
-            //ushort crc = 0;
-            //for (int i = 10; i < 13; i++)
-            //{
-            //    CrcCalculator.computeCRC(message[i], ref crc);
-            //}
-            //crc = (ushort)(~crc);
+            ushort crc = 0;
+            for (int i = 10; i < 13; i++)
+            {
+                CrcCalculator.computeCRC(message[i], ref crc);
+            }
+            crc = (ushort)(~crc);
 
-            //Buffer.BlockCopy(BitConverter.GetBytes(crc), 0, message, 13, 2);
+            Buffer.BlockCopy(BitConverter.GetBytes(crc), 0, message, 13, 2);
 
             return message;
+        }
+
+        public override Dictionary<Tuple<RegisterType, ushort>, ushort> PareseResponse(byte[] response)
+        {
+            throw new NotImplementedException();
         }
     }
 }

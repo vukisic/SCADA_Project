@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SCADA.Common.DataModel;
 using SCADA.Common.Messaging.Parameters;
 
 namespace SCADA.Common.Messaging
@@ -17,6 +18,8 @@ namespace SCADA.Common.Messaging
         }
 
         public abstract byte[] PackRequest();
+
+        public abstract Dictionary<Tuple<RegisterType, ushort>, ushort> PareseResponse(byte[] response);
 
         public DNP3CommandParameters CommandParameters
         {
