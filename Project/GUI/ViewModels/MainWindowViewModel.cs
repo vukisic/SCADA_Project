@@ -61,7 +61,7 @@ namespace GUI.ViewModels
 
         public void CEDataView()
         {
-            ActivateItem(new CEDataViewModel());
+            ActivateItem(ce);
         }
 
         public Task Handle(ScadaUpdateEvent message, IMessageHandlerContext context)

@@ -11,31 +11,30 @@ namespace SCADA.Common.Messaging
 {
     public class DNP3FunctionFactory
     {
-        public static IDNP3Function CreateReadFunction(DNP3ReadCommandParameters parameters)
+        public static IDNP3Function CreateFunction(DNP3ApplicationObjectParameters parameters)
         {
-            return new Read(parameters);
-        }        
-        
-        public static IDNP3Function CreateReadClass0Function(DNP3ReadClass0CommandParameters parameters)
-        {
-            return new ReadClass0(parameters);
-        }
-
-        public static IDNP3Function CreateWriteFunction(DNP3WriteCommandParameters parameters)
-        {
-            switch ((TypeField)parameters.ObjectTypeField)
+            switch ((DNP3FunctionCode)parameters.FunctionCode)
             {
-                case TypeField.BINARY_COMMAND:
-                    return new WriteDiscreteOutput(parameters);
-                case TypeField.ANALOG_OUTPUT_16BIT:
-                    return new WriteAnalogOutput(parameters);
+                case DNP3FunctionCode.READ:
+                    switch ((TypeField)parameters.ObjectTypeField)
+                    {
+                        case TypeField.CLASS_0_DATA:
+                            return new ReadClass0(parameters);
+                        default: return new Read(parameters);
+                    }
+                case DNP3FunctionCode.DIRECT_OPERATE:
+                    switch ((TypeField)parameters.ObjectTypeField)
+                    {
+                        case TypeField.BINARY_COMMAND:
+                            return new WriteDiscreteOutput(parameters);
+                        case TypeField.ANALOG_OUTPUT_16BIT:
+                            return new WriteAnalogOutput(parameters);
+                        default: return null;
+                    }
+                case DNP3FunctionCode.CONFIRM:
+                    return new Confirm(parameters);
                 default: return null;
             }
-        }
-        
-        public static IDNP3Function CreateConfirmFunction(DNP3ConfirmCommandParamters parameters)
-        {
-            return new Confirm(parameters);
         }
     }
 }

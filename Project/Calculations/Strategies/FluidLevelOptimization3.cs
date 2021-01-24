@@ -199,6 +199,8 @@ namespace Calculations
 
         public bool IsCurrentOptimal(float current)
         {
+            if (current < optimalFluidLevel)
+                return true;
             float lowerBound = optimalFluidLevel * (1.0f - (percentage / 100));
             float upperBound = optimalFluidLevel * (1.0f + (percentage / 100));
             return (current <= upperBound && current >= lowerBound);

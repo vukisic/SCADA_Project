@@ -37,8 +37,10 @@ namespace Core.Common.WeatherApi
                 // For next day
                 if (results.Count < 6)
                 {
-                    for (int i = 0; i < 7 - results.Count; i++)
+                    for (int i = 0; i < 24; i++)
                     {
+                        if (results.Count == 6)
+                            break;
                         results.Add(weather.Forecast.ForecastDay.Days[1].Hour[i].GetPrecipValue());
                     }
                 }

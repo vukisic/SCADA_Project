@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using FTN.Common;
 using FTN.Services.NetworkModelService;
 using SCADA.Common.DataModel;
+using SCADA.DB.Providers;
+using SCADA.DB.Repositories;
 using SCADA.Services.Common;
 
 namespace SCADA.Services.Providers
@@ -52,6 +55,9 @@ namespace SCADA.Services.Providers
         public void SetModel(Dictionary<Tuple<RegisterType, int>, BasePoint> model)
         {
             Model = model;
+            IReplicationRepository repo = new ReplicationRepository(new DB.Access.ScadaDbContext());
+            repo.Set(Model.Values.ToList());
+            repo = null;
         }
 
         public void SetTransactionModel(Dictionary<Tuple<RegisterType, int>, BasePoint> model)

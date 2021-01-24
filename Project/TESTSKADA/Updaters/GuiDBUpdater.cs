@@ -18,12 +18,10 @@ namespace NDS.Updaters
         private Thread worker;
         private IEndpointInstance endpoint;
         private bool executionFlag;
-        private IDomRepository domRepo;
 
         public GuiDBUpdater(IEndpointInstance endpoint)
         {
             this.endpoint = endpoint;
-            this.domRepo = new DomRepository(new SCADA.DB.Access.ScadaDbContext());
         }
 
         public void Start()
