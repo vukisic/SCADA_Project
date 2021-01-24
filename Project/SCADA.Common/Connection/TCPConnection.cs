@@ -20,19 +20,18 @@ namespace SCADA.Common.Connection
             remoteEndpoint = CreateRemoteEndpoint();
 
         }
+
+        public bool CheckState()
+        {
+            return this.socket.Poll(30000, SelectMode.SelectWrite);
+        }
+
         public void Connect()
         {
+            this.socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            socket.Blocking = false;
             try
             {
-                if (socket != null && socket.Connected)
-                {
-                    socket.Disconnect(false);
-                    socket = null;
-                    
-                }
-                this.socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                socket.Blocking = false;
-                remoteEndpoint = CreateRemoteEndpoint();
                 socket.Connect(remoteEndpoint);
             }
             catch { }
@@ -40,12 +39,33 @@ namespace SCADA.Common.Connection
 
         public void Disconect()
         {
-            throw new NotImplementedException();
+            if (socket.Connected)
+            {
+                socket.Shutdown(SocketShutdown.Both);
+            }
+
+            socket.Close();
+            socket = null;
         }
 
         public byte[] Recv(int numberOfBytes)
         {
-            throw new NotImplementedException();
+            int numberOfReceivedBytes = 0;
+            byte[] retval = new byte[numberOfBytes];
+            int numOfReceived;
+            while (numberOfReceivedBytes < numberOfBytes)
+            {
+                numOfReceived = 0;
+                if (socket.Poll(1623, SelectMode.SelectRead))
+                {
+                    numOfReceived = socket.Receive(retval, numberOfReceivedBytes, (int)numberOfBytes - numberOfReceivedBytes, SocketFlags.None);
+                    if (numOfReceived > 0)
+                    {
+                        numberOfReceivedBytes += numOfReceived;
+                    }
+                }
+            }
+            return retval;
         }
 
         public void Send(byte[] message)

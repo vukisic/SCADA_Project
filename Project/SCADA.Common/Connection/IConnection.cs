@@ -12,5 +12,6 @@ namespace SCADA.Common.Connection
         void Disconect();
         byte[] Recv(int numberOfBytes);
         void Send(byte[] message);
+        bool CheckState();
     }
 }

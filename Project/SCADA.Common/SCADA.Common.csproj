@@ -48,7 +48,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Connection\FunctionExecutor.cs" />
     <Compile Include="Connection\IConnection.cs" />
+    <Compile Include="Connection\IFunctionExecutor.cs" />
     <Compile Include="Connection\TCPConnection.cs" />
     <Compile Include="ConversionResult.cs" />
     <Compile Include="CrcCalculator.cs" />
@@ -70,6 +72,8 @@
     <Compile Include="Messaging\Messages\WriteAnalogOutput.cs" />
     <Compile Include="Messaging\Messages\WriteDiscreteOutput.cs" />
     <Compile Include="Messaging\Parameters\DNP3CommandParameters.cs" />
+    <Compile Include="Messaging\Parameters\DNP3ConfirmCommandParamters.cs" />
+    <Compile Include="Messaging\Parameters\DNP3ReadClass0CommandParameters.cs" />
     <Compile Include="Messaging\Parameters\DNP3ReadCommandParameters.cs" />
     <Compile Include="Messaging\Parameters\DNP3WriteCommandParameters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

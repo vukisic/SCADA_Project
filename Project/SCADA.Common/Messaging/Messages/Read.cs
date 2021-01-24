@@ -11,7 +11,7 @@ namespace SCADA.Common.Messaging.Messages
     public class Read : DNP3Function
     {
         private MessageHeaderBuilder headerBuilder;
-        public Read(DNP3ReadCommandParameters commandParameters) : base(commandParameters)
+        public Read(DNP3CommandParameters commandParameters) : base(commandParameters)
         {
             headerBuilder = new MessageHeaderBuilder();
         }
