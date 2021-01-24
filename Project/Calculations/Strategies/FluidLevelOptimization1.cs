@@ -31,7 +31,7 @@ namespace Calculations
 
         float[] limits1 = new float[] { 0.0f, 1.0f };
         float[] limits2 = new float[] { 100.0f, 200.0f, 300.0f, 400.0f, 500.0f };
-        int[] limits3 = Enumerable.Range(1, 30).ToArray();
+        int[] limits3 = Enumerable.Range(1, 60).ToArray();
         float percentage;
         float optimalFluidLevel;
         float timeFactor;
@@ -167,6 +167,8 @@ namespace Calculations
 
         public bool IsCurrentOptimal(float current)
         {
+            if (current < optimalFluidLevel)
+                return true;
             float lowerBound = optimalFluidLevel * (1.0f - (percentage / 100));
             float upperBound = optimalFluidLevel * (1.0f + (percentage / 100));
             return (current <= upperBound && current >= lowerBound);
