@@ -1,12 +1,12 @@
 # SCADA_Project
 SCADA Master Project
 
-# Getting started
+# Getting started (no Cloud)
 - Copy Project/packages/dnp3_protocol/runtime/`dnp3win32.dll` to Project/Simulator/bin/Debug
 - Open up solution in `VisualStudio`
+- Update database (PM> update-database) on Scada.Common and NetowkModelService projects
 - Solution -> Properties -> Multiple StartUp Projects Configuration
 - Set the following order and foreach set `Start` option
-  - `Scada.Services`
   - `Simulator`
   - `GUI`
   - `NetworkModelServiceSelfHost`
