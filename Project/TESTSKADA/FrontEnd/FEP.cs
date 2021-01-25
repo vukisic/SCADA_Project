@@ -9,7 +9,8 @@ using SCADA.Common.Connection;
 using SCADA.Common.DataModel;
 using SCADA.Common.Messaging;
 using SCADA.Common.Messaging.Parameters;
-using SCADA.Services;
+using SCADA.Common.Proxies;
+using SCADA.Common.ScadaServices;
 
 namespace NDS.FrontEnd
 {
@@ -31,7 +32,7 @@ namespace NDS.FrontEnd
             connection = new TCPConnection();
             this.fepWorker = new Thread(Fep_DoWork);
             this.fepWorker.Name = "Fep thread";
-            proxy = new ScadaStorageProxy();
+            proxy = ScadaProxyFactory.Instance().ScadaStorageProxy();
             fepWorker.Start();
         }
 

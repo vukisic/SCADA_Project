@@ -46,7 +46,7 @@ namespace SCADA.Common.Messaging.Messages
             if (!CrcCalculator.CheckCRC(response))
                 return null;
 
-            byte[] dataObjects = MessagesHelper.GetResponseDataObjects(response);
+            //byte[] dataObjects = MessagesHelper.GetResponseDataObjects(response);
 
             Dictionary<Tuple<RegisterType, ushort>, BasePoint> retVal = new Dictionary<Tuple<RegisterType, ushort>, BasePoint>();
 /*

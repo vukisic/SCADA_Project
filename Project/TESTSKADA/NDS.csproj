@@ -68,11 +68,6 @@
     <Compile Include="ProcessingModule\ProcesingManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Proxies\AlarmKruncingProxy.cs" />
-    <Compile Include="Proxies\DOMProxy.cs" />
-    <Compile Include="Proxies\HistoryProxy.cs" />
-    <Compile Include="Proxies\LoggingProxy.cs" />
-    <Compile Include="Proxies\ScadaProxyFactory.cs" />
     <Compile Include="ServiceBus\ServiceBusStartup.cs" />
     <Compile Include="Updaters\Extensions.cs" />
     <Compile Include="Updaters\GuiDBUpdater.cs" />
@@ -93,14 +88,6 @@
     <ProjectReference Include="..\SCADA.Common\SCADA.Common.csproj">
       <Project>{6e79fca4-42e3-4d2f-b4a3-28e691bf04c3}</Project>
       <Name>SCADA.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SCADA.DB\SCADA.DB.csproj">
-      <Project>{c3874f6c-c4f8-4db8-8908-12469b22aa7b}</Project>
-      <Name>SCADA.DB</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SCADA.Services\SCADA.Services.csproj">
-      <Project>{3f1790ab-e8c5-4016-b963-0d42202612eb}</Project>
-      <Name>SCADA.Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\SCADATransaction\SCADATransaction.csproj">
       <Project>{c6d1753c-c65b-4c72-9024-4a94ba5f01d9}</Project>

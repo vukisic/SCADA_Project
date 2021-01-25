@@ -59,27 +59,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\IHistory.cs" />
-    <Compile Include="Common\ILogging.cs" />
-    <Compile Include="Common\IScadaExport.cs" />
-    <Compile Include="Common\IScadaStorage.cs" />
-    <Compile Include="Providers\AlarmKruncingProvider.cs" />
-    <Compile Include="Providers\DOMProvider.cs" />
-    <Compile Include="Common\IAlarmKruncing.cs" />
-    <Compile Include="Common\IDom.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Providers\HistoryProvider.cs" />
-    <Compile Include="Providers\LoggingProvider.cs" />
-    <Compile Include="Providers\ScadaExport.cs" />
-    <Compile Include="Providers\ScadaStorageProvider.cs" />
-    <Compile Include="ScadaStorageProxy.cs" />
-    <Compile Include="Services\AlarmingKruncingHost.cs" />
-    <Compile Include="Services\DOMHost.cs" />
-    <Compile Include="Services\HistoryHost.cs" />
-    <Compile Include="Services\LoggingHost.cs" />
-    <Compile Include="Services\ScadaExportService.cs" />
-    <Compile Include="Services\ScadaStorageService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
