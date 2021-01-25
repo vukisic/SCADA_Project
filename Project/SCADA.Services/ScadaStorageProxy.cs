@@ -63,5 +63,10 @@ namespace SCADA.Services
         {
             return proxy.GetDomModel();
         }
+        
+        public void UpdateModel(Dictionary<Tuple<RegisterType, int>, BasePoint> updateModel)
+        {
+            proxy.UpdateModel(updateModel);
+        }
     }
 }

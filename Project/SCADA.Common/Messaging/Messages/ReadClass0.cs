@@ -41,9 +41,33 @@ namespace SCADA.Common.Messaging.Messages
             return request;
         }
 
-        public override Dictionary<Tuple<RegisterType, ushort>, ushort> PareseResponse(byte[] response)
+        public override Dictionary<Tuple<RegisterType, ushort>, BasePoint> PareseResponse(byte[] response)
         {
-            throw new NotImplementedException();
+            if (!CrcCalculator.CheckCRC(response))
+                return null;
+
+            byte[] dataObjects = MessagesHelper.GetResponseDataObjects(response);
+
+            Dictionary<Tuple<RegisterType, ushort>, BasePoint> retVal = new Dictionary<Tuple<RegisterType, ushort>, BasePoint>();
+/*
+            ushort typeField = (ushort)IPAddress.NetworkToHostOrder((short)BitConverter.ToUInt16(response, 0));
+            int startIndex;
+            int stopIndex;
+            if(typeField == (ushort)TypeField.BINARY_INPUT_PACKED_FORMAT)
+            {
+                startIndex = dataObjects[3];
+                stopIndex = dataObjects[4];
+                int byteCount = (stopIndex - startIndex) % 8 == 0 ? (stopIndex - startIndex) / 8 : (stopIndex - startIndex) / 8 + 1;
+                for(int i = 0; i < byteCount; i++)
+                {
+                    byte currentByte = response[i];
+                    for(int j = 0; j < 8; j++)
+                    {
+
+                    }
+                }
+            }*/
+            return retVal;
         }
     }
 }

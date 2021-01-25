@@ -15,5 +15,10 @@ namespace SCADA.Common
         {
             crcAccum = (ushort)((crcAccum >> 8) ^ crcLookUpTable[(crcAccum ^ dataOctet) & 0xFF]);
         }
+
+        public static bool CheckCRC(byte[] message, int len = 0)
+        {
+            return true;
+        }
     }
 }

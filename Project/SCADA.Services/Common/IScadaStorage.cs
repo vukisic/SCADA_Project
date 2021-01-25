@@ -29,5 +29,7 @@ namespace SCADA.Services.Common
         Dictionary<DMSType, Container> GetCimModel();
         [OperationContract]
         List<SwitchingEquipment> GetDomModel();
+        [OperationContract]
+        void UpdateModel(Dictionary<Tuple<RegisterType, int>, BasePoint> updateModel);
     }
 }

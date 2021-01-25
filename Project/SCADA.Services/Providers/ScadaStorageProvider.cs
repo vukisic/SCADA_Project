@@ -64,5 +64,10 @@ namespace SCADA.Services.Providers
         {
             TransactionModel = model;
         }
+
+        public void UpdateModel(Dictionary<Tuple<RegisterType, int>, BasePoint> updateModel)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -74,6 +74,7 @@ namespace SCADA.Common.Connection
                             message = new byte[header.Length + recvLen];
                             Buffer.BlockCopy(header, 0, message, 0, 10);
                             Buffer.BlockCopy(dataChunks, 0, message, 10, recvLen);
+
                             HandleReceivedBytes(message);
                             currentCommand = null;
                         }
@@ -93,8 +94,13 @@ namespace SCADA.Common.Connection
 
         private void HandleReceivedBytes(byte[] message)
         {
-            Dictionary<Tuple<RegisterType, ushort>, ushort> pointsToUpdate = currentCommand?.PareseResponse(message);
-            //poziv servisa.
+            Dictionary<Tuple<RegisterType, ushort>, BasePoint> pointsToUpdate = currentCommand?.PareseResponse(message);
+            
+
+
+
+
+
         }
 
         private int CalculateRecvLength(byte lenByte)
