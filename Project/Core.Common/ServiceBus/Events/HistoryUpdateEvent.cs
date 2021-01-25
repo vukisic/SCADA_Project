@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NServiceBus;
-using SCADA.DB.Models;
+using SCADA.Common.Models;
 
 namespace Core.Common.ServiceBus.Events
 {

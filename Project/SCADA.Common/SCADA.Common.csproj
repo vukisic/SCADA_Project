@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -12,6 +13,8 @@
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,10 +34,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=2.0.12.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.12\lib\net45\log4net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
@@ -76,8 +86,49 @@
     <Compile Include="Messaging\Parameters\DNP3ReadClass0CommandParameters.cs" />
     <Compile Include="Messaging\Parameters\DNP3ReadCommandParameters.cs" />
     <Compile Include="Messaging\Parameters\DNP3WriteCommandParameters.cs" />
+    <Compile Include="Migrations\202101251217330_Init.cs" />
+    <Compile Include="Migrations\202101251217330_Init.designer.cs">
+      <DependentUpon>202101251217330_Init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\DomDbModel.cs" />
+    <Compile Include="Models\HistoryDbModel.cs" />
+    <Compile Include="Models\PointDbModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Proxies\AlarmKruncingProxy.cs" />
+    <Compile Include="Proxies\DOMProxy.cs" />
+    <Compile Include="Proxies\HistoryProxy.cs" />
+    <Compile Include="Proxies\LoggingProxy.cs" />
+    <Compile Include="Proxies\ScadaProxyFactory.cs" />
+    <Compile Include="ScadaDb\Access\ScadaDbContext.cs" />
+    <Compile Include="ScadaDb\Access\ScadaDbInitializer.cs" />
+    <Compile Include="ScadaDb\Providers\DomRepository.cs" />
+    <Compile Include="ScadaDb\Providers\HistoryRepository.cs" />
+    <Compile Include="ScadaDb\Providers\ReplicationRepository.cs" />
+    <Compile Include="ScadaDb\Repositories\IDomRepository.cs" />
+    <Compile Include="ScadaDb\Repositories\IHistoryRepository.cs" />
+    <Compile Include="ScadaDb\Repositories\IReplicationRepository.cs" />
+    <Compile Include="ScadaDb\Utils\ReplicationConverter.cs" />
     <Compile Include="ScadaModelConverter.cs" />
+    <Compile Include="ScadaServices\Common\IAlarmKruncing.cs" />
+    <Compile Include="ScadaServices\Common\IDom.cs" />
+    <Compile Include="ScadaServices\Common\IHistory.cs" />
+    <Compile Include="ScadaServices\Common\ILogging.cs" />
+    <Compile Include="ScadaServices\Common\IScadaExport.cs" />
+    <Compile Include="ScadaServices\Common\IScadaStorage.cs" />
+    <Compile Include="ScadaServices\Providers\AlarmKruncingProvider.cs" />
+    <Compile Include="ScadaServices\Providers\DOMProvider.cs" />
+    <Compile Include="ScadaServices\Providers\HistoryProvider.cs" />
+    <Compile Include="ScadaServices\Providers\LoggingProvider.cs" />
+    <Compile Include="ScadaServices\Providers\ScadaExport.cs" />
+    <Compile Include="ScadaServices\Providers\ScadaStorageProvider.cs" />
+    <Compile Include="Proxies\ScadaStorageProxy.cs" />
+    <Compile Include="ScadaServices\Services\AlarmingKruncingHost.cs" />
+    <Compile Include="ScadaServices\Services\DOMHost.cs" />
+    <Compile Include="ScadaServices\Services\HistoryHost.cs" />
+    <Compile Include="ScadaServices\Services\LoggingHost.cs" />
+    <Compile Include="ScadaServices\Services\ScadaExportService.cs" />
+    <Compile Include="ScadaServices\Services\ScadaStorageService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">
@@ -90,7 +141,21 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202101251217330_Init.resx">
+      <DependentUpon>202101251217330_Init.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
+  </Target>
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
 </Project>

@@ -11,7 +11,6 @@ namespace SCADA.Common.Messaging
 {
     public class DNP3FunctionFactory
     {
-<<<<<<< HEAD
         public static IDNP3Function CreateReadFunction(DNP3ReadCommandParameters parameters)
         {
             return new Read(parameters);

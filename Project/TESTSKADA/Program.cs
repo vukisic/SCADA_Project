@@ -5,15 +5,14 @@ using System.Timers;
 using System.Threading.Tasks;
 using Core.Common.ServiceBus.Events;
 using NDS.FrontEnd;
-using NDS.Proxies;
 using NDS.ServiceBus;
 using NServiceBus;
 using NServiceBus.Logging;
 using SCADA.Common;
-using SCADA.DB.Models;
 using SCADATransaction;
 using NDS.Updaters;
-using SCADA.Services.Services;
+using SCADA.Common.ScadaServices.Services;
+using SCADA.Common.Proxies;
 
 namespace NDS
 {
@@ -29,8 +28,11 @@ namespace NDS
         private static async Task AsyncMain()
         {
             Console.Title = "NetworkDynamicService";
-            
+            LoggingHost logHost = new LoggingHost();
+            logHost.Open();
+            var logger = ScadaProxyFactory.Instance().LoggingProxy();
             log.Info("SCADA started working..");
+            logger.Log(new SCADA.Common.Logging.LogEventModel() { EventType = SCADA.Common.Logging.LogEventType.INFO, Message = "SCADA NDS Started!" });
 
             endpoint = await ServiceBusStartup.StartInstance()
                 .ConfigureAwait(false);
@@ -40,6 +42,8 @@ namespace NDS
             // UnComment if you want to start FEP
            // fep.Start();
             Console.WriteLine("FEP Started!");
+            logger.Log(new SCADA.Common.Logging.LogEventModel() { EventType = SCADA.Common.Logging.LogEventType.INFO, Message = "SCADA FEP Started!" });
+
 
             // Command example: 
             // await endpoint.Send(new DemoCommand { DemoProperty = "Do something!" });
@@ -51,6 +55,23 @@ namespace NDS
             SCADAServer.instace = endpoint;
             ScadaStorageService storage = new ScadaStorageService();
             storage.Open();
+            AlarmingKruncingHost ak = new AlarmingKruncingHost();
+            ak.Open();
+
+            DOMHost dom = new DOMHost();
+            dom.Open();
+
+           
+
+            HistoryHost historyHost = new HistoryHost();
+            historyHost.Open();
+
+            ScadaExportService scadaExportService = new ScadaExportService();
+            scadaExportService.Open();
+
+            Console.WriteLine("Services are working..");
+            logger.Log(new SCADA.Common.Logging.LogEventModel() { EventType = SCADA.Common.Logging.LogEventType.INFO, Message = "SCADA Services Started!" });
+
             SCADAServer scada = new SCADAServer();
             
             scada.OpenModel();
@@ -59,11 +80,14 @@ namespace NDS
             GuiDBUpdater updater = new GuiDBUpdater(endpoint);
             updater.Start();
 
-            //LoggingProxy proxy = new LoggingProxy();
-            //proxy.Log(new SCADA.Common.Logging.LogEventModel() { EventType = SCADA.Common.Logging.LogEventType.INFO, Message = "NDS Started!" });
 
             Console.ReadLine();
             storage.Close();
+            ak.Close();
+            dom.Close();
+            logHost.Close();
+            historyHost.Close();
+            scadaExportService.Close();
             updater.Stop();
 		}
 

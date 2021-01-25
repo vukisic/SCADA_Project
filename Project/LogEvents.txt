@@ -1,1 +1,13 @@
 2021-01-04 16:28:22,592-[4]-INFO -[LogEvents]-INFO Hello World!
+2021-01-25 13:49:39,522-[6]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-01-25 13:49:40,934-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-01-25 13:49:40,934-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-01-25 13:49:45,447-[3]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-01-25 13:49:45,447-[3]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-01-25 13:49:45,447-[3]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-01-25 13:50:13,495-[6]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-01-25 13:50:15,016-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-01-25 13:50:15,016-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-01-25 13:50:20,059-[5]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-01-25 13:50:20,059-[5]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-01-25 13:50:20,059-[5]-INFO -[LogEvents]-INFO SCADA Services Started!

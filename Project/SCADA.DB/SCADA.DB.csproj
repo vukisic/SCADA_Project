@@ -61,19 +61,7 @@
       <DependentUpon>202101222127003_Replication.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\DomDbModel.cs" />
-    <Compile Include="Models\HistoryDbModel.cs" />
-    <Compile Include="Access\ScadaDbContext.cs" />
-    <Compile Include="Access\ScadaDbInitializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Providers\DomRepository.cs" />
-    <Compile Include="Providers\HistoryRepository.cs" />
-    <Compile Include="Models\PointDbModel.cs" />
-    <Compile Include="Providers\ReplicationRepository.cs" />
-    <Compile Include="Repositories\IDomRepository.cs" />
-    <Compile Include="Repositories\IHistoryRepository.cs" />
-    <Compile Include="Repositories\IReplicationRepository.cs" />
-    <Compile Include="Utils\ReplicationConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">

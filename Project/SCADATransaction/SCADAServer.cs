@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 using Core.Common.ServiceBus.Events;
 using NServiceBus;
 using SCADA.Common;
-using SCADA.Services;
+using SCADA.Common.Proxies;
+using SCADA.Common.ScadaServices;
 using TMContracts;
 
 namespace SCADATransaction
@@ -80,7 +81,7 @@ namespace SCADATransaction
 
         private static void OnUpdateEvent(object sender, EventArgs e)
         {
-            ScadaStorageProxy proxy = new ScadaStorageProxy();
+            ScadaStorageProxy proxy = ScadaProxyFactory.Instance().ScadaStorageProxy();
             ScadaUpdateEvent ev = new ScadaUpdateEvent()
             {
                 Points = proxy.GetModel().Values.ToList()

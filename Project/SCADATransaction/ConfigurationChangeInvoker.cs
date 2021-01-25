@@ -6,7 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Core.Common.Contracts;
 using SCADA.Common;
-using SCADA.Services;
+using SCADA.Common.Proxies;
+using SCADA.Common.ScadaServices;
 
 namespace SCADATransaction
 {
@@ -22,7 +23,7 @@ namespace SCADATransaction
 
         public void Update(Dictionary<string,ushort> pairs)
         {
-            var storage = new ScadaStorageProxy();
+            var storage = ScadaProxyFactory.Instance().ScadaStorageProxy();
             var model = storage.GetModel();
             ushort aiCount = (ushort)(model.Values.Where(x => x.RegisterType == SCADA.Common.DataModel.RegisterType.ANALOG_INPUT).Count());
             ushort aoCount = (ushort)(model.Values.Where(x => x.RegisterType == SCADA.Common.DataModel.RegisterType.ANALOG_OUTPUT).Count());

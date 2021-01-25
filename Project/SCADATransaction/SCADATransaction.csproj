@@ -71,10 +71,6 @@
       <Project>{6e79fca4-42e3-4d2f-b4a3-28e691bf04c3}</Project>
       <Name>SCADA.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SCADA.Services\SCADA.Services.csproj">
-      <Project>{3f1790ab-e8c5-4016-b963-0d42202612eb}</Project>
-      <Name>SCADA.Services</Name>
-    </ProjectReference>
     <ProjectReference Include="..\TMContracts\TMContracts.csproj">
       <Project>{f5d28aa0-b5f6-4c6a-867d-2d1187464a80}</Project>
       <Name>TMContracts</Name>
