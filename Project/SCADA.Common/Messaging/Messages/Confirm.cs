@@ -40,7 +40,7 @@ namespace SCADA.Common.Messaging.Messages
             return message;
         }
 
-        public override Dictionary<Tuple<RegisterType, ushort>, BasePoint> PareseResponse(byte[] response)
+        public override Dictionary<Tuple<RegisterType, int>, BasePoint> PareseResponse(byte[] response)
         {
             throw new NotImplementedException();
         }

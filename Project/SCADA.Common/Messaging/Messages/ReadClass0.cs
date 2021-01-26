@@ -41,59 +41,77 @@ namespace SCADA.Common.Messaging.Messages
             return request;
         }
 
-        public override Dictionary<Tuple<RegisterType, ushort>, BasePoint> PareseResponse(byte[] response)
+        public override Dictionary<Tuple<RegisterType, int>, BasePoint> PareseResponse(byte[] response)
         {
             if (!CrcCalculator.CheckCRC(response))
                 return null;
 
-            //byte[] dataObjects = MessagesHelper.GetResponseDataObjects(response);
+            byte[] dataObjects = MessagesHelper.GetResponseDataObjects(response);
 
-            Dictionary<Tuple<RegisterType, ushort>, BasePoint> retVal = new Dictionary<Tuple<RegisterType, ushort>, BasePoint>();
+            Dictionary<Tuple<RegisterType, int>, BasePoint> retVal = new Dictionary<Tuple<RegisterType, int>, BasePoint>();
 
-            ushort typeField = (ushort)IPAddress.NetworkToHostOrder((short)BitConverter.ToUInt16(response, 0));
-            byte startIndex = dataObjects[3];
-            byte stopIndex = dataObjects[4];
-            int numberOfItems = stopIndex - startIndex + 1;
-            switch (typeField)
+            int typeFieldPosition = 0;
+            int startIndexPosition = 3;
+            int stopIndexPosition = 4;
+
+            int len = dataObjects.Length;
+            while (len > 0)
             {
-                case (ushort)TypeField.BINARY_INPUT_PACKED_FORMAT:
-                case (ushort)TypeField.BINATY_OUTPUT_WITH_STATUS:
-                    {
-                        int byteCount = numberOfItems % 8 == 0 ? numberOfItems / 8 : numberOfItems / 8 + 1;
-                        byteCount += 5; //type(2) + qual + satrt + stop index
-                        byte[] binaryObject = new byte[byteCount];
-                        Buffer.BlockCopy(response, 0, binaryObject, 0, byteCount);
-                        ParseBinaryObject(binaryObject, typeField, ref retVal);
-                        break;
-                    }
-                case (ushort)TypeField.ANALOG_INPUT_16BIT:
-                    {
-                        int shortCount = numberOfItems * 2;
-                        shortCount += 5;
-                        byte[] analogInputObject = new byte[shortCount];
-                        Buffer.BlockCopy(response, 0, analogInputObject, 0, shortCount);
-                        ParseAnalogInputObject(analogInputObject, ref retVal);
-                        break; 
-                    }
-                case (ushort)TypeField.ANALOG_OUTPUT_16BIT:
-                    {
+                ushort typeField = (ushort)IPAddress.NetworkToHostOrder((short)BitConverter.ToUInt16(response, typeFieldPosition));
+                byte startIndex = dataObjects[startIndexPosition];
+                byte stopIndex = dataObjects[stopIndexPosition];
+                int numberOfItems = stopIndex - startIndex + 1;
+                int range = 5; //type(2) + qual + satrt + stop index
+                switch (typeField)
+                {
+                    case (ushort)TypeField.BINARY_INPUT_PACKED_FORMAT:
+                    case (ushort)TypeField.BINATY_OUTPUT_WITH_STATUS:
+                        {
+                            range += numberOfItems % 8 == 0 ? numberOfItems / 8 : numberOfItems / 8 + 1;                          
+                            byte[] binaryObject = new byte[range];
+                            Buffer.BlockCopy(response, 0, binaryObject, 0, range);
+                            ParseBinaryObject(binaryObject, typeField, ref retVal);
 
-                        break;
-                    }
+                            break;
+                        }
+                    case (ushort)TypeField.ANALOG_INPUT_16BIT:
+                    case (ushort)TypeField.ANALOG_OUTPUT_16BIT:
+                        {
+                            range += numberOfItems * 2;
+                            byte[] analogObject = new byte[range];
+                            Buffer.BlockCopy(response, 0, analogObject, 0, range);
+                            ParseAnalogObject(analogObject, typeField, ref retVal);
+                            break;
+                        }
+                }
+                len -= range;
+                typeFieldPosition += range;
+                startIndexPosition += range + 3;
+                stopIndexPosition += range + 4;
             }
             return retVal;
         }
 
-        private void ParseAnalogInputObject(byte[] analogInputObject, ref Dictionary<Tuple<RegisterType, ushort>, BasePoint> points)
+        private void ParseAnalogObject(byte[] analogInputObject, ushort typeField, ref Dictionary<Tuple<RegisterType, int>, BasePoint> points)
         {
-            throw new NotImplementedException();
+            RegisterType registerType = typeField == (ushort)TypeField.ANALOG_INPUT_16BIT ? RegisterType.ANALOG_INPUT : RegisterType.ANALOG_OUTPUT;
+
+            int currentIndex = analogInputObject[3];
+            int numberOfitems = analogInputObject[4] - analogInputObject[3] + 1;
+            for(int i = 0; i < numberOfitems; i++)
+            {
+                AnalogPoint point = new AnalogPoint();
+                point.Value = (ushort)IPAddress.NetworkToHostOrder((short)BitConverter.ToUInt16(analogInputObject, (5 + i * 2))); //na 5 je prva vrednost, i * 2 idemo short po short
+                point.Index = currentIndex;
+                points.Add(new Tuple<RegisterType, int>(registerType, currentIndex++), point);
+            }
         }
 
-        private void ParseBinaryObject(byte[] binaryObject, ushort typeField, ref Dictionary<Tuple<RegisterType, ushort>, BasePoint> points)
+        private void ParseBinaryObject(byte[] binaryObject, ushort typeField, ref Dictionary<Tuple<RegisterType, int>, BasePoint> points)
         {
             RegisterType registerType = typeField == (ushort)TypeField.BINARY_INPUT_PACKED_FORMAT ? RegisterType.BINARY_INPUT : RegisterType.BINARY_OUTPUT;
 
-            ushort currentIndex = binaryObject[3];
+            int currentIndex = binaryObject[3];
             for (int i = 5; i < binaryObject.Length ; i++)
             {
                 byte currentByte = binaryObject[i];
@@ -102,8 +120,9 @@ namespace SCADA.Common.Messaging.Messages
                 {
                     DiscretePoint point = new DiscretePoint();
                     point.Value = currentByte & mask;
+                    point.Index = currentIndex;
                     currentByte >>= 1;
-                    points.Add(new Tuple<RegisterType, ushort>(registerType, currentIndex++), point);
+                    points.Add(new Tuple<RegisterType, int>(registerType, currentIndex++), point);
                     if (currentIndex > binaryObject[4])
                         break;
                 }

@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using SCADA.Common.DataModel;
 using SCADA.Common.Messaging;
+using SCADA.Common.Proxies;
 
 namespace SCADA.Common.Connection
 {
@@ -94,11 +95,8 @@ namespace SCADA.Common.Connection
 
         private void HandleReceivedBytes(byte[] message)
         {
-            Dictionary<Tuple<RegisterType, ushort>, BasePoint> pointsToUpdate = currentCommand?.PareseResponse(message);
-            
-
-
-
+            Dictionary<Tuple<RegisterType, int>, BasePoint> pointsToUpdate = currentCommand?.PareseResponse(message);
+            ScadaProxyFactory.Instance().ScadaStorageProxy().UpdateModel(pointsToUpdate);
 
 
         }

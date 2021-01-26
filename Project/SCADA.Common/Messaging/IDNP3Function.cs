@@ -10,6 +10,6 @@ namespace SCADA.Common.Messaging
     public interface IDNP3Function
     {
         byte[] PackRequest();
-        Dictionary<Tuple<RegisterType, ushort>, BasePoint> PareseResponse(byte[] response);    //povratna vrednost tip registra indeks vrednost
+        Dictionary<Tuple<RegisterType, int>, BasePoint> PareseResponse(byte[] response);    //povratna vrednost tip registra indeks vrednost
     }
 }

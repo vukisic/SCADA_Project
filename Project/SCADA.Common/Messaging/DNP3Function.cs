@@ -19,7 +19,7 @@ namespace SCADA.Common.Messaging
 
         public abstract byte[] PackRequest();
 
-        public abstract Dictionary<Tuple<RegisterType, ushort>, BasePoint> PareseResponse(byte[] response);
+        public abstract Dictionary<Tuple<RegisterType, int>, BasePoint> PareseResponse(byte[] response);
 
         public DNP3CommandParameters CommandParameters
         {
