@@ -23,6 +23,7 @@ namespace Simulator.ViewModels
         private ObservableCollection<Point> _points;
         private ServiceHost serviceHost;
         private Point _selected;
+        private static bool started;
         public ObservableCollection<Point> Points
         {
             get { return _points; }
@@ -44,13 +45,17 @@ namespace Simulator.ViewModels
             _windowManager = windowManager;
             _applyEvent += MainWindowViewModel_applyEvent;
             Points = new ObservableCollection<Point>();
-            ISimulatorConfiguration config = new SimulatorConfiguration();
-            serviceHost = new ServiceHost(typeof(Simulator.Core.ConfigurationService));
-            serviceHost.AddServiceEndpoint(typeof(IConfigurationChange), new NetTcpBinding(), new Uri("net.tcp://localhost:30000/IConfigurationChange"));
-            serviceHost.Open();
-            _simulator = new Core.Simulator(config);
-            _simulator.updateEvent += Simulator_updateEvent;
-            _simulator.Start();
+            if (!started)
+            {
+                ISimulatorConfiguration config = new SimulatorConfiguration();
+                serviceHost = new ServiceHost(typeof(Simulator.Core.ConfigurationService));
+                serviceHost.AddServiceEndpoint(typeof(IConfigurationChange), new NetTcpBinding(), new Uri("net.tcp://localhost:30000/IConfigurationChange"));
+                serviceHost.Open();
+                _simulator = new Core.Simulator(config);
+                _simulator.updateEvent += Simulator_updateEvent;
+                _simulator.Start();
+                started = true;
+            }
            
         }
 
