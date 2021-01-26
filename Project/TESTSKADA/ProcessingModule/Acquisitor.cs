@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using NDS.Proxies;
+using SCADA.Common.Proxies;
 
 namespace NDS.ProcessingModule
 {
@@ -25,7 +25,7 @@ namespace NDS.ProcessingModule
         {
             this.acquisitionTrigger = acquisitionTrigger;
             this.processingManager = processingManager;
-            historian = new HistoryProxy();
+            historian = ScadaProxyFactory.Instance().HistoryProxy();
             this.InitializeAcquisitionThread();
             this.StartAcquisitionThread();
         }

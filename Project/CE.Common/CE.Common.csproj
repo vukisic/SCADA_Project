@@ -60,10 +60,6 @@
       <Project>{6e79fca4-42e3-4d2f-b4a3-28e691bf04c3}</Project>
       <Name>SCADA.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SCADA.Services\SCADA.Services.csproj">
-      <Project>{3f1790ab-e8c5-4016-b963-0d42202612eb}</Project>
-      <Name>SCADA.Services</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

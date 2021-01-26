@@ -6,10 +6,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Core.Common.ServiceBus.Events;
-using NDS.Proxies;
 using NServiceBus;
-using SCADA.DB.Providers;
-using SCADA.DB.Repositories;
+using SCADA.Common.Proxies;
+using SCADA.Common.ScadaServices;
 
 namespace NDS.Updaters
 {
@@ -40,15 +39,20 @@ namespace NDS.Updaters
                 {
                     DomData = ScadaProxyFactory.Instance().DOMProxy().GetAll().ToSwitchingEquipment()
                 };
-
                 HistoryUpdateEvent history = new HistoryUpdateEvent()
                 {
                     History = ScadaProxyFactory.Instance().HistoryProxy().GetAll()
                 };
-                if(dom.DomData.Count > 0)
+                ScadaUpdateEvent ev = new ScadaUpdateEvent()
+                {
+                    Points = ScadaProxyFactory.Instance().ScadaStorageProxy().GetModel().Values.ToList()
+                };
+                if (dom.DomData.Count > 0)
                     endpoint.Publish(dom).ConfigureAwait(false).GetAwaiter().GetResult();
                 if(history.History.Count > 0)
                     endpoint.Publish(history).ConfigureAwait(false).GetAwaiter().GetResult();
+                if(ev.Points.Count > 0)
+                    endpoint.Publish(ev).ConfigureAwait(false).GetAwaiter().GetResult();
                 Thread.Sleep(GetConfigTime());
             }
         }
