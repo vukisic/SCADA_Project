@@ -66,7 +66,7 @@ namespace SCADA.Common.Proxies
         
         public void UpdateModel(Dictionary<Tuple<RegisterType, int>, BasePoint> updateModel)
         {
-            proxy.UpdateModel(updateModel);
+            proxy.UpdateModelValue(updateModel);
         }
     }
 }

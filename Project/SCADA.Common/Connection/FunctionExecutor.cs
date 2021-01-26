@@ -98,7 +98,6 @@ namespace SCADA.Common.Connection
             Dictionary<Tuple<RegisterType, int>, BasePoint> pointsToUpdate = currentCommand?.PareseResponse(message);
             ScadaProxyFactory.Instance().ScadaStorageProxy().UpdateModel(pointsToUpdate);
 
-
         }
 
         private int CalculateRecvLength(byte lenByte)

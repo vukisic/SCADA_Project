@@ -66,9 +66,32 @@ namespace SCADA.Common.ScadaServices.Providers
             TransactionModel = model;
         }
 
-        public void UpdateModel(Dictionary<Tuple<RegisterType, int>, BasePoint> updateModel)
+        public void UpdateModelValue(Dictionary<Tuple<RegisterType, int>, BasePoint> updateModel)
         {
-            throw new NotImplementedException();
+            foreach(KeyValuePair<Tuple<RegisterType, int>, BasePoint> keyValuePair in updateModel)
+            {
+                SetValue(keyValuePair);
+            }
+
+        }
+
+        private void SetValue(KeyValuePair<Tuple<RegisterType, int>, BasePoint> keyValuePair)
+        {
+            switch (keyValuePair.Key.Item1)
+            {
+                case RegisterType.BINARY_INPUT:
+                case RegisterType.BINARY_OUTPUT:
+                    {
+                        ((DiscretePoint)Model[keyValuePair.Key]).Value = (keyValuePair.Value as DiscretePoint).Value;
+                        break;
+                    }
+                case RegisterType.ANALOG_INPUT:
+                case RegisterType.ANALOG_OUTPUT:
+                    {
+                        ((AnalogPoint)Model[keyValuePair.Key]).Value = (keyValuePair.Value as AnalogPoint).Value;
+                        break;
+                    }
+            }
         }
     }
 }
