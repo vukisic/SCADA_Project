@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using SCADA.Common.DataModel;
@@ -16,8 +17,48 @@ namespace SCADA.Common
             crcAccum = (ushort)((crcAccum >> 8) ^ crcLookUpTable[(crcAccum ^ dataOctet) & 0xFF]);
         }
 
-        public static bool CheckCRC(byte[] message, int len = 0)
+        public static bool CheckCRC(byte[] message)
         {
+            var length = message.Length;
+            ushort headercrc = 0;
+            for(int i = 0; i < 8; i++)
+            {
+                computeCRC(message[i], ref headercrc);
+            }
+            
+            if (headercrc != IPAddress.NetworkToHostOrder(BitConverter.ToUInt16(new byte[2] { message[8], message[9] }, 0)))
+                return false;
+
+            int processedBytes = 10;
+            int count = (length - processedBytes) / 18;
+           
+
+            for (int i = 0; i < count; i++)
+            {
+                ushort crc = 0;
+                int j;
+                for (j = processedBytes; j < processedBytes + 16 ; j++)
+                {
+                    computeCRC(message[j], ref crc);
+                }
+                if (crc != IPAddress.NetworkToHostOrder(BitConverter.ToUInt16(new byte[2] { message[j+1], message[j+2] }, 0)))
+                    return false;
+                processedBytes += 18;
+            }
+
+            if(processedBytes < length-10)
+            {
+                var remaining = length - 10 - processedBytes;
+                ushort crc = 0;
+                int i = 0;
+                for (i = processedBytes; i < remaining - 2; i++)
+                {
+                    computeCRC(message[i], ref crc);
+                }
+                if (crc != IPAddress.NetworkToHostOrder(BitConverter.ToUInt16(new byte[2] { message[i + 1], message[i + 2] }, 0)))
+                    return false;
+            }
+
             return true;
         }
     }

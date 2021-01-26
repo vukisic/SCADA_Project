@@ -37,13 +37,6 @@ namespace NDS
             endpoint = await ServiceBusStartup.StartInstance()
                 .ConfigureAwait(false);
 
-            IFEP fep = new FEP();
-            fep.updateEvent += Fep_updateEvent;
-            // UnComment if you want to start FEP
-           // fep.Start();
-            Console.WriteLine("FEP Started!");
-            logger.Log(new SCADA.Common.Logging.LogEventModel() { EventType = SCADA.Common.Logging.LogEventType.INFO, Message = "SCADA FEP Started!" });
-
 
             // Command example: 
             // await endpoint.Send(new DemoCommand { DemoProperty = "Do something!" });
@@ -80,6 +73,10 @@ namespace NDS
             GuiDBUpdater updater = new GuiDBUpdater(endpoint);
             updater.Start();
 
+            IFEP fep = new FEP();
+            Console.WriteLine("FEP Started!");
+            logger.Log(new SCADA.Common.Logging.LogEventModel() { EventType = SCADA.Common.Logging.LogEventType.INFO, Message = "SCADA FEP Started!" });
+
             Console.ReadLine();
             storage.Close();
             ak.Close();
@@ -89,12 +86,5 @@ namespace NDS
             scadaExportService.Close();
             updater.Stop();
 		}
-
-        private static void Fep_updateEvent(object sender, UpdateArgs e)
-        {
-            
-            // Update event handler
-            // Use endpoint to publish
-        }
     }
 }

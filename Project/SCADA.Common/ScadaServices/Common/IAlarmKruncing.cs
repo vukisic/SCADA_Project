@@ -12,6 +12,6 @@ namespace SCADA.Common.ScadaServices.Common
     public interface IAlarmKruncing
     {
         [OperationContract]
-        List<BasePoint> Check(List<BasePoint> points);
+        Dictionary<Tuple<RegisterType, int>, BasePoint> Check(Dictionary<Tuple<RegisterType,int>, BasePoint> points);
     }
 }
