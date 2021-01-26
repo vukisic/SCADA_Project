@@ -13,9 +13,9 @@ namespace SCADA.Common.ScadaServices.Providers
     {
         public AlarmKruncingProvider() { }
 
-        public List<BasePoint> Check(List<BasePoint> points)
+        public Dictionary<Tuple<RegisterType, int>, BasePoint> Check(Dictionary<Tuple<RegisterType, int>, BasePoint> points)
         {
-            foreach (var point in points)
+            foreach (var point in points.Values)
             {
                 if (point.RegisterType == RegisterType.ANALOG_INPUT || point.RegisterType == RegisterType.ANALOG_OUTPUT)
                     ProccessAnalog(point as AnalogPoint);

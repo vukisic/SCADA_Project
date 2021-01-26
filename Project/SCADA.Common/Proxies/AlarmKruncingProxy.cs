@@ -22,7 +22,7 @@ namespace SCADA.Common.Proxies
 
         }
 
-        public List<BasePoint> Check(List<BasePoint> points)
+        public Dictionary<Tuple<RegisterType, int>, BasePoint> Check(Dictionary<Tuple<RegisterType, int>, BasePoint> points)
         {
             return proxy.Check(points);
         }

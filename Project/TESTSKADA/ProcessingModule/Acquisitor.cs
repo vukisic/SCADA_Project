@@ -59,8 +59,6 @@ namespace NDS.ProcessingModule
                 while (true)
                 {
                     acquisitionTrigger.WaitOne();
-                    // TO DO: Implement read class 0 in processing manager
-                    //processingManager.ExecuteReadCommand();
                     processingManager.ExecuteReadClass0Command();
                 }
             }
