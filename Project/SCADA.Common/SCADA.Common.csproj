@@ -67,6 +67,7 @@
     <Compile Include="Messaging\IDNP3Function.cs" />
     <Compile Include="Messaging\MessageHeaderBuilder.cs" />
     <Compile Include="Messaging\Messages\Confirm.cs" />
+    <Compile Include="Messaging\Messages\MessagesHelper.cs" />
     <Compile Include="Messaging\Messages\ReadClass0.cs" />
     <Compile Include="Messaging\Messages\Read.cs" />
     <Compile Include="Messaging\Messages\WriteAnalogOutput.cs" />

@@ -49,25 +49,65 @@ namespace SCADA.Common.Messaging.Messages
             byte[] dataObjects = MessagesHelper.GetResponseDataObjects(response);
 
             Dictionary<Tuple<RegisterType, ushort>, BasePoint> retVal = new Dictionary<Tuple<RegisterType, ushort>, BasePoint>();
-/*
+
             ushort typeField = (ushort)IPAddress.NetworkToHostOrder((short)BitConverter.ToUInt16(response, 0));
-            int startIndex;
-            int stopIndex;
-            if(typeField == (ushort)TypeField.BINARY_INPUT_PACKED_FORMAT)
+            byte startIndex = dataObjects[3];
+            byte stopIndex = dataObjects[4];
+            int numberOfItems = stopIndex - startIndex + 1;
+            switch (typeField)
             {
-                startIndex = dataObjects[3];
-                stopIndex = dataObjects[4];
-                int byteCount = (stopIndex - startIndex) % 8 == 0 ? (stopIndex - startIndex) / 8 : (stopIndex - startIndex) / 8 + 1;
-                for(int i = 0; i < byteCount; i++)
-                {
-                    byte currentByte = response[i];
-                    for(int j = 0; j < 8; j++)
+                case (ushort)TypeField.BINARY_INPUT_PACKED_FORMAT:
+                case (ushort)TypeField.BINATY_OUTPUT_WITH_STATUS:
+                    {
+                        int byteCount = numberOfItems % 8 == 0 ? numberOfItems / 8 : numberOfItems / 8 + 1;
+                        byteCount += 5; //type(2) + qual + satrt + stop index
+                        byte[] binaryObject = new byte[byteCount];
+                        Buffer.BlockCopy(response, 0, binaryObject, 0, byteCount);
+                        ParseBinaryObject(binaryObject, typeField, ref retVal);
+                        break;
+                    }
+                case (ushort)TypeField.ANALOG_INPUT_16BIT:
+                    {
+                        int shortCount = numberOfItems * 2;
+                        shortCount += 5;
+                        byte[] analogInputObject = new byte[shortCount];
+                        Buffer.BlockCopy(response, 0, analogInputObject, 0, shortCount);
+                        ParseAnalogInputObject(analogInputObject, ref retVal);
+                        break; 
+                    }
+                case (ushort)TypeField.ANALOG_OUTPUT_16BIT:
                     {
 
+                        break;
                     }
-                }
-            }*/
+            }
             return retVal;
         }
+
+        private void ParseAnalogInputObject(byte[] analogInputObject, ref Dictionary<Tuple<RegisterType, ushort>, BasePoint> points)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void ParseBinaryObject(byte[] binaryObject, ushort typeField, ref Dictionary<Tuple<RegisterType, ushort>, BasePoint> points)
+        {
+            RegisterType registerType = typeField == (ushort)TypeField.BINARY_INPUT_PACKED_FORMAT ? RegisterType.BINARY_INPUT : RegisterType.BINARY_OUTPUT;
+
+            ushort currentIndex = binaryObject[3];
+            for (int i = 5; i < binaryObject.Length ; i++)
+            {
+                byte currentByte = binaryObject[i];
+                byte mask = 0x01;
+                for (int j = 0; j < 8; j++)
+                {
+                    DiscretePoint point = new DiscretePoint();
+                    point.Value = currentByte & mask;
+                    currentByte >>= 1;
+                    points.Add(new Tuple<RegisterType, ushort>(registerType, currentIndex++), point);
+                    if (currentIndex > binaryObject[4])
+                        break;
+                }
+            }
+        } 
     }
 }
