@@ -69,7 +69,7 @@ namespace SCADA.Common.Messaging.Messages
                         {
                             range += numberOfItems % 8 == 0 ? numberOfItems / 8 : numberOfItems / 8 + 1;                          
                             byte[] binaryObject = new byte[range];
-                            Buffer.BlockCopy(response, 0, binaryObject, 0, range);
+                            Buffer.BlockCopy(dataObjects, 0, binaryObject, 0, range);
                             ParseBinaryObject(binaryObject, typeField, ref retVal);
 
                             break;
@@ -79,7 +79,7 @@ namespace SCADA.Common.Messaging.Messages
                         {
                             range += numberOfItems * 2;
                             byte[] analogObject = new byte[range];
-                            Buffer.BlockCopy(response, 0, analogObject, 0, range);
+                            Buffer.BlockCopy(dataObjects, 0, analogObject, 0, range);
                             ParseAnalogObject(analogObject, typeField, ref retVal);
                             break;
                         }

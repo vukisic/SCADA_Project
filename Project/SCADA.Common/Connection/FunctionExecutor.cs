@@ -96,7 +96,10 @@ namespace SCADA.Common.Connection
         private void HandleReceivedBytes(byte[] message)
         {
             Dictionary<Tuple<RegisterType, int>, BasePoint> pointsToUpdate = currentCommand?.PareseResponse(message);
-            ScadaProxyFactory.Instance().ScadaStorageProxy().UpdateModel(pointsToUpdate);
+
+            ScadaProxyFactory.Instance().AlarmKruncingProxy().Check(pointsToUpdate.Values.ToList());
+            //
+            ScadaProxyFactory.Instance().ScadaStorageProxy().UpdateModelValue(pointsToUpdate);
 
         }
 

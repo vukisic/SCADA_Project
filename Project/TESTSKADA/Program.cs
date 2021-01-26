@@ -80,7 +80,6 @@ namespace NDS
             GuiDBUpdater updater = new GuiDBUpdater(endpoint);
             updater.Start();
 
-
             Console.ReadLine();
             storage.Close();
             ak.Close();

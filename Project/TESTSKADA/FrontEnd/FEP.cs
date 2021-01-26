@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using NDS.ProcessingModule;
 using SCADA.Common;
 using SCADA.Common.Connection;
 using SCADA.Common.DataModel;
@@ -22,6 +23,11 @@ namespace NDS.FrontEnd
         private bool executionFlag;
         private IConnection connection;
         private ScadaStorageProxy proxy;
+        private Acquisitor acquisitor;
+        public FEP()
+        {
+            acquisitor = new Acquisitor(new AutoResetEvent(false), new ProcessingManager(new FunctionExecutor()));
+        }
         public void Command()
         {
             // Implement command logic to ProcessingManager

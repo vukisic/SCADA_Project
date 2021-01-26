@@ -45,8 +45,9 @@ namespace NDS.ProcessingModule
                 (byte)Qualifier.PREFIX_2_OCTET_COUNT_OF_OBJECTS_2_OCTET, 1, index, value, GetTransportSequence());
             IDNP3Function dnp3Fn = DNP3FunctionFactory.CreateWriteFunction(dnp3CommandParam);
             this.functionExecutor.EnqueueCommand(dnp3Fn);
+            
             var point = storage.GetModel().SingleOrDefault(x => x.Key == Tuple.Create<RegisterType, int>(type, (int)index)).Value;
-            if (point != null)
+            if (point != null && point.RegisterType == RegisterType.BINARY_OUTPUT)
                 dom.AddOrUpdate(new SCADA.Common.Models.DomDbModel() { Mrid = point.Mrid, TimeStamp = DateTime.Now.ToString() });
         }
 
