@@ -5,11 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using Core.Common.ServiceBus.Commands;
+using Core.Common.ServiceBus.Dtos.Conversion;
 using FTN.Common;
 using FTN.Services.NetworkModelService.DataModel.Core;
 using FTN.Services.NetworkModelService.DeltaDB;
-using TMContracts;
 using NServiceBus;
+using TMContracts;
 
 namespace FTN.Services.NetworkModelService
 {
@@ -54,10 +55,10 @@ namespace FTN.Services.NetworkModelService
         {
             switch (e.ToLower())
             {
-                case "prepare":Prepare();break;
-                case "commit":Commit();break;
-                case "rollback":Rollback();break;
-                default:break;
+                case "prepare": Prepare(); break;
+                case "commit": Commit(); break;
+                case "rollback": Rollback(); break;
+                default: break;
             }
         }
 
@@ -143,7 +144,7 @@ namespace FTN.Services.NetworkModelService
         /// <returns>Resource description of the specified entity</returns>
         public ResourceDescription GetValues(long globalId, List<ModelCode> properties)
         {
-            CommonTrace.WriteTrace(CommonTrace.TraceVerbose, String.Format("Getting values for GID = 0x{0:x16}.", globalId));
+            CommonTrace.WriteTrace(CommonTrace.TraceVerbose, string.Format("Getting values for GID = 0x{0:x16}.", globalId));
 
             try
             {
@@ -161,7 +162,7 @@ namespace FTN.Services.NetworkModelService
                     rd.AddProperty(property);
                 }
 
-                CommonTrace.WriteTrace(CommonTrace.TraceVerbose, String.Format("Getting values for GID = 0x{0:x16} succedded.", globalId));
+                CommonTrace.WriteTrace(CommonTrace.TraceVerbose, string.Format("Getting values for GID = 0x{0:x16} succedded.", globalId));
 
                 return rd;
             }
@@ -220,7 +221,7 @@ namespace FTN.Services.NetworkModelService
         /// <returns>Resource iterator for the requested entities</returns>
         public ResourceIterator GetRelatedValues(long source, List<ModelCode> properties, Association association)
         {
-            CommonTrace.WriteTrace(CommonTrace.TraceVerbose, String.Format("Getting related values for source = 0x{0:x16}.", source));
+            CommonTrace.WriteTrace(CommonTrace.TraceVerbose, string.Format("Getting related values for source = 0x{0:x16}.", source));
 
             try
             {
@@ -241,13 +242,13 @@ namespace FTN.Services.NetworkModelService
 
                 ResourceIterator ri = new ResourceIterator(relatedGids, class2PropertyIDs);
 
-                CommonTrace.WriteTrace(CommonTrace.TraceVerbose, String.Format("Getting related values for source = 0x{0:x16} succeeded.", source));
+                CommonTrace.WriteTrace(CommonTrace.TraceVerbose, string.Format("Getting related values for source = 0x{0:x16} succeeded.", source));
 
                 return ri;
             }
             catch (Exception ex)
             {
-                string message = String.Format("Failed to get related values for source GID = 0x{0:x16}. {1}.", source, ex.Message);
+                string message = string.Format("Failed to get related values for source GID = 0x{0:x16}. {1}.", source, ex.Message);
                 CommonTrace.WriteTrace(CommonTrace.TraceError, message);
                 throw new Exception(message);
             }
@@ -353,7 +354,7 @@ namespace FTN.Services.NetworkModelService
             // check if mapping for specified global id already exists			
             if (this.EntityExists(globalId))
             {
-                string message = String.Format("Failed to insert entity because entity with specified GID ({0:x16}) already exists in network model.", globalId);
+                string message = string.Format("Failed to insert entity because entity with specified GID ({0:x16}) already exists in network model.", globalId);
                 CommonTrace.WriteTrace(CommonTrace.TraceError, message);
                 throw new Exception(message);
             }
@@ -439,7 +440,7 @@ namespace FTN.Services.NetworkModelService
             }
             catch (Exception ex)
             {
-                string message = String.Format("Failed to insert entity (GID = 0x{0:x16}) into model. {1}", rd.Id, ex.Message);
+                string message = string.Format("Failed to insert entity (GID = 0x{0:x16}) into model. {1}", rd.Id, ex.Message);
                 CommonTrace.WriteTrace(CommonTrace.TraceError, message);
                 throw new Exception(message);
             }
@@ -467,7 +468,7 @@ namespace FTN.Services.NetworkModelService
 
                 if (!this.EntityExists(globalId))
                 {
-                    string message = String.Format("Failed to update entity because entity with specified GID ({0:x16}) does not exist in network model.", globalId);
+                    string message = string.Format("Failed to update entity because entity with specified GID ({0:x16}) does not exist in network model.", globalId);
                     CommonTrace.WriteTrace(CommonTrace.TraceError, message);
                     throw new Exception(message);
                 }
@@ -516,7 +517,7 @@ namespace FTN.Services.NetworkModelService
             }
             catch (Exception ex)
             {
-                string message = String.Format("Failed to update entity (GID = 0x{0:x16}) in model. {1} ", rd.Id, ex.Message);
+                string message = string.Format("Failed to update entity (GID = 0x{0:x16}) in model. {1} ", rd.Id, ex.Message);
                 CommonTrace.WriteTrace(CommonTrace.TraceError, message);
                 throw new Exception(message);
             }
@@ -543,7 +544,7 @@ namespace FTN.Services.NetworkModelService
                 // check if entity exists
                 if (!this.EntityExists(globalId))
                 {
-                    string message = String.Format("Failed to delete entity because entity with specified GID ({0:x16}) does not exist in network model.", globalId);
+                    string message = string.Format("Failed to delete entity because entity with specified GID ({0:x16}) does not exist in network model.", globalId);
                     CommonTrace.WriteTrace(CommonTrace.TraceError, message);
                     throw new Exception(message);
                 }
@@ -567,7 +568,7 @@ namespace FTN.Services.NetworkModelService
                         }
                     }
 
-                    string message = String.Format("Failed to delete entity (GID = 0x{0:x16}) because it is referenced by entities with GIDs: {1}.", globalId, sb.ToString());
+                    string message = string.Format("Failed to delete entity (GID = 0x{0:x16}) because it is referenced by entities with GIDs: {1}.", globalId, sb.ToString());
                     CommonTrace.WriteTrace(CommonTrace.TraceError, message);
                     throw new Exception(message);
                 }
@@ -611,7 +612,7 @@ namespace FTN.Services.NetworkModelService
             }
             catch (Exception ex)
             {
-                string message = String.Format("Failed to delete entity (GID = 0x{0:x16}) from model. {1}", rd.Id, ex.Message);
+                string message = string.Format("Failed to delete entity (GID = 0x{0:x16}) from model. {1}", rd.Id, ex.Message);
                 CommonTrace.WriteTrace(CommonTrace.TraceError, message);
                 throw new Exception(message);
             }
@@ -703,7 +704,7 @@ namespace FTN.Services.NetworkModelService
         private void Initialize()
         {
             List<Delta> result = ReadAllDeltas();
-            
+
             if (result.Count <= 0)
             {
                 return;
@@ -773,14 +774,12 @@ namespace FTN.Services.NetworkModelService
             try
             {
                 var instance = NMSServiceBus.StartInstance().GetAwaiter().GetResult();
-                var command = new ModelUpdateCommand
-                {
-                    Model = networkDataModelCopy
-                };
+                var dtos = DtoConverter.Convert(networkDataModelCopy);
+                var command = new ModelUpdateCommand(dtos);
                 instance.Send(command).ConfigureAwait(false).GetAwaiter().GetResult();
             }
             catch { }
-            
+
             return success;
         }
 

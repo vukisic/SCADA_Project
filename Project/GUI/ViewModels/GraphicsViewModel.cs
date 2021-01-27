@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
 using Caliburn.Micro;
 using Core.Common.ServiceBus.Commands;
 using Core.Common.ServiceBus.Events;
+using GUI.Core.Tree;
 
 namespace GUI.ViewModels
 {
@@ -15,8 +13,15 @@ namespace GUI.ViewModels
         {
             App.Current.Dispatcher.Invoke((System.Action)delegate
             {
-                // Update code nms
+                EquipmentTreeNode tree = EquipmentTreeFactory.CreateFrom(e);
+                DisplayTree(tree);
             });
+        }
+
+        private void DisplayTree(EquipmentTreeNode tree)
+        {
+            // TODO: Display tree
+            Debug.WriteLine("TODO: Displaying tree...");
         }
 
         internal void UpdateMeasurements(object sender, ScadaUpdateEvent e)
