@@ -40,24 +40,16 @@ namespace GUI.ViewModels
             UpdatePoints(e.Points);
         }
 
-        private void UpdatePoints(List<BasePoint> points)
+        private void UpdatePoints(List<ScadaPointDto> points)
         {
             App.Current.Dispatcher.Invoke((System.Action)delegate
             {
                 Points = new ObservableCollection<BasePointDto>();
-                foreach (var item in points)
-                {
-                    if (item.RegisterType == RegisterType.ANALOG_INPUT || item.RegisterType == RegisterType.ANALOG_OUTPUT)
-                    {
-                        if (item.Alarm != SCADA.Common.DataModel.AlarmType.NO_ALARM)
-                            Points.Add(Mapper.Map<AnalogPointDto>(item));
-                    }
-                    else
-                    {
-                        if (item.Alarm != SCADA.Common.DataModel.AlarmType.NO_ALARM)
-                            Points.Add(Mapper.Map<DiscretePointDto>(item));
-                    }
 
+                var result = (Core.Mapper.MapCollection<ScadaPointDto,BasePointDto>(points.Where(x=>x.Alarm != AlarmType.NO_ALARM).ToList()));
+                foreach (var item in result)
+                {
+                    Points.Add(item);
                 }
             });
         }

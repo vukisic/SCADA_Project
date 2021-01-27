@@ -47,6 +47,7 @@ namespace Simulator.Core
             db = new dnp3_protocol.dnp3types.sDNPServerDatabase();
             this.simulatorConfiguration = simulatorConfiguration;
             simLogic = new SimulationLogic(this);
+
         }
 
         public void LoadConfifg(Tuple<ushort, ushort, ushort, ushort> pointsNum)
@@ -119,32 +120,41 @@ namespace Simulator.Core
 
         private void DoWork()
         {
-            Thread.Sleep(2000);
+           
             if (Prepare())
             {
                 while (executionFlag)
                 {
-                    dnp3_protocol.dnp3types.sDNPServerDatabase db = new dnp3_protocol.dnp3types.sDNPServerDatabase();
-                    dnp3_protocol.dnp3api.DNP3GetServerDatabaseValue(DNP3serverhandle, ref db, ref ptErrorValue);
-                    MarshalUnmananagedArray2Struct(db.psServerDatabasePoint, (int)db.u32TotalPoints, out dnp3_protocol.dnp3types.sServerDatabasePoint[] points);
-                    var result = ConvertToPoints(points);
-                    foreach (var item in result)
+                    try
                     {
-                        if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_INPUT || item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_OUTPUTS)
+                        dnp3_protocol.dnp3types.sDNPServerDatabase db = new dnp3_protocol.dnp3types.sDNPServerDatabase();
+                        dnp3_protocol.dnp3api.DNP3GetServerDatabaseValue(DNP3serverhandle, ref db, ref ptErrorValue);
+                        MarshalUnmananagedArray2Struct(db.psServerDatabasePoint, (int)db.u32TotalPoints, out dnp3_protocol.dnp3types.sServerDatabasePoint[] points);
+                        var result = ConvertToPoints(points);
+                        foreach (var item in result)
                         {
-                            var point = item as AnalogPoint;
+                            if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_INPUT || item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_OUTPUTS)
+                            {
+                                var point = item as AnalogPoint;
+                            }
+                            else
+                            {
+                                var point = item as BinaryPoint;
+                            }
                         }
-                        else
-                        {
-                            var point = item as BinaryPoint;
-                        }
+                        updateEvent?.Invoke(this, new UpdateEventArgs() { Points = result });
+                        Simulation();
+                        prevList = result;
+                        if (configChange)
+                            LoadConfifg(config);
+                        Thread.Sleep(interval);
                     }
-                    updateEvent?.Invoke(this, new UpdateEventArgs() { Points = result });
-                    Simulation();
-                    prevList = result;
-                    if (configChange)
-                        LoadConfifg(config);
-                    Thread.Sleep(interval);
+                    catch (Exception)
+                    {
+
+                        throw;
+                    }
+                   
                 }
             }
            
@@ -293,40 +303,40 @@ namespace Simulator.Core
 
         private static short cbDebug(ushort u16ObjectId, ref dnp3_protocol.dnp3types.sDNP3DebugData psDebugData, ref short ptErrorValue)
         {
-            if ((psDebugData.u32DebugOptions & (uint)dnp3_protocol.tgtcommon.eDebugOptionsFlag.DEBUG_OPTION_RX) == (uint)dnp3_protocol.tgtcommon.eDebugOptionsFlag.DEBUG_OPTION_RX)
-            {
-                if (psDebugData.eCommMode == dnp3_protocol.dnp3types.eCommunicationMode.TCP_IP_MODE)
-                {
-                    Trace.TraceInformation("Rx IP " + psDebugData.ai8IPAddress + " Port " + psDebugData.u16PortNumber + " <- ");
-                }
-                for (ushort i = 0; i < psDebugData.u16RxCount; i++)
-                    Trace.TraceInformation("{0:X2} ", psDebugData.au8RxData[i]);
-            }
+            //if ((psDebugData.u32DebugOptions & (uint)dnp3_protocol.tgtcommon.eDebugOptionsFlag.DEBUG_OPTION_RX) == (uint)dnp3_protocol.tgtcommon.eDebugOptionsFlag.DEBUG_OPTION_RX)
+            //{
+            //    if (psDebugData.eCommMode == dnp3_protocol.dnp3types.eCommunicationMode.TCP_IP_MODE)
+            //    {
+            //        Trace.TraceInformation("Rx IP " + psDebugData.ai8IPAddress + " Port " + psDebugData.u16PortNumber + " <- ");
+            //    }
+            //    for (ushort i = 0; i < psDebugData.u16RxCount; i++)
+            //        Trace.TraceInformation("{0:X2} ", psDebugData.au8RxData[i]);
+            //}
 
-            if ((psDebugData.u32DebugOptions & (uint)dnp3_protocol.tgtcommon.eDebugOptionsFlag.DEBUG_OPTION_TX) == (uint)dnp3_protocol.tgtcommon.eDebugOptionsFlag.DEBUG_OPTION_TX)
-            {
-                if (psDebugData.eCommMode == dnp3_protocol.dnp3types.eCommunicationMode.TCP_IP_MODE)
-                {
-                    Trace.TraceInformation("Tx IP " + psDebugData.ai8IPAddress + " Port " + psDebugData.u16PortNumber + " -> ");
-                }
-                for (ushort i = 0; i < psDebugData.u16TxCount; i++)
-                    Trace.TraceInformation("{0:X2} ", psDebugData.au8TxData[i]);
+            //if ((psDebugData.u32DebugOptions & (uint)dnp3_protocol.tgtcommon.eDebugOptionsFlag.DEBUG_OPTION_TX) == (uint)dnp3_protocol.tgtcommon.eDebugOptionsFlag.DEBUG_OPTION_TX)
+            //{
+            //    if (psDebugData.eCommMode == dnp3_protocol.dnp3types.eCommunicationMode.TCP_IP_MODE)
+            //    {
+            //        Trace.TraceInformation("Tx IP " + psDebugData.ai8IPAddress + " Port " + psDebugData.u16PortNumber + " -> ");
+            //    }
+            //    for (ushort i = 0; i < psDebugData.u16TxCount; i++)
+            //        Trace.TraceInformation("{0:X2} ", psDebugData.au8TxData[i]);
 
-            }
+            //}
 
-            if ((psDebugData.u32DebugOptions & (uint)dnp3_protocol.tgtcommon.eDebugOptionsFlag.DEBUG_OPTION_ERROR) == (uint)dnp3_protocol.tgtcommon.eDebugOptionsFlag.DEBUG_OPTION_ERROR)
-            {
-                Trace.TraceError("Error message " + psDebugData.au8ErrorMessage);
-                Trace.TraceError("ErrorCode " + psDebugData.i16ErrorCode);
-                Trace.TraceError("ErrorValue " + psDebugData.tErrorValue);
-            }
+            //if ((psDebugData.u32DebugOptions & (uint)dnp3_protocol.tgtcommon.eDebugOptionsFlag.DEBUG_OPTION_ERROR) == (uint)dnp3_protocol.tgtcommon.eDebugOptionsFlag.DEBUG_OPTION_ERROR)
+            //{
+            //    Trace.TraceError("Error message " + psDebugData.au8ErrorMessage);
+            //    Trace.TraceError("ErrorCode " + psDebugData.i16ErrorCode);
+            //    Trace.TraceError("ErrorValue " + psDebugData.tErrorValue);
+            //}
 
-            if ((psDebugData.u32DebugOptions & (uint)dnp3_protocol.tgtcommon.eDebugOptionsFlag.DEBUG_OPTION_WARNING) == (uint)dnp3_protocol.tgtcommon.eDebugOptionsFlag.DEBUG_OPTION_WARNING)
-            {
-                Trace.TraceWarning("Warning message " + psDebugData.au8WarningMessage);
-                Trace.TraceWarning("ErrorCode " + psDebugData.i16ErrorCode);
-                Trace.TraceWarning("ErrorValue " + psDebugData.tErrorValue);
-            }
+            //if ((psDebugData.u32DebugOptions & (uint)dnp3_protocol.tgtcommon.eDebugOptionsFlag.DEBUG_OPTION_WARNING) == (uint)dnp3_protocol.tgtcommon.eDebugOptionsFlag.DEBUG_OPTION_WARNING)
+            //{
+            //    Trace.TraceWarning("Warning message " + psDebugData.au8WarningMessage);
+            //    Trace.TraceWarning("ErrorCode " + psDebugData.i16ErrorCode);
+            //    Trace.TraceWarning("ErrorValue " + psDebugData.tErrorValue);
+            //}
 
             return (short)dnp3_protocol.tgterrorcodes.eTgtErrorCodes.EC_NONE;
         }
@@ -567,6 +577,7 @@ namespace Simulator.Core
             configChange = true;
             config = points;
             incomingPairs = pairs;
+            Console.WriteLine("Config Change!");
         }
     }
 }

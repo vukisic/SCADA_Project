@@ -32,7 +32,6 @@ namespace SCADATransaction
             SCADAServer.updateEvent?.Invoke(this, null);
             ConfigurationChangeInvoker invoker = new ConfigurationChangeInvoker();
             invoker.Update(result.MridIndexPairs);
-            invoker = null;
             return true;
         }
 

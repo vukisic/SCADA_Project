@@ -17,7 +17,7 @@ namespace SCADATransaction
 
         public ConfigurationChangeInvoker()
         {
-            ChannelFactory<IConfigurationChange> channelFactory = new ChannelFactory<IConfigurationChange>(new NetTcpBinding(), new EndpointAddress("net.tcp://localhost:30000/IConfigurationChange"));
+            ChannelFactory<IConfigurationChange> channelFactory = new ChannelFactory<IConfigurationChange>(new NetTcpBinding(), new EndpointAddress("net.tcp://localhost:30007/IConfigurationChange"));
             proxy = channelFactory.CreateChannel();
         }
 

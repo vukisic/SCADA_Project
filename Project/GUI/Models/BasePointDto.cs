@@ -10,7 +10,7 @@ using SCADA.Common.DataModel;
 
 namespace GUI.Models
 {
-    public abstract class BasePointDto : PropertyChangedBase
+    public class BasePointDto : PropertyChangedBase
     {
         #region Fields
         public MyICommand WriteCommand { get; set; }
@@ -26,6 +26,10 @@ namespace GUI.Models
         private MeasurementType measurementType;
         private AlarmType alarm;
         private double commandedValue;
+        private float minValue;
+        private float maxValue;
+        private float normalValue;
+        private float value;
         #endregion
         public BasePointDto()
         {
@@ -129,11 +133,68 @@ namespace GUI.Models
                 this.NotifyOfPropertyChange(() => this.Alarm);
             }
         }
+
+        public float MinValue
+        {
+            get { return this.minValue; }
+            set
+            {
+                this.minValue = value;
+                this.NotifyOfPropertyChange(() => this.MinValue);
+            }
+        }
+        public float MaxValue
+        {
+            get { return this.maxValue; }
+            set
+            {
+                this.maxValue = value;
+                this.NotifyOfPropertyChange(() => this.MaxValue);
+            }
+        }
+        public float NormalValue
+        {
+            get { return this.normalValue; }
+            set
+            {
+                this.normalValue = value;
+                this.NotifyOfPropertyChange(() => this.NormalValue);
+            }
+        }
+        public float Value
+        {
+            get { return this.value; }
+            set
+            {
+                this.value = value;
+                this.NotifyOfPropertyChange(() => this.Value);
+            }
+        }
         #endregion
 
         #region Commands
-        protected abstract bool WriteCommand_CanExecute(object obj);
-        protected abstract void WriteCommand_Execute(object obj);
+
+        protected bool WriteCommand_CanExecute(object obj)
+        {
+            if (RegisterType == RegisterType.ANALOG_OUTPUT)
+                return !(CommandedValue < 100 || CommandedValue > 400);
+            else if (RegisterType == RegisterType.BINARY_OUTPUT)
+                return !(CommandedValue < 0 || CommandedValue > 1);
+            else
+                return false;
+        }
+
+        protected void WriteCommand_Execute(object obj)
+        {
+            try
+            {
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
 
         private void ReadCommand_Execute(object obj)
         {

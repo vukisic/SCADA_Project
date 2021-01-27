@@ -134,9 +134,7 @@
     <Compile Include="Converters\PointTypeToVisibilityConverter.cs" />
     <Compile Include="Core\Data.cs" />
     <Compile Include="Core\Mapper.cs" />
-    <Compile Include="Models\AnalogPointDto.cs" />
     <Compile Include="Models\BasePointDto.cs" />
-    <Compile Include="Models\DiscretePointDto.cs" />
     <Compile Include="Models\HistoryDto.cs" />
     <Compile Include="Models\SwitchingEquipmentDto.cs" />
     <Compile Include="Services\INotificationService.cs" />

@@ -49,7 +49,7 @@ namespace Simulator.ViewModels
             {
                 ISimulatorConfiguration config = new SimulatorConfiguration();
                 serviceHost = new ServiceHost(typeof(Simulator.Core.ConfigurationService));
-                serviceHost.AddServiceEndpoint(typeof(IConfigurationChange), new NetTcpBinding(), new Uri("net.tcp://localhost:30000/IConfigurationChange"));
+                serviceHost.AddServiceEndpoint(typeof(IConfigurationChange), new NetTcpBinding(), new Uri("net.tcp://localhost:30007/IConfigurationChange"));
                 serviceHost.Open();
                 _simulator = new Core.Simulator(config);
                 _simulator.updateEvent += Simulator_updateEvent;

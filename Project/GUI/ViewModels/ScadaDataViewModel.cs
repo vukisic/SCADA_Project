@@ -44,25 +44,17 @@ namespace GUI.ViewModels
             UpdatePoints(e.Points);
         }
 
-        public void UpdatePoints(List<BasePoint> points)
+        public void UpdatePoints(List<ScadaPointDto> points)
         {
             App.Current.Dispatcher.Invoke((System.Action)delegate 
             {
                 Data.Points.Clear();
                 Points = new ObservableCollection<BasePointDto>();
-                foreach (var item in points)
-                {
-                    if (item.RegisterType == RegisterType.ANALOG_INPUT || item.RegisterType == RegisterType.ANALOG_OUTPUT)
-                    {
-                        Points.Add(Mapper.Map<AnalogPointDto>(item));
-                        Data.Points.Add(Mapper.Map<AnalogPointDto>(item));
-                    }
-                    else
-                    {
-                        Points.Add(Mapper.Map<DiscretePointDto>(item));
-                        Data.Points.Add(Mapper.Map<DiscretePointDto>(item));
-                    }
 
+                var result = (Core.Mapper.MapCollection<ScadaPointDto, BasePointDto>(points.ToList()));
+                foreach (var item in result)
+                {
+                    Points.Add(item);
                 }
             });
         }
