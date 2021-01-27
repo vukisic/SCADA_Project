@@ -68,6 +68,8 @@
     <Compile Include="DataModel\BasePoint.cs" />
     <Compile Include="DataModel\DiscretePoint.cs" />
     <Compile Include="DataModel\Enums.cs" />
+    <Compile Include="DataModel\Mapper.cs" />
+    <Compile Include="DataModel\ScadaPointDto.cs" />
     <Compile Include="DataModel\SwitchingEquipment.cs" />
     <Compile Include="Logging\LogEventModel.cs" />
     <Compile Include="Logging\LogEventType.cs" />

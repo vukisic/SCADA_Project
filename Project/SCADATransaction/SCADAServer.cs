@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Core.Common.ServiceBus.Events;
 using NServiceBus;
 using SCADA.Common;
+using SCADA.Common.DataModel;
 using SCADA.Common.Proxies;
 using SCADA.Common.ScadaServices;
 using TMContracts;
@@ -84,8 +85,14 @@ namespace SCADATransaction
             ScadaStorageProxy proxy = ScadaProxyFactory.Instance().ScadaStorageProxy();
             ScadaUpdateEvent ev = new ScadaUpdateEvent()
             {
-                Points = proxy.GetModel().Values.ToList()
+                Points = new List<ScadaPointDto>()
             };
+
+            var all = proxy.GetModel().Values.ToList();
+            var analogs = all.Where(x => x.RegisterType == RegisterType.ANALOG_INPUT || x.RegisterType == RegisterType.ANALOG_OUTPUT).Cast<AnalogPoint>().ToList();
+            var binaries = all.Where(x => x.RegisterType == RegisterType.BINARY_INPUT || x.RegisterType == RegisterType.BINARY_OUTPUT).Cast<DiscretePoint>().ToList();
+            ev.Points.AddRange(Mapper.MapCollection<AnalogPoint, ScadaPointDto>(analogs));
+            ev.Points.AddRange(Mapper.MapCollection<DiscretePoint, ScadaPointDto>(binaries));
 
             DomUpdateEvent dom = new DomUpdateEvent()
             {
