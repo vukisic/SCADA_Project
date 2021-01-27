@@ -136,6 +136,8 @@
     <Compile Include="Core\Mapper.cs" />
     <Compile Include="Core\Tree\EquipmentTreeFactory.cs" />
     <Compile Include="Core\Tree\EquipmentTreeNode.cs" />
+    <Compile Include="Core\Tree\Helpers\EquipmentByGidConverter.cs" />
+    <Compile Include="Core\Tree\Helpers\EquipmentNodeItem.cs" />
     <Compile Include="Models\AnalogPointDto.cs" />
     <Compile Include="Models\BasePointDto.cs" />
     <Compile Include="Models\DiscretePointDto.cs" />
