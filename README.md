@@ -6,13 +6,14 @@ SCADA Master Project
 - Open up solution in `VisualStudio`
 - Update database (PM> update-database) on Scada.Common and NetowkModelService projects
 - Solution -> Properties -> Multiple StartUp Projects Configuration
+- Set target to x86 for all projects (not AnyCPU)
 - Set the following order and foreach set `Start` option
   - `Simulator`
   - `GUI`
   - `NetworkModelServiceSelfHost`
   - `TransactionManager`
   - `ModelLabsApp`
-  - `TestCE`
+  - `CE`
   - `NDS`
 - Build and Run
 
