@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using Core.Common.ServiceBus.Commands;
 using GUI.Core.Tree.Helpers;
 
@@ -14,12 +14,46 @@ namespace GUI.Core.Tree
 
             Dictionary<long, EquipmentNodeItem> equipmentNodeByGid = EquipmentByGidConverter.Convert(command);
 
-            return GenerateTree(equipmentNodeByGid, command.SourceGid);
+            var nodes = GetTreeNodes(equipmentNodeByGid, command.SourceGid);
+            return nodes.FirstOrDefault();
         }
 
-        private static EquipmentTreeNode GenerateTree(Dictionary<long, EquipmentNodeItem> equipmentNodeByGid, long rootGid)
+        private static IEnumerable<EquipmentTreeNode> GetTreeNodes(Dictionary<long, EquipmentNodeItem> equipmentNodeByGid, long nodeId)
         {
-            throw new NotImplementedException();
+            if (!equipmentNodeByGid.TryGetValue(nodeId, out var currentItem) || currentItem.Visited)
+            {
+                return Enumerable.Empty<EquipmentTreeNode>();
+            }
+
+            currentItem.Visited = true;
+
+            var children = new List<EquipmentTreeNode>();
+            foreach (long neighborId in currentItem.ConnectedTo)
+            {
+                if (!equipmentNodeByGid.TryGetValue(neighborId, out var neighborItem) || neighborItem.Visited)
+                {
+                    continue;
+                }
+                var neighbours = GetTreeNodes(equipmentNodeByGid, neighborId);
+                if (neighbours.Any())
+                {
+                    children.AddRange(neighbours);
+                }
+            }
+
+            if (currentItem.Hidden)
+            {
+                return children;
+            }
+
+            return new[] {
+                new EquipmentTreeNode{
+                    Children = children,
+                    Name = currentItem.Item.Name,
+                    Type = currentItem.Type,
+                    Item = currentItem.Item
+                }
+            };
         }
     }
 }

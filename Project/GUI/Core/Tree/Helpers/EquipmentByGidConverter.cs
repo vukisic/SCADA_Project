@@ -23,7 +23,7 @@ namespace GUI.Core.Tree.Helpers
             {
                 equipmentByGid[terminal.GID] = new EquipmentNodeItem(terminal.GetType(),
                     terminal,
-                    connectedTo: new[] { terminal.ConnectivityNode },
+                    connectedTo: new[] { terminal.ConnectivityNode, terminal.ConductingEquipment },
                     hidden: true);
             }
 
