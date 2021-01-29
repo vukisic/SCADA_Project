@@ -18,13 +18,17 @@ namespace NDS.FrontEnd
     public class FEP : IFEP
     {
         private Acquisitor acquisitor;
+        private CommandingService commandingService;
         private IProcessingManager processingManager;
         private IFunctionExecutor functionExecutor;
+        private AutoResetEvent autoResetEvent;
         public FEP()
         {
             functionExecutor = new FunctionExecutor();
             processingManager = new ProcessingManager(functionExecutor);
-            acquisitor = new Acquisitor(new AutoResetEvent(false), new ProcessingManager(new FunctionExecutor()));
+            autoResetEvent = new AutoResetEvent(false);
+            acquisitor = new Acquisitor(autoResetEvent, processingManager);
+            commandingService = new CommandingService(autoResetEvent, processingManager);
         }
     }
 }

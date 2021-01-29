@@ -19,6 +19,7 @@ namespace SCADA.Common
 
         public static bool CheckCRC(byte[] message)
         {
+            /*
             var length = message.Length;
             ushort headercrc = 0;
             for(int i = 0; i < 8; i++)
@@ -58,6 +59,7 @@ namespace SCADA.Common
                 if (crc != IPAddress.NetworkToHostOrder(BitConverter.ToUInt16(new byte[2] { message[i + 1], message[i + 2] }, 0)))
                     return false;
             }
+            */
 
             return true;
         }

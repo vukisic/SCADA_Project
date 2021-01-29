@@ -64,6 +64,7 @@
     <Compile Include="FrontEnd\IFEP.cs" />
     <Compile Include="FrontEnd\UpdateArgs.cs" />
     <Compile Include="ProcessingModule\Acquisitor.cs" />
+    <Compile Include="ProcessingModule\CommandingService.cs" />
     <Compile Include="ProcessingModule\IProcessingManager.cs" />
     <Compile Include="ProcessingModule\ProcesingManager.cs" />
     <Compile Include="Program.cs" />
