@@ -48,12 +48,16 @@ namespace Simulator.ViewModels
             if (!started)
             {
                 ISimulatorConfiguration config = new SimulatorConfiguration();
-                serviceHost = new ServiceHost(typeof(Simulator.Core.ConfigurationService));
-                serviceHost.AddServiceEndpoint(typeof(IConfigurationChange), new NetTcpBinding(), new Uri("net.tcp://localhost:30007/IConfigurationChange"));
-                serviceHost.Open();
-                _simulator = new Core.Simulator(config);
-                _simulator.updateEvent += Simulator_updateEvent;
-                _simulator.Start();
+                Task.Factory.StartNew(() =>
+                {
+                    serviceHost = new ServiceHost(typeof(Simulator.Core.ConfigurationService));
+                    serviceHost.AddServiceEndpoint(typeof(IConfigurationChange), new NetTcpBinding(), new Uri("net.tcp://localhost:30007/IConfigurationChange"));
+                    serviceHost.Open();
+                    _simulator = new Core.Simulator(config);
+                    _simulator.updateEvent += Simulator_updateEvent;
+                    _simulator.Start();
+                });
+             
                 started = true;
             }
            
@@ -103,8 +107,13 @@ namespace Simulator.ViewModels
 
         public void OnClose(CancelEventArgs args)
         {
-            _simulator.Stop();
-            serviceHost.Close();
+            
+            Task.Factory.StartNew(() =>
+            {
+                _simulator.Stop();
+                serviceHost.Close();
+            });
+            
         }
 
         public void OnClick()
