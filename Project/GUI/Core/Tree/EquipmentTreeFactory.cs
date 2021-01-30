@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using Core.Common.ServiceBus.Commands;
@@ -48,7 +49,7 @@ namespace GUI.Core.Tree
 
             return new[] {
                 new EquipmentTreeNode{
-                    Children = children,
+                    Children = new ObservableCollection<EquipmentTreeNode>(children),
                     Name = currentItem.Item.Name,
                     Type = currentItem.Type,
                     Item = currentItem.Item

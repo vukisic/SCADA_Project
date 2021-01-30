@@ -146,6 +146,8 @@
     <Compile Include="Services\INotificationService.cs" />
     <Compile Include="Services\NotificationService.cs" />
     <Compile Include="Services\NotificationType.cs" />
+    <Compile Include="Styles\HorzLineConv.cs" />
+    <Compile Include="Styles\VertLineConv.cs" />
     <Compile Include="ViewModels\AlarmingViewModel.cs" />
     <Compile Include="ViewModels\CEDataViewModel.cs" />
     <Compile Include="ViewModels\DOMViewModel.cs" />
@@ -210,6 +212,10 @@
     <Analyzer Include="..\packages\NServiceBus.7.4.4\analyzers\dotnet\cs\NServiceBus.Core.Analyzer.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Styles\GraphStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\AlarmingView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -265,7 +271,6 @@
       <Name>SCADA.DB</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.6.3.0\build\Fody.targets" Condition="Exists('..\packages\Fody.6.3.0\build\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

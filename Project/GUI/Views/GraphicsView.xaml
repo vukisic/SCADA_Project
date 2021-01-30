@@ -3,10 +3,30 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:GUI.Views"
-             mc:Ignorable="d" Background="Red"
+             xmlns:core="clr-namespace:GUI.Core.Tree"
+             mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
-    </Grid>
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <HierarchicalDataTemplate DataType="{x:Type core:EquipmentTreeNode}"
+                                      ItemsSource="{Binding Path=Children}">
+
+                <Border Name="bdr"
+                        CornerRadius="360"
+                        BorderThickness="3"
+                        BorderBrush="Blue"
+                        Width="Auto"
+                        Height="50"
+                        MinWidth="50">
+                    <TextBlock Text="{Binding Path=Name}"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center" />
+                </Border>
+            </HierarchicalDataTemplate>
+
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <TreeView ItemContainerStyle="{StaticResource GraphStyle}"
+              ItemsSource="{Binding Nodes}" />
 </UserControl>
