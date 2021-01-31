@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
+using Core.Common.ServiceBus.Events;
 using FTN.Common;
 using GUI.Command;
 using SCADA.Common.DataModel;
@@ -177,7 +178,7 @@ namespace GUI.Models
         protected bool WriteCommand_CanExecute(object obj)
         {
             if (RegisterType == RegisterType.ANALOG_OUTPUT)
-                return !(CommandedValue < 100 || CommandedValue > 400);
+                return !(CommandedValue < minValue || CommandedValue > maxValue);
             else if (RegisterType == RegisterType.BINARY_OUTPUT)
                 return !(CommandedValue < 0 || CommandedValue > 1);
             else
@@ -188,7 +189,6 @@ namespace GUI.Models
         {
             try
             {
-
             }
             catch (Exception ex)
             {
