@@ -7,6 +7,8 @@ using Caliburn.Micro;
 using Core.Common.ServiceBus.Events;
 using FTN.Common;
 using GUI.Command;
+using GUI.ServiceBus;
+using NServiceBus;
 using SCADA.Common.DataModel;
 
 namespace GUI.Models
@@ -14,6 +16,8 @@ namespace GUI.Models
     public class BasePointDto : PropertyChangedBase
     {
         #region Fields
+
+        private IEndpointInstance instance;
         public MyICommand WriteCommand { get; set; }
         public MyICommand ReadCommand { get; set; }
 
@@ -189,10 +193,21 @@ namespace GUI.Models
         {
             try
             {
+                instance = ServiceBusStartup.StartInstance()
+                   .ConfigureAwait(false)
+                   .GetAwaiter()
+                   .GetResult();
+
+                ScadaCommandingEvent ev = new ScadaCommandingEvent()
+                {
+                    Index = (uint)(int)Index, Milliseconds = 0, RegisterType = RegisterType.ANALOG_OUTPUT, Value = (uint)(int)CommandedValue
+                };
+
+                instance.Publish(ev).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-
+                Console.WriteLine(ex.Message);
             }
         }
 
@@ -200,10 +215,11 @@ namespace GUI.Models
         {
             try
             {
+
             }
             catch (Exception ex)
             {
-
+                Console.WriteLine(ex.Message);
             }
         }
         #endregion 

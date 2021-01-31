@@ -21,7 +21,6 @@ namespace GUI.ViewModels
 {
     public class ScadaDataViewModel : Conductor<object>
     {
-        private IEndpointInstance instance;
         private ObservableCollection<BasePointDto> _points;
         public ObservableCollection<BasePointDto> Points
         {
@@ -41,14 +40,6 @@ namespace GUI.ViewModels
             {
                 Points.Add(item);
             }
-
-            //instance = ServiceBusStartup.StartInstance()
-            //    .ConfigureAwait(false)
-            //    .GetAwaiter()
-            //    .GetResult();
-
-            //ScadaCommandingEvent ev = new ScadaCommandingEvent() { Index = 1, Milliseconds = 0, RegisterType = RegisterType.ANALOG_OUTPUT, Value = 500 };
-            //instance.Publish(ev).ConfigureAwait(false);
         }
 
         public void Update(object sender, ScadaUpdateEvent e)
