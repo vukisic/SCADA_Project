@@ -137,6 +137,7 @@
     <Compile Include="Models\BasePointDto.cs" />
     <Compile Include="Models\HistoryDto.cs" />
     <Compile Include="Models\SwitchingEquipmentDto.cs" />
+    <Compile Include="ServiceBus\ServiceBusStartup.cs" />
     <Compile Include="Services\INotificationService.cs" />
     <Compile Include="Services\NotificationService.cs" />
     <Compile Include="Services\NotificationType.cs" />

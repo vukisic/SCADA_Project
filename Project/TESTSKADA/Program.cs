@@ -13,6 +13,7 @@ using SCADATransaction;
 using NDS.Updaters;
 using SCADA.Common.ScadaServices.Services;
 using SCADA.Common.Proxies;
+using NDS.ProcessingModule;
 
 namespace NDS
 {
