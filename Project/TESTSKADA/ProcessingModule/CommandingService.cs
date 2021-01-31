@@ -12,14 +12,11 @@ namespace NDS.ProcessingModule
 {
     public class CommandingService : IDisposable, IHandleMessages<ScadaCommandingEvent>
     {
-        private AutoResetEvent commandingTrigger;
-        private IProcessingManager processingManager;
+        public static IProcessingManager processingManager;
         private Thread commandingWorker;
         private Dictionary<Tuple<RegisterType, uint>, CeCommand> calculationEngineCommands;
-        public CommandingService(AutoResetEvent commandingTrigger, IProcessingManager processingManager)
+        public CommandingService()
         {
-            this.commandingTrigger = commandingTrigger;
-            this.processingManager = processingManager;
             calculationEngineCommands = new Dictionary<Tuple<RegisterType, uint>, CeCommand>();
             InitializeCommandingServiceThread();
             StartCommandingServiceThread();
@@ -40,9 +37,10 @@ namespace NDS.ProcessingModule
         {
             while (true)
             {
-                commandingTrigger.WaitOne();
+                //commandingTrigger.WaitOne();
                 try
                 {
+                    Thread.Sleep(1000);
                     foreach (KeyValuePair<Tuple<RegisterType, uint>, CeCommand> item in calculationEngineCommands)
                     {
                         if (item.Value.MillisecondsPassedSinceLastPoll == item.Value.Milliseconds)

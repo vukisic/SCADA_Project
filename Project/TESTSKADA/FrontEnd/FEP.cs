@@ -28,7 +28,8 @@ namespace NDS.FrontEnd
             processingManager = new ProcessingManager(functionExecutor);
             autoResetEvent = new AutoResetEvent(false);
             acquisitor = new Acquisitor(autoResetEvent, processingManager);
-            commandingService = new CommandingService(autoResetEvent, processingManager);
+            commandingService = new CommandingService();
+            CommandingService.processingManager = processingManager;
         }
     }
 }

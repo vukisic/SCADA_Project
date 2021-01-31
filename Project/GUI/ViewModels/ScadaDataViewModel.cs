@@ -8,10 +8,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 using Caliburn.Micro;
+using Core.Common.ServiceBus;
 using Core.Common.ServiceBus.Events;
 using FTN.Common;
 using GUI.Core;
 using GUI.Models;
+using GUI.ServiceBus;
 using NServiceBus;
 using SCADA.Common.DataModel;
 
@@ -19,6 +21,7 @@ namespace GUI.ViewModels
 {
     public class ScadaDataViewModel : Conductor<object>
     {
+        private IEndpointInstance instance;
         private ObservableCollection<BasePointDto> _points;
         public ObservableCollection<BasePointDto> Points
         {
@@ -32,16 +35,26 @@ namespace GUI.ViewModels
 
         public ScadaDataViewModel()
         {
+
             Points = new ObservableCollection<BasePointDto>();
             foreach (var item in Data.Points)
             {
                 Points.Add(item);
             }
+
+            //instance = ServiceBusStartup.StartInstance()
+            //    .ConfigureAwait(false)
+            //    .GetAwaiter()
+            //    .GetResult();
+
+            //ScadaCommandingEvent ev = new ScadaCommandingEvent() { Index = 1, Milliseconds = 0, RegisterType = RegisterType.ANALOG_OUTPUT, Value = 500 };
+            //instance.Publish(ev).ConfigureAwait(false);
         }
 
         public void Update(object sender, ScadaUpdateEvent e)
         {
             UpdatePoints(e.Points);
+           
         }
 
         public void UpdatePoints(List<ScadaPointDto> points)
