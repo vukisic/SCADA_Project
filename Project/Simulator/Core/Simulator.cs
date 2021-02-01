@@ -349,7 +349,7 @@ namespace Simulator.Core
                 Trace.TraceInformation("Index Number " + psOperateID.u16IndexNumber);
                 psOperateValue.eDataSize = dnp3_protocol.tgttypes.eDataSizes.FLOAT32_SIZE;
                 psOperateValue.eDataType = dnp3_protocol.tgtcommon.eDataTypes.FLOAT32_DATA;
-                iErrorCode = dnp3_protocol.dnp3api.DNP3Update(DNP3serverhandle, ref psOperateID, ref psOperateValue, 1, dnp3_protocol.dnp3types.eUpdateClassID.UPDATE_DEFAULT_EVENT, ref ptErrorValue);
+                iErrorCode = dnp3_protocol.dnp3api.DNP3Update(DNP3serverhandle, ref psOperateID, ref psOperateValue, 1, dnp3_protocol.dnp3types.eUpdateClassID.UPDATE_NO_CLASS, ref ptErrorValue);
                 if (iErrorCode != 0)
                 {
                     Trace.TraceError("dnp3 Library API Function - DNP3DirectOperate() failed: {0:D} {1:D}", iErrorCode, ptErrorValue);
@@ -377,6 +377,10 @@ namespace Simulator.Core
                 {
                     Trace.TraceInformation("Variation : ANALOG_OUTPUT_BLOCK_INTEGER16");
                     Trace.TraceInformation("Data : {0:D}", System.Runtime.InteropServices.Marshal.ReadInt16(psOperateValue.pvData));
+                    SingleInt32Union digitalValue = new SingleInt32Union();
+                    digitalValue.f = System.Runtime.InteropServices.Marshal.ReadInt16(psOperateValue.pvData);
+                    UpdateMP(psOperateID.u16IndexNumber, dnp3types.eDNP3GroupID.ANALOG_OUTPUTS, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, digitalValue, ref ptErrorValue);
+
                 }
                 else
                     Trace.TraceInformation("Invalid variation");
@@ -510,7 +514,7 @@ namespace Simulator.Core
 
         private int CheckBinaryValueExp(int value, dnp3types.eDNP3GroupID group, ushort index)
         {
-            if (value > 10000000)
+            if (value != 0 && value != 1)
             {
                 if (prevList != null && prevList.Count > 0)
                 {
@@ -520,6 +524,45 @@ namespace Simulator.Core
                     
             }
             return value;
+        }
+
+        private static void UpdateMP(ushort index, dnp3_protocol.dnp3types.eDNP3GroupID group, dnp3_protocol.tgttypes.eDataSizes dataSize, dnp3_protocol.tgtcommon.eDataTypes dataType, SingleInt32Union value, ref short ptErrorValue)
+        {
+            ushort uiCount = 1;
+            dnp3_protocol.dnp3types.sDNP3DataAttributeID[] psDAID = new dnp3_protocol.dnp3types.sDNP3DataAttributeID[uiCount];
+            dnp3_protocol.dnp3types.sDNP3DataAttributeData[] psNewValue = new dnp3_protocol.dnp3types.sDNP3DataAttributeData[uiCount];
+            psDAID[0].u16SlaveAddress = 1;
+            psDAID[0].eGroupID = group;
+            psDAID[0].u16IndexNumber = index;
+
+            psNewValue[0].eDataSize = dataSize;
+            psNewValue[0].eDataType = dataType;
+
+            psDAID[0].pvUserData = IntPtr.Zero;
+            psNewValue[0].tQuality = (ushort)(dnp3_protocol.dnp3types.eDNP3QualityFlags.ONLINE);
+            psNewValue[0].pvData = System.Runtime.InteropServices.Marshal.AllocHGlobal((int)dataSize);
+
+            DateTime date = DateTime.Now;
+            psNewValue[0].sTimeStamp.u8Day = (byte)date.Day;
+            psNewValue[0].sTimeStamp.u8Month = (byte)date.Month;
+            psNewValue[0].sTimeStamp.u16Year = (ushort)date.Year;
+            psNewValue[0].sTimeStamp.u8Hour = (byte)date.Hour;
+            psNewValue[0].sTimeStamp.u8Minute = (byte)date.Minute;
+            psNewValue[0].sTimeStamp.u8Seconds = (byte)date.Second;
+            psNewValue[0].sTimeStamp.u16MilliSeconds = (ushort)date.Millisecond;
+            psNewValue[0].sTimeStamp.u16MicroSeconds = 0;
+            psNewValue[0].sTimeStamp.i8DSTTime = 0;
+            psNewValue[0].sTimeStamp.u8DayoftheWeek = (byte)date.DayOfWeek;
+
+            Marshal.WriteInt32(psNewValue[0].pvData, value.i);
+            iErrorCode = dnp3_protocol.dnp3api.DNP3Update(DNP3serverhandle, ref psDAID[0], ref psNewValue[0], uiCount, dnp3_protocol.dnp3types.eUpdateClassID.UPDATE_DEFAULT_EVENT, ref ptErrorValue);
+            if (iErrorCode != 0)
+            {
+                Trace.TraceError("dnp3 Library API Function - DNP3Update() failed: {0:D} {1:D}", iErrorCode, ptErrorValue);
+                Trace.TraceError("iErrorCode {0:D}: {1}", iErrorCode, errorcodestring(iErrorCode));
+                Trace.TraceError("iErrorValue {0:D}: {1}", ptErrorValue, errorvaluestring(ptErrorValue));
+
+            }
         }
 
         private void Update(ushort index, dnp3_protocol.dnp3types.eDNP3GroupID group, dnp3_protocol.tgttypes.eDataSizes dataSize, dnp3_protocol.tgtcommon.eDataTypes dataType, SingleInt32Union value, ref short ptErrorValue)

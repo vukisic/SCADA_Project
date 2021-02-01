@@ -41,7 +41,7 @@ namespace NDS.ProcessingModule
         public void ExecuteWriteCommand(RegisterType type, uint index, uint value)
         {
             log.Log(new SCADA.Common.Logging.LogEventModel() { EventType = SCADA.Common.Logging.LogEventType.INFO, Message = $"WriteCommand ({type},{index},{value})" });
-            DNP3WriteCommandParameters dnp3CommandParam = new DNP3WriteCommandParameters(GetApplicationSequence(), (byte)DNP3FunctionCode.READ, GetTypeField(type),
+            DNP3WriteCommandParameters dnp3CommandParam = new DNP3WriteCommandParameters(GetApplicationSequence(), (byte)DNP3FunctionCode.DIRECT_OPERATE, GetTypeField(type, true),
                 (byte)Qualifier.PREFIX_2_OCTET_COUNT_OF_OBJECTS_2_OCTET, 1, index, value, GetTransportSequence());
             IDNP3Function dnp3Fn = DNP3FunctionFactory.CreateWriteFunction(dnp3CommandParam);
             this.functionExecutor.EnqueueCommand(dnp3Fn);
@@ -60,16 +60,31 @@ namespace NDS.ProcessingModule
             this.functionExecutor.EnqueueCommand(dnp3Fn);
         }
 
-        private ushort GetTypeField(RegisterType type)
+        private ushort GetTypeField(RegisterType type, bool write=false)
         {
-            switch (type)
+            if (!write)
             {
-                case RegisterType.ANALOG_INPUT: return (ushort)TypeField.ANALOG_INPUT_16BIT;
-                case RegisterType.ANALOG_OUTPUT: return (ushort)TypeField.ANALOG_OUTPUT_16BIT;
-                case RegisterType.BINARY_INPUT: return (ushort)TypeField.BINARY_INPUT_WITH_STATUS;
-                case RegisterType.BINARY_OUTPUT: return (ushort)TypeField.BINATY_OUTPUT_WITH_STATUS;
-                default: return 0;
+                switch (type)
+                {
+                    case RegisterType.ANALOG_INPUT: return (ushort)TypeField.ANALOG_INPUT_16BIT;
+                    case RegisterType.ANALOG_OUTPUT: return (ushort)TypeField.ANALOG_OUTPUT_16BIT;
+                    case RegisterType.BINARY_INPUT: return (ushort)TypeField.BINARY_INPUT_WITH_STATUS;
+                    case RegisterType.BINARY_OUTPUT: return (ushort)TypeField.BINATY_OUTPUT_WITH_STATUS;
+                    default: return 0;
+                }
             }
+            else
+            {
+                switch (type)
+                {
+                    case RegisterType.ANALOG_INPUT: return (ushort)TypeField.ANALOG_INPUT_16BIT;
+                    case RegisterType.ANALOG_OUTPUT: return (ushort)TypeField.ANALOG_OUTPUT_16BIT;
+                    case RegisterType.BINARY_INPUT: return (ushort)TypeField.BINARY_INPUT_WITH_STATUS;
+                    case RegisterType.BINARY_OUTPUT: return (ushort)TypeField.BINARY_COMMAND;
+                    default: return 0;
+                }
+            }
+           
         }
 
         private byte GetApplicationSequence()

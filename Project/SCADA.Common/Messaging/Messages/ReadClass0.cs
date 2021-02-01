@@ -21,7 +21,7 @@ namespace SCADA.Common.Messaging.Messages
         {
             byte[] request = new byte[18];
 
-            DNP3ReadCommandParameters commandParam = (DNP3ReadCommandParameters)CommandParameters;
+            DNP3ReadClass0CommandParameters commandParam = (DNP3ReadClass0CommandParameters)CommandParameters;
 
             CommandParameters.Length = 0x0b;  
             Buffer.BlockCopy(headerBuilder.Build(CommandParameters), 0, request, 0, 10);

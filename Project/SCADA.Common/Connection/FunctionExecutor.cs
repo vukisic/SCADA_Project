@@ -106,13 +106,17 @@ namespace SCADA.Common.Connection
 
         private int CalculateRecvLength(byte lenByte)
         {
-            int recvLen;
-            int dataChunksLen = lenByte - 9; //((startbytes, len)ovo neulazi u len) - ostatak hedera - checksum
-            if (dataChunksLen % 16 == 0)
-                recvLen = dataChunksLen / 16 * 2;
+            var payLoadSize = (byte)(lenByte - 5);
+
+            if (payLoadSize % 16 == 0)
+            {
+                return payLoadSize + (payLoadSize / 16) * 2;
+            }
             else
-                recvLen = dataChunksLen / 16 * 2 + 2;
-            return recvLen;
+            {
+                return (payLoadSize / 16) == 0 ? (byte)(payLoadSize + 2) : (byte)(payLoadSize + (payLoadSize / 16) * 2 + 2);
+            }
+
         }
 
         public void Dispose()

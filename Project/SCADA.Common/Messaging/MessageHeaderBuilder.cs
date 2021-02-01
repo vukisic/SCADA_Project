@@ -17,8 +17,8 @@ namespace SCADA.Common.Messaging
             Buffer.BlockCopy(BitConverter.GetBytes(IPAddress.HostToNetworkOrder((short)param.Start)), 0, header, 0, 2);
             header[2] = param.Length;
             header[3] = param.Control;
-            Buffer.BlockCopy(BitConverter.GetBytes(IPAddress.HostToNetworkOrder((short)param.Destination)), 0, header, 4, 2);
-            Buffer.BlockCopy(BitConverter.GetBytes(IPAddress.HostToNetworkOrder((short)param.Source)), 0, header, 6, 2);
+            Buffer.BlockCopy(BitConverter.GetBytes((short)param.Destination), 0, header, 4, 2);
+            Buffer.BlockCopy(BitConverter.GetBytes((short)param.Source), 0, header, 6, 2);
             ushort crc = 0;
             for (int i = 0; i < 8; i++)
             {

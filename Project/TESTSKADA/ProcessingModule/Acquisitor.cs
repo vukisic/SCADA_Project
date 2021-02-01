@@ -58,8 +58,11 @@ namespace NDS.ProcessingModule
             {
                 while (true)
                 {
-                    acquisitionTrigger.WaitOne();
-                    processingManager.ExecuteReadClass0Command();
+                    // acquisitionTrigger.WaitOne();
+                    Thread.Sleep(1000);
+                    processingManager.ExecuteWriteCommand(SCADA.Common.DataModel.RegisterType.BINARY_OUTPUT, 0, 1);
+                    processingManager.ExecuteWriteCommand(SCADA.Common.DataModel.RegisterType.ANALOG_OUTPUT, 0, 1234);
+                    //processingManager.ExecuteReadClass0Command();
                 }
             }
             catch (Exception ex)
