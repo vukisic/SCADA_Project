@@ -143,6 +143,7 @@
     <Compile Include="Services\NotificationType.cs" />
     <Compile Include="ViewModels\AlarmingViewModel.cs" />
     <Compile Include="ViewModels\CEDataViewModel.cs" />
+    <Compile Include="ViewModels\ControlViewModel.cs" />
     <Compile Include="ViewModels\DOMViewModel.cs" />
     <Compile Include="ViewModels\GraphicsViewModel.cs" />
     <Compile Include="ViewModels\HistoryViewModel.cs" />

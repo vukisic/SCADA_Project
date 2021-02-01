@@ -12,23 +12,18 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using GUI.Models;
+using MahApps.Metro.Controls;
 
 namespace GUI.Views
 {
     /// <summary>
     /// Interaction logic for ControlView.xaml
     /// </summary>
-    public partial class ControlView : Window
+    public partial class ControlView : MetroWindow
     {
         public ControlView()
         {
             InitializeComponent();
-        }
-
-        public ControlView(BasePointDto dataContext) : this()
-        {
-            this.DataContext = dataContext;
-            Title = string.Format("Control Window");
         }
     }
 }

@@ -18,8 +18,7 @@ namespace GUI.Models
         #region Fields
 
         private IEndpointInstance instance;
-        public MyICommand WriteCommand { get; set; }
-        public MyICommand ReadCommand { get; set; }
+        //public MyICommand WriteCommand { get; set; }
 
         private ClassType classType;
         private SignalDirection direction;
@@ -38,8 +37,7 @@ namespace GUI.Models
         #endregion
         public BasePointDto()
         {
-            WriteCommand = new MyICommand(WriteCommand_Execute, WriteCommand_CanExecute);
-            ReadCommand = new MyICommand(ReadCommand_Execute);
+            //WriteCommand = new MyICommand(WriteCommand_Execute, WriteCommand_CanExecute);
         }
         #region Properties
         public double CommandedValue
@@ -173,53 +171,6 @@ namespace GUI.Models
             {
                 this.value = value;
                 this.NotifyOfPropertyChange(() => this.Value);
-            }
-        }
-        #endregion
-
-        #region Commands
-
-        protected bool WriteCommand_CanExecute(object obj)
-        {
-            if (RegisterType == RegisterType.ANALOG_OUTPUT)
-                return !(CommandedValue < minValue || CommandedValue > maxValue);
-            else if (RegisterType == RegisterType.BINARY_OUTPUT)
-                return !(CommandedValue < 0 || CommandedValue > 1);
-            else
-                return false;
-        }
-
-        protected void WriteCommand_Execute(object obj)
-        {
-            try
-            {
-                instance = ServiceBusStartup.StartInstance()
-                   .ConfigureAwait(false)
-                   .GetAwaiter()
-                   .GetResult();
-
-                ScadaCommandingEvent ev = new ScadaCommandingEvent()
-                {
-                    Index = (uint)(int)Index, Milliseconds = 0, RegisterType = RegisterType.ANALOG_OUTPUT, Value = (uint)(int)CommandedValue
-                };
-
-                instance.Publish(ev).ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-        }
-
-        private void ReadCommand_Execute(object obj)
-        {
-            try
-            {
-
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
             }
         }
         #endregion 

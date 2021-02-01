@@ -21,6 +21,8 @@ namespace GUI.ViewModels
 {
     public class ScadaDataViewModel : Conductor<object>
     {
+        private IWindowManager manager;
+        private int selected;
         private ObservableCollection<BasePointDto> _points;
         public ObservableCollection<BasePointDto> Points
         {
@@ -32,8 +34,15 @@ namespace GUI.ViewModels
             }
         }
 
+        public int Selected
+        {
+            get { return selected; }
+            set { selected = value; NotifyOfPropertyChange(() => Selected); }
+        }
+
         public ScadaDataViewModel()
         {
+            manager = IoC.Get<IWindowManager>();
 
             Points = new ObservableCollection<BasePointDto>();
             foreach (var item in Data.Points)
@@ -44,8 +53,16 @@ namespace GUI.ViewModels
 
         public void Update(object sender, ScadaUpdateEvent e)
         {
-            UpdatePoints(e.Points);
-           
+            UpdatePoints(e.Points);  
+        }
+
+        public void MouseDoubleClick()
+        {
+            if(Selected >= 0 && Selected <= Points.Count)
+            {
+                var item = Points[Selected];
+                this.manager.ShowDialog(new ControlViewModel(item), null, null);
+            }
         }
 
         public void UpdatePoints(List<ScadaPointDto> points)

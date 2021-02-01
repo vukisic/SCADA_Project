@@ -5,7 +5,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GUI.Views"
-             mc:Ignorable="d"
+              xmlns:cal="http://www.caliburnproject.org"
+                mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="1200"
              TextElement.Foreground="{DynamicResource MaterialDesignBody}"
                 TextElement.FontWeight="Regular"
@@ -16,9 +17,7 @@
                 FontFamily="{DynamicResource MaterialDesignFont}">
     
     <UserControl.Resources>
-        <Style TargetType="DataGridRow" x:Name="BaseStyle">
-            <EventSetter Event="MouseDoubleClick" Handler="DataGrid_MouseDoubleClick" />
-        </Style>
+       
     </UserControl.Resources>
 
     <Grid>
@@ -29,9 +28,9 @@
         </Grid.RowDefinitions>
 
         <DataGrid x:Name="Points" ItemsSource="{Binding Path=Points, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectionMode="Single" AutoGenerateColumns="False"
-				  CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False"
+				  CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" SelectedIndex="{Binding Selected, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
 				  SelectionUnit="FullRow" Style="{StaticResource DataGridStyle}"
-				  SelectionChanged="Points_SelectionChanged">
+				  SelectionChanged="Points_SelectionChanged" cal:Message.Attach="[Event MouseDoubleClick] = [Action MouseDoubleClick]" >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Index" Binding="{Binding Index}" IsReadOnly="True" Width="*" HeaderStyle="{StaticResource DataGridColumnStyle}"  CellStyle="{StaticResource DataGridCellStyle}"/>
                 <DataGridTextColumn Header="Mrid" Binding="{Binding Mrid}" IsReadOnly="True" Width="*" HeaderStyle="{StaticResource DataGridColumnStyle}" CellStyle="{StaticResource DataGridCellStyle}"/>

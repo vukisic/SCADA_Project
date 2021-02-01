@@ -40,11 +40,7 @@ namespace GUI.ViewModels
 
         public HistoryViewModel()
         {
-            TableData = new ObservableCollection<HistoryDto>();
-            foreach (var item in Data.History)
-            {
-                TableData.Add(item);
-            }
+          
         }
 
         internal void Update(object sender, HistoryUpdateEvent e)

@@ -26,12 +26,6 @@ namespace GUI.Views
         {
             InitializeComponent();
         }
-        private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            ControlView cw = new ControlView(Points.SelectedItem as BasePointDto);
-            //cw.Owner = this;
-            cw.ShowDialog();
-        }
 
         private void Window_Closed(object sender, EventArgs e)
         {

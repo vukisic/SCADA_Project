@@ -10,14 +10,17 @@ using SCADA.Common.DataModel;
 
 namespace NDS.ProcessingModule
 {
-    public class CommandingService : IDisposable, IHandleMessages<ScadaCommandingEvent>
+    public class CommandingService : IDisposable
     {
-        public static IProcessingManager processingManager;
+        public IProcessingManager processingManager;
         private Thread commandingWorker;
-        private Dictionary<Tuple<RegisterType, uint>, CeCommand> calculationEngineCommands;
-        public CommandingService()
+        private List<CeCommand> calculationEngineCommands;
+        public EventHandler<ScadaCommandingEvent> commanding = delegate { };
+        public CommandingService(IProcessingManager processingManager)
         {
-            calculationEngineCommands = new Dictionary<Tuple<RegisterType, uint>, CeCommand>();
+            commanding += UpdateEvent;
+            this.processingManager = processingManager;
+            calculationEngineCommands = new List<CeCommand>();
             InitializeCommandingServiceThread();
             StartCommandingServiceThread();
         }
@@ -37,18 +40,22 @@ namespace NDS.ProcessingModule
         {
             while (true)
             {
-                //commandingTrigger.WaitOne();
                 try
                 {
                     Thread.Sleep(1000);
-                    foreach (KeyValuePair<Tuple<RegisterType, uint>, CeCommand> item in calculationEngineCommands)
+                    List<int> indexes = new List<int>();
+                    foreach (var item in calculationEngineCommands)
                     {
-                        if (item.Value.MillisecondsPassedSinceLastPoll == item.Value.Milliseconds)
+                        if (item.MillisecondsPassedSinceLastPoll == item.Milliseconds)
                         {
-                            processingManager.ExecuteWriteCommand(item.Value.RegisterType, item.Value.Index, item.Value.Value);
-                            calculationEngineCommands.Remove(item.Key);
+                            processingManager.ExecuteWriteCommand(item.RegisterType, item.Index, item.Value);
+                            indexes.Add(calculationEngineCommands.IndexOf(item));
                         }
-                        item.Value.MillisecondsPassedSinceLastPoll += 1000;
+                        item.MillisecondsPassedSinceLastPoll += 1000;
+                    }
+                    foreach (var item in indexes)
+                    {
+                        calculationEngineCommands.RemoveAt(item);
                     }
                 }
                 catch(Exception)
@@ -59,14 +66,9 @@ namespace NDS.ProcessingModule
             }
         }
 
-        public void Dispose()
+        public void UpdateEvent(object sender, ScadaCommandingEvent message)
         {
-            commandingWorker.Abort();
-        }
-
-        public Task Handle(ScadaCommandingEvent message, IMessageHandlerContext context)
-        {
-            calculationEngineCommands.Add(new Tuple<RegisterType, uint>(message.RegisterType, message.Index), new CeCommand
+            calculationEngineCommands.Add(new CeCommand
             {
                 RegisterType = message.RegisterType,
                 Index = message.Index,
@@ -74,7 +76,11 @@ namespace NDS.ProcessingModule
                 Milliseconds = message.Milliseconds,
                 MillisecondsPassedSinceLastPoll = 0
             });
-            return Task.CompletedTask;
+        }
+
+        public void Dispose()
+        {
+            commandingWorker.Abort();
         }
     }
 }
