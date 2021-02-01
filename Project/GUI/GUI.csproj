@@ -131,11 +131,13 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Command\MyICommand.cs" />
+    <Compile Include="Command\ToggleElectricityCommand.cs" />
     <Compile Include="Converters\PointTypeToVisibilityConverter.cs" />
     <Compile Include="Core\Data.cs" />
     <Compile Include="Core\Mapper.cs" />
     <Compile Include="Core\Tree\EquipmentTreeFactory.cs" />
     <Compile Include="Core\Tree\EquipmentTreeNode.cs" />
+    <Compile Include="Core\Tree\EquipmentTreeNodeFactory.cs" />
     <Compile Include="Core\Tree\Helpers\EquipmentByGidConverter.cs" />
     <Compile Include="Core\Tree\Helpers\EquipmentNodeItem.cs" />
     <Compile Include="Models\AnalogPointDto.cs" />
