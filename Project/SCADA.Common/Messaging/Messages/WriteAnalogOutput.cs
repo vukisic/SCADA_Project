@@ -48,7 +48,21 @@ namespace SCADA.Common.Messaging.Messages
 
         public override Dictionary<Tuple<RegisterType, int>, BasePoint> PareseResponse(byte[] response)
         {
-            throw new NotImplementedException();
+            if (!CrcCalculator.CheckCRC(response))
+                return null;
+
+            byte[] dataObjects = response.Skip(15).ToArray();
+            var index = (ushort)BitConverter.ToUInt16(dataObjects.Skip(5).Take(2).ToArray(),0);
+            var value = BitConverter.ToUInt16(dataObjects.Skip(7).Take(2).ToArray(), 0);
+
+            Dictionary<Tuple<RegisterType, int>, BasePoint> retVal = new Dictionary<Tuple<RegisterType, int>, BasePoint>();
+            AnalogPoint point = new AnalogPoint();
+            point.Index = index;
+            point.Value = value;
+            point.RegisterType = RegisterType.ANALOG_OUTPUT;
+            retVal.Add(new Tuple<RegisterType, int>(RegisterType.ANALOG_OUTPUT, point.Index), point);
+
+            return retVal;
         }
     }
 }
