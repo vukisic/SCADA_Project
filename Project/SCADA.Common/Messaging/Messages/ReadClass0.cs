@@ -55,23 +55,25 @@ namespace SCADA.Common.Messaging.Messages
             int stopIndexPosition = 4;
 
             int len = dataObjects.Length;
+            int lastRange = 0;
             while (len > 0)
             {
-                ushort typeField = (ushort)IPAddress.NetworkToHostOrder((short)BitConverter.ToUInt16(response, typeFieldPosition));
+                ushort typeField = (ushort)IPAddress.NetworkToHostOrder((short)BitConverter.ToUInt16(dataObjects, typeFieldPosition));
                 byte startIndex = dataObjects[startIndexPosition];
                 byte stopIndex = dataObjects[stopIndexPosition];
                 int numberOfItems = stopIndex - startIndex + 1;
                 int range = 5; //type(2) + qual + satrt + stop index
+               
                 switch (typeField)
                 {
                     case (ushort)TypeField.BINARY_INPUT_PACKED_FORMAT:
-                    case (ushort)TypeField.BINATY_OUTPUT_WITH_STATUS:
+                    case (ushort)TypeField.BINARY_OUTPUT_PACKED_FORMAT:
                         {
                             range += numberOfItems % 8 == 0 ? numberOfItems / 8 : numberOfItems / 8 + 1;                          
                             byte[] binaryObject = new byte[range];
-                            Buffer.BlockCopy(dataObjects, 0, binaryObject, 0, range);
+                            Buffer.BlockCopy(dataObjects, lastRange, binaryObject, 0, range);
                             ParseBinaryObject(binaryObject, typeField, ref retVal);
-
+                            lastRange += range;
                             break;
                         }
                     case (ushort)TypeField.ANALOG_INPUT_16BIT:
@@ -79,15 +81,16 @@ namespace SCADA.Common.Messaging.Messages
                         {
                             range += numberOfItems * 2;
                             byte[] analogObject = new byte[range];
-                            Buffer.BlockCopy(dataObjects, 0, analogObject, 0, range);
+                            Buffer.BlockCopy(dataObjects, lastRange, analogObject, 0, range);
                             ParseAnalogObject(analogObject, typeField, ref retVal);
+                            lastRange += range;
                             break;
                         }
                 }
                 len -= range;
                 typeFieldPosition += range;
-                startIndexPosition += range + 3;
-                stopIndexPosition += range + 4;
+                startIndexPosition += range;
+                stopIndexPosition += range;
             }
             return retVal;
         }

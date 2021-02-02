@@ -68,9 +68,9 @@ namespace NDS.ProcessingModule
                 while (true)
                 {
                     Thread.Sleep(acquisitionInterval);
-                    processingManager.ExecuteWriteCommand(SCADA.Common.DataModel.RegisterType.BINARY_OUTPUT, 3, 1);
+                    //processingManager.ExecuteWriteCommand(SCADA.Common.DataModel.RegisterType.BINARY_OUTPUT, 3, 1);
                     //processingManager.ExecuteWriteCommand(SCADA.Common.DataModel.RegisterType.ANALOG_OUTPUT, 3, 1234);
-                    //processingManager.ExecuteReadClass0Command();
+                    processingManager.ExecuteReadClass0Command();
                     if (++seconds == historyInterval)
                         UpdateHistory();
                 }

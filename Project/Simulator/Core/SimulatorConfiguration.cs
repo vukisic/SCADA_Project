@@ -30,19 +30,19 @@ namespace Simulator.Core
             sDNP3Config.sDNP3ServerSet.sServerProtSet.sStaticVariation.eDeStVarBO = dnp3_protocol.dnp3types.eDefaultStaticVariationBinaryOutput.BO_PACKED_FORMAT;                    // Default Static variation Double Bit Binary Output
             sDNP3Config.sDNP3ServerSet.sServerProtSet.sStaticVariation.eDeStVarCI = dnp3_protocol.dnp3types.eDefaultStaticVariationCounterInput.CI_32BIT_WITHFLAG;                   // Default Static variation counter Input
             sDNP3Config.sDNP3ServerSet.sServerProtSet.sStaticVariation.eDeStVarFzCI = dnp3_protocol.dnp3types.eDefaultStaticVariationFrozenCounterInput.FCI_32BIT_WITHFLAGANDTIME;   // Default Static variation Frozen counter Input
-            sDNP3Config.sDNP3ServerSet.sServerProtSet.sStaticVariation.eDeStVarAI = dnp3_protocol.dnp3types.eDefaultStaticVariationAnalogInput.AI_SINGLEPREC_FLOATWITHFLAG;          // Default Static variation Analog Input
+            sDNP3Config.sDNP3ServerSet.sServerProtSet.sStaticVariation.eDeStVarAI = dnp3_protocol.dnp3types.eDefaultStaticVariationAnalogInput.AI_16BIT_WITHOUTFLAG;          // Default Static variation Analog Input
             sDNP3Config.sDNP3ServerSet.sServerProtSet.sStaticVariation.eDeStVarFzAI = dnp3_protocol.dnp3types.eDefaultStaticVariationFrozenAnalogInput.FAI_SINGLEPRECFLOATWITHFLAG;  // Default Static variation frozen Analog Input
             sDNP3Config.sDNP3ServerSet.sServerProtSet.sStaticVariation.eDeStVarAID = dnp3_protocol.dnp3types.eDefaultStaticVariationAnalogInputDeadBand.DAI_SINGLEPRECFLOAT;         // Default Static variation Analog Input Deadband
-            sDNP3Config.sDNP3ServerSet.sServerProtSet.sStaticVariation.eDeStVarAO = dnp3_protocol.dnp3types.eDefaultStaticVariationAnalogOutput.AO_SINGLEPRECFLOAT_WITHFLAG;         // Default Static variation Analog Output
+            sDNP3Config.sDNP3ServerSet.sServerProtSet.sStaticVariation.eDeStVarAO = dnp3_protocol.dnp3types.eDefaultStaticVariationAnalogOutput.AO_16BIT_WITHFLAG;         // Default Static variation Analog Output
 
             sDNP3Config.sDNP3ServerSet.sServerProtSet.sEventVariation.eDeEvVarBI = dnp3_protocol.dnp3types.eDefaultEventVariationBinaryInput.BIE_WITHOUT_TIME;                       // Default event variation for binary input
             sDNP3Config.sDNP3ServerSet.sServerProtSet.sEventVariation.eDeEvVarDBI = dnp3_protocol.dnp3types.eDefaultEventVariationDoubleBitBinaryInput.DBBIE_WITH_ABSOLUTETIME;      // Default event variation for double bit binary input
             sDNP3Config.sDNP3ServerSet.sServerProtSet.sEventVariation.eDeEvVarCI = dnp3_protocol.dnp3types.eDefaultEventVariationCounterInput.CIE_32BIT_WITHFLAG_WITHTIME;           // Default event variation for Counter input
-            sDNP3Config.sDNP3ServerSet.sServerProtSet.sEventVariation.eDeEvVarAI = dnp3_protocol.dnp3types.eDefaultEventVariationAnalogInput.AIE_SINGLEPREC_WITHTIME;                // Default event variation for Analog input
+            sDNP3Config.sDNP3ServerSet.sServerProtSet.sEventVariation.eDeEvVarAI = dnp3_protocol.dnp3types.eDefaultEventVariationAnalogInput.AIE_16BIT_WITHOUTTIME;                // Default event variation for Analog input
             sDNP3Config.sDNP3ServerSet.sServerProtSet.sEventVariation.eDeEvVarFzCI = dnp3_protocol.dnp3types.eDefaultEventVariationFrozenCounterInput.FCIE_32BIT_WITHFLAG_WITHTIME;  // Default event variation for Frozen counter input
             sDNP3Config.sDNP3ServerSet.sServerProtSet.sEventVariation.eDeEvVarFzAI = dnp3_protocol.dnp3types.eDefaultEventVariationFrozenAnalogInput.FAIE_SINGLEPREC_WITHTIME;       // Default event variation for Frozen Analog input
             sDNP3Config.sDNP3ServerSet.sServerProtSet.sEventVariation.eDeEvVarBO = dnp3_protocol.dnp3types.eDefaultEventVariationBinaryOutput.BOE_WITHOUT_TIME;                      // Default event variation for binary Output
-            sDNP3Config.sDNP3ServerSet.sServerProtSet.sEventVariation.eDeEvVarAO = dnp3_protocol.dnp3types.eDefaultEventVariationAnalogOutput.AOE_SINGLEPREC_WITHTIME;               // Default event variation for Analog Output
+            sDNP3Config.sDNP3ServerSet.sServerProtSet.sEventVariation.eDeEvVarAO = dnp3_protocol.dnp3types.eDefaultEventVariationAnalogOutput.AOE_16BIT_WITHOUTTIME;               // Default event variation for Analog Output
 
             sDNP3Config.sDNP3ServerSet.sServerProtSet.u16Class1EventBufferSize = 100;             // class 1 buffer size number of events to store
             sDNP3Config.sDNP3ServerSet.sServerProtSet.u8Class1EventBufferOverFlowPercentage = 90;
