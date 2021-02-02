@@ -24,6 +24,7 @@ namespace SCADA.Common.Connection
         private uint numberOfConnectionRetries = 0;
         private ConcurrentQueue<IDNP3Function> commandQueue = new ConcurrentQueue<IDNP3Function>();
         private bool threadCancellationSignal = true;
+        private object lockObj = new object();
         public FunctionExecutor()
         {
             unsolicitedCommand = new Unsolicited();
@@ -68,17 +69,21 @@ namespace SCADA.Common.Connection
                         processConnection.WaitOne();
                         while(commandQueue.TryDequeue(out currentCommand))
                         {
-                            connection.Send(currentCommand.PackRequest());
-                            byte[] message;
-                            byte[] header = connection.Recv(10);                         
-                            int recvLen = CalculateRecvLength(header[2]); 
-                            byte[] dataChunks = connection.Recv(recvLen);
-                            message = new byte[header.Length + recvLen];
-                            Buffer.BlockCopy(header, 0, message, 0, 10);
-                            Buffer.BlockCopy(dataChunks, 0, message, 10, recvLen);
+                            lock (lockObj)
+                            {
+                                connection.Send(currentCommand.PackRequest());
+                                byte[] message;
+                                byte[] header = connection.Recv(10);
+                                int recvLen = CalculateRecvLength(header[2]);
+                                byte[] dataChunks = connection.Recv(recvLen);
+                                message = new byte[header.Length + recvLen];
+                                Buffer.BlockCopy(header, 0, message, 0, 10);
+                                Buffer.BlockCopy(dataChunks, 0, message, 10, recvLen);
 
-                            HandleReceivedBytes(message, CheckIfUnsolicited(message[11]));
-                            currentCommand = null;
+                                HandleReceivedBytes(message, CheckIfUnsolicited(message[11]));
+                                currentCommand = null;
+                            }
+                            
                         }
                     }
                 }

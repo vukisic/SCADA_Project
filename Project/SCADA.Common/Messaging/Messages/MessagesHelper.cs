@@ -13,8 +13,8 @@ namespace SCADA.Common.Messaging.Messages
             byte len = response[2];
             byte[] responseWithoutCheckSum = GetResponseWithoutCheckSum(response, len, response.Count());
 
-            byte[] responseDataObjects = new byte[len - 13];
-            Buffer.BlockCopy(responseWithoutCheckSum, 13, responseDataObjects, 0, (len - 13));
+            byte[] responseDataObjects = new byte[len - 10];
+            Buffer.BlockCopy(responseWithoutCheckSum, 13, responseDataObjects, 0, (len - 10));
 
             return responseDataObjects;
         }

@@ -38,14 +38,6 @@ namespace NDS
             endpoint = await ServiceBusStartup.StartInstance()
                 .ConfigureAwait(false);
 
-
-            // Command example: 
-            // await endpoint.Send(new DemoCommand { DemoProperty = "Do something!" });
-            // NOTE: Don't forget to add routes for each command in ServiceBusStartup! (you don't need to do this for events)
-
-            // Event example:
-            //await endpoint.Publish(new DemoEvent { DemoProperty = "Something happened!" })
-            //    .ConfigureAwait(false);
             SCADAServer.instace = endpoint;
             ScadaStorageService storage = new ScadaStorageService();
             storage.Open();
@@ -54,8 +46,6 @@ namespace NDS
 
             DOMHost dom = new DOMHost();
             dom.Open();
-
-           
 
             HistoryHost historyHost = new HistoryHost();
             historyHost.Open();

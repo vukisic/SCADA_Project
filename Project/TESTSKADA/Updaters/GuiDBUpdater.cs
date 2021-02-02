@@ -53,12 +53,13 @@ namespace NDS.Updaters
                 var binaries = all.Where(x => x.RegisterType == RegisterType.BINARY_INPUT || x.RegisterType == RegisterType.BINARY_OUTPUT).Cast<DiscretePoint>().ToList();
                 ev.Points.AddRange(Mapper.MapCollection<AnalogPoint, ScadaPointDto>(analogs));
                 ev.Points.AddRange(Mapper.MapCollection<DiscretePoint, ScadaPointDto>(binaries));
-                if (dom.DomData.Count > 0)
-                    endpoint.Publish(dom).ConfigureAwait(false).GetAwaiter().GetResult();
-                if(history.History.Count > 0)
-                    endpoint.Publish(history).ConfigureAwait(false).GetAwaiter().GetResult();
                 if (ev.Points.Count > 0)
                     endpoint.Publish(ev).ConfigureAwait(false).GetAwaiter().GetResult();
+                if (dom.DomData.Count > 0)
+                    endpoint.Publish(dom).ConfigureAwait(false).GetAwaiter().GetResult();
+                if (history.History.Count > 0)
+                    endpoint.Publish(history).ConfigureAwait(false).GetAwaiter().GetResult();
+
                 Thread.Sleep(GetConfigTime());
             }
         }

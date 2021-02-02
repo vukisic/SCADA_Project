@@ -70,10 +70,13 @@ namespace SCADA.Common.ScadaServices.Providers
         {
             foreach(KeyValuePair<Tuple<RegisterType, int>, BasePoint> keyValuePair in updateModel)
             {
-                Model[keyValuePair.Key].Alarm = keyValuePair.Value.Alarm;
-                SetValue(keyValuePair);
+                if (Model.ContainsKey(keyValuePair.Key))
+                {
+                    Model[keyValuePair.Key].Alarm = keyValuePair.Value.Alarm;
+                    Model[keyValuePair.Key].TimeStamp = keyValuePair.Value.TimeStamp;
+                    SetValue(keyValuePair);
+                }
             }
-
         }
 
         private void SetValue(KeyValuePair<Tuple<RegisterType, int>, BasePoint> keyValuePair)

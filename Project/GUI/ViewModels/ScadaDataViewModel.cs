@@ -45,10 +45,6 @@ namespace GUI.ViewModels
             manager = IoC.Get<IWindowManager>();
 
             Points = new ObservableCollection<BasePointDto>();
-            foreach (var item in Data.Points)
-            {
-                Points.Add(item);
-            }
         }
 
         public void Update(object sender, ScadaUpdateEvent e)
@@ -69,14 +65,15 @@ namespace GUI.ViewModels
         {
             App.Current.Dispatcher.Invoke((System.Action)delegate 
             {
-                Data.Points.Clear();
-                Points = new ObservableCollection<BasePointDto>();
+                Points = null;
+                var tempPoints = new ObservableCollection<BasePointDto>();
 
                 var result = (Core.Mapper.MapCollection<ScadaPointDto, BasePointDto>(points.ToList()));
                 foreach (var item in result)
                 {
-                    Points.Add(item);
+                    tempPoints.Add(item);
                 }
+                Points = tempPoints;
             });
         }
     }

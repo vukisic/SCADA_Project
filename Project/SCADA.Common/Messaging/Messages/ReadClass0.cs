@@ -56,6 +56,7 @@ namespace SCADA.Common.Messaging.Messages
 
             int len = dataObjects.Length;
             int lastRange = 0;
+            int pointTypes = 0;
             while (len > 0)
             {
                 ushort typeField = (ushort)IPAddress.NetworkToHostOrder((short)BitConverter.ToUInt16(dataObjects, typeFieldPosition));
@@ -69,6 +70,7 @@ namespace SCADA.Common.Messaging.Messages
                     case (ushort)TypeField.BINARY_INPUT_PACKED_FORMAT:
                     case (ushort)TypeField.BINARY_OUTPUT_PACKED_FORMAT:
                         {
+                            pointTypes += 1;
                             range += numberOfItems % 8 == 0 ? numberOfItems / 8 : numberOfItems / 8 + 1;                          
                             byte[] binaryObject = new byte[range];
                             Buffer.BlockCopy(dataObjects, lastRange, binaryObject, 0, range);
@@ -76,8 +78,9 @@ namespace SCADA.Common.Messaging.Messages
                             lastRange += range;
                             break;
                         }
-                    case (ushort)TypeField.ANALOG_OUTPUT_16BIT:
+                    case (ushort)TypeField.ANALOG_OUTPUT_STATUS_16BIT:
                         {
+                            pointTypes += 1;
                             range += numberOfItems * 3;
                             byte[] analogObject = new byte[range];
                             Buffer.BlockCopy(dataObjects, lastRange, analogObject, 0, range);
@@ -87,6 +90,7 @@ namespace SCADA.Common.Messaging.Messages
                         }
                     case (ushort)TypeField.ANALOG_INPUT_16BIT:
                         {
+                            pointTypes += 1;
                             range += numberOfItems * 2;
                             byte[] analogObject = new byte[range];
                             Buffer.BlockCopy(dataObjects, lastRange, analogObject, 0, range);
@@ -99,28 +103,31 @@ namespace SCADA.Common.Messaging.Messages
                 typeFieldPosition += range;
                 startIndexPosition += range;
                 stopIndexPosition += range;
+                if (pointTypes == 4)
+                    break;
             }
             return retVal;
         }
 
         private void ParseAnalogOutputObject(byte[] analogInputObject, ushort typeField, ref Dictionary<Tuple<RegisterType, int>, BasePoint> points)
         {
-            RegisterType registerType = typeField == (ushort)TypeField.ANALOG_INPUT_16BIT ? RegisterType.ANALOG_INPUT : RegisterType.ANALOG_OUTPUT;
+            RegisterType registerType =  RegisterType.ANALOG_OUTPUT;
 
             int currentIndex = analogInputObject[3];
             int numberOfitems = analogInputObject[4] - analogInputObject[3] + 1;
             for(int i = 0; i < numberOfitems; i++)
             {
                 AnalogPoint point = new AnalogPoint();
-                point.Value = (ushort)IPAddress.NetworkToHostOrder((short)BitConverter.ToUInt16(analogInputObject, (5 + i * 3 + 1))); //na 5 je prva vrednost, i * 3 po tri bajta i izdvajamo zadnja dva (+ 1)
+                point.Value = (ushort)BitConverter.ToUInt16(analogInputObject, (5 + i * 3 + 1)); //na 5 je prva vrednost, i * 3 po tri bajta i izdvajamo zadnja dva (+ 1)
                 point.Index = currentIndex;
+                point.RegisterType = registerType;
                 points.Add(new Tuple<RegisterType, int>(registerType, currentIndex++), point);
             }
         }
         
         private void ParseAnalogInputObject(byte[] analogInputObject, ushort typeField, ref Dictionary<Tuple<RegisterType, int>, BasePoint> points)
         {
-            RegisterType registerType = typeField == (ushort)TypeField.ANALOG_INPUT_16BIT ? RegisterType.ANALOG_INPUT : RegisterType.ANALOG_OUTPUT;
+            RegisterType registerType = RegisterType.ANALOG_INPUT ;
 
             int currentIndex = analogInputObject[3];
             int numberOfitems = analogInputObject[4] - analogInputObject[3] + 1;
@@ -129,6 +136,7 @@ namespace SCADA.Common.Messaging.Messages
                 AnalogPoint point = new AnalogPoint();
                 point.Value = (ushort)IPAddress.NetworkToHostOrder((short)BitConverter.ToUInt16(analogInputObject, (5 + i * 2))); //na 5 je prva vrednost, i * 2 idemo short po short
                 point.Index = currentIndex;
+                point.RegisterType = registerType;
                 points.Add(new Tuple<RegisterType, int>(registerType, currentIndex++), point);
             }
         }
@@ -147,6 +155,7 @@ namespace SCADA.Common.Messaging.Messages
                     DiscretePoint point = new DiscretePoint();
                     point.Value = currentByte & mask;
                     point.Index = currentIndex;
+                    point.RegisterType = registerType;
                     currentByte >>= 1;
                     points.Add(new Tuple<RegisterType, int>(registerType, currentIndex++), point);
                     if (currentIndex > binaryObject[4])

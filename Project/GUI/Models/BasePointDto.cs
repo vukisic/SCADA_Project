@@ -17,9 +17,6 @@ namespace GUI.Models
     {
         #region Fields
 
-        private IEndpointInstance instance;
-        //public MyICommand WriteCommand { get; set; }
-
         private ClassType classType;
         private SignalDirection direction;
         private int index;
@@ -37,7 +34,6 @@ namespace GUI.Models
         #endregion
         public BasePointDto()
         {
-            //WriteCommand = new MyICommand(WriteCommand_Execute, WriteCommand_CanExecute);
         }
         #region Properties
         public double CommandedValue
