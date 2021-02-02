@@ -76,13 +76,21 @@ namespace SCADA.Common.Messaging.Messages
                             lastRange += range;
                             break;
                         }
-                    case (ushort)TypeField.ANALOG_INPUT_16BIT:
                     case (ushort)TypeField.ANALOG_OUTPUT_16BIT:
+                        {
+                            range += numberOfItems * 3;
+                            byte[] analogObject = new byte[range];
+                            Buffer.BlockCopy(dataObjects, lastRange, analogObject, 0, range);
+                            ParseAnalogOutputObject(analogObject, typeField, ref retVal);
+                            lastRange += range;
+                            break;
+                        }
+                    case (ushort)TypeField.ANALOG_INPUT_16BIT:
                         {
                             range += numberOfItems * 2;
                             byte[] analogObject = new byte[range];
                             Buffer.BlockCopy(dataObjects, lastRange, analogObject, 0, range);
-                            ParseAnalogObject(analogObject, typeField, ref retVal);
+                            ParseAnalogInputObject(analogObject, typeField, ref retVal);
                             lastRange += range;
                             break;
                         }
@@ -95,7 +103,22 @@ namespace SCADA.Common.Messaging.Messages
             return retVal;
         }
 
-        private void ParseAnalogObject(byte[] analogInputObject, ushort typeField, ref Dictionary<Tuple<RegisterType, int>, BasePoint> points)
+        private void ParseAnalogOutputObject(byte[] analogInputObject, ushort typeField, ref Dictionary<Tuple<RegisterType, int>, BasePoint> points)
+        {
+            RegisterType registerType = typeField == (ushort)TypeField.ANALOG_INPUT_16BIT ? RegisterType.ANALOG_INPUT : RegisterType.ANALOG_OUTPUT;
+
+            int currentIndex = analogInputObject[3];
+            int numberOfitems = analogInputObject[4] - analogInputObject[3] + 1;
+            for(int i = 0; i < numberOfitems; i++)
+            {
+                AnalogPoint point = new AnalogPoint();
+                point.Value = (ushort)IPAddress.NetworkToHostOrder((short)BitConverter.ToUInt16(analogInputObject, (5 + i * 3 + 1))); //na 5 je prva vrednost, i * 3 po tri bajta i izdvajamo zadnja dva (+ 1)
+                point.Index = currentIndex;
+                points.Add(new Tuple<RegisterType, int>(registerType, currentIndex++), point);
+            }
+        }
+        
+        private void ParseAnalogInputObject(byte[] analogInputObject, ushort typeField, ref Dictionary<Tuple<RegisterType, int>, BasePoint> points)
         {
             RegisterType registerType = typeField == (ushort)TypeField.ANALOG_INPUT_16BIT ? RegisterType.ANALOG_INPUT : RegisterType.ANALOG_OUTPUT;
 

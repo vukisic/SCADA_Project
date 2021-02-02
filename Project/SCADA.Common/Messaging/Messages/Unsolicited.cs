@@ -16,7 +16,7 @@ namespace SCADA.Common.Messaging.Messages
 
         public Dictionary<Tuple<RegisterType, int>, BasePoint> PareseResponse(byte[] response)
         {
-            throw new NotImplementedException();
+            return new Dictionary<Tuple<RegisterType, int>, BasePoint>();
         }
     }
 }
