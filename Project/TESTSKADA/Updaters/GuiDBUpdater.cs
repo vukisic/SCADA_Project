@@ -65,7 +65,7 @@ namespace NDS.Updaters
 
         private int GetConfigTime()
         {
-            return ConfigurationManager.AppSettings["updateInterval"] == null ? 10000 : Int32.Parse(ConfigurationManager.AppSettings["updateInterval"]);
+            return ConfigurationManager.AppSettings["updateInterval"] == null ? 1000: Int32.Parse(ConfigurationManager.AppSettings["updateInterval"]);
         }
 
        public  void Stop()

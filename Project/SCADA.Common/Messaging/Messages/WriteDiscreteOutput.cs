@@ -78,15 +78,15 @@ namespace SCADA.Common.Messaging.Messages
             if(!CrcCalculator.CheckCRC(response))
                 return null;
 
-            byte[] dataObjects = MessagesHelper.GetResponseDataObjects(response);
+            byte[] dataObjects = response.Skip(15).ToArray();
 
             Dictionary<Tuple<RegisterType, int>, BasePoint> retVal = new Dictionary<Tuple<RegisterType, int>, BasePoint>();
             DiscretePoint point = new DiscretePoint();
             
-            point.Index = (ushort)IPAddress.NetworkToHostOrder((short)BitConverter.ToUInt16(dataObjects, 5));
+            point.Index = (ushort)BitConverter.ToUInt16(dataObjects, 5);
             byte controlCode = dataObjects[7];
 
-            point.Value = controlCode == 0x81 ? 1 : 0;
+            point.Value = controlCode == 0x81 ? 0 : 1;
 
             retVal.Add(new Tuple<RegisterType, int>(RegisterType.BINARY_OUTPUT, point.Index), point);
 
