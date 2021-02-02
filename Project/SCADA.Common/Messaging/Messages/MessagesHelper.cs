@@ -11,7 +11,7 @@ namespace SCADA.Common.Messaging.Messages
         public static byte[] GetResponseDataObjects(byte[] response)
         {
             byte len = response[2];
-            byte[] responseWithoutCheckSum = GetResponseWithoutCheckSum(response, len, response.Length);
+            byte[] responseWithoutCheckSum = GetResponseWithoutCheckSum(response, len, response.Count());
 
             byte[] responseDataObjects = new byte[len - 10];
             Buffer.BlockCopy(responseWithoutCheckSum, 10, responseDataObjects, 0, (len - 10));
@@ -26,7 +26,7 @@ namespace SCADA.Common.Messaging.Messages
             Buffer.BlockCopy(response, 0, responseWithoutCheckSum, 0, 8); //izbaci sve checksum-e
             for (int i = 10, j = 8; i <= totalLen; i += 18, j += 16)
             {
-                if ((i - totalLen) >= 18)
+                if ((totalLen - i) >= 18)
                     Buffer.BlockCopy(response, i, responseWithoutCheckSum, j, 16);
                 else
                     Buffer.BlockCopy(response, i, responseWithoutCheckSum, j, (totalLen - i - 2));
