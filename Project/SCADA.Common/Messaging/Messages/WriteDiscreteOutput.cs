@@ -75,7 +75,22 @@ namespace SCADA.Common.Messaging.Messages
 
         public override Dictionary<Tuple<RegisterType, int>, BasePoint> PareseResponse(byte[] response)
         {
-            throw new NotImplementedException();
+            if(!CrcCalculator.CheckCRC(response))
+                return null;
+
+            byte[] dataObjects = MessagesHelper.GetResponseDataObjects(response);
+
+            Dictionary<Tuple<RegisterType, int>, BasePoint> retVal = new Dictionary<Tuple<RegisterType, int>, BasePoint>();
+            DiscretePoint point = new DiscretePoint();
+            
+            point.Index = (ushort)IPAddress.NetworkToHostOrder((short)BitConverter.ToUInt16(dataObjects, 5));
+            byte controlCode = dataObjects[7];
+
+            point.Value = controlCode == 0x81 ? 1 : 0;
+
+            retVal.Add(new Tuple<RegisterType, int>(RegisterType.BINARY_OUTPUT, point.Index), point);
+
+            return retVal;
         }
     }
 }

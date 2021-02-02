@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using SCADA.Common.DataModel;
 using SCADA.Common.Messaging;
+using SCADA.Common.Messaging.Messages;
 using SCADA.Common.Proxies;
 
 namespace SCADA.Common.Connection
@@ -16,6 +17,7 @@ namespace SCADA.Common.Connection
     {
         private IConnection connection;
         private IDNP3Function currentCommand;
+        private Unsolicited unsolicitedCommand;
         private AutoResetEvent processConnection;
         private Thread connectionProcessorThread;
         private ConnectionState connectionState = ConnectionState.DISCONNECTED;
@@ -24,6 +26,7 @@ namespace SCADA.Common.Connection
         private bool threadCancellationSignal = true;
         public FunctionExecutor()
         {
+            unsolicitedCommand = new Unsolicited();
             connection = new TCPConnection();
             processConnection = new AutoResetEvent(false);
             connectionProcessorThread = new Thread(new ThreadStart(ConnectionProcessorThread));
@@ -67,16 +70,14 @@ namespace SCADA.Common.Connection
                         {
                             connection.Send(currentCommand.PackRequest());
                             byte[] message;
-                            byte[] header = connection.Recv(10);
-                            //trebao bi proveriti checksum u hederu //ili ovde ili u parseresponse(mozda je bolje ovde)
-                            int recvLen = CalculateRecvLength(header[2]); //len
+                            byte[] header = connection.Recv(10);                         
+                            int recvLen = CalculateRecvLength(header[2]); 
                             byte[] dataChunks = connection.Recv(recvLen);
-                            //proveriti checksum za datachunk(16-2)
                             message = new byte[header.Length + recvLen];
                             Buffer.BlockCopy(header, 0, message, 0, 10);
                             Buffer.BlockCopy(dataChunks, 0, message, 10, recvLen);
 
-                            HandleReceivedBytes(message);
+                            HandleReceivedBytes(message, CheckIfUnsolicited(message[11]));
                             currentCommand = null;
                         }
                     }
@@ -93,11 +94,22 @@ namespace SCADA.Common.Connection
             }
         }
 
-        private void HandleReceivedBytes(byte[] message)
+        private bool CheckIfUnsolicited(byte unsolicited)
         {
-            Dictionary<Tuple<RegisterType, int>, BasePoint> pointsToUpdate = currentCommand?.PareseResponse(message);
+            int uns = (unsolicited & 0x10) >> 4;
+            return uns == 1 ? true : false;
+        }
 
-            if(pointsToUpdate != null)
+        private void HandleReceivedBytes(byte[] message, bool unsolicited)
+        {
+            Dictionary<Tuple<RegisterType, int>, BasePoint> pointsToUpdate;
+
+            if (!unsolicited)
+                pointsToUpdate = currentCommand?.PareseResponse(message);
+            else
+                pointsToUpdate = unsolicitedCommand.PareseResponse(message);
+
+            if (pointsToUpdate != null)
             {
                 var processedPoints = ScadaProxyFactory.Instance().AlarmKruncingProxy().Check(pointsToUpdate);
                 ScadaProxyFactory.Instance().ScadaStorageProxy().UpdateModelValue(processedPoints);
