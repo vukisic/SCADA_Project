@@ -38,5 +38,10 @@ namespace SCADA.Common.Proxies
         {
             return proxy.GetAll();
         }
+
+        public void Add(List<DomDbModel> list)
+        {
+            proxy.Add(list);
+        }
     }
 }

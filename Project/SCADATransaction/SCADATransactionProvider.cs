@@ -31,6 +31,7 @@ namespace SCADATransaction
             proxy.SetModel(proxy.GetTransactionModel());
             SCADAServer.updateEvent?.Invoke(this, null);
             ConfigurationChangeInvoker invoker = new ConfigurationChangeInvoker();
+            ScadaProxyFactory.Instance().DOMProxy().Add(proxy.GetModel().Values.ToList().ToDbModel());
             invoker.Update(result.MridIndexPairs);
             return true;
         }

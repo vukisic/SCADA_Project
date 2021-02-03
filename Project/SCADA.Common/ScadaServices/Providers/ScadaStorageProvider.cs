@@ -38,6 +38,11 @@ namespace SCADA.Common.ScadaServices.Providers
             return Model;
         }
 
+        public BasePoint GetSingle(RegisterType type, int index)
+        {
+            return Model.SingleOrDefault(x => x.Value.RegisterType == type && x.Value.Index == index).Value;
+        }
+
         public Dictionary<Tuple<RegisterType, int>, BasePoint> GetTransactionModel()
         {
             return TransactionModel;

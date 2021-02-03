@@ -68,5 +68,10 @@ namespace SCADA.Common.Proxies
         {
             proxy.UpdateModelValue(updateModel);
         }
+
+        public BasePoint GetSingle(RegisterType type, int index)
+        {
+            return proxy.GetSingle(type, index);
+        }
     }
 }

@@ -31,5 +31,7 @@ namespace SCADA.Common.ScadaServices.Common
         List<SwitchingEquipment> GetDomModel();
         [OperationContract]
         void UpdateModelValue(Dictionary<Tuple<RegisterType, int>, BasePoint> updateModel);
+        [OperationContract]
+        BasePoint GetSingle(RegisterType type, int index);
     }
 }

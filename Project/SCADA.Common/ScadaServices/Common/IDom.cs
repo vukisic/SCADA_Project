@@ -12,6 +12,8 @@ namespace SCADA.Common.ScadaServices.Common
     public interface IDom
     {
         [OperationContract]
+        void Add(List<DomDbModel> list);
+        [OperationContract]
         void AddOrUpdate(DomDbModel model);
         [OperationContract]
         void AddOrUpdateRange(List<DomDbModel> list);

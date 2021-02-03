@@ -40,20 +40,18 @@ namespace NDS.ProcessingModule
 
         public void ExecuteWriteCommand(RegisterType type, uint index, uint value)
         {
-            log.Log(new SCADA.Common.Logging.LogEventModel() { EventType = SCADA.Common.Logging.LogEventType.INFO, Message = $"WriteCommand ({type},{index},{value})" });
             DNP3WriteCommandParameters dnp3CommandParam = new DNP3WriteCommandParameters(GetApplicationSequence(), (byte)DNP3FunctionCode.DIRECT_OPERATE, GetTypeField(type, true),
                 (byte)Qualifier.PREFIX_2_OCTET_COUNT_OF_OBJECTS_2_OCTET, 1, index, value, GetTransportSequence());
             IDNP3Function dnp3Fn = DNP3FunctionFactory.CreateWriteFunction(dnp3CommandParam);
             this.functionExecutor.EnqueueCommand(dnp3Fn);
-            
-            var point = storage.GetModel().SingleOrDefault(x => x.Key == Tuple.Create<RegisterType, int>(type, (int)index)).Value;
+
+            var point = storage.GetSingle(type, (int)index);
             if (point != null && point.RegisterType == RegisterType.BINARY_OUTPUT)
                 dom.AddOrUpdate(new SCADA.Common.Models.DomDbModel() { Mrid = point.Mrid, TimeStamp = DateTime.Now.ToString() });
         }
 
         public void ExecuteReadClass0Command()
         {
-            log.Log(new SCADA.Common.Logging.LogEventModel() { EventType = SCADA.Common.Logging.LogEventType.INFO, Message = $"ReadClass0Command" });
             DNP3ReadClass0CommandParameters dnp3CommandParam = new DNP3ReadClass0CommandParameters(GetApplicationSequence(), (byte)DNP3FunctionCode.READ, (ushort)TypeField.CLASS_0_DATA,
                 (byte)Qualifier.PREFIX_NONE_NO_RANGE_FIELD, GetTransportSequence());
             IDNP3Function dnp3Fn = DNP3FunctionFactory.CreateReadClass0Function(dnp3CommandParam);

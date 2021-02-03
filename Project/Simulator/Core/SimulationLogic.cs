@@ -199,17 +199,17 @@ namespace Simulator.Core
 
                 /////// ANALOG OUTPUT
 
-                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_OUTPUTS && item.Index == pairs["Flow_AM2"])
+                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_INPUT && item.Index == pairs["Flow_AM2"])
                     pump2flow = item as AnalogPoint;
-                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_OUTPUTS && item.Index == pairs["Temp_AM2"])
+                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_INPUT && item.Index == pairs["Temp_AM2"])
                     pump2temp = item as AnalogPoint;
-                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_OUTPUTS && item.Index == pairs["Flow_AM1"])
+                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_INPUT && item.Index == pairs["Flow_AM1"])
                     pump1flow = item as AnalogPoint;
-                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_OUTPUTS && item.Index == pairs["Flow_AM3"])
+                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_INPUT && item.Index == pairs["Flow_AM3"])
                     pump3flow = item as AnalogPoint;
-                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_OUTPUTS && item.Index == pairs["Temp_AM1"])
+                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_INPUT && item.Index == pairs["Temp_AM1"])
                     pump1temp = item as AnalogPoint;
-                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_OUTPUTS && item.Index == pairs["Temp_AM3"])
+                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_INPUT && item.Index == pairs["Temp_AM3"])
                     pump3temp = item as AnalogPoint;
                 if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_OUTPUTS && item.Index == pairs["Discrete_Tap2"])
                     tapChanger2 = item as AnalogPoint;
@@ -287,27 +287,27 @@ namespace Simulator.Core
 
             SingleInt32Union analogValue11 = new SingleInt32Union();
             analogValue11.f = pump3flow.Value;
-            simulator.UpdatePoint(pairs["Flow_AM3"], dnp3types.eDNP3GroupID.ANALOG_OUTPUTS, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue11);
+            simulator.UpdatePoint(pairs["Flow_AM3"], dnp3types.eDNP3GroupID.ANALOG_INPUT, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue11);
 
             SingleInt32Union analogValue12 = new SingleInt32Union();
             analogValue12.f = pump1temp.Value;
-            simulator.UpdatePoint(pairs["Temp_AM1"], dnp3types.eDNP3GroupID.ANALOG_OUTPUTS, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue12);
+            simulator.UpdatePoint(pairs["Temp_AM1"], dnp3types.eDNP3GroupID.ANALOG_INPUT, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue12);
 
             SingleInt32Union analogValue13 = new SingleInt32Union();
             analogValue13.f = pump3temp.Value;
-            simulator.UpdatePoint(pairs["Temp_AM3"], dnp3types.eDNP3GroupID.ANALOG_OUTPUTS, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue13);
+            simulator.UpdatePoint(pairs["Temp_AM3"], dnp3types.eDNP3GroupID.ANALOG_INPUT, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue13);
 
             SingleInt32Union analogValue14 = new SingleInt32Union();
             analogValue14.f = pump2flow.Value;
-            simulator.UpdatePoint(pairs["Flow_AM2"], dnp3types.eDNP3GroupID.ANALOG_OUTPUTS, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue14);
+            simulator.UpdatePoint(pairs["Flow_AM2"], dnp3types.eDNP3GroupID.ANALOG_INPUT, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue14);
 
             SingleInt32Union analogValue15 = new SingleInt32Union();
             analogValue15.f = pump2temp.Value;
-            simulator.UpdatePoint(pairs["Temp_AM2"], dnp3types.eDNP3GroupID.ANALOG_OUTPUTS, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue15);
+            simulator.UpdatePoint(pairs["Temp_AM2"], dnp3types.eDNP3GroupID.ANALOG_INPUT, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue15);
 
             SingleInt32Union analogValue16 = new SingleInt32Union();
             analogValue16.f = pump1flow.Value;
-            simulator.UpdatePoint(pairs["Flow_AM1"], dnp3types.eDNP3GroupID.ANALOG_OUTPUTS, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue16);
+            simulator.UpdatePoint(pairs["Flow_AM1"], dnp3types.eDNP3GroupID.ANALOG_INPUT, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue16);
 
 
             /////// BINARY OUTPUT

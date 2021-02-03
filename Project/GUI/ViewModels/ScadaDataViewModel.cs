@@ -57,7 +57,7 @@ namespace GUI.ViewModels
             if(Selected >= 0 && Selected <= Points.Count)
             {
                 var item = Points[Selected];
-                this.manager.ShowDialog(new ControlViewModel(item), null, null);
+                this.manager.ShowWindow(new ControlViewModel(item), null, null);
             }
         }
 

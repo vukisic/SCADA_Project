@@ -407,7 +407,9 @@ namespace Simulator.Core
                 }
                 else
                     Trace.TraceInformation("Invalid variation");
-
+                SingleInt32Union digitalValue = new SingleInt32Union();
+                digitalValue.i = System.Runtime.InteropServices.Marshal.ReadInt16(psOperateValue.pvData) > 1?0:1;
+                UpdateMP(psOperateID.u16IndexNumber, dnp3types.eDNP3GroupID.BINARY_OUTPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digitalValue, ref ptErrorValue);
                 Trace.TraceInformation("Operation Type " + psOperateParams.eOPType);
                 Trace.TraceInformation("Count " + psOperateParams.u8Count);
                 Trace.TraceInformation("On time " + psOperateParams.u32ONtime);

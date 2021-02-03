@@ -47,7 +47,7 @@ namespace GUI.ViewModels
         {
             App.Current.Dispatcher.Invoke((System.Action)delegate
             {
-                TimeStamp = DateTime.Now.ToString();
+                TimeStamp = $"{DateTime.Now.ToString()} - Last 30 records";
                 Data.History.Clear();
                 TableData = new ObservableCollection<HistoryDto>();
                 foreach (var item in e.History)

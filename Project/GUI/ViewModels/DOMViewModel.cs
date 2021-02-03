@@ -39,10 +39,7 @@ namespace GUI.ViewModels
         public DOMViewModel()
         {
             TableData = new ObservableCollection<SwitchingEquipmentDto>();
-            foreach (var item in Data.Dom)
-            {
-                TableData.Add(item);
-            }
+            
         }
 
         internal void Update(object sender, DomUpdateEvent e)
@@ -50,12 +47,10 @@ namespace GUI.ViewModels
             App.Current.Dispatcher.Invoke((System.Action)delegate
             {
                 TimeStamp = DateTime.Now.ToString();
-                Data.Dom.Clear();
                 TableData =  new ObservableCollection<SwitchingEquipmentDto>();
                 foreach (var item in e.DomData)
                 {
                     TableData.Add(Mapper.Map<SwitchingEquipmentDto>(item));
-                    Data.Dom.Add(Mapper.Map<SwitchingEquipmentDto>(item));
                 }
             });
         }

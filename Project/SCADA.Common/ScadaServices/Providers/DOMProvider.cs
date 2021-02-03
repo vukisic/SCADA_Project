@@ -18,6 +18,12 @@ namespace SCADA.Common.ScadaServices.Providers
         {
             repo = new DomRepository(new ScadaDbContext());
         }
+
+        public void Add(List<DomDbModel> list)
+        {
+            repo.Add(list);
+        }
+
         public void AddOrUpdate(DomDbModel model)
         {
             repo.AddOrUpdate(model);

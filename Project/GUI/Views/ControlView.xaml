@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:GUI.Views"
         mc:Ignorable="d"
         Height="200" Width="300"
-       Name="Command"
+        Title="Command"
 		ShowInTaskbar="False" ResizeMode="NoResize"
 		WindowStartupLocation="CenterOwner"
         xmlns:converters="clr-namespace:GUI.Converters">

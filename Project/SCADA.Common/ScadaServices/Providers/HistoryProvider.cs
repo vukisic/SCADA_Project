@@ -32,7 +32,8 @@ namespace SCADA.Common.ScadaServices.Providers
 
         public List<HistoryDbModel> GetAll()
         {
-            return historyRepository.GetAll();
+            var all = historyRepository.GetAll();
+            return all.Skip(Math.Max(0, all.Count() - 30)).ToList();
         }
 
         public List<HistoryDbModel> GetByTimestamp(DateTime timestamp)

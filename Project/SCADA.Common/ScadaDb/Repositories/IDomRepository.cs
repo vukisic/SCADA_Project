@@ -9,6 +9,7 @@ namespace SCADA.Common.ScadaDb.Repositories
 {
     public interface IDomRepository
     {
+        void Add(List<DomDbModel> model);
         void AddOrUpdate(DomDbModel model);
         void AddOrUpdateRange(List<DomDbModel> list);
         void UpdateSingle(DomDbModel model);
