@@ -4,9 +4,19 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GUI.Views"
-             mc:Ignorable="d" Background="Brown"
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             mc:Ignorable="d" Background="Black"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-            
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="743*"/>
+            <ColumnDefinition Width="58*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="20"></RowDefinition>
+        </Grid.RowDefinitions>
+        <lvc:CartesianChart x:Name="MyChart" LegendLocation="Right" Grid.ColumnSpan="2" Grid.Row="0" />
+        <TextBlock Text="{Binding UpdateTime, StringFormat=Update time: {0}}" VerticalAlignment="Center" Foreground="White" Grid.Row="1" Margin="400,0,0,0"></TextBlock>
     </Grid>
 </UserControl>
