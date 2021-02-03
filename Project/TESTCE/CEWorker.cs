@@ -74,6 +74,7 @@ namespace CE
                     {
                         current += (float)weather[i];
                         ChangeStrategy();
+                   
                         result = algorithm.Start(current);
                         var processedResult = ProcessResults(current, result);
                         forecastResult.Results.AddRange(processedResult);
@@ -82,9 +83,9 @@ namespace CE
 
                     // Update and Command
 
-                    Update(forecastResult, weather);
                     SendCommand(forecastResult);
-                    
+                    Update(forecastResult, weather);
+                                
                     //Thread.Sleep(10800000); // 3hrs
                     // Test
                     Thread.Sleep(2000);
@@ -108,7 +109,7 @@ namespace CE
                     var time = item.Times[i];
                     var flow = item.Flows[i];
 
-                    var breaker = points[$"Breaker_2{i + 1}"];
+                    var breaker = points[$"Breaker_2{i + 1}Status"];
                     var tap = points[$"Discrete_Tap{i + 1}"];
 
                     try
