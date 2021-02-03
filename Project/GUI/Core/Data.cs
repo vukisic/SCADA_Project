@@ -18,6 +18,5 @@ namespace GUI.Core
         public static List<float> FluidLevel = new List<float>();
         public static List<PumpsFlows> Flows = new List<PumpsFlows>();
         public static List<PumpsHours> Hours = new List<PumpsHours>();
-        public static List<CeUpdateEvent> Events = new List<CeUpdateEvent>();
     }
 }
