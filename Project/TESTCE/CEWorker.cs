@@ -80,14 +80,81 @@ namespace CE
                         current -= GetTotalFromResults(result.Genes);
                     }
 
-                    // Update 
+                    // Update and Command
+
                     Update(forecastResult, weather);
-                    // Update & Command
+                    SendCommand(forecastResult);
+                    
                     //Thread.Sleep(10800000); // 3hrs
                     // Test
                     Thread.Sleep(2000);
                 }
                
+            }
+        }
+
+        private void SendCommand(CeForecast forecastResult)
+        {
+            ScadaExportProxy proxy = new ScadaExportProxy();
+            var points = proxy.GetData();
+
+            int counter = 0;
+
+            foreach(var item in forecastResult.Results)
+            {
+                for(int i = 0;i < item.Pumps.Count();i++)
+                {
+                    var onOff = item.Pumps[i];
+                    var time = item.Times[i];
+                    var flow = item.Flows[i];
+
+                    var breaker = points[$"Breaker_2{i + 1}"];
+                    var tap = points[$"Discrete_Tap{i + 1}"];
+
+                    try
+                    {
+                        IEndpointInstance instance = ServiceBusStartup.StartInstance()
+                           .ConfigureAwait(false)
+                           .GetAwaiter()
+                           .GetResult();
+
+                        var command1 = new ScadaCommandingEvent()
+                        {
+                            Index = (uint)breaker.Index,
+                            RegisterType = breaker.RegisterType,
+                            Milliseconds = 0,
+                            Value = (uint)onOff
+                        };
+
+                        var command2 = new ScadaCommandingEvent()
+                        {
+                            Index = (uint)tap.Index,
+                            RegisterType = tap.RegisterType,
+                            Milliseconds = 0,
+                            Value = (uint)(flow / 100)
+                        };
+
+                        instance.Publish(command1).ConfigureAwait(false);
+                        instance.Publish(command2).ConfigureAwait(false);
+
+                        if (onOff == 1)
+                        {
+                            var command3 = new ScadaCommandingEvent()
+                            {
+                                Index = (uint)breaker.Index,
+                                RegisterType = breaker.RegisterType,
+                                Value = 0,
+                                Milliseconds = (uint)((counter + time) * 60 * 1000)
+                            };
+                            instance.Publish(command3).ConfigureAwait(false);
+                        }               
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }               
+                }
+                counter += 15;
             }
         }
 
