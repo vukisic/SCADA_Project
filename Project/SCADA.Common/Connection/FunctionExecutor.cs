@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using SCADA.Common.DataModel;
 using SCADA.Common.Messaging;
 using SCADA.Common.Messaging.Messages;
+using SCADA.Common.Messaging.Parameters;
 using SCADA.Common.Proxies;
 
 namespace SCADA.Common.Connection
@@ -80,7 +81,18 @@ namespace SCADA.Common.Connection
                                 Buffer.BlockCopy(header, 0, message, 0, 10);
                                 Buffer.BlockCopy(dataChunks, 0, message, 10, recvLen);
 
-                                HandleReceivedBytes(message, CheckIfUnsolicited(message[11]));
+                                bool unsolicited = CheckIfUnsolicited(message[11]);
+                                if (unsolicited)
+                                {
+                                    HandleReceivedBytes(message, unsolicited);
+                                    DNP3ConfirmCommandParamters dnp3Param = new DNP3ConfirmCommandParamters(0xc0, (byte)DNP3FunctionCode.CONFIRM, 0xc0); //podesiti parametre
+                                    IDNP3Function function = DNP3FunctionFactory.CreateConfirmFunction(dnp3Param);
+                                    connection.Send(function.PackRequest());
+                                }
+                                else
+                                {
+                                    HandleReceivedBytes(message, unsolicited);
+                                }
                                 currentCommand = null;
                             }
                             
