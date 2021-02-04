@@ -16,15 +16,36 @@ namespace GUI.Core.Tree
 
         public bool TurnedOn
         {
-            get
-            {
-                return turnedOn;
-            }
+            get { return turnedOn; }
             set
             {
                 turnedOn = value;
                 NotifyOfPropertyChange(() => TurnedOn);
                 NotifyOfPropertyChange(() => BorderColor);
+            }
+        }
+
+        private bool isClickable = true;
+
+        public bool IsClickable
+        {
+            get { return isClickable; }
+            set
+            {
+                isClickable = value;
+                NotifyOfPropertyChange(() => IsClickable);
+            }
+        }
+
+        private string imageSource = "";
+
+        public string ImageSource
+        {
+            get { return imageSource; }
+            set
+            {
+                imageSource = value;
+                NotifyOfPropertyChange(() => ImageSource);
             }
         }
 

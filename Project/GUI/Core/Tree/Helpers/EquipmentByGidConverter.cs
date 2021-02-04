@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Core.Common.ServiceBus.Commands;
 
 namespace GUI.Core.Tree.Helpers
@@ -56,8 +57,7 @@ namespace GUI.Core.Tree.Helpers
             {
                 equipmentByGid[winding.GID] = new EquipmentNodeItem(winding.GetType(),
                     winding,
-                    connectedTo: winding.Terminals,
-                    hidden: true);
+                    connectedTo: winding.Terminals.Concat(new[] { winding.PowerTransformer, winding.RatioTapChanger }));
             }
             foreach (var powerTransformer in command.PowerTransformers)
             {
@@ -70,10 +70,11 @@ namespace GUI.Core.Tree.Helpers
             {
                 equipmentByGid[ratioTapChanger.GID] = new EquipmentNodeItem(ratioTapChanger.GetType(),
                     ratioTapChanger,
-                    connectedTo: new[] { ratioTapChanger.TransformerWinding });
+                    connectedTo: new[] { ratioTapChanger.TransformerWinding },
+                    hidden: true);
             }
 
-            // Measurements 
+            // Measurements
             foreach (var analogMeasurement in command.Analogs)
             {
                 equipmentByGid[analogMeasurement.GID] = new EquipmentNodeItem(analogMeasurement.GetType(),

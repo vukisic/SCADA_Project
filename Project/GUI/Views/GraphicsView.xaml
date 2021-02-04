@@ -13,15 +13,23 @@
             <HierarchicalDataTemplate DataType="{x:Type core:EquipmentTreeNode}"
                                       ItemsSource="{Binding Path=Children}">
 
-                <Button Content="{Binding Path=Name}"
-                        Command="{Binding OnClick}"
+                <Button Command="{Binding OnClick}"
                         BorderBrush="{Binding BorderColor}"
                         Width="Auto"
-                        Height="50"
+                        Height="Auto"
+                        MaxHeight="50"
                         MinWidth="50"
+                        Margin="10, 0"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        ToolTip="{Binding Path=Name}" />
+                        ToolTip="{Binding Path=Name}">
+                    <Image Height="Auto"
+                           Width="Auto">
+                        <Image.Source>
+                            <BitmapImage UriSource="{Binding ImageSource}" />
+                        </Image.Source>
+                    </Image>
+                </Button>
             </HierarchicalDataTemplate>
         </ResourceDictionary>
     </UserControl.Resources>

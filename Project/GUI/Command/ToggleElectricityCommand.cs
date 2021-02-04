@@ -22,11 +22,21 @@ namespace GUI.Command
 
         public void Execute(object parameter)
         {
-            SetElectricity(_node, !_node.TurnedOn);
+            if (!_node.IsClickable)
+            {
+                return;
+            }
+
+            SetElectricity(_node, !_node.TurnedOn, isRoot: true);
         }
 
-        public void SetElectricity(EquipmentTreeNode node, bool value)
+        public void SetElectricity(EquipmentTreeNode node, bool value, bool isRoot = false)
         {
+            if (!isRoot)
+            {
+                node.IsClickable = value;
+            }
+
             node.TurnedOn = value;
 
             foreach (var child in node.Children)

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
@@ -21,8 +22,27 @@ namespace GUI.Core.Tree
             };
 
             AttachHandlers(node);
+            AttachImage(node);
 
             return node;
+        }
+
+        private static void AttachImage(EquipmentTreeNode node)
+        {
+            var imageByType = new Dictionary<Type, string>
+            {
+                [typeof(DisconnectorDto)] = "/Images/Disconnector.png",
+                [typeof(BreakerDto)] = "/Images/Breaker.png",
+                [typeof(AsynchronousMachineDto)] = "/Images/AMachine.png",
+                [typeof(TransformerWindingDto)] = "/Images/Transformer.png",
+                [typeof(TerminalDto)] = "/Images/Terminal.png",
+                [typeof(ConnectivityNodeDto)] = "/Images/ConnectivityNode.png"
+            };
+
+            if (imageByType.TryGetValue(node.Item.GetType(), out string imageSource))
+            {
+                node.ImageSource = imageSource;
+            }
         }
 
         private static void AttachHandlers(EquipmentTreeNode node)

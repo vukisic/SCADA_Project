@@ -19,24 +19,24 @@ namespace Simulator.ViewModels
         private IWindowManager _windowManager;
         private ISimulator _simulator;
         private IMessageService _messageService;
+
         public event EventHandler<ClickEventArgs> _applyEvent;
+
         private ObservableCollection<Point> _points;
         private ServiceHost serviceHost;
         private Point _selected;
+
         public ObservableCollection<Point> Points
         {
             get { return _points; }
-            set { _points = value; NotifyOfPropertyChange(() => Points);}
+            set { _points = value; NotifyOfPropertyChange(() => Points); }
         }
 
-       
-        public Point Selected 
-        { 
-            get {return _selected; }
+        public Point Selected
+        {
+            get { return _selected; }
             set { _selected = value; NotifyOfPropertyChange(() => Selected); }
         }
-
-        
 
         public MainWindowViewModel(IWindowManager windowManager, IMessageService messageService)
         {
@@ -51,33 +51,31 @@ namespace Simulator.ViewModels
             _simulator = new Core.Simulator(config);
             _simulator.updateEvent += Simulator_updateEvent;
             _simulator.Start();
-           
         }
 
         private void MainWindowViewModel_applyEvent(object sender, ClickEventArgs e)
         {
             var val = e.Point;
-            if(e.Point.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_INPUT)
+            if (e.Point.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_INPUT)
             {
                 SingleInt32Union value = new SingleInt32Union();
                 value.f = (e.Point as AnalogPoint).Value;
                 _simulator.UpdatePoint((ushort)e.Point.Index, dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_INPUT, dnp3_protocol.tgttypes.eDataSizes.FLOAT32_SIZE, dnp3_protocol.tgtcommon.eDataTypes.FLOAT32_DATA, value);
             }
-            else if(e.Point.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_OUTPUTS)
+            else if (e.Point.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_OUTPUTS)
             {
                 SingleInt32Union value = new SingleInt32Union();
                 value.f = (e.Point as AnalogPoint).Value;
                 _simulator.UpdatePoint((ushort)e.Point.Index, dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_OUTPUTS, dnp3_protocol.tgttypes.eDataSizes.FLOAT32_SIZE, dnp3_protocol.tgtcommon.eDataTypes.FLOAT32_DATA, value);
             }
-            else if(e.Point.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.BINARY_INPUT)
+            else if (e.Point.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.BINARY_INPUT)
             {
                 SingleInt32Union value = new SingleInt32Union();
                 value.i = (e.Point as BinaryPoint).Value;
                 _simulator.UpdatePoint((ushort)e.Point.Index, dnp3_protocol.dnp3types.eDNP3GroupID.BINARY_INPUT, dnp3_protocol.tgttypes.eDataSizes.SINGLE_POINT_SIZE, dnp3_protocol.tgtcommon.eDataTypes.SINGLE_POINT_DATA, value);
             }
-            else if(e.Point.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.BINARY_OUTPUT)
+            else if (e.Point.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.BINARY_OUTPUT)
             {
-
                 SingleInt32Union value = new SingleInt32Union();
                 value.i = (e.Point as BinaryPoint).Value;
                 _simulator.UpdatePoint((ushort)e.Point.Index, dnp3_protocol.dnp3types.eDNP3GroupID.BINARY_OUTPUT, dnp3_protocol.tgttypes.eDataSizes.SINGLE_POINT_SIZE, dnp3_protocol.tgtcommon.eDataTypes.SINGLE_POINT_DATA, value);
@@ -104,7 +102,7 @@ namespace Simulator.ViewModels
 
         public void OnClick()
         {
-            _windowManager.ShowDialog(new ControlWindowViewModel(Selected, _applyEvent,_messageService), null, null);
+            _windowManager.ShowDialog(new ControlWindowViewModel(Selected, _applyEvent, _messageService), null, null);
         }
     }
 }
