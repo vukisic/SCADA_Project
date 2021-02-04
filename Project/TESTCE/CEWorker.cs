@@ -100,7 +100,7 @@ namespace CE
             var points = proxy.GetData();
 
             int counter = 0;
-            foreach (var item in forecastResult.Results)
+            foreach (var item in forecastResult.Results.Take(12))
             {
                 for(int i = 0;i < item.Pumps.Count();i++)
                 {
@@ -108,15 +108,24 @@ namespace CE
                     var time = item.Times[i];
                     var flow = item.Flows[i];
 
-                    var breaker = points[$"Breaker_2{i + 1}Status"];
+                    var disc01 = points[$"Discrete_Disc01"];
+                    var disc02 = points[$"Discrete_Disc02"];
+                    var dis1_ = points[$"Discrete_Disc1{i + 1}"];
+                    var dis2_ = points[$"Discrete_Disc2{i + 1}"];
+
+                    var breaker01 = points[$"Breaker_01Status"];       
+                    var breaker1_ = points[$"Breaker_1{i + 1}Status"];
+                    
+
+                    var breaker2 = points[$"Breaker_2{i + 1}Status"];
                     var tap = points[$"Discrete_Tap{i + 1}"];
 
                     try
                     {
                         var command1 = new ScadaCommandingEvent()
                         {
-                            Index = (uint)breaker.Index,
-                            RegisterType = breaker.RegisterType,
+                            Index = (uint)breaker2.Index,
+                            RegisterType = breaker2.RegisterType,
                             Milliseconds = 0,
                             Value = (uint)onOff
                         };
@@ -136,13 +145,69 @@ namespace CE
                         {
                             var command3 = new ScadaCommandingEvent()
                             {
-                                Index = (uint)breaker.Index,
-                                RegisterType = breaker.RegisterType,
+                                Index = (uint)breaker2.Index,
+                                RegisterType = breaker2.RegisterType,
                                 Value = 0,
                                 Milliseconds = (uint)((counter + time) * 60 * 1000)
                             };
+
+                            var command4 = new ScadaCommandingEvent()
+                            {
+                                Index = (uint)disc01.Index,
+                                RegisterType = disc01.RegisterType,
+                                Milliseconds = 0,
+                                Value = (uint)onOff
+                            };
+
+                            var command5 = new ScadaCommandingEvent()
+                            {
+                                Index = (uint)disc02.Index,
+                                RegisterType = disc02.RegisterType,
+                                Milliseconds = 0,
+                                Value = (uint)onOff
+                            };
+
+                            var command6 = new ScadaCommandingEvent()
+                            {
+                                Index = (uint)dis1_.Index,
+                                RegisterType = dis1_.RegisterType,
+                                Milliseconds = 0,
+                                Value = (uint)onOff
+                            };
+
+                            var command7 = new ScadaCommandingEvent()
+                            {
+                                Index = (uint)dis2_.Index,
+                                RegisterType = dis2_.RegisterType,
+                                Milliseconds = 0,
+                                Value = (uint)onOff
+                            };
+
+                            var command8 = new ScadaCommandingEvent()
+                            {
+                                Index = (uint)breaker01.Index,
+                                RegisterType = breaker01.RegisterType,
+                                Milliseconds = 0,
+                                Value = (uint)onOff
+                            };
+
+                            var command9 = new ScadaCommandingEvent()
+                            {
+                                Index = (uint)breaker1_.Index,
+                                RegisterType = breaker1_.RegisterType,
+                                Milliseconds = 0,
+                                Value = (uint)onOff
+                            };
+
                             endpoint.Publish(command3).ConfigureAwait(false);
-                        }               
+                            endpoint.Publish(command4).ConfigureAwait(false);
+                            endpoint.Publish(command5).ConfigureAwait(false);
+                            endpoint.Publish(command6).ConfigureAwait(false);
+                            endpoint.Publish(command7).ConfigureAwait(false);
+                            endpoint.Publish(command8).ConfigureAwait(false);
+                            endpoint.Publish(command9).ConfigureAwait(false);
+                           
+                        }
                     }
                     catch (Exception ex)
                     {
