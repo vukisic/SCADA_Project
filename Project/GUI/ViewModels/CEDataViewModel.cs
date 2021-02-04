@@ -8,6 +8,10 @@ using Core.Common.ServiceBus.Commands;
 using Core.Common.ServiceBus.Events;
 using GUI.Core;
 using System.Collections.ObjectModel;
+using LiveCharts;
+using LiveCharts.Helpers;
+using LiveCharts.Wpf;
+using System.Windows.Media;
 
 namespace GUI.ViewModels
 {
@@ -19,6 +23,15 @@ namespace GUI.ViewModels
         private ObservableCollection<float> fluidLevel;
         private ObservableCollection<PumpsFlows> flows;
         private ObservableCollection<PumpsHours> hours;
+
+        public SeriesCollection IncomeSeries { get; set; }
+        public SeriesCollection FluidLevelSeries { get; set; }
+        public SeriesCollection WorkingSeries1 { get; set; }
+        public SeriesCollection WorkingSeries2 { get; set; }
+        public SeriesCollection WorkingSeries3 { get; set; }
+        public SeriesCollection FlowSeries1 { get; set; }
+        public SeriesCollection FlowSeries2 { get; set; }
+        public SeriesCollection FlowSeries3 { get; set; }
 
         #region Properties
 
@@ -112,6 +125,8 @@ namespace GUI.ViewModels
             {
                 Hours.Add(item);
             }
+
+            DrawCharts();
         }
 
         internal void Update(object sender, CeUpdateEvent e)
@@ -165,6 +180,107 @@ namespace GUI.ViewModels
             Data.FluidLevel.Clear();
             Data.Flows.Clear();
             Data.Hours.Clear();
+        }
+
+        private void DrawCharts()
+        {
+            IncomeSeries = new SeriesCollection
+            {
+                new LineSeries
+                {
+                    Title = "Income",
+                    Values = Income.AsChartValues(),
+                    Stroke = Brushes.Yellow
+                },
+            };
+
+            FluidLevelSeries = new SeriesCollection
+            {
+                new LineSeries
+                {
+                    Title = "Fluid level",
+                    Values = FluidLevel.AsChartValues(),
+                    Stroke = Brushes.Red
+                },
+            };
+
+            if (Hours.Count > 0)
+            {
+                WorkingSeries1 = new SeriesCollection
+                {
+                    new LineSeries
+                    {
+                        Title = "Working time",
+                        Values = Hours[0].Hours.AsChartValues(),
+                        Stroke = Brushes.Green
+                    },
+                };
+            }
+
+            if (Hours.Count > 1)
+            {
+                WorkingSeries2 = new SeriesCollection
+                {
+                    new LineSeries
+                    {
+                        Title = "Working time",
+                        Values = Hours[1].Hours.AsChartValues(),
+                        Stroke = Brushes.Green
+                    },
+                };
+            }
+
+            if (Hours.Count > 2)
+            {
+                WorkingSeries3 = new SeriesCollection
+                {
+                    new LineSeries
+                    {
+                        Title = "WorkingTime",
+                        Values = Hours[2].Hours.AsChartValues(),
+                        Stroke = Brushes.Green
+                    },
+                };
+            }
+
+            if (Flows.Count > 0)
+            {
+                FlowSeries1 = new SeriesCollection
+                {
+                    new LineSeries
+                    {
+                        Title = "Flow",
+                        Values = Flows[0].Flows.AsChartValues(),
+                        Stroke = Brushes.Orange
+                    },
+                };
+            }
+
+            if (Flows.Count > 1)
+            {
+                FlowSeries2 = new SeriesCollection
+                {
+                    new LineSeries
+                    {
+                        Title = "Flow",
+                        Values = Flows[1].Flows.AsChartValues(),
+                        Stroke = Brushes.Orange
+                    },
+                };
+            }
+
+            if (Flows.Count > 2)
+            {
+                FlowSeries3 = new SeriesCollection
+                {
+                    new LineSeries
+                    {
+                        Title = "Flow",
+                        Values = Flows[2].Flows.AsChartValues(),
+                        Stroke = Brushes.Orange
+                    },
+                };
+            }
         }
     }
 }
