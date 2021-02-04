@@ -88,7 +88,7 @@ namespace CE
                                 
                     //Thread.Sleep(10800000); // 3hrs
                     // Test
-                    Thread.Sleep(2000);
+                    Thread.Sleep(10800000);
                 }
                
             }
@@ -100,8 +100,7 @@ namespace CE
             var points = proxy.GetData();
 
             int counter = 0;
-
-            foreach(var item in forecastResult.Results)
+            foreach (var item in forecastResult.Results)
             {
                 for(int i = 0;i < item.Pumps.Count();i++)
                 {
@@ -114,11 +113,6 @@ namespace CE
 
                     try
                     {
-                        IEndpointInstance instance = ServiceBusStartup.StartInstance()
-                           .ConfigureAwait(false)
-                           .GetAwaiter()
-                           .GetResult();
-
                         var command1 = new ScadaCommandingEvent()
                         {
                             Index = (uint)breaker.Index,
@@ -135,8 +129,8 @@ namespace CE
                             Value = (uint)(flow / 100)
                         };
 
-                        instance.Publish(command1).ConfigureAwait(false);
-                        instance.Publish(command2).ConfigureAwait(false);
+                        endpoint.Publish(command1).ConfigureAwait(false);
+                        endpoint.Publish(command2).ConfigureAwait(false);
 
                         if (onOff == 1)
                         {
@@ -147,7 +141,7 @@ namespace CE
                                 Value = 0,
                                 Milliseconds = (uint)((counter + time) * 60 * 1000)
                             };
-                            instance.Publish(command3).ConfigureAwait(false);
+                            endpoint.Publish(command3).ConfigureAwait(false);
                         }               
                     }
                     catch (Exception ex)
@@ -193,7 +187,7 @@ namespace CE
                 update.Hours.Add(hours);
                 update.Flows.Add(flows);
             }
-            endpoint.Publish(update).GetAwaiter().GetResult();
+            endpoint.Publish(update).ConfigureAwait(false).GetAwaiter().GetResult();
         }
 
         private List<string> GetTimes()
