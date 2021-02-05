@@ -8,7 +8,7 @@
         xmlns:local="clr-namespace:GUI.Views"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d" Background="White"
-        Title="Client Station" Height="700" Width="1200"
+        Title="Client Station" Height="750" Width="1200"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
         TextOptions.TextFormattingMode="Ideal" 

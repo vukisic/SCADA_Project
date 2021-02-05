@@ -16,6 +16,7 @@ using FTN.Common;
 using GUI.Core;
 using GUI.Models;
 using GUI.ServiceBus;
+using MahApps.Metro.Controls;
 using NServiceBus;
 using SCADA.Common.DataModel;
 
@@ -23,9 +24,11 @@ namespace GUI.ViewModels
 {
     public class ScadaDataViewModel : Conductor<object>
     {
+        private static bool state;
         private IWindowManager manager;
         private IEndpointInstance endpoint;
         private int selected;
+        private bool isOn;
         private ObservableCollection<BasePointDto> _points;
         public ObservableCollection<BasePointDto> Points
         {
@@ -43,6 +46,7 @@ namespace GUI.ViewModels
             Points = new ObservableCollection<BasePointDto>();
 
             endpoint = EndPointCreator.Instance().Get();
+            IsOn = state;
         }
 
         public int Selected
@@ -50,6 +54,8 @@ namespace GUI.ViewModels
             get { return selected; }
             set { selected = value; NotifyOfPropertyChange(() => Selected); }
         }
+
+        public bool IsOn { get => isOn; set { isOn = value; NotifyOfPropertyChange(() => IsOn); } }
 
         public void Update(object sender, ScadaUpdateEvent e)
         {
@@ -80,8 +86,18 @@ namespace GUI.ViewModels
                 Points = tempPoints;
             });
         }
+
+        public void OnToggle(ToggleSwitch sw) 
+        {
+            if (sw.IsOn)
+                ONClick();
+            else
+                OFFClick();
+        }
+
         public void ONClick()
         {
+            state = true;
             ScadaExportProxy proxy = new ScadaExportProxy();
             var points = proxy.GetData();
 
@@ -210,8 +226,9 @@ namespace GUI.ViewModels
             endpoint.Publish(command12).ConfigureAwait(false);
         }
 
-        public void OFF_Click()
+        public void OFFClick()
         {
+            state = false;
             ScadaExportProxy proxy = new ScadaExportProxy();
             var points = proxy.GetData();
 
