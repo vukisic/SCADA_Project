@@ -55,13 +55,13 @@ namespace CE
         {
             while (endFlag)
             {
-                if(points > 0 && points < 4)
+                if (points > 0 && points < 4)
                 {
                     if (pointUpdateOccures)
                     {
                         ChangeStrategy();
                     }
-                    
+
 
                     var forecastResult = new CeForecast();
                     var area = GetSurfaceArea();
@@ -74,7 +74,7 @@ namespace CE
                     {
                         current += (float)weather[i];
                         ChangeStrategy();
-                   
+
                         result = algorithm.Start(current);
                         var processedResult = ProcessResults(current, result);
                         forecastResult.Results.AddRange(processedResult);
@@ -85,12 +85,12 @@ namespace CE
 
                     SendCommand(forecastResult);
                     Update(forecastResult, weather);
-                                
+
                     //Thread.Sleep(10800000); // 3hrs
                     // Test
                     Thread.Sleep(10800000);
                 }
-               
+
             }
         }
 
@@ -102,20 +102,11 @@ namespace CE
             int counter = 0;
             foreach (var item in forecastResult.Results.Take(12))
             {
-                for(int i = 0;i < item.Pumps.Count();i++)
+                for (int i = 0; i < item.Pumps.Count(); i++)
                 {
                     var onOff = item.Pumps[i];
                     var time = item.Times[i];
                     var flow = item.Flows[i];
-
-                    var disc01 = points[$"Discrete_Disc01"];
-                    var disc02 = points[$"Discrete_Disc02"];
-                    var dis1_ = points[$"Discrete_Disc1{i + 1}"];
-                    var dis2_ = points[$"Discrete_Disc2{i + 1}"];
-
-                    var breaker01 = points[$"Breaker_01Status"];       
-                    var breaker1_ = points[$"Breaker_1{i + 1}Status"];
-                    
 
                     var breaker2 = points[$"Breaker_2{i + 1}Status"];
                     var tap = points[$"Discrete_Tap{i + 1}"];
@@ -151,72 +142,18 @@ namespace CE
                                 Milliseconds = (uint)((counter + time) * 60 * 1000)
                             };
 
-                            var command4 = new ScadaCommandingEvent()
-                            {
-                                Index = (uint)disc01.Index,
-                                RegisterType = disc01.RegisterType,
-                                Milliseconds = 0,
-                                Value = (uint)onOff
-                            };
-
-                            var command5 = new ScadaCommandingEvent()
-                            {
-                                Index = (uint)disc02.Index,
-                                RegisterType = disc02.RegisterType,
-                                Milliseconds = 0,
-                                Value = (uint)onOff
-                            };
-
-                            var command6 = new ScadaCommandingEvent()
-                            {
-                                Index = (uint)dis1_.Index,
-                                RegisterType = dis1_.RegisterType,
-                                Milliseconds = 0,
-                                Value = (uint)onOff
-                            };
-
-                            var command7 = new ScadaCommandingEvent()
-                            {
-                                Index = (uint)dis2_.Index,
-                                RegisterType = dis2_.RegisterType,
-                                Milliseconds = 0,
-                                Value = (uint)onOff
-                            };
-
-                            var command8 = new ScadaCommandingEvent()
-                            {
-                                Index = (uint)breaker01.Index,
-                                RegisterType = breaker01.RegisterType,
-                                Milliseconds = 0,
-                                Value = (uint)onOff
-                            };
-
-                            var command9 = new ScadaCommandingEvent()
-                            {
-                                Index = (uint)breaker1_.Index,
-                                RegisterType = breaker1_.RegisterType,
-                                Milliseconds = 0,
-                                Value = (uint)onOff
-                            };
-
                             endpoint.Publish(command3).ConfigureAwait(false);
-                            endpoint.Publish(command4).ConfigureAwait(false);
-                            endpoint.Publish(command5).ConfigureAwait(false);
-                            endpoint.Publish(command6).ConfigureAwait(false);
-                            endpoint.Publish(command7).ConfigureAwait(false);
-                            endpoint.Publish(command8).ConfigureAwait(false);
-                            endpoint.Publish(command9).ConfigureAwait(false);
-                           
                         }
                     }
                     catch (Exception ex)
                     {
                         Console.WriteLine(ex.Message);
-                    }               
+                    }
                 }
                 counter += 15;
             }
         }
+
 
         private void Update(CeForecast forecastResult, List<double> weather)
         {
@@ -230,7 +167,7 @@ namespace CE
             }
             update.Hours = new List<PumpsHours>();
             update.Flows = new List<PumpsFlows>();
-           
+
 
             for (int i = 0; i < points; i++)
             {
@@ -238,7 +175,7 @@ namespace CE
                 var flows = new PumpsFlows();
                 foreach (var item in forecastResult.Results)
                 {
-                    if(item.Pumps[i] == 1)
+                    if (item.Pumps[i] == 1)
                     {
                         hours.Hours.Add(item.Times[i]);
                         flows.Flows.Add(item.Flows[i]);
@@ -273,19 +210,19 @@ namespace CE
         {
             var results = new List<CeForecastResult>();
             float totalPerIteration = (GetTotalFromResults(result.Genes) / 4);
-            for(int i = 0; i< 4; i++)
+            for (int i = 0; i < 4; i++)
             {
                 var item = new CeForecastResult();
                 item.Result = result;
                 item.StartFluidLevel = current;
                 item.EndFluidLevel = current - totalPerIteration;
                 current -= totalPerIteration;
-                
-                for (int j = 0; j < result.Genes.Count(); j+=3)
+
+                for (int j = 0; j < result.Genes.Count(); j += 3)
                 {
                     item.Pumps.Add(result.Genes[j]);
-                    item.Times.Add(result.Genes[j+2]);
-                    item.Flows.Add(result.Genes[j+1]);
+                    item.Times.Add(result.Genes[j + 2]);
+                    item.Flows.Add(result.Genes[j + 1]);
                 }
                 results.Add(item);
             }
@@ -302,9 +239,9 @@ namespace CE
         private float GetTotalFromResults(float[] results)
         {
             float total = 0;
-            for (int i = 0; i < results.Count(); i+=3)
+            for (int i = 0; i < results.Count(); i += 3)
             {
-                total += (results[i] * results[i+1] * results[i+2]);
+                total += (results[i] * results[i + 1] * results[i + 2]);
             }
 
             return total;
@@ -315,7 +252,7 @@ namespace CE
             var results = ReadConfiguration();
             switch (points)
             {
-                case 1: algorithm = new FluidLevelOptimization1(results.OptimalFluidLevel,results.Percetage,results.TimeFactor,results.Iterations); break;
+                case 1: algorithm = new FluidLevelOptimization1(results.OptimalFluidLevel, results.Percetage, results.TimeFactor, results.Iterations); break;
                 case 2: algorithm = new FluidLevelOptimization2(results.OptimalFluidLevel, results.Percetage, results.TimeFactor, results.Iterations); break;
                 case 3: algorithm = new FluidLevelOptimization3(results.OptimalFluidLevel, results.Percetage, results.TimeFactor, results.Iterations); break;
             }

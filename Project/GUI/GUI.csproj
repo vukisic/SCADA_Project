@@ -143,6 +143,7 @@
     <Compile Include="Models\BasePointDto.cs" />
     <Compile Include="Models\HistoryDto.cs" />
     <Compile Include="Models\SwitchingEquipmentDto.cs" />
+    <Compile Include="ServiceBus\EndPointCreator.cs" />
     <Compile Include="ServiceBus\ServiceBusStartup.cs" />
     <Compile Include="Services\INotificationService.cs" />
     <Compile Include="Services\NotificationService.cs" />
@@ -246,6 +247,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CE.Common\CE.Common.csproj">
+      <Project>{b440de64-0b7c-490b-afb7-8f4bfa249afc}</Project>
+      <Name>CE.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{892CBE15-9ED7-4540-81FA-0EAABA592138}</Project>
       <Name>Common</Name>

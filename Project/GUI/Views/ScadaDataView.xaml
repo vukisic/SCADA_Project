@@ -15,12 +15,13 @@
                 TextOptions.TextRenderingMode="Auto"   
                 Background="{DynamicResource MaterialDesignPaper}"
                 FontFamily="{DynamicResource MaterialDesignFont}">
-    
+
     <UserControl.Resources>
-       
+
     </UserControl.Resources>
 
     <Grid>
+  
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
@@ -30,7 +31,8 @@
         <DataGrid x:Name="Points" ItemsSource="{Binding Path=Points, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectionMode="Single" AutoGenerateColumns="False"
 				  CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" SelectedIndex="{Binding Selected, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
 				  SelectionUnit="FullRow" Style="{StaticResource DataGridStyle}"
-				  cal:Message.Attach="[Event MouseDoubleClick] = [Action MouseDoubleClick]" >
+				  cal:Message.Attach="[Event MouseDoubleClick] = [Action MouseDoubleClick]">
+
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Index" Binding="{Binding Index}" IsReadOnly="True" Width="*" HeaderStyle="{StaticResource DataGridColumnStyle}"  CellStyle="{StaticResource DataGridCellStyle}"/>
                 <DataGridTextColumn Header="Mrid" Binding="{Binding Mrid}" IsReadOnly="True" Width="*" HeaderStyle="{StaticResource DataGridColumnStyle}" CellStyle="{StaticResource DataGridCellStyle}"/>
@@ -39,7 +41,19 @@
                 <DataGridTextColumn Header="Timestamp" Binding="{Binding TimeStamp}" IsReadOnly="True" Width="*" HeaderStyle="{StaticResource DataGridColumnStyle}" CellStyle="{StaticResource DataGridCellStyle}"/>
                 <DataGridTextColumn Header="Type" Binding="{Binding MeasurementType}" IsReadOnly="True" Width="*" HeaderStyle="{StaticResource DataGridColumnStyle}" CellStyle="{StaticResource DataGridCellStyle}"/>
                 <DataGridTextColumn Header="Alarm" Binding="{Binding Alarm}" IsReadOnly="True" Width="*" HeaderStyle="{StaticResource DataGridColumnStyle}" CellStyle="{StaticResource DataGridCellStyle}"/>
+                <DataGridTemplateColumn Width="*" HeaderStyle="{StaticResource DataGridColumnStyle}" CellStyle="{StaticResource DataGridCellStyle}">
+                    <DataGridTemplateColumn.Header>
+                        <ComboBox Name="CM" Width="123" >
+                            <ComboBoxItem>
+                                <Button x:Name="on" Content="ON" Click="ON_Click"></Button>
+                            </ComboBoxItem>
+                            <ComboBoxItem IsSelected="True">
+                                <Button x:Name="off" Content="OFF" Click="OFF_Click"></Button>
+                            </ComboBoxItem>
+                        </ComboBox>
+                    </DataGridTemplateColumn.Header>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
-        </DataGrid>  
+        </DataGrid>
     </Grid>
 </UserControl>
