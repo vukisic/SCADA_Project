@@ -14,15 +14,17 @@ using SCADA.Common.DataModel;
 namespace GUI.ViewModels
 {
     public class ControlViewModel : Screen
-    {
+    { 
         public MyICommand WriteCommand { get; set; }
         private int commandedValue;
         public int CommandedValue { get => commandedValue; set { commandedValue = value; NotifyOfPropertyChange(() => CommandedValue); } }
 
         private BasePointDto model;
+        private IEndpointInstance endPoint;
         public BasePointDto Model { get => model; set { model = value; NotifyOfPropertyChange(() => Model); } }
-        public ControlViewModel(BasePointDto dto)
+        public ControlViewModel(BasePointDto dto, IEndpointInstance endpointInstance)
         {
+            endPoint = endpointInstance;
             Model = dto;
             WriteCommand = new MyICommand(OnWrite, CanWrite);
         }
@@ -31,11 +33,6 @@ namespace GUI.ViewModels
         {
             try
             {
-                IEndpointInstance instance = ServiceBusStartup.StartInstance()
-                   .ConfigureAwait(false)
-                   .GetAwaiter()
-                   .GetResult();
-
                 ScadaCommandingEvent ev = new ScadaCommandingEvent()
                 {
                     Index = (uint)Model.Index,
@@ -44,7 +41,7 @@ namespace GUI.ViewModels
                     Value = (uint)CommandedValue
                 };
 
-                instance.Publish(ev).ConfigureAwait(false);
+                endPoint.Publish(ev).ConfigureAwait(false);
                 TryClose();
             }
             catch (Exception ex)

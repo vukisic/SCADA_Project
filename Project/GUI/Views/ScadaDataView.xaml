@@ -5,6 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GUI.Views"
+              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
               xmlns:cal="http://www.caliburnproject.org"
                 mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="1200"
@@ -41,18 +42,19 @@
                 <DataGridTextColumn Header="Timestamp" Binding="{Binding TimeStamp}" IsReadOnly="True" Width="*" HeaderStyle="{StaticResource DataGridColumnStyle}" CellStyle="{StaticResource DataGridCellStyle}"/>
                 <DataGridTextColumn Header="Type" Binding="{Binding MeasurementType}" IsReadOnly="True" Width="*" HeaderStyle="{StaticResource DataGridColumnStyle}" CellStyle="{StaticResource DataGridCellStyle}"/>
                 <DataGridTextColumn Header="Alarm" Binding="{Binding Alarm}" IsReadOnly="True" Width="*" HeaderStyle="{StaticResource DataGridColumnStyle}" CellStyle="{StaticResource DataGridCellStyle}"/>
-                <DataGridTemplateColumn Width="*" HeaderStyle="{StaticResource DataGridColumnStyle}" CellStyle="{StaticResource DataGridCellStyle}">
+              
+                <DataGridTemplateColumn Width="50" HeaderStyle="{StaticResource DataGridColumnStyle}" CellStyle="{StaticResource DataGridCellStyle}">
                     <DataGridTemplateColumn.Header>
-                        <ComboBox Name="CM" Width="123" >
-                            <ComboBoxItem>
-                                <Button x:Name="on" Content="ON" Click="ON_Click"></Button>
-                            </ComboBoxItem>
-                            <ComboBoxItem IsSelected="True">
-                                <Button x:Name="off" Content="OFF" Click="OFF_Click"></Button>
-                            </ComboBoxItem>
-                        </ComboBox>
+                        <Button x:Name="on" Content="ON" cal:Message.Attach="[Event Click] = [Action ONClick()]"/>
                     </DataGridTemplateColumn.Header>
                 </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Width="50" HeaderStyle="{StaticResource DataGridColumnStyle}" CellStyle="{StaticResource DataGridCellStyle}">
+                    <DataGridTemplateColumn.Header>
+                        <Button x:Name="off" Content="OFF" cal:Message.Attach="[Event Click] = [Action OFFClick()]"/>
+                    </DataGridTemplateColumn.Header>
+                </DataGridTemplateColumn>
+                
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
