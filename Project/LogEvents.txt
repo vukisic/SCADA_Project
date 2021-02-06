@@ -1,0 +1,54 @@
+2021-02-06 18:55:15,301-[6]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-06 18:55:20,775-[3]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-06 18:55:20,775-[3]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-06 18:55:20,896-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-06 18:55:20,896-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-06 18:55:20,896-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-06 18:55:45,447-[7]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-06 18:55:50,174-[3]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-06 18:55:50,174-[3]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-06 18:55:50,257-[8]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-06 18:55:50,257-[8]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-06 18:55:50,257-[8]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-06 18:57:24,238-[7]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-06 18:57:30,482-[4]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-06 18:57:30,482-[4]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-06 18:57:30,726-[7]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-06 18:57:30,726-[7]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-06 18:57:30,726-[7]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-06 18:58:51,092-[8]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-06 18:58:57,291-[6]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-06 18:58:57,291-[6]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-06 18:58:57,384-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-06 18:58:57,384-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-06 18:58:57,384-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-06 18:59:02,579-[7]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\vukis\Desktop\Project\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\vukis\Desktop\Project\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-06 18:59:02,579-[7]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\vukis\Desktop\Project\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\vukis\Desktop\Project\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-06 18:59:02,579-[7]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\vukis\Desktop\Project\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\vukis\Desktop\Project\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-06 18:59:02,579-[7]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\vukis\Desktop\Project\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\vukis\Desktop\Project\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-06 19:00:43,297-[4]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-06 19:00:48,762-[4]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-06 19:00:48,762-[4]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-06 19:00:48,912-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-06 19:00:48,912-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-06 19:00:48,912-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-06 19:00:54,090-[21]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\vukis\Desktop\Project\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\vukis\Desktop\Project\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-06 19:00:54,090-[21]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\vukis\Desktop\Project\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\vukis\Desktop\Project\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-06 19:00:54,090-[21]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\vukis\Desktop\Project\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\vukis\Desktop\Project\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-06 19:00:54,090-[21]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\vukis\Desktop\Project\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\vukis\Desktop\Project\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
