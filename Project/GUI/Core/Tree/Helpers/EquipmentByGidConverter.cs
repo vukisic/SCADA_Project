@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Core.Common.ServiceBus.Commands;
+using Core.Common.ServiceBus.Dtos;
 
 namespace GUI.Core.Tree.Helpers
 {
@@ -10,7 +10,19 @@ namespace GUI.Core.Tree.Helpers
         {
             var equipmentByGid = new Dictionary<long, EquipmentNodeItem>();
 
-            // connectivity node
+            RegisterConnectivityNodes(command, equipmentByGid);
+            RegisterTerminals(command, equipmentByGid);
+            RegisterAsynchronousMachines(command, equipmentByGid);
+            RegisterBreakers(command, equipmentByGid);
+            RegisterDisconnectors(command, equipmentByGid);
+            RegisterTransformers(command, equipmentByGid);
+            RegisterMeasurements(command, equipmentByGid);
+
+            return equipmentByGid;
+        }
+
+        private static void RegisterConnectivityNodes(ModelUpdateCommand command, Dictionary<long, EquipmentNodeItem> equipmentByGid)
+        {
             foreach (var connectivityNode in command.ConnectivityNodes)
             {
                 equipmentByGid[connectivityNode.GID] = new EquipmentNodeItem(connectivityNode.GetType(),
@@ -18,8 +30,10 @@ namespace GUI.Core.Tree.Helpers
                     connectedTo: connectivityNode.Terminals,
                     hidden: true);
             }
+        }
 
-            // terminal
+        private static void RegisterTerminals(ModelUpdateCommand command, Dictionary<long, EquipmentNodeItem> equipmentByGid)
+        {
             foreach (var terminal in command.Terminals)
             {
                 equipmentByGid[terminal.GID] = new EquipmentNodeItem(terminal.GetType(),
@@ -27,54 +41,40 @@ namespace GUI.Core.Tree.Helpers
                     connectedTo: new[] { terminal.ConnectivityNode, terminal.ConductingEquipment },
                     hidden: true);
             }
+        }
 
-            // a. machine
+        private static void RegisterAsynchronousMachines(ModelUpdateCommand command, Dictionary<long, EquipmentNodeItem> equipmentByGid)
+        {
             foreach (var item in command.AsynchronousMachines)
             {
                 equipmentByGid[item.GID] = new EquipmentNodeItem(item.GetType(),
                     item,
                     connectedTo: item.Terminals);
             }
+        }
 
-            // Breakers
+        private static void RegisterBreakers(ModelUpdateCommand command, Dictionary<long, EquipmentNodeItem> equipmentByGid)
+        {
             foreach (var breaker in command.Breakers)
             {
                 equipmentByGid[breaker.GID] = new EquipmentNodeItem(breaker.GetType(),
                     breaker,
                     connectedTo: breaker.Terminals);
             }
+        }
 
-            // Disconnectors
+        private static void RegisterDisconnectors(ModelUpdateCommand command, Dictionary<long, EquipmentNodeItem> equipmentByGid)
+        {
             foreach (var disconnector in command.Disconnectors)
             {
                 equipmentByGid[disconnector.GID] = new EquipmentNodeItem(disconnector.GetType(),
                     disconnector,
                     connectedTo: disconnector.Terminals);
             }
+        }
 
-            // Transformer
-            foreach (var winding in command.TransformerWindings)
-            {
-                equipmentByGid[winding.GID] = new EquipmentNodeItem(winding.GetType(),
-                    winding,
-                    connectedTo: winding.Terminals.Concat(new[] { winding.PowerTransformer, winding.RatioTapChanger }));
-            }
-            foreach (var powerTransformer in command.PowerTransformers)
-            {
-                equipmentByGid[powerTransformer.GID] = new EquipmentNodeItem(powerTransformer.GetType(),
-                    powerTransformer,
-                    connectedTo: powerTransformer.TransformerWindings,
-                    hidden: true);
-            }
-            foreach (var ratioTapChanger in command.RatioTapChangers)
-            {
-                equipmentByGid[ratioTapChanger.GID] = new EquipmentNodeItem(ratioTapChanger.GetType(),
-                    ratioTapChanger,
-                    connectedTo: new[] { ratioTapChanger.TransformerWinding },
-                    hidden: true);
-            }
-
-            // Measurements
+        private static void RegisterMeasurements(ModelUpdateCommand command, Dictionary<long, EquipmentNodeItem> equipmentByGid)
+        {
             foreach (var analogMeasurement in command.Analogs)
             {
                 equipmentByGid[analogMeasurement.GID] = new EquipmentNodeItem(analogMeasurement.GetType(),
@@ -89,8 +89,36 @@ namespace GUI.Core.Tree.Helpers
                     connectedTo: new[] { discreteMeasurement.Terminals },
                     hidden: true);
             }
+        }
 
-            return equipmentByGid;
+        private static void RegisterTransformers(ModelUpdateCommand command, Dictionary<long, EquipmentNodeItem> equipmentByGid)
+        {
+            foreach (var powerTransformer in command.PowerTransformers)
+            {
+                equipmentByGid[powerTransformer.GID] = new EquipmentNodeItem(powerTransformer.GetType(),
+                    powerTransformer,
+                    connectedTo: powerTransformer.TransformerWindings,
+                    hidden: true);
+            }
+
+            foreach (var ratioTapChanger in command.RatioTapChangers)
+            {
+                equipmentByGid[ratioTapChanger.GID] = new EquipmentNodeItem(ratioTapChanger.GetType(),
+                    ratioTapChanger,
+                    connectedTo: new[] { ratioTapChanger.TransformerWinding },
+                    hidden: true);
+            }
+
+            foreach (var winding in command.TransformerWindings)
+            {
+                var tapChanger = equipmentByGid[winding.RatioTapChanger].Item as RatioTapChangerDto;
+                var powerTransformer = equipmentByGid[winding.PowerTransformer].Item as PowerTransformerDto;
+                var transformer = new TransformerModel(winding, tapChanger, powerTransformer);
+
+                equipmentByGid[winding.GID] = new EquipmentNodeItem(winding.GetType(),
+                    transformer,
+                    connectedTo: winding.Terminals);
+            }
         }
     }
 }

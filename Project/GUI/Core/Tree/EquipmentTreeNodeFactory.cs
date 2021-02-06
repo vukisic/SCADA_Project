@@ -35,6 +35,7 @@ namespace GUI.Core.Tree
                 [typeof(BreakerDto)] = "/Images/Breaker.png",
                 [typeof(AsynchronousMachineDto)] = "/Images/AMachine.png",
                 [typeof(TransformerWindingDto)] = "/Images/Transformer.png",
+                [typeof(TransformerModel)] = "/Images/Transformer.png",
                 [typeof(TerminalDto)] = "/Images/Terminal.png",
                 [typeof(ConnectivityNodeDto)] = "/Images/ConnectivityNode.png"
             };
@@ -54,6 +55,11 @@ namespace GUI.Core.Tree
             if (typesWithElectricityToggleSupport.Any(type => type == node.Type))
             {
                 node.OnClick = new ToggleElectricityCommand(node);
+            }
+
+            if (node.Item is TransformerModel)
+            {
+                node.OnClick = new OpenTransformerFormCommand(node);
             }
         }
     }
