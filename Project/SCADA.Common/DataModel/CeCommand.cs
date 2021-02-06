@@ -13,5 +13,6 @@ namespace SCADA.Common.DataModel
         public uint Value { get; set; }
         public uint Milliseconds { get; set; }
         public uint MillisecondsPassedSinceLastPoll { get; set; }
+        public bool Remove { get; set; }
     }
 }

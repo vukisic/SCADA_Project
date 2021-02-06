@@ -28,7 +28,7 @@ namespace NDS
         static IEndpointInstance endpoint;
         private static async Task AsyncMain()
         {
-            Console.Title = "NetworkDynamicService";
+            Console.Title = "NDS";
             LoggingHost logHost = new LoggingHost();
             logHost.Open();
             var logger = ScadaProxyFactory.Instance().LoggingProxy();

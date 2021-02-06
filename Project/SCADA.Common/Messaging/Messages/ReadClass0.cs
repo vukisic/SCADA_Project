@@ -49,63 +49,67 @@ namespace SCADA.Common.Messaging.Messages
             byte[] dataObjects = MessagesHelper.GetResponseDataObjects(response);
 
             Dictionary<Tuple<RegisterType, int>, BasePoint> retVal = new Dictionary<Tuple<RegisterType, int>, BasePoint>();
-
-            int typeFieldPosition = 0;
-            int startIndexPosition = 3;
-            int stopIndexPosition = 4;
-
-            int len = dataObjects.Length;
-            int lastRange = 0;
-            int pointTypes = 0;
-            while (len > 0)
+            try
             {
-                ushort typeField = (ushort)IPAddress.NetworkToHostOrder((short)BitConverter.ToUInt16(dataObjects, typeFieldPosition));
-                byte startIndex = dataObjects[startIndexPosition];
-                byte stopIndex = dataObjects[stopIndexPosition];
-                int numberOfItems = stopIndex - startIndex + 1;
-                int range = 5; //type(2) + qual + satrt + stop index
-               
-                switch (typeField)
+                int typeFieldPosition = 0;
+                int startIndexPosition = 3;
+                int stopIndexPosition = 4;
+
+                int len = dataObjects.Length;
+                int lastRange = 0;
+                int pointTypes = 0;
+                while (len > 0)
                 {
-                    case (ushort)TypeField.BINARY_INPUT_PACKED_FORMAT:
-                    case (ushort)TypeField.BINARY_OUTPUT_PACKED_FORMAT:
-                        {
-                            pointTypes += 1;
-                            range += numberOfItems % 8 == 0 ? numberOfItems / 8 : numberOfItems / 8 + 1;                          
-                            byte[] binaryObject = new byte[range];
-                            Buffer.BlockCopy(dataObjects, lastRange, binaryObject, 0, range);
-                            ParseBinaryObject(binaryObject, typeField, ref retVal);
-                            lastRange += range;
-                            break;
-                        }
-                    case (ushort)TypeField.ANALOG_OUTPUT_STATUS_16BIT:
-                        {
-                            pointTypes += 1;
-                            range += numberOfItems * 3;
-                            byte[] analogObject = new byte[range];
-                            Buffer.BlockCopy(dataObjects, lastRange, analogObject, 0, range);
-                            ParseAnalogOutputObject(analogObject, typeField, ref retVal);
-                            lastRange += range;
-                            break;
-                        }
-                    case (ushort)TypeField.ANALOG_INPUT_16BIT:
-                        {
-                            pointTypes += 1;
-                            range += numberOfItems * 2;
-                            byte[] analogObject = new byte[range];
-                            Buffer.BlockCopy(dataObjects, lastRange, analogObject, 0, range);
-                            ParseAnalogInputObject(analogObject, typeField, ref retVal);
-                            lastRange += range;
-                            break;
-                        }
+                    ushort typeField = (ushort)IPAddress.NetworkToHostOrder((short)BitConverter.ToUInt16(dataObjects, typeFieldPosition));
+                    byte startIndex = dataObjects[startIndexPosition];
+                    byte stopIndex = dataObjects[stopIndexPosition];
+                    int numberOfItems = stopIndex - startIndex + 1;
+                    int range = 5; //type(2) + qual + satrt + stop index
+
+                    switch (typeField)
+                    {
+                        case (ushort)TypeField.BINARY_INPUT_PACKED_FORMAT:
+                        case (ushort)TypeField.BINARY_OUTPUT_PACKED_FORMAT:
+                            {
+                                pointTypes += 1;
+                                range += numberOfItems % 8 == 0 ? numberOfItems / 8 : numberOfItems / 8 + 1;
+                                byte[] binaryObject = new byte[range];
+                                Buffer.BlockCopy(dataObjects, lastRange, binaryObject, 0, range);
+                                ParseBinaryObject(binaryObject, typeField, ref retVal);
+                                lastRange += range;
+                                break;
+                            }
+                        case (ushort)TypeField.ANALOG_OUTPUT_STATUS_16BIT:
+                            {
+                                pointTypes += 1;
+                                range += numberOfItems * 3;
+                                byte[] analogObject = new byte[range];
+                                Buffer.BlockCopy(dataObjects, lastRange, analogObject, 0, range);
+                                ParseAnalogOutputObject(analogObject, typeField, ref retVal);
+                                lastRange += range;
+                                break;
+                            }
+                        case (ushort)TypeField.ANALOG_INPUT_16BIT:
+                            {
+                                pointTypes += 1;
+                                range += numberOfItems * 2;
+                                byte[] analogObject = new byte[range];
+                                Buffer.BlockCopy(dataObjects, lastRange, analogObject, 0, range);
+                                ParseAnalogInputObject(analogObject, typeField, ref retVal);
+                                lastRange += range;
+                                break;
+                            }
+                    }
+                    len -= range;
+                    typeFieldPosition += range;
+                    startIndexPosition += range;
+                    stopIndexPosition += range;
+                    if (pointTypes == 4)
+                        break;
                 }
-                len -= range;
-                typeFieldPosition += range;
-                startIndexPosition += range;
-                stopIndexPosition += range;
-                if (pointTypes == 4)
-                    break;
             }
+            catch { }
+           
             return retVal;
         }
 

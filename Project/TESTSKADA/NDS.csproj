@@ -62,7 +62,6 @@
   <ItemGroup>
     <Compile Include="FrontEnd\FEP.cs" />
     <Compile Include="FrontEnd\IFEP.cs" />
-    <Compile Include="FrontEnd\UpdateArgs.cs" />
     <Compile Include="ProcessingModule\Acquisitor.cs" />
     <Compile Include="ProcessingModule\CommandingService.cs" />
     <Compile Include="ProcessingModule\IProcessingManager.cs" />

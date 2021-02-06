@@ -103,10 +103,12 @@ namespace SCADA.Common.Connection
                 {
                     currentCommand = null;
                     connectionState = ConnectionState.DISCONNECTED;
+                    ScadaProxyFactory.Instance().LoggingProxy().Log(new Logging.LogEventModel() { EventType = Logging.LogEventType.ERROR, Message = $"{se.Message} - {se.StackTrace}" });
                 }
                 catch(Exception ex)
                 {
                     currentCommand = null;
+                    ScadaProxyFactory.Instance().LoggingProxy().Log(new Logging.LogEventModel() { EventType = Logging.LogEventType.ERROR, Message = $"{ex.Message} - {ex.StackTrace}" });
                 }
             }
         }

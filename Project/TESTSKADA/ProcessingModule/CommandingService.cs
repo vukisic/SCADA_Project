@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 using Core.Common.ServiceBus.Events;
 using NServiceBus;
 using SCADA.Common.DataModel;
+using SCADA.Common.Proxies;
 
 namespace NDS.ProcessingModule
 {
@@ -14,13 +16,13 @@ namespace NDS.ProcessingModule
     {
         public IProcessingManager processingManager;
         private Thread commandingWorker;
-        private List<CeCommand> calculationEngineCommands;
+        private ConcurrentBag<CeCommand> calculationEngineCommands;
         public EventHandler<ScadaCommandingEvent> commanding = delegate { };
         public CommandingService(IProcessingManager processingManager)
         {
             commanding += UpdateEvent;
             this.processingManager = processingManager;
-            calculationEngineCommands = new List<CeCommand>();
+            calculationEngineCommands = new ConcurrentBag<CeCommand>();
             InitializeCommandingServiceThread();
             StartCommandingServiceThread();
         }
@@ -43,24 +45,24 @@ namespace NDS.ProcessingModule
                 try
                 {
                     Thread.Sleep(1000);
-                    List<int> indexes = new List<int>();
                     foreach (var item in calculationEngineCommands)
                     {
                         if (item.MillisecondsPassedSinceLastPoll == item.Milliseconds)
                         {
                             processingManager.ExecuteWriteCommand(item.RegisterType, item.Index, item.Value);
-                            indexes.Add(calculationEngineCommands.IndexOf(item));
+                            item.Remove = true;
                         }
                         item.MillisecondsPassedSinceLastPoll += 1000;
                     }
-                    foreach (var item in indexes)
-                    {
-                        calculationEngineCommands.RemoveAt(item);
-                    }
+                    calculationEngineCommands = new ConcurrentBag<CeCommand>(calculationEngineCommands.Where(x => x.Remove == false).ToList());
                 }
-                catch(Exception)
+                catch(Exception e)
                 {
-
+                    ScadaProxyFactory.Instance().LoggingProxy().Log(new SCADA.Common.Logging.LogEventModel()
+                    {
+                        EventType = SCADA.Common.Logging.LogEventType.ERROR,
+                        Message = $"{e.Message} - {e.StackTrace}"
+                    }) ;
                 }
                 
             }
@@ -74,8 +76,9 @@ namespace NDS.ProcessingModule
                 Index = message.Index,
                 Value = message.Value,
                 Milliseconds = message.Milliseconds,
-                MillisecondsPassedSinceLastPoll = 0
-            });
+                MillisecondsPassedSinceLastPoll = 0,
+                Remove = false
+            }) ;
         }
 
         public void Dispose()

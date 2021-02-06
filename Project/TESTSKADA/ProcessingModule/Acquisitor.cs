@@ -16,6 +16,7 @@ namespace NDS.ProcessingModule
         private IProcessingManager processingManager;
         private Thread acquisitionWorker;
         private HistoryProxy historian;
+        private LoggingProxy log;
         private int acquisitionInterval;
         private int seconds;
         private int historyInterval;
@@ -30,6 +31,7 @@ namespace NDS.ProcessingModule
         {
             this.processingManager = processingManager;
             historian = ScadaProxyFactory.Instance().HistoryProxy();
+            log = ScadaProxyFactory.Instance().LoggingProxy();
             if (!Int32.TryParse(ConfigurationManager.AppSettings["AcquisitionInterval"], out acquisitionInterval))
                 acquisitionInterval = 1000;
             if (!Int32.TryParse(ConfigurationManager.AppSettings["HistoryInterval"], out historyInterval))
@@ -75,7 +77,8 @@ namespace NDS.ProcessingModule
             }
             catch (Exception ex)
             {
-                string message = $"{ex.TargetSite.ReflectedType.Name}.{ex.TargetSite.Name}: {ex.Message}";
+                string message = $"{ex.Message}-{ex.StackTrace}";
+                log.Log(new SCADA.Common.Logging.LogEventModel() { EventType = SCADA.Common.Logging.LogEventType.ERROR, Message = message });
             }
         }
 
