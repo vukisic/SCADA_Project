@@ -18,7 +18,7 @@ namespace Calculations
         private List<float> results = new List<float>();
         private List<DNA<float>> population = new List<DNA<float>>();
         private Dictionary<string, BasePoint> model;
-        private Random random;
+        private static Random random = new Random();
         private GeneticAlgorithm<float> ga;
         private int elitism = 1;
         private float mutationRate = 0.01f;
@@ -27,10 +27,7 @@ namespace Calculations
         int index = 0;
         float[] limits1 = new float[] { 0.0f, 1.0f };
         float[] limits2 = new float[] { 100.0f, 200.0f, 300.0f, 400.0f, 500.0f };
-        float[] limits3 = new float[] { 30.0f, 60.0f, 90.0f, 120.0f, 150.0f, 180.0f, 210.0f,
-                                        240.0f, 270.0f, 300.0f, 330.0f, 360.0f,
-                                        390.0f, 420.0f, 450.0f, 480.0f, 510.0f,
-                                        540.0f, 570.0f, 600.0f, 630.0f, 660.0f, 690.0f};
+        int[] limits3 = Enumerable.Range(1, 15).ToArray();
         float percentage;
         float optimalFluidLevel;
         float timeFactor;
@@ -68,7 +65,6 @@ namespace Calculations
 
         public float FitnessFunction(int index)
         {
-            population = ga.Population;
             float ret = 0.0f;
 
             DNA<float> individual = population[index];
@@ -90,13 +86,15 @@ namespace Calculations
             return firstGenes;
         }
 
-        public float GetRandomGene()
+        public float GetRandomGene(int index)
         {
             float gene = 0.1f;
-            random = new Random();
 
-            if (index == 9)
+            if(index == 9)
+            {
                 index = 0;
+                DNA<float>.index = 0;
+            }
 
             if (index % 3 == 0)
                 gene = limits1[random.Next(limits1.Length)];
@@ -105,14 +103,19 @@ namespace Calculations
             else if (index % 3 == 2)
                 gene = limits3[random.Next(limits3.Length)];
 
-            index++;
             return gene;
         }
 
         public DNA<float> Start(float currentFluidLevel)
         {
             model = CeProxyFactory.Instance().ScadaExportProxy().GetData();
-            random = new Random();
+            
+            if(currentFluidLevel == 0 || IsCurrentOptimal(currentFluidLevel))
+            {
+                var ret = new DNA<float>();
+                ret.Genes = new float[] { 0,0,0,0,0,0,0,0,0 };
+                return ret;
+            }
             
             foreach(var m in model)
             {
@@ -155,9 +158,10 @@ namespace Calculations
             DNA<float> firstHromozome = new DNA<float>(9, random, GetRandomGene, FitnessFunction, false, true, GetGene);
 
             hromozomes.Add(firstHromozome);
-
             ga = new GeneticAlgorithm<float>(1, 9, random, GetRandomGene, FitnessFunction, elitism, mutationRate, hromozomes, GetGene);
-            
+
+            population = ga.Population;
+
             do
             {
                 Update();
@@ -185,11 +189,21 @@ namespace Calculations
                 }
 
                 countIteration++;
-
-            } while (countIteration != iterations || !utils.IsSolutionCorrect(lastBestSolution, workingTimes[bestSolutionIndex]));
+                if (countIteration == iterations || utils.IsSolutionCorrect(lastBestSolution, workingTimes[bestSolutionIndex]))
+                    break;
+            } while (true);
 
             return bestIndividual;
 
+        }
+
+        public bool IsCurrentOptimal(float current)
+        {
+            if (current < optimalFluidLevel)
+                return true;
+            float lowerBound = optimalFluidLevel * (1.0f - (percentage / 100));
+            float upperBound = optimalFluidLevel * (1.0f + (percentage / 100));
+            return (current <= upperBound && current >= lowerBound);
         }
 
         public void Update()

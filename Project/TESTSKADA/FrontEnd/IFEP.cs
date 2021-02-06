@@ -8,9 +8,5 @@ namespace NDS.FrontEnd
 {
     public interface IFEP
     {
-        event EventHandler<UpdateArgs> updateEvent;
-        void Command();
-        void Start();
-        void Stop();
     }
 }

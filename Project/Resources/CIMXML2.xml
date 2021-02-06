@@ -866,7 +866,7 @@
 
     <cim:Measurement.baseAddress>3</cim:Measurement.baseAddress>
 
-    <cim:Measurement.direction>ReadWrite</cim:Measurement.direction>
+    <cim:Measurement.direction>Read</cim:Measurement.direction>
 
     <cim:Measurement.measurementType>Temperature</cim:Measurement.measurementType>
 
@@ -898,7 +898,7 @@
 
     <cim:Measurement.baseAddress>6</cim:Measurement.baseAddress>
 
-    <cim:Measurement.direction>ReadWrite</cim:Measurement.direction>
+    <cim:Measurement.direction>Read</cim:Measurement.direction>
 
     <cim:Measurement.measurementType>Flow</cim:Measurement.measurementType>
 

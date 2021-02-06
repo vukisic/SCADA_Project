@@ -28,6 +28,7 @@ namespace NDS.ServiceBus
             var endpointConfiguration = new EndpointConfiguration(endpointName);
 
             var transport = endpointConfiguration.UseTransport<LearningTransport>();
+            transport.NoPayloadSizeRestriction();
             var routing = transport.Routing();
 
             // Route example: 

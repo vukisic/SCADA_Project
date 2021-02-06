@@ -47,6 +47,7 @@ namespace Simulator.Core
             db = new dnp3_protocol.dnp3types.sDNPServerDatabase();
             this.simulatorConfiguration = simulatorConfiguration;
             simLogic = new SimulationLogic(this);
+
         }
 
         public void LoadConfifg(Tuple<ushort, ushort, ushort, ushort> pointsNum)
@@ -119,32 +120,41 @@ namespace Simulator.Core
 
         private void DoWork()
         {
-            Thread.Sleep(2000);
+           
             if (Prepare())
             {
                 while (executionFlag)
                 {
-                    dnp3_protocol.dnp3types.sDNPServerDatabase db = new dnp3_protocol.dnp3types.sDNPServerDatabase();
-                    dnp3_protocol.dnp3api.DNP3GetServerDatabaseValue(DNP3serverhandle, ref db, ref ptErrorValue);
-                    MarshalUnmananagedArray2Struct(db.psServerDatabasePoint, (int)db.u32TotalPoints, out dnp3_protocol.dnp3types.sServerDatabasePoint[] points);
-                    var result = ConvertToPoints(points);
-                    foreach (var item in result)
+                    try
                     {
-                        if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_INPUT || item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_OUTPUTS)
+                        dnp3_protocol.dnp3types.sDNPServerDatabase db = new dnp3_protocol.dnp3types.sDNPServerDatabase();
+                        dnp3_protocol.dnp3api.DNP3GetServerDatabaseValue(DNP3serverhandle, ref db, ref ptErrorValue);
+                        MarshalUnmananagedArray2Struct(db.psServerDatabasePoint, (int)db.u32TotalPoints, out dnp3_protocol.dnp3types.sServerDatabasePoint[] points);
+                        var result = ConvertToPoints(points);
+                        foreach (var item in result)
                         {
-                            var point = item as AnalogPoint;
+                            if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_INPUT || item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_OUTPUTS)
+                            {
+                                var point = item as AnalogPoint;
+                            }
+                            else
+                            {
+                                var point = item as BinaryPoint;
+                            }
                         }
-                        else
-                        {
-                            var point = item as BinaryPoint;
-                        }
+                        updateEvent?.Invoke(this, new UpdateEventArgs() { Points = result });
+                        Simulation();
+                        prevList = result;
+                        if (configChange)
+                            LoadConfifg(config);
+                        Thread.Sleep(interval);
                     }
-                    updateEvent?.Invoke(this, new UpdateEventArgs() { Points = result });
-                    Simulation();
-                    prevList = result;
-                    if (configChange)
-                        LoadConfifg(config);
-                    Thread.Sleep(interval);
+                    catch (Exception)
+                    {
+
+                        throw;
+                    }
+                   
                 }
             }
            
@@ -293,40 +303,40 @@ namespace Simulator.Core
 
         private static short cbDebug(ushort u16ObjectId, ref dnp3_protocol.dnp3types.sDNP3DebugData psDebugData, ref short ptErrorValue)
         {
-            if ((psDebugData.u32DebugOptions & (uint)dnp3_protocol.tgtcommon.eDebugOptionsFlag.DEBUG_OPTION_RX) == (uint)dnp3_protocol.tgtcommon.eDebugOptionsFlag.DEBUG_OPTION_RX)
-            {
-                if (psDebugData.eCommMode == dnp3_protocol.dnp3types.eCommunicationMode.TCP_IP_MODE)
-                {
-                    Trace.TraceInformation("Rx IP " + psDebugData.ai8IPAddress + " Port " + psDebugData.u16PortNumber + " <- ");
-                }
-                for (ushort i = 0; i < psDebugData.u16RxCount; i++)
-                    Trace.TraceInformation("{0:X2} ", psDebugData.au8RxData[i]);
-            }
+            //if ((psDebugData.u32DebugOptions & (uint)dnp3_protocol.tgtcommon.eDebugOptionsFlag.DEBUG_OPTION_RX) == (uint)dnp3_protocol.tgtcommon.eDebugOptionsFlag.DEBUG_OPTION_RX)
+            //{
+            //    if (psDebugData.eCommMode == dnp3_protocol.dnp3types.eCommunicationMode.TCP_IP_MODE)
+            //    {
+            //        Trace.TraceInformation("Rx IP " + psDebugData.ai8IPAddress + " Port " + psDebugData.u16PortNumber + " <- ");
+            //    }
+            //    for (ushort i = 0; i < psDebugData.u16RxCount; i++)
+            //        Trace.TraceInformation("{0:X2} ", psDebugData.au8RxData[i]);
+            //}
 
-            if ((psDebugData.u32DebugOptions & (uint)dnp3_protocol.tgtcommon.eDebugOptionsFlag.DEBUG_OPTION_TX) == (uint)dnp3_protocol.tgtcommon.eDebugOptionsFlag.DEBUG_OPTION_TX)
-            {
-                if (psDebugData.eCommMode == dnp3_protocol.dnp3types.eCommunicationMode.TCP_IP_MODE)
-                {
-                    Trace.TraceInformation("Tx IP " + psDebugData.ai8IPAddress + " Port " + psDebugData.u16PortNumber + " -> ");
-                }
-                for (ushort i = 0; i < psDebugData.u16TxCount; i++)
-                    Trace.TraceInformation("{0:X2} ", psDebugData.au8TxData[i]);
+            //if ((psDebugData.u32DebugOptions & (uint)dnp3_protocol.tgtcommon.eDebugOptionsFlag.DEBUG_OPTION_TX) == (uint)dnp3_protocol.tgtcommon.eDebugOptionsFlag.DEBUG_OPTION_TX)
+            //{
+            //    if (psDebugData.eCommMode == dnp3_protocol.dnp3types.eCommunicationMode.TCP_IP_MODE)
+            //    {
+            //        Trace.TraceInformation("Tx IP " + psDebugData.ai8IPAddress + " Port " + psDebugData.u16PortNumber + " -> ");
+            //    }
+            //    for (ushort i = 0; i < psDebugData.u16TxCount; i++)
+            //        Trace.TraceInformation("{0:X2} ", psDebugData.au8TxData[i]);
 
-            }
+            //}
 
-            if ((psDebugData.u32DebugOptions & (uint)dnp3_protocol.tgtcommon.eDebugOptionsFlag.DEBUG_OPTION_ERROR) == (uint)dnp3_protocol.tgtcommon.eDebugOptionsFlag.DEBUG_OPTION_ERROR)
-            {
-                Trace.TraceError("Error message " + psDebugData.au8ErrorMessage);
-                Trace.TraceError("ErrorCode " + psDebugData.i16ErrorCode);
-                Trace.TraceError("ErrorValue " + psDebugData.tErrorValue);
-            }
+            //if ((psDebugData.u32DebugOptions & (uint)dnp3_protocol.tgtcommon.eDebugOptionsFlag.DEBUG_OPTION_ERROR) == (uint)dnp3_protocol.tgtcommon.eDebugOptionsFlag.DEBUG_OPTION_ERROR)
+            //{
+            //    Trace.TraceError("Error message " + psDebugData.au8ErrorMessage);
+            //    Trace.TraceError("ErrorCode " + psDebugData.i16ErrorCode);
+            //    Trace.TraceError("ErrorValue " + psDebugData.tErrorValue);
+            //}
 
-            if ((psDebugData.u32DebugOptions & (uint)dnp3_protocol.tgtcommon.eDebugOptionsFlag.DEBUG_OPTION_WARNING) == (uint)dnp3_protocol.tgtcommon.eDebugOptionsFlag.DEBUG_OPTION_WARNING)
-            {
-                Trace.TraceWarning("Warning message " + psDebugData.au8WarningMessage);
-                Trace.TraceWarning("ErrorCode " + psDebugData.i16ErrorCode);
-                Trace.TraceWarning("ErrorValue " + psDebugData.tErrorValue);
-            }
+            //if ((psDebugData.u32DebugOptions & (uint)dnp3_protocol.tgtcommon.eDebugOptionsFlag.DEBUG_OPTION_WARNING) == (uint)dnp3_protocol.tgtcommon.eDebugOptionsFlag.DEBUG_OPTION_WARNING)
+            //{
+            //    Trace.TraceWarning("Warning message " + psDebugData.au8WarningMessage);
+            //    Trace.TraceWarning("ErrorCode " + psDebugData.i16ErrorCode);
+            //    Trace.TraceWarning("ErrorValue " + psDebugData.tErrorValue);
+            //}
 
             return (short)dnp3_protocol.tgterrorcodes.eTgtErrorCodes.EC_NONE;
         }
@@ -339,7 +349,7 @@ namespace Simulator.Core
                 Trace.TraceInformation("Index Number " + psOperateID.u16IndexNumber);
                 psOperateValue.eDataSize = dnp3_protocol.tgttypes.eDataSizes.FLOAT32_SIZE;
                 psOperateValue.eDataType = dnp3_protocol.tgtcommon.eDataTypes.FLOAT32_DATA;
-                iErrorCode = dnp3_protocol.dnp3api.DNP3Update(DNP3serverhandle, ref psOperateID, ref psOperateValue, 1, dnp3_protocol.dnp3types.eUpdateClassID.UPDATE_DEFAULT_EVENT, ref ptErrorValue);
+                iErrorCode = dnp3_protocol.dnp3api.DNP3Update(DNP3serverhandle, ref psOperateID, ref psOperateValue, 1, dnp3_protocol.dnp3types.eUpdateClassID.UPDATE_NO_CLASS, ref ptErrorValue);
                 if (iErrorCode != 0)
                 {
                     Trace.TraceError("dnp3 Library API Function - DNP3DirectOperate() failed: {0:D} {1:D}", iErrorCode, ptErrorValue);
@@ -367,6 +377,10 @@ namespace Simulator.Core
                 {
                     Trace.TraceInformation("Variation : ANALOG_OUTPUT_BLOCK_INTEGER16");
                     Trace.TraceInformation("Data : {0:D}", System.Runtime.InteropServices.Marshal.ReadInt16(psOperateValue.pvData));
+                    SingleInt32Union digitalValue = new SingleInt32Union();
+                    digitalValue.f = System.Runtime.InteropServices.Marshal.ReadInt16(psOperateValue.pvData);
+                    UpdateMP(psOperateID.u16IndexNumber, dnp3types.eDNP3GroupID.ANALOG_OUTPUTS, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, digitalValue, ref ptErrorValue);
+
                 }
                 else
                     Trace.TraceInformation("Invalid variation");
@@ -393,7 +407,9 @@ namespace Simulator.Core
                 }
                 else
                     Trace.TraceInformation("Invalid variation");
-
+                SingleInt32Union digitalValue = new SingleInt32Union();
+                digitalValue.i = System.Runtime.InteropServices.Marshal.ReadInt16(psOperateValue.pvData) > 1?0:1;
+                UpdateMP(psOperateID.u16IndexNumber, dnp3types.eDNP3GroupID.BINARY_OUTPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digitalValue, ref ptErrorValue);
                 Trace.TraceInformation("Operation Type " + psOperateParams.eOPType);
                 Trace.TraceInformation("Count " + psOperateParams.u8Count);
                 Trace.TraceInformation("On time " + psOperateParams.u32ONtime);
@@ -489,19 +505,66 @@ namespace Simulator.Core
             if(value > 10000000)
             {
                 if (prevList != null && prevList.Count > 0)
-                    return (prevList.Single(x => x.GroupId == group && x.Index == index) as AnalogPoint).Value;
+                {
+                    var single = prevList.SingleOrDefault(x => x.GroupId == group && x.Index == index) as AnalogPoint;
+                    return single != null? single.Value : 0;
+                }
+                    
             }
             return value;
         }
 
         private int CheckBinaryValueExp(int value, dnp3types.eDNP3GroupID group, ushort index)
         {
-            if (value > 10000000)
+            if (value != 0 && value != 1)
             {
                 if (prevList != null && prevList.Count > 0)
-                    return (prevList.Single(x => x.GroupId == group && x.Index == index) as BinaryPoint).Value;
+                {
+                    var single = prevList.SingleOrDefault(x => x.GroupId == group && x.Index == index) as BinaryPoint;
+                    return single != null? single.Value: 0;
+                }
+                    
             }
             return value;
+        }
+
+        private static void UpdateMP(ushort index, dnp3_protocol.dnp3types.eDNP3GroupID group, dnp3_protocol.tgttypes.eDataSizes dataSize, dnp3_protocol.tgtcommon.eDataTypes dataType, SingleInt32Union value, ref short ptErrorValue)
+        {
+            ushort uiCount = 1;
+            dnp3_protocol.dnp3types.sDNP3DataAttributeID[] psDAID = new dnp3_protocol.dnp3types.sDNP3DataAttributeID[uiCount];
+            dnp3_protocol.dnp3types.sDNP3DataAttributeData[] psNewValue = new dnp3_protocol.dnp3types.sDNP3DataAttributeData[uiCount];
+            psDAID[0].u16SlaveAddress = 1;
+            psDAID[0].eGroupID = group;
+            psDAID[0].u16IndexNumber = index;
+
+            psNewValue[0].eDataSize = dataSize;
+            psNewValue[0].eDataType = dataType;
+
+            psDAID[0].pvUserData = IntPtr.Zero;
+            psNewValue[0].tQuality = (ushort)(dnp3_protocol.dnp3types.eDNP3QualityFlags.ONLINE);
+            psNewValue[0].pvData = System.Runtime.InteropServices.Marshal.AllocHGlobal((int)dataSize);
+
+            DateTime date = DateTime.Now;
+            psNewValue[0].sTimeStamp.u8Day = (byte)date.Day;
+            psNewValue[0].sTimeStamp.u8Month = (byte)date.Month;
+            psNewValue[0].sTimeStamp.u16Year = (ushort)date.Year;
+            psNewValue[0].sTimeStamp.u8Hour = (byte)date.Hour;
+            psNewValue[0].sTimeStamp.u8Minute = (byte)date.Minute;
+            psNewValue[0].sTimeStamp.u8Seconds = (byte)date.Second;
+            psNewValue[0].sTimeStamp.u16MilliSeconds = (ushort)date.Millisecond;
+            psNewValue[0].sTimeStamp.u16MicroSeconds = 0;
+            psNewValue[0].sTimeStamp.i8DSTTime = 0;
+            psNewValue[0].sTimeStamp.u8DayoftheWeek = (byte)date.DayOfWeek;
+
+            Marshal.WriteInt32(psNewValue[0].pvData, value.i);
+            iErrorCode = dnp3_protocol.dnp3api.DNP3Update(DNP3serverhandle, ref psDAID[0], ref psNewValue[0], uiCount, dnp3_protocol.dnp3types.eUpdateClassID.UPDATE_DEFAULT_EVENT, ref ptErrorValue);
+            if (iErrorCode != 0)
+            {
+                Trace.TraceError("dnp3 Library API Function - DNP3Update() failed: {0:D} {1:D}", iErrorCode, ptErrorValue);
+                Trace.TraceError("iErrorCode {0:D}: {1}", iErrorCode, errorcodestring(iErrorCode));
+                Trace.TraceError("iErrorValue {0:D}: {1}", ptErrorValue, errorvaluestring(ptErrorValue));
+
+            }
         }
 
         private void Update(ushort index, dnp3_protocol.dnp3types.eDNP3GroupID group, dnp3_protocol.tgttypes.eDataSizes dataSize, dnp3_protocol.tgtcommon.eDataTypes dataType, SingleInt32Union value, ref short ptErrorValue)
@@ -559,6 +622,7 @@ namespace Simulator.Core
             configChange = true;
             config = points;
             incomingPairs = pairs;
+            Console.WriteLine("Config Change!");
         }
     }
 }

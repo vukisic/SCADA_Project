@@ -10,6 +10,6 @@ namespace Core.Common.ServiceBus.Events
 {
     public class ScadaUpdateEvent : IEvent
     {
-        public List<BasePoint> Points { get; set; }
+        public List<ScadaPointDto> Points { get; set; }
     }
 }

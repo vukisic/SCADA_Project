@@ -13,10 +13,10 @@ namespace Calculations
     {
         private Utils utils;
         private List<Tuple<float, float>> workingTimes;
-        private float[] results = new float[] { };
+        private List<float> results = new List<float>();
         private List<DNA<float>> population;
         private Dictionary<string, BasePoint> model;
-        private Random random;
+        private static Random random = new Random();
         private GeneticAlgorithm<float> ga;
         private int elitism = 1;
         private float mutationRate = 0.01f;
@@ -32,10 +32,7 @@ namespace Calculations
 
         float[] limits1 = new float[] { 0.0f, 1.0f };
         float[] limits2 = new float[] { 100.0f, 200.0f, 300.0f, 400.0f, 500.0f };
-        float[] limits3 = new float[] { 1800.0f, 3600.0f, 5400.0f, 7200.0f, 9000.0f, 10800.0f, 12600.0f,
-                                        14400.0f, 18000.0f, 19800.0f, 21600.0f, 23400.0f,
-                                        25200.0f, 27000.0f, 28800.0f, 30600.0f, 32400.0f,
-                                        34200.0f, 36000.0f, 37800.0f, 39600.0f, 41400.0f, 43200.0f};
+        int[] limits3 = Enumerable.Range(1, 15).ToArray();
         float percentage;
         float optimalFluidLevel;
         float timeFactor;
@@ -68,14 +65,12 @@ namespace Calculations
 
             DNA<float> individual = population[index];
 
-            for (int i = 0; i < individual.Genes.Count(); i++)
-            {
-                ret = individual.Genes[0] * individual.Genes[1] * individual.Genes[2]
-                    + individual.Genes[3] * individual.Genes[4] * individual.Genes[5];
-                   
-                workingTimes.Add(new Tuple<float, float>(individual.Genes[2],
-                                                         individual.Genes[5] ));
-            }
+            ret = individual.Genes[0] * individual.Genes[1] * individual.Genes[2]
+                + individual.Genes[3] * individual.Genes[4] * individual.Genes[5];
+
+            workingTimes.Add(new Tuple<float, float>(individual.Genes[2],
+                                                     individual.Genes[5]));
+
 
             return ret;
         }
@@ -85,13 +80,15 @@ namespace Calculations
             return firstGenes;
         }
 
-        public float GetRandomGene()
+        public float GetRandomGene(int index)
         {
             float gene = 0.1f;
-            random = new Random();
 
             if (index == 6)
+            {
                 index = 0;
+                DNA<float>.index = 0;
+            }
 
             if (index % 3 == 0)
                 gene = limits1[random.Next(limits1.Length)];
@@ -107,7 +104,13 @@ namespace Calculations
         public DNA<float> Start(float currentFluidLevel)
         {
             model = CeProxyFactory.Instance().ScadaExportProxy().GetData();
-            random = new Random();
+           
+            if (currentFluidLevel == 0 || IsCurrentOptimal(currentFluidLevel))
+            {
+                var ret = new DNA<float>();
+                ret.Genes = new float[] { 0, 0, 0, 0, 0, 0 };
+                return ret;
+            }
 
             foreach (var m in model)
             {
@@ -143,33 +146,51 @@ namespace Calculations
             hromozomes.Add(firstHromozome);
             ga = new GeneticAlgorithm<float>(1, 6, random, GetRandomGene, FitnessFunction, elitism, mutationRate, hromozomes, GetGene);
 
+            population = ga.Population;
+
             do
             {
                 Update();
 
                 population = ga.Population;
 
+                results = new List<float>();
                 for (int i = 0; i < population.Count(); i++)
                 {
-                    results[i] = currentFluidLevel - FitnessFunction(i);
+                    results.Add(currentFluidLevel - FitnessFunction(i));
                 }
 
                 List<Tuple<int, float>> potentialSolutions = utils.FindPotentialSolutions(results, workingTimes);
-                Tuple<int, float> bestSolution = utils.FindBestSolution(potentialSolutions);
-
-                if (bestSolution.Item2 < lastBestSolution)
+                
+                if (potentialSolutions.Count() > 0)
                 {
-                    lastBestSolution = bestSolution.Item2;
-                    bestSolutionIndex = bestSolution.Item1;
-                    bestIndividual = population[bestSolution.Item1];
+                    Tuple<int, float> bestSolution = utils.FindBestSolution(potentialSolutions);
+
+                    if (bestSolution.Item2 < lastBestSolution)
+                    {
+                        lastBestSolution = bestSolution.Item2;
+                        bestSolutionIndex = bestSolution.Item1;
+                        bestIndividual = population[bestSolution.Item1];
+                    }
                 }
 
                 countIteration++;
+                if (countIteration == iterations || utils.IsSolutionCorrect(lastBestSolution, workingTimes[bestSolutionIndex]))
+                    break;
 
-            } while (countIteration == iterations || utils.IsSolutionCorrect(lastBestSolution, workingTimes[bestSolutionIndex]));
+            } while (true);
 
             return bestIndividual;
 
+        }
+
+        public bool IsCurrentOptimal(float current)
+        {
+            if (current < optimalFluidLevel)
+                return true;
+            float lowerBound = optimalFluidLevel * (1.0f - (percentage / 100));
+            float upperBound = optimalFluidLevel * (1.0f + (percentage / 100));
+            return (current <= upperBound && current >= lowerBound);
         }
 
         public void Update()

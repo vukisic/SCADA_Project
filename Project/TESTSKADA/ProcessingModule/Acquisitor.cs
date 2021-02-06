@@ -1,19 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using NDS.Proxies;
+using SCADA.Common.DataModel;
+using SCADA.Common.Models;
+using SCADA.Common.Proxies;
 
 namespace NDS.ProcessingModule
 {
     public class Acquisitor : IDisposable
     {
-        private AutoResetEvent acquisitionTrigger;
         private IProcessingManager processingManager;
         private Thread acquisitionWorker;
         private HistoryProxy historian;
+        private int acquisitionInterval;
+        private int seconds;
+        private int historyInterval;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Acquisitor"/> class.
@@ -21,11 +26,15 @@ namespace NDS.ProcessingModule
         /// <param name="acquisitionTrigger">The acquisition trigger.</param>
         /// <param name="processingManager">The processing manager.</param>
         /// <param name="stateUpdater">The state updater.</param>
-		public Acquisitor(AutoResetEvent acquisitionTrigger, IProcessingManager processingManager)
+		public Acquisitor(IProcessingManager processingManager)
         {
-            this.acquisitionTrigger = acquisitionTrigger;
             this.processingManager = processingManager;
-            historian = new HistoryProxy();
+            historian = ScadaProxyFactory.Instance().HistoryProxy();
+            if (!Int32.TryParse(ConfigurationManager.AppSettings["AcquisitionInterval"], out acquisitionInterval))
+                acquisitionInterval = 1000;
+            if (!Int32.TryParse(ConfigurationManager.AppSettings["HistoryInterval"], out historyInterval))
+                acquisitionInterval = 30;
+            seconds = 0;
             this.InitializeAcquisitionThread();
             this.StartAcquisitionThread();
         }
@@ -58,15 +67,34 @@ namespace NDS.ProcessingModule
             {
                 while (true)
                 {
-                    acquisitionTrigger.WaitOne();
-                    // TO DO: Implement read class 0 in processing manager
-                    //processingManager.ExecuteReadCommand();
+                    Thread.Sleep(acquisitionInterval);
+                    processingManager.ExecuteReadClass0Command();
+                    if (++seconds == historyInterval)
+                        UpdateHistory();
                 }
             }
             catch (Exception ex)
             {
                 string message = $"{ex.TargetSite.ReflectedType.Name}.{ex.TargetSite.Name}: {ex.Message}";
             }
+        }
+
+        private void UpdateHistory()
+        {
+            var points = ScadaProxyFactory.Instance().ScadaStorageProxy().GetModel();
+            var history = new List<HistoryDbModel>();
+            foreach (var item in points.Values)
+            {
+                if(item.RegisterType == RegisterType.ANALOG_INPUT || item.RegisterType == RegisterType.ANALOG_OUTPUT)
+                {
+                    history.Add((item as AnalogPoint).ToHistoryDbModel());
+                }
+                else
+                {
+                    history.Add((item as DiscretePoint).ToHistoryDbModel());
+                }
+            }
+            historian.AddRange(history);
         }
 
         #endregion Private Methods

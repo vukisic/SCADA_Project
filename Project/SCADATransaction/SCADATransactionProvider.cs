@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SCADA.Common;
-using SCADA.Services;
-using SCADA.Services.Providers;
-using SCADA.Services.Services;
+using SCADA.Common.Proxies;
+using SCADA.Common.ScadaServices;
 using TMContracts;
 
 namespace SCADATransaction
@@ -16,7 +15,7 @@ namespace SCADATransaction
         ConversionResult result;
         public bool Prepare()
         {
-            ScadaStorageProxy proxy = new ScadaStorageProxy();
+            ScadaStorageProxy proxy = ScadaProxyFactory.Instance().ScadaStorageProxy();
             Console.WriteLine("Prepared? YES");
             var converter = new ScadaModelConverter();
             result = converter.Convert(proxy.GetCimModel());
@@ -27,19 +26,19 @@ namespace SCADATransaction
 
         public bool Commit()
         {
-            ScadaStorageProxy proxy = new ScadaStorageProxy();
+            ScadaStorageProxy proxy = ScadaProxyFactory.Instance().ScadaStorageProxy();
             Console.WriteLine("Commited? YES");
             proxy.SetModel(proxy.GetTransactionModel());
             SCADAServer.updateEvent?.Invoke(this, null);
             ConfigurationChangeInvoker invoker = new ConfigurationChangeInvoker();
+            ScadaProxyFactory.Instance().DOMProxy().Add(proxy.GetModel().Values.ToList().ToDbModel());
             invoker.Update(result.MridIndexPairs);
-            invoker = null;
             return true;
         }
 
         public void Rollback()
         {
-            ScadaStorageProxy proxy = new ScadaStorageProxy();
+            ScadaStorageProxy proxy = ScadaProxyFactory.Instance().ScadaStorageProxy();
             Console.WriteLine("Request for rollback!");
             proxy.SetTransactionModel(null);
         }

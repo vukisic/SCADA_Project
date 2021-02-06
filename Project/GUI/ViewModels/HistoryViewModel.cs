@@ -40,18 +40,14 @@ namespace GUI.ViewModels
 
         public HistoryViewModel()
         {
-            TableData = new ObservableCollection<HistoryDto>();
-            foreach (var item in Data.History)
-            {
-                TableData.Add(item);
-            }
+          
         }
 
         internal void Update(object sender, HistoryUpdateEvent e)
         {
             App.Current.Dispatcher.Invoke((System.Action)delegate
             {
-                TimeStamp = DateTime.Now.ToString();
+                TimeStamp = $"{DateTime.Now.ToString()} - Last 30 records";
                 Data.History.Clear();
                 TableData = new ObservableCollection<HistoryDto>();
                 foreach (var item in e.History)

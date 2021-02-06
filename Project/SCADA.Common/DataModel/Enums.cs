@@ -7,6 +7,12 @@ using System.Threading.Tasks;
 
 namespace SCADA.Common.DataModel
 {
+    public enum ConnectionState
+    {
+        DISCONNECTED,
+        CONNECTED
+    }
+
     [DataContract]
     public enum RegisterType
     {
@@ -98,6 +104,10 @@ namespace SCADA.Common.DataModel
     [DataContract]
     public enum Qualifier : short
     {
+        [EnumMember]
+        PREFIX_2_OCTET_COUNT_OF_OBJECTS_2_OCTET = 0x28,
+        [EnumMember]
+        PREFIX_NONE_NO_RANGE_FIELD = 0x06,
         [EnumMember]
         INDEX,
         [EnumMember]

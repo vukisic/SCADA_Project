@@ -22,6 +22,13 @@ namespace GUI.Core
             return destination;
         }
 
+        public static List<TDestination> MapCollection<TSource, TDestination>(List<TSource> list) where TSource : class where TDestination : class, new()
+        {
+            var result = new List<TDestination>();
+            list.ForEach(x => result.Add(Map<TDestination>(x)));
+            return result;
+        }
+
         private static void Map<TSource, TDestination>(TSource source, TDestination destination)
         {
             foreach (var prop in source.GetType().GetProperties())

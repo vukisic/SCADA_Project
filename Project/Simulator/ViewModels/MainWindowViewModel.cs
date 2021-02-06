@@ -96,8 +96,13 @@ namespace Simulator.ViewModels
 
         public void OnClose(CancelEventArgs args)
         {
-            _simulator.Stop();
-            serviceHost.Close();
+            
+            Task.Factory.StartNew(() =>
+            {
+                _simulator.Stop();
+                serviceHost.Close();
+            });
+            
         }
 
         public void OnClick()

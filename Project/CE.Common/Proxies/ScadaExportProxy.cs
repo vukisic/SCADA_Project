@@ -5,7 +5,7 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using SCADA.Common.DataModel;
-using SCADA.Services.Common;
+using SCADA.Common.ScadaServices.Common;
 
 namespace CE.Common.Proxies
 {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using SCADA.Common.DataModel;
@@ -14,6 +15,52 @@ namespace SCADA.Common
         public static void computeCRC(byte dataOctet, ref ushort crcAccum)
         {
             crcAccum = (ushort)((crcAccum >> 8) ^ crcLookUpTable[(crcAccum ^ dataOctet) & 0xFF]);
+        }
+
+        public static bool CheckCRC(byte[] message)
+        {
+            var length = message.Length;
+            ushort headercrc = 0;
+            for (int i = 0; i < 8; i++)
+            {
+                computeCRC(message[i], ref headercrc);
+            }
+            headercrc = (ushort)(~headercrc);
+            if (headercrc != BitConverter.ToUInt16(message, 8))
+                return false;
+
+            int processedBytes = 10;
+            int count = (length - processedBytes) / 18;
+
+
+            for (int i = 0; i < count; i++)
+            {
+                ushort crc = 0;
+                int j;
+                for (j = processedBytes; j < processedBytes + 16; j++)
+                {
+                    computeCRC(message[j], ref crc);
+                }
+                crc = (ushort)(~crc);
+                if (crc != BitConverter.ToUInt16(message, j))
+                    return false;
+                processedBytes += 18;
+            }
+
+            if (processedBytes < length)
+            {
+                var remaining = length - processedBytes;
+                ushort crc = 0;
+                int i = 0;
+                for (i = processedBytes; i < processedBytes + remaining - 2; i++)
+                {
+                    computeCRC(message[i], ref crc);
+                }
+                crc = (ushort)(~crc);
+                if (crc != BitConverter.ToUInt16(message, processedBytes + remaining - 2))
+                    return false;
+            }
+            return true;
         }
     }
 }

@@ -1047,7 +1047,7 @@
     <cim:Analog.minValue>20</cim:Analog.minValue>
     <cim:Analog.normalValue>50</cim:Analog.normalValue>
     <cim:Measurement.baseAddress>2</cim:Measurement.baseAddress>
-    <cim:Measurement.direction>ReadWrite</cim:Measurement.direction>
+    <cim:Measurement.direction>Read</cim:Measurement.direction>
     <cim:Measurement.measurementType>Temperature</cim:Measurement.measurementType>
     <cim:Measurement.objectmRID>AsyncM_1</cim:Measurement.objectmRID>
     <cim:Measurement.PowerSystemResource rdf:resource="#AsyncM_1"/>
@@ -1063,7 +1063,7 @@
     <cim:Analog.minValue>20</cim:Analog.minValue>
     <cim:Analog.normalValue>50</cim:Analog.normalValue>
     <cim:Measurement.baseAddress>3</cim:Measurement.baseAddress>
-    <cim:Measurement.direction>ReadWrite</cim:Measurement.direction>
+    <cim:Measurement.direction>Read</cim:Measurement.direction>
     <cim:Measurement.measurementType>Temperature</cim:Measurement.measurementType>
     <cim:Measurement.objectmRID>AsyncM_2</cim:Measurement.objectmRID>
     <cim:Measurement.PowerSystemResource rdf:resource="#AsyncM_2"/>
@@ -1079,7 +1079,7 @@
     <cim:Analog.minValue>20</cim:Analog.minValue>
     <cim:Analog.normalValue>50</cim:Analog.normalValue>
     <cim:Measurement.baseAddress>4</cim:Measurement.baseAddress>
-    <cim:Measurement.direction>ReadWrite</cim:Measurement.direction>
+    <cim:Measurement.direction>Read</cim:Measurement.direction>
     <cim:Measurement.measurementType>Temperature</cim:Measurement.measurementType>
     <cim:Measurement.objectmRID>AsyncM_3</cim:Measurement.objectmRID>
     <cim:Measurement.PowerSystemResource rdf:resource="#AsyncM_3"/>
@@ -1095,7 +1095,7 @@
     <cim:Analog.minValue>0</cim:Analog.minValue>
     <cim:Analog.normalValue>50</cim:Analog.normalValue>
     <cim:Measurement.baseAddress>5</cim:Measurement.baseAddress>
-    <cim:Measurement.direction>ReadWrite</cim:Measurement.direction>
+    <cim:Measurement.direction>Read</cim:Measurement.direction>
     <cim:Measurement.measurementType>Flow</cim:Measurement.measurementType>
     <cim:Measurement.objectmRID>AsyncM_1</cim:Measurement.objectmRID>
     <cim:Measurement.PowerSystemResource rdf:resource="#AsyncM_1"/>
@@ -1111,7 +1111,7 @@
     <cim:Analog.minValue>0</cim:Analog.minValue>
     <cim:Analog.normalValue>50</cim:Analog.normalValue>
     <cim:Measurement.baseAddress>6</cim:Measurement.baseAddress>
-    <cim:Measurement.direction>ReadWrite</cim:Measurement.direction>
+    <cim:Measurement.direction>Read</cim:Measurement.direction>
     <cim:Measurement.measurementType>Flow</cim:Measurement.measurementType>
     <cim:Measurement.objectmRID>AsyncM_2</cim:Measurement.objectmRID>
     <cim:Measurement.PowerSystemResource rdf:resource="#AsyncM_2"/>
@@ -1127,7 +1127,7 @@
     <cim:Analog.minValue>0</cim:Analog.minValue>
     <cim:Analog.normalValue>50</cim:Analog.normalValue>
     <cim:Measurement.baseAddress>7</cim:Measurement.baseAddress>
-    <cim:Measurement.direction>ReadWrite</cim:Measurement.direction>
+    <cim:Measurement.direction>Read</cim:Measurement.direction>
     <cim:Measurement.measurementType>Flow</cim:Measurement.measurementType>
     <cim:Measurement.objectmRID>AsyncM_3</cim:Measurement.objectmRID>
     <cim:Measurement.PowerSystemResource rdf:resource="#AsyncM_3"/>

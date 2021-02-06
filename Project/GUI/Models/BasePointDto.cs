@@ -4,17 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
+using Core.Common.ServiceBus.Events;
 using FTN.Common;
 using GUI.Command;
+using GUI.ServiceBus;
+using NServiceBus;
 using SCADA.Common.DataModel;
 
 namespace GUI.Models
 {
-    public abstract class BasePointDto : PropertyChangedBase
+    public class BasePointDto : PropertyChangedBase
     {
         #region Fields
-        public MyICommand WriteCommand { get; set; }
-        public MyICommand ReadCommand { get; set; }
 
         private ClassType classType;
         private SignalDirection direction;
@@ -26,11 +27,13 @@ namespace GUI.Models
         private MeasurementType measurementType;
         private AlarmType alarm;
         private double commandedValue;
+        private float minValue;
+        private float maxValue;
+        private float normalValue;
+        private float value;
         #endregion
         public BasePointDto()
         {
-            WriteCommand = new MyICommand(WriteCommand_Execute, WriteCommand_CanExecute);
-            ReadCommand = new MyICommand(ReadCommand_Execute);
         }
         #region Properties
         public double CommandedValue
@@ -129,20 +132,41 @@ namespace GUI.Models
                 this.NotifyOfPropertyChange(() => this.Alarm);
             }
         }
-        #endregion
 
-        #region Commands
-        protected abstract bool WriteCommand_CanExecute(object obj);
-        protected abstract void WriteCommand_Execute(object obj);
-
-        private void ReadCommand_Execute(object obj)
+        public float MinValue
         {
-            try
+            get { return this.minValue; }
+            set
             {
+                this.minValue = value;
+                this.NotifyOfPropertyChange(() => this.MinValue);
             }
-            catch (Exception ex)
+        }
+        public float MaxValue
+        {
+            get { return this.maxValue; }
+            set
             {
-
+                this.maxValue = value;
+                this.NotifyOfPropertyChange(() => this.MaxValue);
+            }
+        }
+        public float NormalValue
+        {
+            get { return this.normalValue; }
+            set
+            {
+                this.normalValue = value;
+                this.NotifyOfPropertyChange(() => this.NormalValue);
+            }
+        }
+        public float Value
+        {
+            get { return this.value; }
+            set
+            {
+                this.value = value;
+                this.NotifyOfPropertyChange(() => this.Value);
             }
         }
         #endregion 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using SCADA.Common.DataModel;
 using SCADA.Common.Messaging.Parameters;
 
 namespace SCADA.Common.Messaging.Messages
@@ -11,24 +12,27 @@ namespace SCADA.Common.Messaging.Messages
     public class WriteDiscreteOutput : DNP3Function
     {
         private MessageHeaderBuilder headerBuilder;
-        public WriteDiscreteOutput(DNP3ApplicationObjectParameters commandParameters) : base(commandParameters)
+        public WriteDiscreteOutput(DNP3CommandParameters commandParameters) : base(commandParameters)
         {
             headerBuilder = new MessageHeaderBuilder();
         }
         public override byte[] PackRequest()
         {
             byte[] request = new byte[35];
+
+            DNP3WriteCommandParameters commandParam = (DNP3WriteCommandParameters)CommandParameters;
+
             CommandParameters.Length = 0x1a;
             Buffer.BlockCopy(headerBuilder.Build(CommandParameters), 0, request, 0, 10);
-            request[10] = CommandParameters.TransportControl;
-            request[11] = CommandParameters.AplicationControl;
-            request[12] = CommandParameters.FunctionCode;
-            Buffer.BlockCopy(BitConverter.GetBytes(IPAddress.HostToNetworkOrder((short)CommandParameters.ObjectTypeField)), 0, request, 13, 2);
-            request[15] = CommandParameters.Qualifier;
-            Buffer.BlockCopy(BitConverter.GetBytes(Convert.ToInt16(CommandParameters.RangeField)), 0, request, 16, 2);
-            Buffer.BlockCopy(BitConverter.GetBytes(Convert.ToInt16(CommandParameters.Prefix)), 0, request, 18, 2);
+            request[10] = commandParam.TransportControl;
+            request[11] = commandParam.AplicationControl;
+            request[12] = commandParam.FunctionCode;
+            Buffer.BlockCopy(BitConverter.GetBytes(IPAddress.HostToNetworkOrder((short)commandParam.ObjectTypeField)), 0, request, 13, 2);
+            request[15] = commandParam.Qualifier;
+            Buffer.BlockCopy(BitConverter.GetBytes(Convert.ToInt16(commandParam.RangeField)), 0, request, 16, 2);
+            Buffer.BlockCopy(BitConverter.GetBytes(Convert.ToInt16(commandParam.Prefix)), 0, request, 18, 2);
 
-            if (CommandParameters.Value == 1)
+            if (commandParam.Value == 1)
             {
                 request[20] = 0x41;
             }
@@ -67,6 +71,26 @@ namespace SCADA.Common.Messaging.Messages
             Buffer.BlockCopy(BitConverter.GetBytes(crc1), 0, request, 33, 2);
 
             return request;
+        }
+
+        public override Dictionary<Tuple<RegisterType, int>, BasePoint> PareseResponse(byte[] response)
+        {
+            if(!CrcCalculator.CheckCRC(response))
+                return null;
+
+            byte[] dataObjects = MessagesHelper.GetResponseDataObjects(response);
+
+            Dictionary<Tuple<RegisterType, int>, BasePoint> retVal = new Dictionary<Tuple<RegisterType, int>, BasePoint>();
+            DiscretePoint point = new DiscretePoint();
+            
+            point.Index = (ushort)BitConverter.ToUInt16(dataObjects, 5);
+            byte controlCode = dataObjects[7];
+
+            point.Value = controlCode == 0x81 ? 0 : 1;
+
+            retVal.Add(new Tuple<RegisterType, int>(RegisterType.BINARY_OUTPUT, point.Index), point);
+
+            return retVal;
         }
     }
 }
