@@ -99,7 +99,7 @@ namespace CE
             ScadaExportProxy proxy = new ScadaExportProxy();
             var points = proxy.GetData();
 
-            int counter = 0;
+            float counter = 0;
             foreach (var item in forecastResult.Results.Take(12))
             {
                 for (int i = 0; i < item.Pumps.Count(); i++)
@@ -108,7 +108,7 @@ namespace CE
                     var time = item.Times[i];
                     var flow = item.Flows[i];
 
-                    if(points.ContainsKey($"Breaker_2{i + 1}Status"))
+                    if (points.ContainsKey($"Breaker_2{i + 1}Status"))
                     {
                         var breaker2 = points[$"Breaker_2{i + 1}Status"];
 
@@ -116,7 +116,7 @@ namespace CE
                         {
                             Index = (uint)breaker2.Index,
                             RegisterType = breaker2.RegisterType,
-                            Milliseconds = 0,
+                            Milliseconds = (uint)((counter) * 60 * 1000),
                             Value = (uint)onOff
                         };
 
@@ -136,25 +136,25 @@ namespace CE
                         }
                     }
 
-                    if(points.ContainsKey($"Discrete_Tap{i + 1}"))
+                    if (points.ContainsKey($"Discrete_Tap{i + 1}"))
                     {
                         var tap = points[$"Discrete_Tap{i + 1}"];
+
 
 
                         var command2 = new ScadaCommandingEvent()
                         {
                             Index = (uint)tap.Index,
                             RegisterType = tap.RegisterType,
-                            Milliseconds = 0,
+                            Milliseconds = (uint)((counter) * 60 * 1000),
                             Value = (uint)(flow / 100)
                         };
 
                         endpoint.Publish(command2).ConfigureAwait(false);
                     }
                 }
-
-                counter += 15;
-            }     
+                counter += 15.0f;
+            }
         }
         private void SendCommandHelpMethod(CeForecast forecastResult)
         {

@@ -138,7 +138,7 @@ namespace SCADA.Common.Messaging.Messages
             for(int i = 0; i < numberOfitems; i++)
             {
                 AnalogPoint point = new AnalogPoint();
-                point.Value = (ushort)IPAddress.NetworkToHostOrder((short)BitConverter.ToUInt16(analogInputObject, (5 + i * 2))); //na 5 je prva vrednost, i * 2 idemo short po short
+                point.Value = (ushort)BitConverter.ToUInt16(analogInputObject, (5 + i * 2)); //na 5 je prva vrednost, i * 2 idemo short po short
                 point.Index = currentIndex;
                 point.RegisterType = registerType;
                 points.Add(new Tuple<RegisterType, int>(registerType, currentIndex++), point);

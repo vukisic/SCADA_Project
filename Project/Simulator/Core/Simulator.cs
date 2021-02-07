@@ -570,33 +570,36 @@ namespace Simulator.Core
         private void Update(ushort index, dnp3_protocol.dnp3types.eDNP3GroupID group, dnp3_protocol.tgttypes.eDataSizes dataSize, dnp3_protocol.tgtcommon.eDataTypes dataType, SingleInt32Union value, ref short ptErrorValue)
         {
             ushort uiCount = 1;
-            dnp3_protocol.dnp3types.sDNP3DataAttributeID[] psDAID = new dnp3_protocol.dnp3types.sDNP3DataAttributeID[uiCount];
-            dnp3_protocol.dnp3types.sDNP3DataAttributeData[] psNewValue = new dnp3_protocol.dnp3types.sDNP3DataAttributeData[uiCount];
-            psDAID[0].u16SlaveAddress = 1;
-            psDAID[0].eGroupID = group;
-            psDAID[0].u16IndexNumber = index;
+            dnp3_protocol.dnp3types.sDNP3DataAttributeID psDAID = new dnp3_protocol.dnp3types.sDNP3DataAttributeID();
+            dnp3_protocol.dnp3types.sDNP3DataAttributeData psNewValue = new dnp3_protocol.dnp3types.sDNP3DataAttributeData();
+            psDAID.u16SlaveAddress = 1;
+            psDAID.eGroupID = group;
+            psDAID.u16IndexNumber = index;
 
-            psNewValue[0].eDataSize = dataSize;
-            psNewValue[0].eDataType = dataType;
+            psNewValue.eDataSize = dataSize;
+            psNewValue.eDataType = dataType;
 
-            psDAID[0].pvUserData = IntPtr.Zero;
-            psNewValue[0].tQuality = (ushort)(dnp3_protocol.dnp3types.eDNP3QualityFlags.ONLINE);
-            psNewValue[0].pvData = System.Runtime.InteropServices.Marshal.AllocHGlobal((int)dataSize);
+            psDAID.pvUserData = IntPtr.Zero;
+            psNewValue.tQuality = (ushort)(dnp3_protocol.dnp3types.eDNP3QualityFlags.ONLINE);
+            psNewValue.pvData = System.Runtime.InteropServices.Marshal.AllocHGlobal((int)dataSize);
 
             DateTime date = DateTime.Now;
-            psNewValue[0].sTimeStamp.u8Day = (byte)date.Day;
-            psNewValue[0].sTimeStamp.u8Month = (byte)date.Month;
-            psNewValue[0].sTimeStamp.u16Year = (ushort)date.Year;
-            psNewValue[0].sTimeStamp.u8Hour = (byte)date.Hour;
-            psNewValue[0].sTimeStamp.u8Minute = (byte)date.Minute;
-            psNewValue[0].sTimeStamp.u8Seconds = (byte)date.Second;
-            psNewValue[0].sTimeStamp.u16MilliSeconds = (ushort)date.Millisecond;
-            psNewValue[0].sTimeStamp.u16MicroSeconds = 0;
-            psNewValue[0].sTimeStamp.i8DSTTime = 0;
-            psNewValue[0].sTimeStamp.u8DayoftheWeek = (byte)date.DayOfWeek;
+            psNewValue.sTimeStamp.u8Day = (byte)date.Day;
+            psNewValue.sTimeStamp.u8Month = (byte)date.Month;
+            psNewValue.sTimeStamp.u16Year = (ushort)date.Year;
+            psNewValue.sTimeStamp.u8Hour = (byte)date.Hour;
+            psNewValue.sTimeStamp.u8Minute = (byte)date.Minute;
+            psNewValue.sTimeStamp.u8Seconds = (byte)date.Second;
+            psNewValue.sTimeStamp.u16MilliSeconds = (ushort)date.Millisecond;
+            psNewValue.sTimeStamp.u16MicroSeconds = 0;
+            psNewValue.sTimeStamp.i8DSTTime = 0;
+            psNewValue.sTimeStamp.u8DayoftheWeek = (byte)date.DayOfWeek;
 
-            Marshal.WriteInt32(psNewValue[0].pvData, value.i);
-            iErrorCode = dnp3_protocol.dnp3api.DNP3Update(DNP3serverhandle, ref psDAID[0], ref psNewValue[0], uiCount, dnp3_protocol.dnp3types.eUpdateClassID.UPDATE_DEFAULT_EVENT, ref ptErrorValue);
+            //if(group == dnp3types.eDNP3GroupID.ANALOG_INPUT || group == dnp3types.eDNP3GroupID.ANALOG_OUTPUTS)
+            //    Marshal.WriteInt32(psNewValue.pvData, (int)(value.f));
+            //else
+            Marshal.WriteInt32(psNewValue.pvData, value.i);
+            iErrorCode = dnp3_protocol.dnp3api.DNP3Update(DNP3serverhandle, ref psDAID, ref psNewValue, uiCount, dnp3_protocol.dnp3types.eUpdateClassID.UPDATE_DEFAULT_EVENT, ref ptErrorValue);
             if (iErrorCode != 0)
             {
                 Trace.TraceError("dnp3 Library API Function - DNP3Update() failed: {0:D} {1:D}", iErrorCode, ptErrorValue);
