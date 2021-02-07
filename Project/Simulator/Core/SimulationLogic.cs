@@ -152,7 +152,7 @@ namespace Simulator.Core
         {
             simulator.MarshalUnmananagedArray2Struct(db.psServerDatabasePoint, (int)db.u32TotalPoints, out dnp3_protocol.dnp3types.sServerDatabasePoint[] points);
 
-            var result = simulator.ConvertToPoints(points);p
+            var result = simulator.ConvertToPoints(points);
 
             foreach (var item in result)
             {
@@ -400,6 +400,11 @@ namespace Simulator.Core
                 {
                     pump2temp.Value -= ColdingConst;
                 }
+                else
+                {
+                    if(pump2temp.Value > MinTemp)
+                        pump2temp.Value -= ColdingConst;
+                }
             }
 
             CheckFluidLevel();
@@ -438,6 +443,11 @@ namespace Simulator.Core
                 {
                     pump2temp.Value -= ColdingConst;
                 }
+                else
+                {
+                    if (pump2temp.Value > MinTemp)
+                        pump2temp.Value -= ColdingConst;
+                }
             }
 
 
@@ -452,6 +462,11 @@ namespace Simulator.Core
                 if (colding1Pump)
                 {
                     pump1temp.Value -= ColdingConst;
+                }
+                else
+                {
+                    if (pump1temp.Value > MinTemp)
+                        pump1temp.Value -= ColdingConst;
                 }
             }
 
@@ -500,6 +515,11 @@ namespace Simulator.Core
                 {
                     pump2temp.Value -= ColdingConst;
                 }
+                else
+                {
+                    if (pump2temp.Value > MinTemp)
+                        pump2temp.Value -= ColdingConst;
+                }
             }
 
 
@@ -515,6 +535,11 @@ namespace Simulator.Core
                 {
                     pump1temp.Value -= ColdingConst;
                 }
+                else
+                {
+                    if (pump1temp.Value > MinTemp)
+                        pump1temp.Value -= ColdingConst;
+                }
             }
 
             if (fluidLever.Value > EmptyTank && breaker01.Value == 1 && dis01.Value == 1 && dis02.Value == 1 &&
@@ -528,6 +553,11 @@ namespace Simulator.Core
                 if (colding3Pump)
                 {
                     pump3temp.Value -= ColdingConst;
+                }
+                else
+                {
+                    if (pump3temp.Value > MinTemp)
+                        pump3temp.Value -= ColdingConst;
                 }
             }
 
