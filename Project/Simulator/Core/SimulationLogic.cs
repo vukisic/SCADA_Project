@@ -86,7 +86,7 @@ namespace Simulator.Core
             WA = new WeatherAPI();
             hours = WA.GetResultsForNext6Hours();
             db = new dnp3_protocol.dnp3types.sDNPServerDatabase();
-            secondsCount = 60;
+            secondsCount = 3600;
         }
 
         private void OnEveryHour()
