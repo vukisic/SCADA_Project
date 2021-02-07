@@ -86,6 +86,7 @@ namespace Simulator.Core
             WA = new WeatherAPI();
             hours = WA.GetResultsForNext6Hours();
             db = new dnp3_protocol.dnp3types.sDNPServerDatabase();
+            secondsCount = 60;
         }
 
         private void OnEveryHour()
@@ -96,34 +97,24 @@ namespace Simulator.Core
                 hours = WA.GetResultsForNext6Hours();
             }
 
-            if (db.u32TotalPoints != 15 && db.u32TotalPoints != 24 && db.u32TotalPoints != 33)
-                return;
-
             simulator.MarshalUnmananagedArray2Struct(db.psServerDatabasePoint, (int)db.u32TotalPoints, out dnp3_protocol.dnp3types.sServerDatabasePoint[] points);
 
             var result = simulator.ConvertToPoints(points);
 
-
-            foreach (var item in result)
+            var item = result.SingleOrDefault(x => x.GroupId == dnp3types.eDNP3GroupID.ANALOG_INPUT && x.Index == pairs["FluidLevel_Tank"]);
+            if(item != null)
             {
-                if (item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_INPUT || item.GroupId == dnp3_protocol.dnp3types.eDNP3GroupID.ANALOG_OUTPUTS)
+                var point = item as AnalogPoint;
+                SingleInt32Union analogValue = new SingleInt32Union();
+
+                analogValue.f = (int)(point.Value + (float)hours[hourIndex] * TankSurface);
+                simulator.UpdatePoint(pairs["FluidLevel_Tank"], dnp3types.eDNP3GroupID.ANALOG_INPUT, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue);
+
+                if (point.Value > FullTank)
                 {
-                    var point = item as AnalogPoint;
-                    if (point.Index == 1 && point.GroupId == dnp3types.eDNP3GroupID.ANALOG_INPUT) //FLUID LEVER - AI
-                    {
-                        SingleInt32Union analogValue = new SingleInt32Union();
-
-                        analogValue.f = point.Value + (float)hours[hourIndex] * TankSurface;
-                        //analogValue.f = point.Value + 1000; -- TEST
-                        simulator.UpdatePoint(pairs["FluidLevel_Tank"], dnp3types.eDNP3GroupID.ANALOG_INPUT, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue);
-
-                        if (point.Value > FullTank) //FULL TENK
-                        {
-                            SingleInt32Union digitalValue = new SingleInt32Union();
-                            digitalValue.i = 1;
-                            simulator.UpdatePoint(pairs["FullTank"], dnp3types.eDNP3GroupID.BINARY_INPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digitalValue);
-                        }
-                    }
+                    SingleInt32Union digitalValue = new SingleInt32Union();
+                    digitalValue.i = 1;
+                    simulator.UpdatePoint(pairs["FullTank"], dnp3types.eDNP3GroupID.BINARY_INPUT, tgttypes.eDataSizes.SINGLE_POINT_SIZE, tgtcommon.eDataTypes.SINGLE_POINT_DATA, digitalValue);
                 }
             }
             hourIndex++;
@@ -132,6 +123,8 @@ namespace Simulator.Core
         {
             this.db = db;
             this.pairs = pairs;
+            if (db.u32TotalPoints != 15 && db.u32TotalPoints != 24 && db.u32TotalPoints != 33)
+                return;
             if (secondsCount == 3600)
             {
                 OnEveryHour();
@@ -556,7 +549,7 @@ namespace Simulator.Core
                 voltage.Value = tapChanger.Value * VoltageFactor;
                 current.Value = 100 / voltage.Value;
                 voltage.Value = tapChanger.Value * VoltageFactor;
-                pumpTemp.Value += HeatingConst * voltage.Value; // 0.1 * 1 * 100
+                pumpTemp.Value += HeatingConst * voltage.Value;
                 fluidLever.Value -= pumpFlow.Value;
             }
         }

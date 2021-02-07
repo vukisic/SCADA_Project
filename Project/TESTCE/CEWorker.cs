@@ -99,7 +99,7 @@ namespace CE
             ScadaExportProxy proxy = new ScadaExportProxy();
             var points = proxy.GetData();
 
-            int counter = 0;
+            float counter = 0;
             foreach (var item in forecastResult.Results.Take(12))
             {
                 for (int i = 0; i < item.Pumps.Count(); i++)
@@ -117,7 +117,7 @@ namespace CE
                         {
                             Index = (uint)breaker2.Index,
                             RegisterType = breaker2.RegisterType,
-                            Milliseconds = 0,
+                            Milliseconds = (uint)((counter) * 60 * 1000),
                             Value = (uint)onOff
                         };
 
@@ -125,7 +125,7 @@ namespace CE
                         {
                             Index = (uint)tap.Index,
                             RegisterType = tap.RegisterType,
-                            Milliseconds = 0,
+                            Milliseconds = (uint)((counter) * 60 * 1000),
                             Value = (uint)(flow / 100)
                         };
 
@@ -150,7 +150,7 @@ namespace CE
                         Console.WriteLine(ex.Message);
                     }
                 }
-                counter += 15;
+                counter += 15.0f;
             }
         }
         private void SendCommandHelpMethod(CeForecast forecastResult)
