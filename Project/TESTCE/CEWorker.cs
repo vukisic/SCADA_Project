@@ -108,11 +108,10 @@ namespace CE
                     var time = item.Times[i];
                     var flow = item.Flows[i];
 
-                    var breaker2 = points[$"Breaker_2{i + 1}Status"];
-                    var tap = points[$"Discrete_Tap{i + 1}"];
-
-                    try
+                    if(points.ContainsKey($"Breaker_2{i + 1}Status"))
                     {
+                        var breaker2 = points[$"Breaker_2{i + 1}Status"];
+
                         var command1 = new ScadaCommandingEvent()
                         {
                             Index = (uint)breaker2.Index,
@@ -121,16 +120,7 @@ namespace CE
                             Value = (uint)onOff
                         };
 
-                        var command2 = new ScadaCommandingEvent()
-                        {
-                            Index = (uint)tap.Index,
-                            RegisterType = tap.RegisterType,
-                            Milliseconds = 0,
-                            Value = (uint)(flow / 100)
-                        };
-
                         endpoint.Publish(command1).ConfigureAwait(false);
-                        endpoint.Publish(command2).ConfigureAwait(false);
 
                         if (onOff == 1)
                         {
@@ -145,13 +135,26 @@ namespace CE
                             endpoint.Publish(command3).ConfigureAwait(false);
                         }
                     }
-                    catch (Exception ex)
+
+                    if(points.ContainsKey($"Discrete_Tap{i + 1}"))
                     {
-                        Console.WriteLine(ex.Message);
+                        var tap = points[$"Discrete_Tap{i + 1}"];
+
+
+                        var command2 = new ScadaCommandingEvent()
+                        {
+                            Index = (uint)tap.Index,
+                            RegisterType = tap.RegisterType,
+                            Milliseconds = 0,
+                            Value = (uint)(flow / 100)
+                        };
+
+                        endpoint.Publish(command2).ConfigureAwait(false);
                     }
                 }
+
                 counter += 15;
-            }
+            }     
         }
         private void SendCommandHelpMethod(CeForecast forecastResult)
         {
