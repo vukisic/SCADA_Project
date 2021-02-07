@@ -47,7 +47,7 @@ namespace NDS.ProcessingModule
                     Thread.Sleep(1000);
                     foreach (var item in calculationEngineCommands)
                     {
-                        if (item.MillisecondsPassedSinceLastPoll == item.Milliseconds)
+                        if (item.MillisecondsPassedSinceLastPoll >= item.Milliseconds)
                         {
                             processingManager.ExecuteWriteCommand(item.RegisterType, item.Index, item.Value);
                             item.Remove = true;

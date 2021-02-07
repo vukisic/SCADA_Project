@@ -152,7 +152,7 @@ namespace Simulator.Core
         {
             simulator.MarshalUnmananagedArray2Struct(db.psServerDatabasePoint, (int)db.u32TotalPoints, out dnp3_protocol.dnp3types.sServerDatabasePoint[] points);
 
-            var result = simulator.ConvertToPoints(points);
+            var result = simulator.ConvertToPoints(points);p
 
             foreach (var item in result)
             {
@@ -566,7 +566,7 @@ namespace Simulator.Core
                 current.Value = 100 / voltage.Value;
                 voltage.Value = tapChanger.Value * VoltageFactor;
                 pumpTemp.Value += HeatingConst * voltage.Value;
-                fluidLever.Value -= pumpFlow.Value;
+                fluidLever.Value -= pumpFlow.Value / 60; // 100/60 = 1,667 / s
             }
         }
     }

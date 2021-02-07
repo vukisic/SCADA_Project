@@ -347,3 +347,408 @@
 2021-02-07 16:46:51,537-[5]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
    at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\vukis\Desktop\Project\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
    at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\vukis\Desktop\Project\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-07 18:26:16,700-[5]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-07 18:27:16,808-[8]-ERROR-[LogEvents]-ERROR Could not connect to net.tcp://localhost:7001/IAlarmKruncing. The connection attempt lasted for a time span of 00:00:05.6539987. TCP error code 10061: No connection could be made because the target machine actively refused it 127.0.0.1:7001.  - 
+Server stack trace: 
+   at System.ServiceModel.Channels.SocketConnectionInitiator.Connect(Uri uri, TimeSpan timeout)
+   at System.ServiceModel.Channels.BufferedConnectionInitiator.Connect(Uri uri, TimeSpan timeout)
+   at System.ServiceModel.Channels.ConnectionPoolHelper.EstablishConnection(TimeSpan timeout)
+   at System.ServiceModel.Channels.ClientFramingDuplexSessionChannel.OnOpen(TimeSpan timeout)
+   at System.ServiceModel.Channels.CommunicationObject.Open(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.OnOpen(TimeSpan timeout)
+   at System.ServiceModel.Channels.CommunicationObject.Open(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.CallOpenOnce.System.ServiceModel.Channels.ServiceChannel.ICallOnce.Call(ServiceChannel channel, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.CallOnceManager.CallOnce(TimeSpan timeout, CallOnceManager cascade)
+   at System.ServiceModel.Channels.ServiceChannel.EnsureOpened(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.Call(String action, Boolean oneway, ProxyOperationRuntime operation, Object[] ins, Object[] outs, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannelProxy.InvokeService(IMethodCallMessage methodCall, ProxyOperationRuntime operation)
+   at System.ServiceModel.Channels.ServiceChannelProxy.Invoke(IMessage message)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at SCADA.Common.ScadaServices.Common.IAlarmKruncing.Check(Dictionary`2 points)
+   at SCADA.Common.Proxies.AlarmKruncingProxy.Check(Dictionary`2 points) in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\SCADA.Common\Proxies\AlarmKruncingProxy.cs:line 27
+   at SCADA.Common.Connection.FunctionExecutor.HandleReceivedBytes(Byte[] message, Boolean unsolicited) in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 133
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 87
+2021-02-07 18:27:16,808-[8]-ERROR-[LogEvents]-ERROR Could not connect to net.tcp://localhost:7001/IAlarmKruncing. The connection attempt lasted for a time span of 00:00:05.6539987. TCP error code 10061: No connection could be made because the target machine actively refused it 127.0.0.1:7001.  - 
+Server stack trace: 
+   at System.ServiceModel.Channels.SocketConnectionInitiator.Connect(Uri uri, TimeSpan timeout)
+   at System.ServiceModel.Channels.BufferedConnectionInitiator.Connect(Uri uri, TimeSpan timeout)
+   at System.ServiceModel.Channels.ConnectionPoolHelper.EstablishConnection(TimeSpan timeout)
+   at System.ServiceModel.Channels.ClientFramingDuplexSessionChannel.OnOpen(TimeSpan timeout)
+   at System.ServiceModel.Channels.CommunicationObject.Open(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.OnOpen(TimeSpan timeout)
+   at System.ServiceModel.Channels.CommunicationObject.Open(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.CallOpenOnce.System.ServiceModel.Channels.ServiceChannel.ICallOnce.Call(ServiceChannel channel, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.CallOnceManager.CallOnce(TimeSpan timeout, CallOnceManager cascade)
+   at System.ServiceModel.Channels.ServiceChannel.EnsureOpened(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.Call(String action, Boolean oneway, ProxyOperationRuntime operation, Object[] ins, Object[] outs, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannelProxy.InvokeService(IMethodCallMessage methodCall, ProxyOperationRuntime operation)
+   at System.ServiceModel.Channels.ServiceChannelProxy.Invoke(IMessage message)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at SCADA.Common.ScadaServices.Common.IAlarmKruncing.Check(Dictionary`2 points)
+   at SCADA.Common.Proxies.AlarmKruncingProxy.Check(Dictionary`2 points) in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\SCADA.Common\Proxies\AlarmKruncingProxy.cs:line 27
+   at SCADA.Common.Connection.FunctionExecutor.HandleReceivedBytes(Byte[] message, Boolean unsolicited) in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 133
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 87
+2021-02-07 18:27:37,254-[16]-ERROR-[LogEvents]-ERROR Could not connect to net.tcp://localhost:8033/IScadaStorage. The connection attempt lasted for a time span of 00:00:04.6369995. TCP error code 10061: No connection could be made because the target machine actively refused it 127.0.0.1:8033.  - 
+Server stack trace: 
+   at System.ServiceModel.Channels.SocketConnectionInitiator.Connect(Uri uri, TimeSpan timeout)
+   at System.ServiceModel.Channels.BufferedConnectionInitiator.Connect(Uri uri, TimeSpan timeout)
+   at System.ServiceModel.Channels.ConnectionPoolHelper.EstablishConnection(TimeSpan timeout)
+   at System.ServiceModel.Channels.ClientFramingDuplexSessionChannel.OnOpen(TimeSpan timeout)
+   at System.ServiceModel.Channels.CommunicationObject.Open(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.OnOpen(TimeSpan timeout)
+   at System.ServiceModel.Channels.CommunicationObject.Open(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.CallOpenOnce.System.ServiceModel.Channels.ServiceChannel.ICallOnce.Call(ServiceChannel channel, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.CallOnceManager.CallOnce(TimeSpan timeout, CallOnceManager cascade)
+   at System.ServiceModel.Channels.ServiceChannel.EnsureOpened(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.Call(String action, Boolean oneway, ProxyOperationRuntime operation, Object[] ins, Object[] outs, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannelProxy.InvokeService(IMethodCallMessage methodCall, ProxyOperationRuntime operation)
+   at System.ServiceModel.Channels.ServiceChannelProxy.Invoke(IMessage message)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at SCADA.Common.ScadaServices.Common.IScadaStorage.GetSingle(RegisterType type, Int32 index)
+   at SCADA.Common.Proxies.ScadaStorageProxy.GetSingle(RegisterType type, Int32 index) in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\SCADA.Common\Proxies\ScadaStorageProxy.cs:line 74
+   at NDS.ProcessingModule.ProcessingManager.ExecuteWriteCommand(RegisterType type, UInt32 index, UInt32 value) in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\TESTSKADA\ProcessingModule\ProcesingManager.cs:line 48
+   at NDS.ProcessingModule.CommandingService.Commanding_DoWork() in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\TESTSKADA\ProcessingModule\CommandingService.cs:line 52
+2021-02-07 18:27:37,254-[16]-ERROR-[LogEvents]-ERROR Could not connect to net.tcp://localhost:8033/IScadaStorage. The connection attempt lasted for a time span of 00:00:04.6369995. TCP error code 10061: No connection could be made because the target machine actively refused it 127.0.0.1:8033.  - 
+Server stack trace: 
+   at System.ServiceModel.Channels.SocketConnectionInitiator.Connect(Uri uri, TimeSpan timeout)
+   at System.ServiceModel.Channels.BufferedConnectionInitiator.Connect(Uri uri, TimeSpan timeout)
+   at System.ServiceModel.Channels.ConnectionPoolHelper.EstablishConnection(TimeSpan timeout)
+   at System.ServiceModel.Channels.ClientFramingDuplexSessionChannel.OnOpen(TimeSpan timeout)
+   at System.ServiceModel.Channels.CommunicationObject.Open(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.OnOpen(TimeSpan timeout)
+   at System.ServiceModel.Channels.CommunicationObject.Open(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.CallOpenOnce.System.ServiceModel.Channels.ServiceChannel.ICallOnce.Call(ServiceChannel channel, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.CallOnceManager.CallOnce(TimeSpan timeout, CallOnceManager cascade)
+   at System.ServiceModel.Channels.ServiceChannel.EnsureOpened(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.Call(String action, Boolean oneway, ProxyOperationRuntime operation, Object[] ins, Object[] outs, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannelProxy.InvokeService(IMethodCallMessage methodCall, ProxyOperationRuntime operation)
+   at System.ServiceModel.Channels.ServiceChannelProxy.Invoke(IMessage message)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at SCADA.Common.ScadaServices.Common.IScadaStorage.GetSingle(RegisterType type, Int32 index)
+   at SCADA.Common.Proxies.ScadaStorageProxy.GetSingle(RegisterType type, Int32 index) in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\SCADA.Common\Proxies\ScadaStorageProxy.cs:line 74
+   at NDS.ProcessingModule.ProcessingManager.ExecuteWriteCommand(RegisterType type, UInt32 index, UInt32 value) in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\TESTSKADA\ProcessingModule\ProcesingManager.cs:line 48
+   at NDS.ProcessingModule.CommandingService.Commanding_DoWork() in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\TESTSKADA\ProcessingModule\CommandingService.cs:line 52
+2021-02-07 18:27:37,254-[16]-ERROR-[LogEvents]-ERROR Could not connect to net.tcp://localhost:8033/IScadaStorage. The connection attempt lasted for a time span of 00:00:04.6369995. TCP error code 10061: No connection could be made because the target machine actively refused it 127.0.0.1:8033.  - 
+Server stack trace: 
+   at System.ServiceModel.Channels.SocketConnectionInitiator.Connect(Uri uri, TimeSpan timeout)
+   at System.ServiceModel.Channels.BufferedConnectionInitiator.Connect(Uri uri, TimeSpan timeout)
+   at System.ServiceModel.Channels.ConnectionPoolHelper.EstablishConnection(TimeSpan timeout)
+   at System.ServiceModel.Channels.ClientFramingDuplexSessionChannel.OnOpen(TimeSpan timeout)
+   at System.ServiceModel.Channels.CommunicationObject.Open(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.OnOpen(TimeSpan timeout)
+   at System.ServiceModel.Channels.CommunicationObject.Open(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.CallOpenOnce.System.ServiceModel.Channels.ServiceChannel.ICallOnce.Call(ServiceChannel channel, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.CallOnceManager.CallOnce(TimeSpan timeout, CallOnceManager cascade)
+   at System.ServiceModel.Channels.ServiceChannel.EnsureOpened(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.Call(String action, Boolean oneway, ProxyOperationRuntime operation, Object[] ins, Object[] outs, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannelProxy.InvokeService(IMethodCallMessage methodCall, ProxyOperationRuntime operation)
+   at System.ServiceModel.Channels.ServiceChannelProxy.Invoke(IMessage message)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at SCADA.Common.ScadaServices.Common.IScadaStorage.GetSingle(RegisterType type, Int32 index)
+   at SCADA.Common.Proxies.ScadaStorageProxy.GetSingle(RegisterType type, Int32 index) in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\SCADA.Common\Proxies\ScadaStorageProxy.cs:line 74
+   at NDS.ProcessingModule.ProcessingManager.ExecuteWriteCommand(RegisterType type, UInt32 index, UInt32 value) in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\TESTSKADA\ProcessingModule\ProcesingManager.cs:line 48
+   at NDS.ProcessingModule.CommandingService.Commanding_DoWork() in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\TESTSKADA\ProcessingModule\CommandingService.cs:line 52
+2021-02-07 18:27:55,906-[17]-ERROR-[LogEvents]-ERROR Could not connect to net.tcp://localhost:7001/IAlarmKruncing. The connection attempt lasted for a time span of 00:00:04.6679992. TCP error code 10061: No connection could be made because the target machine actively refused it 127.0.0.1:7001.  - 
+Server stack trace: 
+   at System.ServiceModel.Channels.SocketConnectionInitiator.Connect(Uri uri, TimeSpan timeout)
+   at System.ServiceModel.Channels.BufferedConnectionInitiator.Connect(Uri uri, TimeSpan timeout)
+   at System.ServiceModel.Channels.ConnectionPoolHelper.EstablishConnection(TimeSpan timeout)
+   at System.ServiceModel.Channels.ClientFramingDuplexSessionChannel.OnOpen(TimeSpan timeout)
+   at System.ServiceModel.Channels.CommunicationObject.Open(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.OnOpen(TimeSpan timeout)
+   at System.ServiceModel.Channels.CommunicationObject.Open(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.CallOpenOnce.System.ServiceModel.Channels.ServiceChannel.ICallOnce.Call(ServiceChannel channel, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.CallOnceManager.CallOnce(TimeSpan timeout, CallOnceManager cascade)
+   at System.ServiceModel.Channels.ServiceChannel.EnsureOpened(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.Call(String action, Boolean oneway, ProxyOperationRuntime operation, Object[] ins, Object[] outs, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannelProxy.InvokeService(IMethodCallMessage methodCall, ProxyOperationRuntime operation)
+   at System.ServiceModel.Channels.ServiceChannelProxy.Invoke(IMessage message)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at SCADA.Common.ScadaServices.Common.IAlarmKruncing.Check(Dictionary`2 points)
+   at SCADA.Common.Proxies.AlarmKruncingProxy.Check(Dictionary`2 points) in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\SCADA.Common\Proxies\AlarmKruncingProxy.cs:line 27
+   at SCADA.Common.Connection.FunctionExecutor.HandleReceivedBytes(Byte[] message, Boolean unsolicited) in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 133
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 94
+2021-02-07 18:27:55,906-[17]-ERROR-[LogEvents]-ERROR Could not connect to net.tcp://localhost:7001/IAlarmKruncing. The connection attempt lasted for a time span of 00:00:04.6679992. TCP error code 10061: No connection could be made because the target machine actively refused it 127.0.0.1:7001.  - 
+Server stack trace: 
+   at System.ServiceModel.Channels.SocketConnectionInitiator.Connect(Uri uri, TimeSpan timeout)
+   at System.ServiceModel.Channels.BufferedConnectionInitiator.Connect(Uri uri, TimeSpan timeout)
+   at System.ServiceModel.Channels.ConnectionPoolHelper.EstablishConnection(TimeSpan timeout)
+   at System.ServiceModel.Channels.ClientFramingDuplexSessionChannel.OnOpen(TimeSpan timeout)
+   at System.ServiceModel.Channels.CommunicationObject.Open(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.OnOpen(TimeSpan timeout)
+   at System.ServiceModel.Channels.CommunicationObject.Open(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.CallOpenOnce.System.ServiceModel.Channels.ServiceChannel.ICallOnce.Call(ServiceChannel channel, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.CallOnceManager.CallOnce(TimeSpan timeout, CallOnceManager cascade)
+   at System.ServiceModel.Channels.ServiceChannel.EnsureOpened(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.Call(String action, Boolean oneway, ProxyOperationRuntime operation, Object[] ins, Object[] outs, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannelProxy.InvokeService(IMethodCallMessage methodCall, ProxyOperationRuntime operation)
+   at System.ServiceModel.Channels.ServiceChannelProxy.Invoke(IMessage message)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at SCADA.Common.ScadaServices.Common.IAlarmKruncing.Check(Dictionary`2 points)
+   at SCADA.Common.Proxies.AlarmKruncingProxy.Check(Dictionary`2 points) in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\SCADA.Common\Proxies\AlarmKruncingProxy.cs:line 27
+   at SCADA.Common.Connection.FunctionExecutor.HandleReceivedBytes(Byte[] message, Boolean unsolicited) in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 133
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 94
+2021-02-07 18:27:55,906-[17]-ERROR-[LogEvents]-ERROR Could not connect to net.tcp://localhost:7001/IAlarmKruncing. The connection attempt lasted for a time span of 00:00:04.6679992. TCP error code 10061: No connection could be made because the target machine actively refused it 127.0.0.1:7001.  - 
+Server stack trace: 
+   at System.ServiceModel.Channels.SocketConnectionInitiator.Connect(Uri uri, TimeSpan timeout)
+   at System.ServiceModel.Channels.BufferedConnectionInitiator.Connect(Uri uri, TimeSpan timeout)
+   at System.ServiceModel.Channels.ConnectionPoolHelper.EstablishConnection(TimeSpan timeout)
+   at System.ServiceModel.Channels.ClientFramingDuplexSessionChannel.OnOpen(TimeSpan timeout)
+   at System.ServiceModel.Channels.CommunicationObject.Open(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.OnOpen(TimeSpan timeout)
+   at System.ServiceModel.Channels.CommunicationObject.Open(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.CallOpenOnce.System.ServiceModel.Channels.ServiceChannel.ICallOnce.Call(ServiceChannel channel, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.CallOnceManager.CallOnce(TimeSpan timeout, CallOnceManager cascade)
+   at System.ServiceModel.Channels.ServiceChannel.EnsureOpened(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.Call(String action, Boolean oneway, ProxyOperationRuntime operation, Object[] ins, Object[] outs, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannelProxy.InvokeService(IMethodCallMessage methodCall, ProxyOperationRuntime operation)
+   at System.ServiceModel.Channels.ServiceChannelProxy.Invoke(IMessage message)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at SCADA.Common.ScadaServices.Common.IAlarmKruncing.Check(Dictionary`2 points)
+   at SCADA.Common.Proxies.AlarmKruncingProxy.Check(Dictionary`2 points) in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\SCADA.Common\Proxies\AlarmKruncingProxy.cs:line 27
+   at SCADA.Common.Connection.FunctionExecutor.HandleReceivedBytes(Byte[] message, Boolean unsolicited) in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 133
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 94
+2021-02-07 18:27:55,906-[17]-ERROR-[LogEvents]-ERROR Could not connect to net.tcp://localhost:7001/IAlarmKruncing. The connection attempt lasted for a time span of 00:00:04.6679992. TCP error code 10061: No connection could be made because the target machine actively refused it 127.0.0.1:7001.  - 
+Server stack trace: 
+   at System.ServiceModel.Channels.SocketConnectionInitiator.Connect(Uri uri, TimeSpan timeout)
+   at System.ServiceModel.Channels.BufferedConnectionInitiator.Connect(Uri uri, TimeSpan timeout)
+   at System.ServiceModel.Channels.ConnectionPoolHelper.EstablishConnection(TimeSpan timeout)
+   at System.ServiceModel.Channels.ClientFramingDuplexSessionChannel.OnOpen(TimeSpan timeout)
+   at System.ServiceModel.Channels.CommunicationObject.Open(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.OnOpen(TimeSpan timeout)
+   at System.ServiceModel.Channels.CommunicationObject.Open(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.CallOpenOnce.System.ServiceModel.Channels.ServiceChannel.ICallOnce.Call(ServiceChannel channel, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.CallOnceManager.CallOnce(TimeSpan timeout, CallOnceManager cascade)
+   at System.ServiceModel.Channels.ServiceChannel.EnsureOpened(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.Call(String action, Boolean oneway, ProxyOperationRuntime operation, Object[] ins, Object[] outs, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannelProxy.InvokeService(IMethodCallMessage methodCall, ProxyOperationRuntime operation)
+   at System.ServiceModel.Channels.ServiceChannelProxy.Invoke(IMessage message)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at SCADA.Common.ScadaServices.Common.IAlarmKruncing.Check(Dictionary`2 points)
+   at SCADA.Common.Proxies.AlarmKruncingProxy.Check(Dictionary`2 points) in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\SCADA.Common\Proxies\AlarmKruncingProxy.cs:line 27
+   at SCADA.Common.Connection.FunctionExecutor.HandleReceivedBytes(Byte[] message, Boolean unsolicited) in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 133
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 94
+2021-02-07 18:28:13,131-[16]-ERROR-[LogEvents]-ERROR The communication object, System.ServiceModel.Channels.ServiceChannel, cannot be used for communication because it is in the Faulted state. - 
+Server stack trace: 
+   at System.ServiceModel.Channels.CommunicationObject.ThrowIfDisposedOrNotOpen()
+   at System.ServiceModel.Channels.ServiceChannel.EnsureOpened(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.Call(String action, Boolean oneway, ProxyOperationRuntime operation, Object[] ins, Object[] outs, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannelProxy.InvokeService(IMethodCallMessage methodCall, ProxyOperationRuntime operation)
+   at System.ServiceModel.Channels.ServiceChannelProxy.Invoke(IMessage message)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at SCADA.Common.ScadaServices.Common.IScadaStorage.GetSingle(RegisterType type, Int32 index)
+   at SCADA.Common.Proxies.ScadaStorageProxy.GetSingle(RegisterType type, Int32 index) in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\SCADA.Common\Proxies\ScadaStorageProxy.cs:line 74
+   at NDS.ProcessingModule.ProcessingManager.ExecuteWriteCommand(RegisterType type, UInt32 index, UInt32 value) in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\TESTSKADA\ProcessingModule\ProcesingManager.cs:line 48
+   at NDS.ProcessingModule.CommandingService.Commanding_DoWork() in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\TESTSKADA\ProcessingModule\CommandingService.cs:line 52
+2021-02-07 18:28:13,131-[16]-ERROR-[LogEvents]-ERROR The communication object, System.ServiceModel.Channels.ServiceChannel, cannot be used for communication because it is in the Faulted state. - 
+Server stack trace: 
+   at System.ServiceModel.Channels.CommunicationObject.ThrowIfDisposedOrNotOpen()
+   at System.ServiceModel.Channels.ServiceChannel.EnsureOpened(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.Call(String action, Boolean oneway, ProxyOperationRuntime operation, Object[] ins, Object[] outs, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannelProxy.InvokeService(IMethodCallMessage methodCall, ProxyOperationRuntime operation)
+   at System.ServiceModel.Channels.ServiceChannelProxy.Invoke(IMessage message)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at SCADA.Common.ScadaServices.Common.IScadaStorage.GetSingle(RegisterType type, Int32 index)
+   at SCADA.Common.Proxies.ScadaStorageProxy.GetSingle(RegisterType type, Int32 index) in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\SCADA.Common\Proxies\ScadaStorageProxy.cs:line 74
+   at NDS.ProcessingModule.ProcessingManager.ExecuteWriteCommand(RegisterType type, UInt32 index, UInt32 value) in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\TESTSKADA\ProcessingModule\ProcesingManager.cs:line 48
+   at NDS.ProcessingModule.CommandingService.Commanding_DoWork() in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\TESTSKADA\ProcessingModule\CommandingService.cs:line 52
+2021-02-07 18:28:13,131-[16]-ERROR-[LogEvents]-ERROR The communication object, System.ServiceModel.Channels.ServiceChannel, cannot be used for communication because it is in the Faulted state. - 
+Server stack trace: 
+   at System.ServiceModel.Channels.CommunicationObject.ThrowIfDisposedOrNotOpen()
+   at System.ServiceModel.Channels.ServiceChannel.EnsureOpened(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.Call(String action, Boolean oneway, ProxyOperationRuntime operation, Object[] ins, Object[] outs, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannelProxy.InvokeService(IMethodCallMessage methodCall, ProxyOperationRuntime operation)
+   at System.ServiceModel.Channels.ServiceChannelProxy.Invoke(IMessage message)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at SCADA.Common.ScadaServices.Common.IScadaStorage.GetSingle(RegisterType type, Int32 index)
+   at SCADA.Common.Proxies.ScadaStorageProxy.GetSingle(RegisterType type, Int32 index) in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\SCADA.Common\Proxies\ScadaStorageProxy.cs:line 74
+   at NDS.ProcessingModule.ProcessingManager.ExecuteWriteCommand(RegisterType type, UInt32 index, UInt32 value) in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\TESTSKADA\ProcessingModule\ProcesingManager.cs:line 48
+   at NDS.ProcessingModule.CommandingService.Commanding_DoWork() in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\TESTSKADA\ProcessingModule\CommandingService.cs:line 52
+2021-02-07 18:29:14,111-[4]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-07 18:30:33,213-[16]-ERROR-[LogEvents]-ERROR Could not connect to net.tcp://localhost:8033/IScadaStorage. The connection attempt lasted for a time span of 00:00:06.8739984. TCP error code 10061: No connection could be made because the target machine actively refused it 127.0.0.1:8033.  - 
+Server stack trace: 
+   at System.ServiceModel.Channels.SocketConnectionInitiator.Connect(Uri uri, TimeSpan timeout)
+   at System.ServiceModel.Channels.BufferedConnectionInitiator.Connect(Uri uri, TimeSpan timeout)
+   at System.ServiceModel.Channels.ConnectionPoolHelper.EstablishConnection(TimeSpan timeout)
+   at System.ServiceModel.Channels.ClientFramingDuplexSessionChannel.OnOpen(TimeSpan timeout)
+   at System.ServiceModel.Channels.CommunicationObject.Open(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.OnOpen(TimeSpan timeout)
+   at System.ServiceModel.Channels.CommunicationObject.Open(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.CallOpenOnce.System.ServiceModel.Channels.ServiceChannel.ICallOnce.Call(ServiceChannel channel, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.CallOnceManager.CallOnce(TimeSpan timeout, CallOnceManager cascade)
+   at System.ServiceModel.Channels.ServiceChannel.EnsureOpened(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.Call(String action, Boolean oneway, ProxyOperationRuntime operation, Object[] ins, Object[] outs, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannelProxy.InvokeService(IMethodCallMessage methodCall, ProxyOperationRuntime operation)
+   at System.ServiceModel.Channels.ServiceChannelProxy.Invoke(IMessage message)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at SCADA.Common.ScadaServices.Common.IScadaStorage.GetSingle(RegisterType type, Int32 index)
+   at SCADA.Common.Proxies.ScadaStorageProxy.GetSingle(RegisterType type, Int32 index) in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\SCADA.Common\Proxies\ScadaStorageProxy.cs:line 74
+   at NDS.ProcessingModule.ProcessingManager.ExecuteWriteCommand(RegisterType type, UInt32 index, UInt32 value) in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\TESTSKADA\ProcessingModule\ProcesingManager.cs:line 48
+   at NDS.ProcessingModule.CommandingService.Commanding_DoWork() in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\TESTSKADA\ProcessingModule\CommandingService.cs:line 52
+2021-02-07 18:30:33,213-[16]-ERROR-[LogEvents]-ERROR Could not connect to net.tcp://localhost:8033/IScadaStorage. The connection attempt lasted for a time span of 00:00:06.8739984. TCP error code 10061: No connection could be made because the target machine actively refused it 127.0.0.1:8033.  - 
+Server stack trace: 
+   at System.ServiceModel.Channels.SocketConnectionInitiator.Connect(Uri uri, TimeSpan timeout)
+   at System.ServiceModel.Channels.BufferedConnectionInitiator.Connect(Uri uri, TimeSpan timeout)
+   at System.ServiceModel.Channels.ConnectionPoolHelper.EstablishConnection(TimeSpan timeout)
+   at System.ServiceModel.Channels.ClientFramingDuplexSessionChannel.OnOpen(TimeSpan timeout)
+   at System.ServiceModel.Channels.CommunicationObject.Open(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.OnOpen(TimeSpan timeout)
+   at System.ServiceModel.Channels.CommunicationObject.Open(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.CallOpenOnce.System.ServiceModel.Channels.ServiceChannel.ICallOnce.Call(ServiceChannel channel, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.CallOnceManager.CallOnce(TimeSpan timeout, CallOnceManager cascade)
+   at System.ServiceModel.Channels.ServiceChannel.EnsureOpened(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.Call(String action, Boolean oneway, ProxyOperationRuntime operation, Object[] ins, Object[] outs, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannelProxy.InvokeService(IMethodCallMessage methodCall, ProxyOperationRuntime operation)
+   at System.ServiceModel.Channels.ServiceChannelProxy.Invoke(IMessage message)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at SCADA.Common.ScadaServices.Common.IScadaStorage.GetSingle(RegisterType type, Int32 index)
+   at SCADA.Common.Proxies.ScadaStorageProxy.GetSingle(RegisterType type, Int32 index) in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\SCADA.Common\Proxies\ScadaStorageProxy.cs:line 74
+   at NDS.ProcessingModule.ProcessingManager.ExecuteWriteCommand(RegisterType type, UInt32 index, UInt32 value) in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\TESTSKADA\ProcessingModule\ProcesingManager.cs:line 48
+   at NDS.ProcessingModule.CommandingService.Commanding_DoWork() in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\TESTSKADA\ProcessingModule\CommandingService.cs:line 52
+2021-02-07 18:30:37,839-[16]-ERROR-[LogEvents]-ERROR The communication object, System.ServiceModel.Channels.ServiceChannel, cannot be used for communication because it is in the Faulted state. - 
+Server stack trace: 
+   at System.ServiceModel.Channels.CommunicationObject.ThrowIfDisposedOrNotOpen()
+   at System.ServiceModel.Channels.ServiceChannel.EnsureOpened(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.Call(String action, Boolean oneway, ProxyOperationRuntime operation, Object[] ins, Object[] outs, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannelProxy.InvokeService(IMethodCallMessage methodCall, ProxyOperationRuntime operation)
+   at System.ServiceModel.Channels.ServiceChannelProxy.Invoke(IMessage message)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at SCADA.Common.ScadaServices.Common.IScadaStorage.GetSingle(RegisterType type, Int32 index)
+   at SCADA.Common.Proxies.ScadaStorageProxy.GetSingle(RegisterType type, Int32 index) in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\SCADA.Common\Proxies\ScadaStorageProxy.cs:line 74
+   at NDS.ProcessingModule.ProcessingManager.ExecuteWriteCommand(RegisterType type, UInt32 index, UInt32 value) in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\TESTSKADA\ProcessingModule\ProcesingManager.cs:line 48
+   at NDS.ProcessingModule.CommandingService.Commanding_DoWork() in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\TESTSKADA\ProcessingModule\CommandingService.cs:line 52
+2021-02-07 18:30:37,839-[16]-ERROR-[LogEvents]-ERROR The communication object, System.ServiceModel.Channels.ServiceChannel, cannot be used for communication because it is in the Faulted state. - 
+Server stack trace: 
+   at System.ServiceModel.Channels.CommunicationObject.ThrowIfDisposedOrNotOpen()
+   at System.ServiceModel.Channels.ServiceChannel.EnsureOpened(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.Call(String action, Boolean oneway, ProxyOperationRuntime operation, Object[] ins, Object[] outs, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannelProxy.InvokeService(IMethodCallMessage methodCall, ProxyOperationRuntime operation)
+   at System.ServiceModel.Channels.ServiceChannelProxy.Invoke(IMessage message)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at SCADA.Common.ScadaServices.Common.IScadaStorage.GetSingle(RegisterType type, Int32 index)
+   at SCADA.Common.Proxies.ScadaStorageProxy.GetSingle(RegisterType type, Int32 index) in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\SCADA.Common\Proxies\ScadaStorageProxy.cs:line 74
+   at NDS.ProcessingModule.ProcessingManager.ExecuteWriteCommand(RegisterType type, UInt32 index, UInt32 value) in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\TESTSKADA\ProcessingModule\ProcesingManager.cs:line 48
+   at NDS.ProcessingModule.CommandingService.Commanding_DoWork() in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\TESTSKADA\ProcessingModule\CommandingService.cs:line 52
+2021-02-07 18:30:37,839-[16]-ERROR-[LogEvents]-ERROR The communication object, System.ServiceModel.Channels.ServiceChannel, cannot be used for communication because it is in the Faulted state. - 
+Server stack trace: 
+   at System.ServiceModel.Channels.CommunicationObject.ThrowIfDisposedOrNotOpen()
+   at System.ServiceModel.Channels.ServiceChannel.EnsureOpened(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.Call(String action, Boolean oneway, ProxyOperationRuntime operation, Object[] ins, Object[] outs, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannelProxy.InvokeService(IMethodCallMessage methodCall, ProxyOperationRuntime operation)
+   at System.ServiceModel.Channels.ServiceChannelProxy.Invoke(IMessage message)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at SCADA.Common.ScadaServices.Common.IScadaStorage.GetSingle(RegisterType type, Int32 index)
+   at SCADA.Common.Proxies.ScadaStorageProxy.GetSingle(RegisterType type, Int32 index) in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\SCADA.Common\Proxies\ScadaStorageProxy.cs:line 74
+   at NDS.ProcessingModule.ProcessingManager.ExecuteWriteCommand(RegisterType type, UInt32 index, UInt32 value) in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\TESTSKADA\ProcessingModule\ProcesingManager.cs:line 48
+   at NDS.ProcessingModule.CommandingService.Commanding_DoWork() in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\TESTSKADA\ProcessingModule\CommandingService.cs:line 52
+2021-02-07 18:30:49,597-[7]-ERROR-[LogEvents]-ERROR The communication object, System.ServiceModel.Channels.ServiceChannel, cannot be used for communication because it is in the Faulted state. - 
+Server stack trace: 
+   at System.ServiceModel.Channels.CommunicationObject.ThrowIfDisposedOrNotOpen()
+   at System.ServiceModel.Channels.ServiceChannel.EnsureOpened(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.Call(String action, Boolean oneway, ProxyOperationRuntime operation, Object[] ins, Object[] outs, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannelProxy.InvokeService(IMethodCallMessage methodCall, ProxyOperationRuntime operation)
+   at System.ServiceModel.Channels.ServiceChannelProxy.Invoke(IMessage message)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at SCADA.Common.ScadaServices.Common.IScadaStorage.GetSingle(RegisterType type, Int32 index)
+   at SCADA.Common.Proxies.ScadaStorageProxy.GetSingle(RegisterType type, Int32 index) in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\SCADA.Common\Proxies\ScadaStorageProxy.cs:line 74
+   at NDS.ProcessingModule.ProcessingManager.ExecuteWriteCommand(RegisterType type, UInt32 index, UInt32 value) in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\TESTSKADA\ProcessingModule\ProcesingManager.cs:line 48
+   at NDS.ProcessingModule.CommandingService.Commanding_DoWork() in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\TESTSKADA\ProcessingModule\CommandingService.cs:line 52
+2021-02-07 18:30:49,597-[7]-ERROR-[LogEvents]-ERROR The communication object, System.ServiceModel.Channels.ServiceChannel, cannot be used for communication because it is in the Faulted state. - 
+Server stack trace: 
+   at System.ServiceModel.Channels.CommunicationObject.ThrowIfDisposedOrNotOpen()
+   at System.ServiceModel.Channels.ServiceChannel.EnsureOpened(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.Call(String action, Boolean oneway, ProxyOperationRuntime operation, Object[] ins, Object[] outs, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannelProxy.InvokeService(IMethodCallMessage methodCall, ProxyOperationRuntime operation)
+   at System.ServiceModel.Channels.ServiceChannelProxy.Invoke(IMessage message)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at SCADA.Common.ScadaServices.Common.IScadaStorage.GetSingle(RegisterType type, Int32 index)
+   at SCADA.Common.Proxies.ScadaStorageProxy.GetSingle(RegisterType type, Int32 index) in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\SCADA.Common\Proxies\ScadaStorageProxy.cs:line 74
+   at NDS.ProcessingModule.ProcessingManager.ExecuteWriteCommand(RegisterType type, UInt32 index, UInt32 value) in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\TESTSKADA\ProcessingModule\ProcesingManager.cs:line 48
+   at NDS.ProcessingModule.CommandingService.Commanding_DoWork() in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\TESTSKADA\ProcessingModule\CommandingService.cs:line 52
+2021-02-07 18:30:49,597-[7]-ERROR-[LogEvents]-ERROR The communication object, System.ServiceModel.Channels.ServiceChannel, cannot be used for communication because it is in the Faulted state. - 
+Server stack trace: 
+   at System.ServiceModel.Channels.CommunicationObject.ThrowIfDisposedOrNotOpen()
+   at System.ServiceModel.Channels.ServiceChannel.EnsureOpened(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.Call(String action, Boolean oneway, ProxyOperationRuntime operation, Object[] ins, Object[] outs, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannelProxy.InvokeService(IMethodCallMessage methodCall, ProxyOperationRuntime operation)
+   at System.ServiceModel.Channels.ServiceChannelProxy.Invoke(IMessage message)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at SCADA.Common.ScadaServices.Common.IScadaStorage.GetSingle(RegisterType type, Int32 index)
+   at SCADA.Common.Proxies.ScadaStorageProxy.GetSingle(RegisterType type, Int32 index) in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\SCADA.Common\Proxies\ScadaStorageProxy.cs:line 74
+   at NDS.ProcessingModule.ProcessingManager.ExecuteWriteCommand(RegisterType type, UInt32 index, UInt32 value) in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\TESTSKADA\ProcessingModule\ProcesingManager.cs:line 48
+   at NDS.ProcessingModule.CommandingService.Commanding_DoWork() in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\TESTSKADA\ProcessingModule\CommandingService.cs:line 52
+2021-02-07 18:30:49,597-[7]-ERROR-[LogEvents]-ERROR The communication object, System.ServiceModel.Channels.ServiceChannel, cannot be used for communication because it is in the Faulted state. - 
+Server stack trace: 
+   at System.ServiceModel.Channels.CommunicationObject.ThrowIfDisposedOrNotOpen()
+   at System.ServiceModel.Channels.ServiceChannel.EnsureOpened(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.Call(String action, Boolean oneway, ProxyOperationRuntime operation, Object[] ins, Object[] outs, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannelProxy.InvokeService(IMethodCallMessage methodCall, ProxyOperationRuntime operation)
+   at System.ServiceModel.Channels.ServiceChannelProxy.Invoke(IMessage message)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at SCADA.Common.ScadaServices.Common.IScadaStorage.GetSingle(RegisterType type, Int32 index)
+   at SCADA.Common.Proxies.ScadaStorageProxy.GetSingle(RegisterType type, Int32 index) in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\SCADA.Common\Proxies\ScadaStorageProxy.cs:line 74
+   at NDS.ProcessingModule.ProcessingManager.ExecuteWriteCommand(RegisterType type, UInt32 index, UInt32 value) in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\TESTSKADA\ProcessingModule\ProcesingManager.cs:line 48
+   at NDS.ProcessingModule.CommandingService.Commanding_DoWork() in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\TESTSKADA\ProcessingModule\CommandingService.cs:line 52
