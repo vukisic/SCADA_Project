@@ -23,7 +23,6 @@ namespace Calculations
         private List<DNA<float>> hromozomes = new List<DNA<float>>();
 
         float[] firstGenes;
-        int index = 0; 
         int countIteration = 0;
         int iterations;
         float lastBestSolution = 0.0f;
@@ -97,7 +96,6 @@ namespace Calculations
             else if (index % 3 == 2)
                 gene = limits3[random.Next(limits3.Length)];
 
-            index++;
             return gene;
         }
 

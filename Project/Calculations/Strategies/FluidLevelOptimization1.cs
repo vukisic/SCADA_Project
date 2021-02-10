@@ -90,7 +90,6 @@ namespace Calculations
             else if (index % 3 == 2)
                 gene = limits3[random.Next(limits3.Length)];
 
-            index++;
             return gene;
         }
 
