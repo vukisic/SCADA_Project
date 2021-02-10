@@ -435,6 +435,8 @@ namespace CE
         {
             pointUpdateOccures = true;
             points = e;
+            Stop();
+            Start();
         }
     }
 }
