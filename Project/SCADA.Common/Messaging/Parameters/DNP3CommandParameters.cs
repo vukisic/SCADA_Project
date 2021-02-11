@@ -28,8 +28,8 @@ namespace SCADA.Common.Messaging.Parameters
             Start = 0x0564;
             Length = 0;
             Control = 0xc4;
-            Destination = UInt16.Parse(ConfigurationSettings.AppSettings["Destination"]);
-            Source = UInt16.Parse(ConfigurationSettings.AppSettings["Source"]);
+            Destination = UInt16.Parse(ConfigurationManager.AppSettings["Destination"]);
+            Source = UInt16.Parse(ConfigurationManager.AppSettings["Source"]);
             TransportControl = transportControl;
         }
 
