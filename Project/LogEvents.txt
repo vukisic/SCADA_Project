@@ -752,3 +752,36 @@ Exception rethrown at [0]:
    at SCADA.Common.Proxies.ScadaStorageProxy.GetSingle(RegisterType type, Int32 index) in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\SCADA.Common\Proxies\ScadaStorageProxy.cs:line 74
    at NDS.ProcessingModule.ProcessingManager.ExecuteWriteCommand(RegisterType type, UInt32 index, UInt32 value) in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\TESTSKADA\ProcessingModule\ProcesingManager.cs:line 48
    at NDS.ProcessingModule.CommandingService.Commanding_DoWork() in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\TESTSKADA\ProcessingModule\CommandingService.cs:line 52
+2021-02-11 01:30:07,153-[3]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-11 01:30:13,968-[4]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-11 01:30:13,968-[4]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-11 01:30:14,150-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-11 01:30:14,150-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-11 01:30:14,150-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-11 01:30:31,172-[6]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\vukis\Desktop\Project\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\vukis\Desktop\Project\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-11 01:30:31,172-[6]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\vukis\Desktop\Project\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\vukis\Desktop\Project\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-11 01:30:31,172-[6]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\vukis\Desktop\Project\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\vukis\Desktop\Project\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-11 01:30:31,172-[6]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\vukis\Desktop\Project\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\vukis\Desktop\Project\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-11 01:30:58,942-[3]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\vukis\Desktop\Project\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\vukis\Desktop\Project\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-11 01:30:58,942-[3]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\vukis\Desktop\Project\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\vukis\Desktop\Project\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-11 01:30:58,942-[3]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\vukis\Desktop\Project\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\vukis\Desktop\Project\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-11 01:30:58,942-[3]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\vukis\Desktop\Project\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\vukis\Desktop\Project\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-11 01:30:58,942-[3]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\vukis\Desktop\Project\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\vukis\Desktop\Project\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
