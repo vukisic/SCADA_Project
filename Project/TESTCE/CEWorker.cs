@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using Calculations;
 using CE.Common.Proxies;
 using CE.Data;
@@ -18,7 +16,7 @@ namespace CE
 {
     public class CEWorker : IDisposable
     {
-        IFitnessFunction algorithm;
+        private IFitnessFunction algorithm;
         private Thread _worker;
         public EventHandler<int> _updateEvent = delegate { };
         private bool pointUpdateOccures;
@@ -82,13 +80,8 @@ namespace CE
                     }
 
                     // Update and Command
-
                     SendCommand(forecastResult);
                     Update(forecastResult, weather);
-
-                    //Thread.Sleep(10800000); // 3hrs
-                    // Test
-
                     Thread.Sleep(10800000);
                 }
 
@@ -101,7 +94,7 @@ namespace CE
             var points = proxy.GetData();
 
             float counter = 0;
-            foreach (var item in forecastResult.Results.Take(1))
+            foreach (var item in forecastResult.Results.Take(12))
             {
                 for (int i = 0; i < item.Pumps.Count(); i++)
                 {
@@ -151,7 +144,7 @@ namespace CE
 
                         endpoint.Publish(command2).ConfigureAwait(false);
                     }
-                    else if(points.ContainsKey($"Discrete_Tap{i + 1}") && onOff == 0)
+                    else if (points.ContainsKey($"Discrete_Tap{i + 1}") && onOff == 0)
                     {
                         var tap = points[$"Discrete_Tap{i + 1}"];
 
@@ -169,129 +162,7 @@ namespace CE
                 counter += 15.0f;
             }
         }
-        private void SendCommandHelpMethod(CeForecast forecastResult)
-        {
-            ScadaExportProxy proxy = new ScadaExportProxy();
-            var points = proxy.GetData();
 
-            int counter = 0;
-            foreach (var item in forecastResult.Results.Take(12))
-            {
-                for (int i = 0; i < item.Pumps.Count(); i++)
-                {
-                    var onOff = item.Pumps[i];
-                    var time = item.Times[i];
-                    var flow = item.Flows[i];
-
-                    var disc01 = points[$"Discrete_Disc01"];
-                    var disc02 = points[$"Discrete_Disc02"];
-                    var dis1_ = points[$"Discrete_Disc1{i + 1}"];
-                    var dis2_ = points[$"Discrete_Disc2{i + 1}"];
-
-                    var breaker01 = points[$"Breaker_01Status"];
-                    var breaker1_ = points[$"Breaker_1{i + 1}Status"];
-
-
-                    var breaker2 = points[$"Breaker_2{i + 1}Status"];
-                    var tap = points[$"Discrete_Tap{i + 1}"];
-
-                    try
-                    {
-                        var command1 = new ScadaCommandingEvent()
-                        {
-                            Index = (uint)breaker2.Index,
-                            RegisterType = breaker2.RegisterType,
-                            Milliseconds = 0,
-                            Value = (uint)onOff
-                        };
-
-                        var command2 = new ScadaCommandingEvent()
-                        {
-                            Index = (uint)tap.Index,
-                            RegisterType = tap.RegisterType,
-                            Milliseconds = 0,
-                            Value = (uint)(flow / 100)
-                        };
-
-                        endpoint.Publish(command1).ConfigureAwait(false);
-                        endpoint.Publish(command2).ConfigureAwait(false);
-
-                        if (onOff == 1)
-                        {
-                            var command3 = new ScadaCommandingEvent()
-                            {
-                                Index = (uint)breaker2.Index,
-                                RegisterType = breaker2.RegisterType,
-                                Value = 0,
-                                Milliseconds = (uint)((counter + time) * 60 * 1000)
-                            };
-
-                            var command4 = new ScadaCommandingEvent()
-                            {
-                                Index = (uint)disc01.Index,
-                                RegisterType = disc01.RegisterType,
-                                Milliseconds = 0,
-                                Value = (uint)onOff
-                            };
-
-                            var command5 = new ScadaCommandingEvent()
-                            {
-                                Index = (uint)disc02.Index,
-                                RegisterType = disc02.RegisterType,
-                                Milliseconds = 0,
-                                Value = (uint)onOff
-                            };
-
-                            var command6 = new ScadaCommandingEvent()
-                            {
-                                Index = (uint)dis1_.Index,
-                                RegisterType = dis1_.RegisterType,
-                                Milliseconds = 0,
-                                Value = (uint)onOff
-                            };
-
-                            var command7 = new ScadaCommandingEvent()
-                            {
-                                Index = (uint)dis2_.Index,
-                                RegisterType = dis2_.RegisterType,
-                                Milliseconds = 0,
-                                Value = (uint)onOff
-                            };
-
-                            var command8 = new ScadaCommandingEvent()
-                            {
-                                Index = (uint)breaker01.Index,
-                                RegisterType = breaker01.RegisterType,
-                                Milliseconds = 0,
-                                Value = (uint)onOff
-                            };
-
-                            var command9 = new ScadaCommandingEvent()
-                            {
-                                Index = (uint)breaker1_.Index,
-                                RegisterType = breaker1_.RegisterType,
-                                Milliseconds = 0,
-                                Value = (uint)onOff
-                            };
-
-                            endpoint.Publish(command3).ConfigureAwait(false);
-                            endpoint.Publish(command4).ConfigureAwait(false);
-                            endpoint.Publish(command5).ConfigureAwait(false);
-                            endpoint.Publish(command6).ConfigureAwait(false);
-                            endpoint.Publish(command7).ConfigureAwait(false);
-                            endpoint.Publish(command8).ConfigureAwait(false);
-                            endpoint.Publish(command9).ConfigureAwait(false);
-
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex.Message);
-                    }
-                }
-                counter += 15;
-            }
-        }
         private void Update(CeForecast forecastResult, List<double> weather)
         {
             CeUpdateEvent update = new CeUpdateEvent();

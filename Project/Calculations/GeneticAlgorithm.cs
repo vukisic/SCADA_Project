@@ -1,10 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FTN.Common;
-using FTN.Services.NetworkModelService;
 
 namespace Calculations
 {
@@ -75,7 +70,7 @@ namespace Calculations
         //7. Bira se najbolja jedinka od ove nove generacije
         public void NewGeneration(int numNewDNA = 0, bool crossoverNewDNA = false)
         {
- 
+
             int finalCount = Population.Count + numNewDNA;
 
             if (finalCount <= 0)

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Calculations
 {
@@ -22,7 +20,7 @@ namespace Calculations
         public Tuple<int, float> FindBestSolution(List<Tuple<int, float>> potentialSolutions)
         {
             Tuple<int, float> bestSolution;
-            
+
             int indexSolution = potentialSolutions[0].Item1;
             float minSolution = potentialSolutions[0].Item2;
 

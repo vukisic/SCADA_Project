@@ -1,7 +1,5 @@
 ﻿using System.Threading.Tasks;
 using Core.Common.ServiceBus;
-using Core.Common.ServiceBus.Commands;
-using Core.Common.ServiceBus.Events;
 using NServiceBus;
 
 namespace CE.ServiceBus

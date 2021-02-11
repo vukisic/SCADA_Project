@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Calculations
 {
     public class DNA<T>
     {
-        public float[] Genes { get;  set; }
+        public float[] Genes { get; set; }
         public float Fitness { get; private set; }
 
         private Random random;
@@ -38,7 +34,7 @@ namespace Calculations
                 }
             }
 
-            if(isFirstGenes)
+            if (isFirstGenes)
             {
                 Genes = getGene();
             }

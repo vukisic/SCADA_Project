@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CE.Common.Proxies;
 using SCADA.Common.DataModel;
 
@@ -21,41 +18,36 @@ namespace Calculations
         private int elitism = 1;
         private float mutationRate = 0.01f;
         private List<DNA<float>> hromozomes = new List<DNA<float>>();
-
-        float[] firstGenes;
-        int countIteration = 0;
-        int iterations;
-        float lastBestSolution = 2000.00f;
-        int bestSolutionIndex;
-        DNA<float> bestIndividual;
-
-        float[] limits1 = new float[] { 0.0f, 1.0f };
-        float[] limits2 = new float[] { 100.0f, 200.0f, 300.0f, 400.0f, 500.0f };
-        int[] limits3 = Enumerable.Range(1, 15).ToArray();
-        float percentage;
-        float optimalFluidLevel;
-        float timeFactor;
-
-        AnalogPoint pump1flow = null;
-        AnalogPoint tapChanger1 = null;
-
-        AnalogPoint pump2flow = null;
-        AnalogPoint tapChanger2 = null;
-
-        AnalogPoint fluidLevel = null;
+        private float[] firstGenes;
+        private int countIteration = 0;
+        private int iterations;
+        private float lastBestSolution = 2000.00f;
+        private int bestSolutionIndex;
+        private DNA<float> bestIndividual;
+        private float[] limits1 = new float[] { 0.0f, 1.0f };
+        private float[] limits2 = new float[] { 100.0f, 200.0f, 300.0f, 400.0f, 500.0f };
+        private int[] limits3 = Enumerable.Range(1, 15).ToArray();
+        private float percentage;
+        private float optimalFluidLevel;
+        private float timeFactor;
+        private AnalogPoint pump1flow = null;
+        private AnalogPoint tapChanger1 = null;
+        private AnalogPoint pump2flow = null;
+        private AnalogPoint tapChanger2 = null;
+        private AnalogPoint fluidLevel = null;
 
         public int isWorking1 = 0;
         public int isWorking2 = 0;
 
         public FluidLevelOptimization2(float optimalFluidLevel, float percentage, float timeFactor, int iterations)
         {
-            
+
             workingTimes = new List<Tuple<float, float>>();
             this.percentage = percentage;
             this.optimalFluidLevel = optimalFluidLevel;
             this.timeFactor = timeFactor;
             this.iterations = iterations;
-            utils = new Utils(optimalFluidLevel,percentage,timeFactor);
+            utils = new Utils(optimalFluidLevel, percentage, timeFactor);
         }
 
         public float FitnessFunction(int index)
@@ -102,7 +94,7 @@ namespace Calculations
         public DNA<float> Start(float currentFluidLevel)
         {
             model = CeProxyFactory.Instance().ScadaExportProxy().GetData();
-           
+
             if (currentFluidLevel == 0 || IsCurrentOptimal(currentFluidLevel))
             {
                 var ret = new DNA<float>();
@@ -115,7 +107,7 @@ namespace Calculations
                 if (m.Value.Mrid == "Flow_AM1")
                     pump1flow = m.Value as AnalogPoint;
                 else if (m.Value.Mrid == "Flow_AM2")
-                    pump2flow = m.Value as AnalogPoint;    
+                    pump2flow = m.Value as AnalogPoint;
                 else if (m.Value.Mrid == "Discrete_Tap1")
                     tapChanger1 = m.Value as AnalogPoint;
                 else if (m.Value.Mrid == "Discrete_Tap2")
@@ -131,12 +123,12 @@ namespace Calculations
             if (pump2flow.Value > 0)
                 isWorking2 = 0;
             else
-                isWorking2 = 1;   
+                isWorking2 = 1;
 
             //PRVA GENERACIJA IMA JEDNU JEDINKU
 
             firstGenes = new float[]{ isWorking1, pump1flow.Value, 0.1f,
-                              isWorking2, pump2flow.Value, 0.1f                     
+                              isWorking2, pump2flow.Value, 0.1f
             };
 
             DNA<float> firstHromozome = new DNA<float>(6, random, GetRandomGene, FitnessFunction, false, true, GetGene);
@@ -159,7 +151,7 @@ namespace Calculations
                 }
 
                 List<Tuple<int, float>> potentialSolutions = utils.FindPotentialSolutions(results, workingTimes);
-                
+
                 if (potentialSolutions.Count() > 0)
                 {
                     Tuple<int, float> bestSolution = utils.FindBestSolution(potentialSolutions);

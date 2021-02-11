@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
 using FTN.Common;
 using FTN.Services.NetworkModelService;
 using TMContracts;
@@ -23,7 +20,7 @@ namespace CETransaction
                 new Uri("net.tcp://localhost:5002/IModelUpdate"));
 
             transactionServiceHost = new ServiceHost(typeof(CETransactionProvider));
-            transactionServiceHost.AddServiceEndpoint(typeof(ITransactionSteps), new NetTcpBinding(), 
+            transactionServiceHost.AddServiceEndpoint(typeof(ITransactionSteps), new NetTcpBinding(),
                 new Uri("net.tcp://localhost:4003/ITransactionSteps"));
         }
 
@@ -33,7 +30,7 @@ namespace CETransaction
             {
                 modelServiceHost.Open();
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
             }
@@ -45,7 +42,7 @@ namespace CETransaction
             {
                 modelServiceHost.Close();
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
             }
@@ -57,7 +54,7 @@ namespace CETransaction
             {
                 transactionServiceHost.Open();
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
             }
@@ -69,7 +66,7 @@ namespace CETransaction
             {
                 transactionServiceHost.Close();
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
             }

@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
 using Core.Common.WeatherApi.Data;
+using Newtonsoft.Json;
 
 namespace Core.Common.WeatherApi
 {
@@ -47,11 +45,11 @@ namespace Core.Common.WeatherApi
 
                 return results;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw new Exception(e.Message);
+                return results;
             }
-            
+
         }
     }
 }

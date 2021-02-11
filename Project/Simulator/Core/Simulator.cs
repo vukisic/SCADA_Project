@@ -303,41 +303,6 @@ namespace Simulator.Core
 
         private static short cbDebug(ushort u16ObjectId, ref dnp3_protocol.dnp3types.sDNP3DebugData psDebugData, ref short ptErrorValue)
         {
-            //if ((psDebugData.u32DebugOptions & (uint)dnp3_protocol.tgtcommon.eDebugOptionsFlag.DEBUG_OPTION_RX) == (uint)dnp3_protocol.tgtcommon.eDebugOptionsFlag.DEBUG_OPTION_RX)
-            //{
-            //    if (psDebugData.eCommMode == dnp3_protocol.dnp3types.eCommunicationMode.TCP_IP_MODE)
-            //    {
-            //        Trace.TraceInformation("Rx IP " + psDebugData.ai8IPAddress + " Port " + psDebugData.u16PortNumber + " <- ");
-            //    }
-            //    for (ushort i = 0; i < psDebugData.u16RxCount; i++)
-            //        Trace.TraceInformation("{0:X2} ", psDebugData.au8RxData[i]);
-            //}
-
-            //if ((psDebugData.u32DebugOptions & (uint)dnp3_protocol.tgtcommon.eDebugOptionsFlag.DEBUG_OPTION_TX) == (uint)dnp3_protocol.tgtcommon.eDebugOptionsFlag.DEBUG_OPTION_TX)
-            //{
-            //    if (psDebugData.eCommMode == dnp3_protocol.dnp3types.eCommunicationMode.TCP_IP_MODE)
-            //    {
-            //        Trace.TraceInformation("Tx IP " + psDebugData.ai8IPAddress + " Port " + psDebugData.u16PortNumber + " -> ");
-            //    }
-            //    for (ushort i = 0; i < psDebugData.u16TxCount; i++)
-            //        Trace.TraceInformation("{0:X2} ", psDebugData.au8TxData[i]);
-
-            //}
-
-            //if ((psDebugData.u32DebugOptions & (uint)dnp3_protocol.tgtcommon.eDebugOptionsFlag.DEBUG_OPTION_ERROR) == (uint)dnp3_protocol.tgtcommon.eDebugOptionsFlag.DEBUG_OPTION_ERROR)
-            //{
-            //    Trace.TraceError("Error message " + psDebugData.au8ErrorMessage);
-            //    Trace.TraceError("ErrorCode " + psDebugData.i16ErrorCode);
-            //    Trace.TraceError("ErrorValue " + psDebugData.tErrorValue);
-            //}
-
-            //if ((psDebugData.u32DebugOptions & (uint)dnp3_protocol.tgtcommon.eDebugOptionsFlag.DEBUG_OPTION_WARNING) == (uint)dnp3_protocol.tgtcommon.eDebugOptionsFlag.DEBUG_OPTION_WARNING)
-            //{
-            //    Trace.TraceWarning("Warning message " + psDebugData.au8WarningMessage);
-            //    Trace.TraceWarning("ErrorCode " + psDebugData.i16ErrorCode);
-            //    Trace.TraceWarning("ErrorValue " + psDebugData.tErrorValue);
-            //}
-
             return (short)dnp3_protocol.tgterrorcodes.eTgtErrorCodes.EC_NONE;
         }
 
@@ -595,9 +560,6 @@ namespace Simulator.Core
             psNewValue.sTimeStamp.i8DSTTime = 0;
             psNewValue.sTimeStamp.u8DayoftheWeek = (byte)date.DayOfWeek;
 
-            //if(group == dnp3types.eDNP3GroupID.ANALOG_INPUT || group == dnp3types.eDNP3GroupID.ANALOG_OUTPUTS)
-            //    Marshal.WriteInt32(psNewValue.pvData, (int)(value.f));
-            //else
             Marshal.WriteInt32(psNewValue.pvData, value.i);
             iErrorCode = dnp3_protocol.dnp3api.DNP3Update(DNP3serverhandle, ref psDAID, ref psNewValue, uiCount, dnp3_protocol.dnp3types.eUpdateClassID.UPDATE_DEFAULT_EVENT, ref ptErrorValue);
             if (iErrorCode != 0)

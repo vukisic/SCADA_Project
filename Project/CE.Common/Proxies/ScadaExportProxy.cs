@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
 using SCADA.Common.DataModel;
 using SCADA.Common.ScadaServices.Common;
 
@@ -20,7 +16,7 @@ namespace CE.Common.Proxies
             proxy = channelFactory.CreateChannel();
         }
 
-        public Dictionary<string,BasePoint> GetData()
+        public Dictionary<string, BasePoint> GetData()
         {
             return proxy.GetData();
         }

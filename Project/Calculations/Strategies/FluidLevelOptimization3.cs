@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CE.Common.Proxies;
-using FTN.Common;
-using FTN.Services.NetworkModelService;
 using SCADA.Common.DataModel;
 
 namespace Calculations
@@ -23,30 +18,26 @@ namespace Calculations
         private int elitism = 1;
         private float mutationRate = 0.01f;
         private List<DNA<float>> hromozomes = new List<DNA<float>>();
-        float[] firstGenes;
-        int index = 0;
-        float[] limits1 = new float[] { 0.0f, 1.0f };
-        float[] limits2 = new float[] { 100.0f, 200.0f, 300.0f, 400.0f, 500.0f };
-        int[] limits3 = Enumerable.Range(1, 15).ToArray();
-        float percentage;
-        float optimalFluidLevel;
-        float timeFactor;
-
-        int countIteration = 0;
-        int iterations;
-        float lastBestSolution = 20000.0f;
-        int bestSolutionIndex;
-        DNA<float> bestIndividual;
-
-        AnalogPoint pump1flow = null;
-        AnalogPoint tapChanger1 = null;
-
-        AnalogPoint pump2flow = null;
-        AnalogPoint tapChanger2 = null;
-
-        AnalogPoint pump3flow = null;
-        AnalogPoint tapChanger3 = null;
-        AnalogPoint fluidLevel = null;
+        private float[] firstGenes;
+        private int index = 0;
+        private float[] limits1 = new float[] { 0.0f, 1.0f };
+        private float[] limits2 = new float[] { 100.0f, 200.0f, 300.0f, 400.0f, 500.0f };
+        private int[] limits3 = Enumerable.Range(1, 15).ToArray();
+        private float percentage;
+        private float optimalFluidLevel;
+        private float timeFactor;
+        private int countIteration = 0;
+        private int iterations;
+        private float lastBestSolution = 20000.0f;
+        private int bestSolutionIndex;
+        private DNA<float> bestIndividual;
+        private AnalogPoint pump1flow = null;
+        private AnalogPoint tapChanger1 = null;
+        private AnalogPoint pump2flow = null;
+        private AnalogPoint tapChanger2 = null;
+        private AnalogPoint pump3flow = null;
+        private AnalogPoint tapChanger3 = null;
+        private AnalogPoint fluidLevel = null;
 
         public int isWorking1 = 0;
         public int isWorking2 = 0;
@@ -54,13 +45,13 @@ namespace Calculations
 
         public FluidLevelOptimization3(float optimalFluidLevel, float percentage, float timeFactor, int iterations)
         {
-            
+
             workingTimes = new List<Tuple<float, float, float>>();
             this.percentage = percentage;
             this.optimalFluidLevel = optimalFluidLevel;
             this.timeFactor = timeFactor;
             this.iterations = iterations;
-            utils = new Utils(optimalFluidLevel,percentage,timeFactor);
+            utils = new Utils(optimalFluidLevel, percentage, timeFactor);
         }
 
         public float FitnessFunction(int index)
@@ -90,7 +81,7 @@ namespace Calculations
         {
             float gene = 0.1f;
 
-            if(index == 9)
+            if (index == 9)
             {
                 index = 0;
                 DNA<float>.index = 0;
@@ -109,15 +100,15 @@ namespace Calculations
         public DNA<float> Start(float currentFluidLevel)
         {
             model = CeProxyFactory.Instance().ScadaExportProxy().GetData();
-            
-            if(currentFluidLevel == 0 || IsCurrentOptimal(currentFluidLevel))
+
+            if (currentFluidLevel == 0 || IsCurrentOptimal(currentFluidLevel))
             {
                 var ret = new DNA<float>();
-                ret.Genes = new float[] { 0,0,0,0,0,0,0,0,0 };
+                ret.Genes = new float[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
                 return ret;
             }
-            
-            foreach(var m in model)
+
+            foreach (var m in model)
             {
                 if (m.Value.Mrid == "Flow_AM1")
                     pump1flow = m.Value as AnalogPoint;

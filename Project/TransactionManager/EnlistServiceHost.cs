@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
 using TMContracts;
 
 namespace TransactionManager
@@ -24,7 +20,7 @@ namespace TransactionManager
             {
                 serviceHost.Open();
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
             }
@@ -36,7 +32,7 @@ namespace TransactionManager
             {
                 serviceHost.Close();
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
             }
