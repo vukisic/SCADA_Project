@@ -752,3 +752,780 @@ Exception rethrown at [0]:
    at SCADA.Common.Proxies.ScadaStorageProxy.GetSingle(RegisterType type, Int32 index) in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\SCADA.Common\Proxies\ScadaStorageProxy.cs:line 74
    at NDS.ProcessingModule.ProcessingManager.ExecuteWriteCommand(RegisterType type, UInt32 index, UInt32 value) in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\TESTSKADA\ProcessingModule\ProcesingManager.cs:line 48
    at NDS.ProcessingModule.CommandingService.Commanding_DoWork() in C:\Users\Korisnik\Desktop\SKADAmaster\SCADA_Project\Project\TESTSKADA\ProcessingModule\CommandingService.cs:line 52
+2021-02-10 18:10:25,429-[5]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-10 18:11:46,565-[5]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 18:11:46,565-[5]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 18:11:48,212-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 18:11:48,212-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 18:11:48,212-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 18:13:13,530-[3]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-10 18:13:49,738-[6]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 18:13:49,738-[6]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 18:13:52,584-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 18:13:52,584-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 18:13:52,584-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 18:14:34,604-[3]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-10 18:14:34,604-[3]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-10 18:14:34,604-[3]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-10 18:14:34,604-[3]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-10 18:18:55,870-[4]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-10 18:19:22,111-[6]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 18:19:22,111-[6]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 18:19:23,315-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 18:19:23,315-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 18:19:23,315-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 18:21:21,339-[5]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-10 18:21:41,981-[5]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 18:21:41,981-[5]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 18:21:43,064-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 18:21:43,064-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 18:21:43,064-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 18:23:25,192-[3]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-10 18:23:39,052-[6]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 18:23:39,052-[6]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 18:23:39,213-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 18:23:39,213-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 18:23:39,213-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 18:23:48,591-[5]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-10 18:23:48,591-[5]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-10 18:23:48,591-[5]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-10 18:23:48,591-[5]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-10 18:27:59,260-[19]-ERROR-[LogEvents]-ERROR This request operation sent to net.tcp://localhost:7001/IAlarmKruncing did not receive a reply within the configured timeout (00:01:00).  The time allotted to this operation may have been a portion of a longer timeout.  This may be because the service is still processing the operation or because the service was unable to send a reply message.  Please consider increasing the operation timeout (by casting the channel/proxy to IContextChannel and setting the OperationTimeout property) and ensure that the service is able to connect to the client. - 
+Server stack trace: 
+   at System.ServiceModel.Dispatcher.DuplexChannelBinder.Request(Message message, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.Call(String action, Boolean oneway, ProxyOperationRuntime operation, Object[] ins, Object[] outs, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannelProxy.InvokeService(IMethodCallMessage methodCall, ProxyOperationRuntime operation)
+   at System.ServiceModel.Channels.ServiceChannelProxy.Invoke(IMessage message)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at SCADA.Common.ScadaServices.Common.IAlarmKruncing.Check(Dictionary`2 points)
+   at SCADA.Common.Proxies.AlarmKruncingProxy.Check(Dictionary`2 points) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Proxies\AlarmKruncingProxy.cs:line 27
+   at SCADA.Common.Connection.FunctionExecutor.HandleReceivedBytes(Byte[] message, Boolean unsolicited) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 133
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 94
+2021-02-10 18:27:59,260-[19]-ERROR-[LogEvents]-ERROR This request operation sent to net.tcp://localhost:7001/IAlarmKruncing did not receive a reply within the configured timeout (00:01:00).  The time allotted to this operation may have been a portion of a longer timeout.  This may be because the service is still processing the operation or because the service was unable to send a reply message.  Please consider increasing the operation timeout (by casting the channel/proxy to IContextChannel and setting the OperationTimeout property) and ensure that the service is able to connect to the client. - 
+Server stack trace: 
+   at System.ServiceModel.Dispatcher.DuplexChannelBinder.Request(Message message, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.Call(String action, Boolean oneway, ProxyOperationRuntime operation, Object[] ins, Object[] outs, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannelProxy.InvokeService(IMethodCallMessage methodCall, ProxyOperationRuntime operation)
+   at System.ServiceModel.Channels.ServiceChannelProxy.Invoke(IMessage message)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at SCADA.Common.ScadaServices.Common.IAlarmKruncing.Check(Dictionary`2 points)
+   at SCADA.Common.Proxies.AlarmKruncingProxy.Check(Dictionary`2 points) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Proxies\AlarmKruncingProxy.cs:line 27
+   at SCADA.Common.Connection.FunctionExecutor.HandleReceivedBytes(Byte[] message, Boolean unsolicited) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 133
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 94
+2021-02-10 18:27:59,260-[19]-ERROR-[LogEvents]-ERROR This request operation sent to net.tcp://localhost:7001/IAlarmKruncing did not receive a reply within the configured timeout (00:01:00).  The time allotted to this operation may have been a portion of a longer timeout.  This may be because the service is still processing the operation or because the service was unable to send a reply message.  Please consider increasing the operation timeout (by casting the channel/proxy to IContextChannel and setting the OperationTimeout property) and ensure that the service is able to connect to the client. - 
+Server stack trace: 
+   at System.ServiceModel.Dispatcher.DuplexChannelBinder.Request(Message message, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.Call(String action, Boolean oneway, ProxyOperationRuntime operation, Object[] ins, Object[] outs, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannelProxy.InvokeService(IMethodCallMessage methodCall, ProxyOperationRuntime operation)
+   at System.ServiceModel.Channels.ServiceChannelProxy.Invoke(IMessage message)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at SCADA.Common.ScadaServices.Common.IAlarmKruncing.Check(Dictionary`2 points)
+   at SCADA.Common.Proxies.AlarmKruncingProxy.Check(Dictionary`2 points) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Proxies\AlarmKruncingProxy.cs:line 27
+   at SCADA.Common.Connection.FunctionExecutor.HandleReceivedBytes(Byte[] message, Boolean unsolicited) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 133
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 94
+2021-02-10 18:27:59,260-[19]-ERROR-[LogEvents]-ERROR This request operation sent to net.tcp://localhost:7001/IAlarmKruncing did not receive a reply within the configured timeout (00:01:00).  The time allotted to this operation may have been a portion of a longer timeout.  This may be because the service is still processing the operation or because the service was unable to send a reply message.  Please consider increasing the operation timeout (by casting the channel/proxy to IContextChannel and setting the OperationTimeout property) and ensure that the service is able to connect to the client. - 
+Server stack trace: 
+   at System.ServiceModel.Dispatcher.DuplexChannelBinder.Request(Message message, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.Call(String action, Boolean oneway, ProxyOperationRuntime operation, Object[] ins, Object[] outs, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannelProxy.InvokeService(IMethodCallMessage methodCall, ProxyOperationRuntime operation)
+   at System.ServiceModel.Channels.ServiceChannelProxy.Invoke(IMessage message)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at SCADA.Common.ScadaServices.Common.IAlarmKruncing.Check(Dictionary`2 points)
+   at SCADA.Common.Proxies.AlarmKruncingProxy.Check(Dictionary`2 points) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Proxies\AlarmKruncingProxy.cs:line 27
+   at SCADA.Common.Connection.FunctionExecutor.HandleReceivedBytes(Byte[] message, Boolean unsolicited) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 133
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 94
+2021-02-10 18:27:59,260-[19]-ERROR-[LogEvents]-ERROR This request operation sent to net.tcp://localhost:7001/IAlarmKruncing did not receive a reply within the configured timeout (00:01:00).  The time allotted to this operation may have been a portion of a longer timeout.  This may be because the service is still processing the operation or because the service was unable to send a reply message.  Please consider increasing the operation timeout (by casting the channel/proxy to IContextChannel and setting the OperationTimeout property) and ensure that the service is able to connect to the client. - 
+Server stack trace: 
+   at System.ServiceModel.Dispatcher.DuplexChannelBinder.Request(Message message, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.Call(String action, Boolean oneway, ProxyOperationRuntime operation, Object[] ins, Object[] outs, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannelProxy.InvokeService(IMethodCallMessage methodCall, ProxyOperationRuntime operation)
+   at System.ServiceModel.Channels.ServiceChannelProxy.Invoke(IMessage message)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at SCADA.Common.ScadaServices.Common.IAlarmKruncing.Check(Dictionary`2 points)
+   at SCADA.Common.Proxies.AlarmKruncingProxy.Check(Dictionary`2 points) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Proxies\AlarmKruncingProxy.cs:line 27
+   at SCADA.Common.Connection.FunctionExecutor.HandleReceivedBytes(Byte[] message, Boolean unsolicited) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 133
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 94
+2021-02-10 21:06:26,794-[6]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-10 21:06:54,743-[6]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 21:06:54,743-[6]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 21:06:56,337-[4]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 21:06:56,337-[4]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 21:06:56,337-[4]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 21:07:10,665-[3]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-10 21:07:10,665-[3]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-10 21:07:10,665-[3]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-10 21:07:10,665-[3]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-10 21:11:14,569-[4]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-10 21:11:36,117-[4]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 21:11:36,117-[4]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 21:11:36,914-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 21:11:36,914-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 21:11:36,914-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 21:12:23,015-[4]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-10 21:13:10,909-[5]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 21:13:10,909-[5]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 21:13:11,851-[4]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 21:13:11,851-[4]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 21:13:11,851-[4]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 21:14:04,184-[3]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-10 21:14:25,729-[5]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 21:14:25,729-[5]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 21:14:26,859-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 21:14:26,859-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 21:14:26,859-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 21:15:15,750-[5]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-10 21:15:31,748-[4]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 21:15:31,748-[4]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 21:15:32,265-[4]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 21:15:32,265-[4]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 21:15:32,265-[4]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 21:16:04,991-[3]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-10 21:16:23,809-[5]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 21:16:23,809-[5]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 21:16:24,839-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 21:16:24,839-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 21:16:24,839-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 21:17:06,760-[3]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-10 21:17:18,150-[3]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 21:17:18,150-[3]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 21:17:18,361-[3]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 21:17:18,361-[3]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 21:17:18,361-[3]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 21:17:27,580-[3]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-10 21:17:27,580-[3]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-10 21:17:27,580-[3]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-10 21:17:27,580-[3]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-10 21:27:34,590-[6]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-10 21:27:49,627-[3]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 21:27:49,627-[3]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 21:27:50,191-[4]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 21:27:50,191-[4]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 21:27:50,191-[4]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 21:28:27,547-[5]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-10 21:28:48,777-[5]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 21:28:48,777-[5]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 21:28:49,685-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 21:28:49,685-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 21:28:49,685-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 21:29:15,236-[5]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-10 21:29:30,469-[5]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 21:29:30,469-[5]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 21:29:30,863-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 21:29:30,863-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 21:29:30,863-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 21:29:41,338-[6]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-10 21:29:41,338-[6]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-10 21:29:41,338-[6]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-10 21:29:41,338-[6]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-10 21:50:13,360-[5]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-10 21:50:33,962-[7]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 21:50:33,962-[7]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 21:50:36,476-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 21:50:36,476-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 21:50:36,476-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 21:51:20,164-[3]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-10 21:52:03,072-[3]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-10 21:52:30,791-[3]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 21:52:30,791-[3]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 21:52:31,592-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 21:52:31,592-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 21:52:31,592-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 21:52:54,008-[3]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-10 21:53:29,356-[13]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 21:53:29,356-[13]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 21:53:45,932-[5]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-10 21:54:23,681-[3]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-10 21:54:46,038-[6]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 21:54:46,038-[6]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 21:54:46,896-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 21:54:46,896-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 21:54:46,896-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 21:55:25,491-[5]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-10 21:55:46,962-[4]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 21:55:46,962-[4]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 21:55:47,725-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 21:55:47,725-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 21:55:47,725-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 21:57:38,677-[5]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-10 21:58:30,533-[5]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-10 21:59:02,517-[5]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 21:59:02,517-[5]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 21:59:03,300-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 21:59:03,300-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 21:59:03,300-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:00:25,879-[4]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-10 22:00:38,681-[4]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 22:00:38,681-[4]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 22:01:00,437-[5]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-10 22:01:16,560-[5]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 22:01:16,560-[5]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 22:01:17,173-[3]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:01:17,173-[3]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:01:17,173-[3]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:02:48,556-[3]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-10 22:04:09,704-[3]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-10 22:04:36,321-[3]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 22:04:36,321-[3]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 22:04:37,078-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:04:37,078-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:04:37,078-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:06:13,901-[3]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-10 22:06:44,062-[3]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 22:06:44,062-[3]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 22:06:46,373-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:06:46,373-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:06:46,373-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:07:13,537-[5]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-10 22:07:13,537-[5]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-10 22:07:13,537-[5]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-10 22:07:13,537-[5]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-10 22:11:37,724-[4]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-10 22:11:58,841-[6]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 22:11:58,841-[6]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 22:11:59,966-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:11:59,966-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:11:59,966-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:12:41,422-[3]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-10 22:13:09,407-[6]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 22:13:09,407-[6]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 22:13:10,556-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:13:10,556-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:13:10,556-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:13:29,926-[5]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-10 22:13:48,338-[3]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 22:13:48,338-[3]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 22:13:49,417-[17]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:13:49,417-[17]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:13:49,417-[17]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:14:12,968-[20]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-10 22:14:12,968-[20]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-10 22:14:12,968-[20]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-10 22:14:12,968-[20]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-10 22:24:02,247-[22]-ERROR-[LogEvents]-ERROR The socket connection was aborted. This could be caused by an error processing your message or a receive timeout being exceeded by the remote host, or an underlying network resource issue. Local socket timeout was '00:00:59.9960006'. - 
+Server stack trace: 
+   at System.ServiceModel.Channels.SocketConnection.ReadCore(Byte[] buffer, Int32 offset, Int32 size, TimeSpan timeout, Boolean closing)
+   at System.ServiceModel.Channels.SocketConnection.Read(Byte[] buffer, Int32 offset, Int32 size, TimeSpan timeout)
+   at System.ServiceModel.Channels.DelegatingConnection.Read(Byte[] buffer, Int32 offset, Int32 size, TimeSpan timeout)
+   at System.ServiceModel.Channels.ConnectionUpgradeHelper.InitiateUpgrade(StreamUpgradeInitiator upgradeInitiator, IConnection& connection, ClientFramingDecoder decoder, IDefaultCommunicationTimeouts defaultTimeouts, TimeoutHelper& timeoutHelper)
+   at System.ServiceModel.Channels.ClientFramingDuplexSessionChannel.SendPreamble(IConnection connection, ArraySegment`1 preamble, TimeoutHelper& timeoutHelper)
+   at System.ServiceModel.Channels.ClientFramingDuplexSessionChannel.DuplexConnectionPoolHelper.AcceptPooledConnection(IConnection connection, TimeoutHelper& timeoutHelper)
+   at System.ServiceModel.Channels.ConnectionPoolHelper.EstablishConnection(TimeSpan timeout)
+   at System.ServiceModel.Channels.ClientFramingDuplexSessionChannel.OnOpen(TimeSpan timeout)
+   at System.ServiceModel.Channels.CommunicationObject.Open(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.OnOpen(TimeSpan timeout)
+   at System.ServiceModel.Channels.CommunicationObject.Open(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.CallOpenOnce.System.ServiceModel.Channels.ServiceChannel.ICallOnce.Call(ServiceChannel channel, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.CallOnceManager.CallOnce(TimeSpan timeout, CallOnceManager cascade)
+   at System.ServiceModel.Channels.ServiceChannel.EnsureOpened(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.Call(String action, Boolean oneway, ProxyOperationRuntime operation, Object[] ins, Object[] outs, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannelProxy.InvokeService(IMethodCallMessage methodCall, ProxyOperationRuntime operation)
+   at System.ServiceModel.Channels.ServiceChannelProxy.Invoke(IMessage message)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at SCADA.Common.ScadaServices.Common.IScadaStorage.UpdateModelValue(Dictionary`2 updateModel)
+   at SCADA.Common.Proxies.ScadaStorageProxy.UpdateModelValue(Dictionary`2 updateModel) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Proxies\ScadaStorageProxy.cs:line 69
+   at SCADA.Common.Connection.FunctionExecutor.HandleReceivedBytes(Byte[] message, Boolean unsolicited) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 134
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 94
+2021-02-10 22:24:02,247-[22]-ERROR-[LogEvents]-ERROR The socket connection was aborted. This could be caused by an error processing your message or a receive timeout being exceeded by the remote host, or an underlying network resource issue. Local socket timeout was '00:00:59.9960006'. - 
+Server stack trace: 
+   at System.ServiceModel.Channels.SocketConnection.ReadCore(Byte[] buffer, Int32 offset, Int32 size, TimeSpan timeout, Boolean closing)
+   at System.ServiceModel.Channels.SocketConnection.Read(Byte[] buffer, Int32 offset, Int32 size, TimeSpan timeout)
+   at System.ServiceModel.Channels.DelegatingConnection.Read(Byte[] buffer, Int32 offset, Int32 size, TimeSpan timeout)
+   at System.ServiceModel.Channels.ConnectionUpgradeHelper.InitiateUpgrade(StreamUpgradeInitiator upgradeInitiator, IConnection& connection, ClientFramingDecoder decoder, IDefaultCommunicationTimeouts defaultTimeouts, TimeoutHelper& timeoutHelper)
+   at System.ServiceModel.Channels.ClientFramingDuplexSessionChannel.SendPreamble(IConnection connection, ArraySegment`1 preamble, TimeoutHelper& timeoutHelper)
+   at System.ServiceModel.Channels.ClientFramingDuplexSessionChannel.DuplexConnectionPoolHelper.AcceptPooledConnection(IConnection connection, TimeoutHelper& timeoutHelper)
+   at System.ServiceModel.Channels.ConnectionPoolHelper.EstablishConnection(TimeSpan timeout)
+   at System.ServiceModel.Channels.ClientFramingDuplexSessionChannel.OnOpen(TimeSpan timeout)
+   at System.ServiceModel.Channels.CommunicationObject.Open(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.OnOpen(TimeSpan timeout)
+   at System.ServiceModel.Channels.CommunicationObject.Open(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.CallOpenOnce.System.ServiceModel.Channels.ServiceChannel.ICallOnce.Call(ServiceChannel channel, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.CallOnceManager.CallOnce(TimeSpan timeout, CallOnceManager cascade)
+   at System.ServiceModel.Channels.ServiceChannel.EnsureOpened(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.Call(String action, Boolean oneway, ProxyOperationRuntime operation, Object[] ins, Object[] outs, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannelProxy.InvokeService(IMethodCallMessage methodCall, ProxyOperationRuntime operation)
+   at System.ServiceModel.Channels.ServiceChannelProxy.Invoke(IMessage message)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at SCADA.Common.ScadaServices.Common.IScadaStorage.UpdateModelValue(Dictionary`2 updateModel)
+   at SCADA.Common.Proxies.ScadaStorageProxy.UpdateModelValue(Dictionary`2 updateModel) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Proxies\ScadaStorageProxy.cs:line 69
+   at SCADA.Common.Connection.FunctionExecutor.HandleReceivedBytes(Byte[] message, Boolean unsolicited) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 134
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 94
+2021-02-10 22:24:02,247-[22]-ERROR-[LogEvents]-ERROR The socket connection was aborted. This could be caused by an error processing your message or a receive timeout being exceeded by the remote host, or an underlying network resource issue. Local socket timeout was '00:00:59.9960006'. - 
+Server stack trace: 
+   at System.ServiceModel.Channels.SocketConnection.ReadCore(Byte[] buffer, Int32 offset, Int32 size, TimeSpan timeout, Boolean closing)
+   at System.ServiceModel.Channels.SocketConnection.Read(Byte[] buffer, Int32 offset, Int32 size, TimeSpan timeout)
+   at System.ServiceModel.Channels.DelegatingConnection.Read(Byte[] buffer, Int32 offset, Int32 size, TimeSpan timeout)
+   at System.ServiceModel.Channels.ConnectionUpgradeHelper.InitiateUpgrade(StreamUpgradeInitiator upgradeInitiator, IConnection& connection, ClientFramingDecoder decoder, IDefaultCommunicationTimeouts defaultTimeouts, TimeoutHelper& timeoutHelper)
+   at System.ServiceModel.Channels.ClientFramingDuplexSessionChannel.SendPreamble(IConnection connection, ArraySegment`1 preamble, TimeoutHelper& timeoutHelper)
+   at System.ServiceModel.Channels.ClientFramingDuplexSessionChannel.DuplexConnectionPoolHelper.AcceptPooledConnection(IConnection connection, TimeoutHelper& timeoutHelper)
+   at System.ServiceModel.Channels.ConnectionPoolHelper.EstablishConnection(TimeSpan timeout)
+   at System.ServiceModel.Channels.ClientFramingDuplexSessionChannel.OnOpen(TimeSpan timeout)
+   at System.ServiceModel.Channels.CommunicationObject.Open(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.OnOpen(TimeSpan timeout)
+   at System.ServiceModel.Channels.CommunicationObject.Open(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.CallOpenOnce.System.ServiceModel.Channels.ServiceChannel.ICallOnce.Call(ServiceChannel channel, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.CallOnceManager.CallOnce(TimeSpan timeout, CallOnceManager cascade)
+   at System.ServiceModel.Channels.ServiceChannel.EnsureOpened(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.Call(String action, Boolean oneway, ProxyOperationRuntime operation, Object[] ins, Object[] outs, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannelProxy.InvokeService(IMethodCallMessage methodCall, ProxyOperationRuntime operation)
+   at System.ServiceModel.Channels.ServiceChannelProxy.Invoke(IMessage message)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at SCADA.Common.ScadaServices.Common.IScadaStorage.UpdateModelValue(Dictionary`2 updateModel)
+   at SCADA.Common.Proxies.ScadaStorageProxy.UpdateModelValue(Dictionary`2 updateModel) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Proxies\ScadaStorageProxy.cs:line 69
+   at SCADA.Common.Connection.FunctionExecutor.HandleReceivedBytes(Byte[] message, Boolean unsolicited) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 134
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 94
+2021-02-10 22:24:02,247-[22]-ERROR-[LogEvents]-ERROR The socket connection was aborted. This could be caused by an error processing your message or a receive timeout being exceeded by the remote host, or an underlying network resource issue. Local socket timeout was '00:00:59.9960006'. - 
+Server stack trace: 
+   at System.ServiceModel.Channels.SocketConnection.ReadCore(Byte[] buffer, Int32 offset, Int32 size, TimeSpan timeout, Boolean closing)
+   at System.ServiceModel.Channels.SocketConnection.Read(Byte[] buffer, Int32 offset, Int32 size, TimeSpan timeout)
+   at System.ServiceModel.Channels.DelegatingConnection.Read(Byte[] buffer, Int32 offset, Int32 size, TimeSpan timeout)
+   at System.ServiceModel.Channels.ConnectionUpgradeHelper.InitiateUpgrade(StreamUpgradeInitiator upgradeInitiator, IConnection& connection, ClientFramingDecoder decoder, IDefaultCommunicationTimeouts defaultTimeouts, TimeoutHelper& timeoutHelper)
+   at System.ServiceModel.Channels.ClientFramingDuplexSessionChannel.SendPreamble(IConnection connection, ArraySegment`1 preamble, TimeoutHelper& timeoutHelper)
+   at System.ServiceModel.Channels.ClientFramingDuplexSessionChannel.DuplexConnectionPoolHelper.AcceptPooledConnection(IConnection connection, TimeoutHelper& timeoutHelper)
+   at System.ServiceModel.Channels.ConnectionPoolHelper.EstablishConnection(TimeSpan timeout)
+   at System.ServiceModel.Channels.ClientFramingDuplexSessionChannel.OnOpen(TimeSpan timeout)
+   at System.ServiceModel.Channels.CommunicationObject.Open(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.OnOpen(TimeSpan timeout)
+   at System.ServiceModel.Channels.CommunicationObject.Open(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.CallOpenOnce.System.ServiceModel.Channels.ServiceChannel.ICallOnce.Call(ServiceChannel channel, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.CallOnceManager.CallOnce(TimeSpan timeout, CallOnceManager cascade)
+   at System.ServiceModel.Channels.ServiceChannel.EnsureOpened(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.Call(String action, Boolean oneway, ProxyOperationRuntime operation, Object[] ins, Object[] outs, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannelProxy.InvokeService(IMethodCallMessage methodCall, ProxyOperationRuntime operation)
+   at System.ServiceModel.Channels.ServiceChannelProxy.Invoke(IMessage message)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at SCADA.Common.ScadaServices.Common.IScadaStorage.UpdateModelValue(Dictionary`2 updateModel)
+   at SCADA.Common.Proxies.ScadaStorageProxy.UpdateModelValue(Dictionary`2 updateModel) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Proxies\ScadaStorageProxy.cs:line 69
+   at SCADA.Common.Connection.FunctionExecutor.HandleReceivedBytes(Byte[] message, Boolean unsolicited) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 134
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 94
+2021-02-10 22:24:02,247-[22]-ERROR-[LogEvents]-ERROR The socket connection was aborted. This could be caused by an error processing your message or a receive timeout being exceeded by the remote host, or an underlying network resource issue. Local socket timeout was '00:00:59.9960006'. - 
+Server stack trace: 
+   at System.ServiceModel.Channels.SocketConnection.ReadCore(Byte[] buffer, Int32 offset, Int32 size, TimeSpan timeout, Boolean closing)
+   at System.ServiceModel.Channels.SocketConnection.Read(Byte[] buffer, Int32 offset, Int32 size, TimeSpan timeout)
+   at System.ServiceModel.Channels.DelegatingConnection.Read(Byte[] buffer, Int32 offset, Int32 size, TimeSpan timeout)
+   at System.ServiceModel.Channels.ConnectionUpgradeHelper.InitiateUpgrade(StreamUpgradeInitiator upgradeInitiator, IConnection& connection, ClientFramingDecoder decoder, IDefaultCommunicationTimeouts defaultTimeouts, TimeoutHelper& timeoutHelper)
+   at System.ServiceModel.Channels.ClientFramingDuplexSessionChannel.SendPreamble(IConnection connection, ArraySegment`1 preamble, TimeoutHelper& timeoutHelper)
+   at System.ServiceModel.Channels.ClientFramingDuplexSessionChannel.DuplexConnectionPoolHelper.AcceptPooledConnection(IConnection connection, TimeoutHelper& timeoutHelper)
+   at System.ServiceModel.Channels.ConnectionPoolHelper.EstablishConnection(TimeSpan timeout)
+   at System.ServiceModel.Channels.ClientFramingDuplexSessionChannel.OnOpen(TimeSpan timeout)
+   at System.ServiceModel.Channels.CommunicationObject.Open(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.OnOpen(TimeSpan timeout)
+   at System.ServiceModel.Channels.CommunicationObject.Open(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.CallOpenOnce.System.ServiceModel.Channels.ServiceChannel.ICallOnce.Call(ServiceChannel channel, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.CallOnceManager.CallOnce(TimeSpan timeout, CallOnceManager cascade)
+   at System.ServiceModel.Channels.ServiceChannel.EnsureOpened(TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.Call(String action, Boolean oneway, ProxyOperationRuntime operation, Object[] ins, Object[] outs, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannelProxy.InvokeService(IMethodCallMessage methodCall, ProxyOperationRuntime operation)
+   at System.ServiceModel.Channels.ServiceChannelProxy.Invoke(IMessage message)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at SCADA.Common.ScadaServices.Common.IScadaStorage.UpdateModelValue(Dictionary`2 updateModel)
+   at SCADA.Common.Proxies.ScadaStorageProxy.UpdateModelValue(Dictionary`2 updateModel) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Proxies\ScadaStorageProxy.cs:line 69
+   at SCADA.Common.Connection.FunctionExecutor.HandleReceivedBytes(Byte[] message, Boolean unsolicited) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 134
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 94
+2021-02-10 22:24:03,827-[17]-ERROR-[LogEvents]-ERROR This request operation sent to net.tcp://localhost:7017/IHistory did not receive a reply within the configured timeout (00:01:00).  The time allotted to this operation may have been a portion of a longer timeout.  This may be because the service is still processing the operation or because the service was unable to send a reply message.  Please consider increasing the operation timeout (by casting the channel/proxy to IContextChannel and setting the OperationTimeout property) and ensure that the service is able to connect to the client.-
+Server stack trace: 
+   at System.ServiceModel.Dispatcher.DuplexChannelBinder.Request(Message message, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.Call(String action, Boolean oneway, ProxyOperationRuntime operation, Object[] ins, Object[] outs, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannelProxy.InvokeService(IMethodCallMessage methodCall, ProxyOperationRuntime operation)
+   at System.ServiceModel.Channels.ServiceChannelProxy.Invoke(IMessage message)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at SCADA.Common.ScadaServices.Common.IHistory.AddRange(List`1 list)
+   at SCADA.Common.Proxies.HistoryProxy.AddRange(List`1 list) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Proxies\HistoryProxy.cs:line 32
+   at NDS.ProcessingModule.Acquisitor.UpdateHistory() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\TESTSKADA\ProcessingModule\Acquisitor.cs:line 100
+   at NDS.ProcessingModule.Acquisitor.Acquisition_DoWork() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\TESTSKADA\ProcessingModule\Acquisitor.cs:line 75
+2021-02-10 22:24:03,827-[17]-ERROR-[LogEvents]-ERROR This request operation sent to net.tcp://localhost:7017/IHistory did not receive a reply within the configured timeout (00:01:00).  The time allotted to this operation may have been a portion of a longer timeout.  This may be because the service is still processing the operation or because the service was unable to send a reply message.  Please consider increasing the operation timeout (by casting the channel/proxy to IContextChannel and setting the OperationTimeout property) and ensure that the service is able to connect to the client.-
+Server stack trace: 
+   at System.ServiceModel.Dispatcher.DuplexChannelBinder.Request(Message message, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.Call(String action, Boolean oneway, ProxyOperationRuntime operation, Object[] ins, Object[] outs, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannelProxy.InvokeService(IMethodCallMessage methodCall, ProxyOperationRuntime operation)
+   at System.ServiceModel.Channels.ServiceChannelProxy.Invoke(IMessage message)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at SCADA.Common.ScadaServices.Common.IHistory.AddRange(List`1 list)
+   at SCADA.Common.Proxies.HistoryProxy.AddRange(List`1 list) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Proxies\HistoryProxy.cs:line 32
+   at NDS.ProcessingModule.Acquisitor.UpdateHistory() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\TESTSKADA\ProcessingModule\Acquisitor.cs:line 100
+   at NDS.ProcessingModule.Acquisitor.Acquisition_DoWork() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\TESTSKADA\ProcessingModule\Acquisitor.cs:line 75
+2021-02-10 22:24:03,827-[17]-ERROR-[LogEvents]-ERROR This request operation sent to net.tcp://localhost:7017/IHistory did not receive a reply within the configured timeout (00:01:00).  The time allotted to this operation may have been a portion of a longer timeout.  This may be because the service is still processing the operation or because the service was unable to send a reply message.  Please consider increasing the operation timeout (by casting the channel/proxy to IContextChannel and setting the OperationTimeout property) and ensure that the service is able to connect to the client.-
+Server stack trace: 
+   at System.ServiceModel.Dispatcher.DuplexChannelBinder.Request(Message message, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.Call(String action, Boolean oneway, ProxyOperationRuntime operation, Object[] ins, Object[] outs, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannelProxy.InvokeService(IMethodCallMessage methodCall, ProxyOperationRuntime operation)
+   at System.ServiceModel.Channels.ServiceChannelProxy.Invoke(IMessage message)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at SCADA.Common.ScadaServices.Common.IHistory.AddRange(List`1 list)
+   at SCADA.Common.Proxies.HistoryProxy.AddRange(List`1 list) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Proxies\HistoryProxy.cs:line 32
+   at NDS.ProcessingModule.Acquisitor.UpdateHistory() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\TESTSKADA\ProcessingModule\Acquisitor.cs:line 100
+   at NDS.ProcessingModule.Acquisitor.Acquisition_DoWork() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\TESTSKADA\ProcessingModule\Acquisitor.cs:line 75
+2021-02-10 22:24:03,827-[17]-ERROR-[LogEvents]-ERROR This request operation sent to net.tcp://localhost:7017/IHistory did not receive a reply within the configured timeout (00:01:00).  The time allotted to this operation may have been a portion of a longer timeout.  This may be because the service is still processing the operation or because the service was unable to send a reply message.  Please consider increasing the operation timeout (by casting the channel/proxy to IContextChannel and setting the OperationTimeout property) and ensure that the service is able to connect to the client.-
+Server stack trace: 
+   at System.ServiceModel.Dispatcher.DuplexChannelBinder.Request(Message message, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.Call(String action, Boolean oneway, ProxyOperationRuntime operation, Object[] ins, Object[] outs, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannelProxy.InvokeService(IMethodCallMessage methodCall, ProxyOperationRuntime operation)
+   at System.ServiceModel.Channels.ServiceChannelProxy.Invoke(IMessage message)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at SCADA.Common.ScadaServices.Common.IHistory.AddRange(List`1 list)
+   at SCADA.Common.Proxies.HistoryProxy.AddRange(List`1 list) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Proxies\HistoryProxy.cs:line 32
+   at NDS.ProcessingModule.Acquisitor.UpdateHistory() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\TESTSKADA\ProcessingModule\Acquisitor.cs:line 100
+   at NDS.ProcessingModule.Acquisitor.Acquisition_DoWork() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\TESTSKADA\ProcessingModule\Acquisitor.cs:line 75
+2021-02-10 22:24:03,827-[17]-ERROR-[LogEvents]-ERROR This request operation sent to net.tcp://localhost:7017/IHistory did not receive a reply within the configured timeout (00:01:00).  The time allotted to this operation may have been a portion of a longer timeout.  This may be because the service is still processing the operation or because the service was unable to send a reply message.  Please consider increasing the operation timeout (by casting the channel/proxy to IContextChannel and setting the OperationTimeout property) and ensure that the service is able to connect to the client.-
+Server stack trace: 
+   at System.ServiceModel.Dispatcher.DuplexChannelBinder.Request(Message message, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.Call(String action, Boolean oneway, ProxyOperationRuntime operation, Object[] ins, Object[] outs, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannelProxy.InvokeService(IMethodCallMessage methodCall, ProxyOperationRuntime operation)
+   at System.ServiceModel.Channels.ServiceChannelProxy.Invoke(IMessage message)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at SCADA.Common.ScadaServices.Common.IHistory.AddRange(List`1 list)
+   at SCADA.Common.Proxies.HistoryProxy.AddRange(List`1 list) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Proxies\HistoryProxy.cs:line 32
+   at NDS.ProcessingModule.Acquisitor.UpdateHistory() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\TESTSKADA\ProcessingModule\Acquisitor.cs:line 100
+   at NDS.ProcessingModule.Acquisitor.Acquisition_DoWork() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\TESTSKADA\ProcessingModule\Acquisitor.cs:line 75
+2021-02-10 22:24:03,827-[17]-ERROR-[LogEvents]-ERROR This request operation sent to net.tcp://localhost:7017/IHistory did not receive a reply within the configured timeout (00:01:00).  The time allotted to this operation may have been a portion of a longer timeout.  This may be because the service is still processing the operation or because the service was unable to send a reply message.  Please consider increasing the operation timeout (by casting the channel/proxy to IContextChannel and setting the OperationTimeout property) and ensure that the service is able to connect to the client.-
+Server stack trace: 
+   at System.ServiceModel.Dispatcher.DuplexChannelBinder.Request(Message message, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannel.Call(String action, Boolean oneway, ProxyOperationRuntime operation, Object[] ins, Object[] outs, TimeSpan timeout)
+   at System.ServiceModel.Channels.ServiceChannelProxy.InvokeService(IMethodCallMessage methodCall, ProxyOperationRuntime operation)
+   at System.ServiceModel.Channels.ServiceChannelProxy.Invoke(IMessage message)
+
+Exception rethrown at [0]: 
+   at System.Runtime.Remoting.Proxies.RealProxy.HandleReturnMessage(IMessage reqMsg, IMessage retMsg)
+   at System.Runtime.Remoting.Proxies.RealProxy.PrivateInvoke(MessageData& msgData, Int32 type)
+   at SCADA.Common.ScadaServices.Common.IHistory.AddRange(List`1 list)
+   at SCADA.Common.Proxies.HistoryProxy.AddRange(List`1 list) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Proxies\HistoryProxy.cs:line 32
+   at NDS.ProcessingModule.Acquisitor.UpdateHistory() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\TESTSKADA\ProcessingModule\Acquisitor.cs:line 100
+   at NDS.ProcessingModule.Acquisitor.Acquisition_DoWork() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\TESTSKADA\ProcessingModule\Acquisitor.cs:line 75
+2021-02-10 22:27:49,235-[3]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-10 22:28:23,068-[4]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-10 22:28:43,718-[5]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 22:28:43,718-[5]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 22:28:44,353-[4]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:28:44,353-[4]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:28:44,353-[4]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:32:28,634-[4]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-10 22:32:49,468-[5]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 22:32:49,468-[5]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 22:32:51,076-[13]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:32:51,076-[13]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:32:51,076-[13]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:33:12,458-[4]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-10 22:33:39,403-[6]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 22:33:39,403-[6]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 22:33:41,097-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:33:41,097-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:33:41,097-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:34:38,017-[4]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-10 22:34:59,085-[5]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 22:34:59,085-[5]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 22:35:00,280-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:35:00,280-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:35:00,280-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:35:43,150-[4]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-10 22:35:54,438-[5]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 22:35:54,438-[5]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 22:35:55,617-[19]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:35:55,617-[19]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:35:55,617-[19]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:36:44,895-[4]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-10 22:37:00,042-[6]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 22:37:00,042-[6]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 22:37:01,333-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:37:01,333-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:37:01,333-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:37:59,670-[4]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-10 22:38:23,730-[5]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 22:38:23,730-[5]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 22:38:24,868-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:38:24,868-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:38:24,868-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:39:06,489-[3]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-10 22:39:33,339-[3]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 22:39:33,339-[3]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 22:39:34,665-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:39:34,665-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:39:34,665-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:44:39,274-[5]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-10 22:44:56,368-[3]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 22:44:56,368-[3]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 22:44:57,649-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:44:57,649-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:44:57,649-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:48:32,426-[3]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-10 22:49:09,982-[6]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 22:49:09,982-[6]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 22:49:11,601-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:49:11,601-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:49:11,601-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:49:55,467-[6]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-10 22:49:55,467-[6]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-10 22:49:55,467-[6]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-10 22:49:55,467-[6]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-10 22:52:16,729-[3]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-10 22:52:29,777-[5]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 22:52:29,777-[5]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 22:52:30,220-[3]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:52:30,220-[3]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:52:30,220-[3]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:53:09,486-[3]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-10 22:53:20,757-[5]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 22:53:20,757-[5]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 22:53:21,085-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:53:21,085-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:53:21,085-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 22:53:40,082-[5]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-10 22:53:40,082-[5]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-10 22:53:40,082-[5]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-10 22:53:40,082-[5]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-10 23:04:14,702-[3]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-10 23:04:53,066-[5]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 23:04:53,066-[5]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 23:04:55,182-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 23:04:55,182-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 23:04:55,182-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 23:06:48,498-[5]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-10 23:06:59,533-[6]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 23:06:59,533-[6]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 23:07:00,345-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 23:07:00,345-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 23:07:00,345-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 23:09:30,083-[5]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-10 23:09:58,183-[6]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 23:09:58,183-[6]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 23:10:00,001-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 23:10:00,001-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 23:10:00,001-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 23:10:34,167-[3]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-10 23:11:03,138-[5]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 23:11:03,138-[5]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 23:11:04,586-[17]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 23:11:04,586-[17]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 23:11:04,586-[17]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 23:13:26,094-[3]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-10 23:14:02,849-[3]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 23:14:02,849-[3]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-10 23:14:04,927-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 23:14:04,927-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-10 23:14:04,927-[6]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-11 00:15:24,386-[3]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-11 00:15:58,306-[3]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-11 00:15:58,306-[3]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-11 00:15:59,587-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-11 00:15:59,587-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-11 00:15:59,587-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-11 00:16:45,006-[6]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-11 00:16:45,006-[6]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-11 00:16:45,006-[6]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-11 00:16:45,006-[6]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-11 00:20:15,192-[4]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-11 00:20:30,786-[5]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-11 00:20:30,786-[5]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-11 00:20:32,569-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-11 00:20:32,569-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-11 00:20:32,569-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-11 00:21:12,518-[5]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-11 00:21:31,640-[5]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-11 00:21:31,640-[5]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-11 00:21:32,777-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-11 00:21:32,777-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-11 00:21:32,777-[5]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-11 00:22:27,365-[3]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-11 00:22:46,658-[6]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-11 00:22:46,658-[6]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-11 00:22:48,699-[17]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-11 00:22:48,699-[17]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-11 00:22:48,699-[17]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-11 00:24:07,325-[3]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-11 00:24:22,446-[5]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-11 00:24:22,446-[5]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-11 00:24:22,763-[3]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-11 00:24:22,763-[3]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-11 00:24:22,763-[3]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-11 00:26:11,873-[5]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-11 00:26:31,903-[6]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-11 00:26:31,903-[6]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-11 00:26:35,143-[3]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-11 00:26:35,143-[3]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-11 00:26:35,143-[3]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-11 00:26:52,930-[6]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-11 00:26:52,930-[6]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-11 00:26:52,930-[6]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-11 00:26:52,930-[6]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-11 00:27:45,468-[5]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-11 00:27:45,468-[5]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-11 00:27:45,468-[5]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-11 00:27:45,468-[5]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-11 00:27:45,468-[5]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-11 00:29:03,052-[4]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-11 00:29:21,967-[5]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-11 00:29:21,967-[5]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-11 00:29:23,312-[4]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-11 00:29:23,312-[4]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-11 00:29:23,312-[4]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-11 00:29:45,958-[6]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-11 00:29:45,958-[6]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-11 00:29:45,958-[6]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-11 00:29:45,958-[6]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-11 00:31:05,529-[4]-INFO -[LogEvents]-INFO SCADA NDS Started!
+2021-02-11 00:31:23,536-[5]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-11 00:31:23,536-[5]-INFO -[LogEvents]-INFO SCADA Services Started!
+2021-02-11 00:31:24,364-[4]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-11 00:31:24,364-[4]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-11 00:31:24,364-[4]-INFO -[LogEvents]-INFO SCADA FEP Started!
+2021-02-11 00:32:32,117-[21]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-11 00:32:32,117-[21]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-11 00:32:32,117-[21]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77
+2021-02-11 00:32:32,117-[21]-ERROR-[LogEvents]-ERROR An established connection was aborted by the software in your host machine -    at System.Net.Sockets.Socket.Receive(Byte[] buffer, Int32 offset, Int32 size, SocketFlags socketFlags)
+   at SCADA.Common.Connection.TCPConnection.Recv(Int32 numberOfBytes) in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\TCPConnection.cs:line 61
+   at SCADA.Common.Connection.FunctionExecutor.ConnectionProcessorThread() in C:\Users\Korisnik\Desktop\mastermastermastermaster\SCADA_Project\Project\SCADA.Common\Connection\FunctionExecutor.cs:line 77

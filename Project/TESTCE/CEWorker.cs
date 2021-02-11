@@ -101,7 +101,7 @@ namespace CE
             var points = proxy.GetData();
 
             float counter = 0;
-            foreach (var item in forecastResult.Results.Take(12))
+            foreach (var item in forecastResult.Results.Take(1))
             {
                 for (int i = 0; i < item.Pumps.Count(); i++)
                 {
@@ -137,11 +137,9 @@ namespace CE
                         }
                     }
 
-                    if (points.ContainsKey($"Discrete_Tap{i + 1}"))
+                    if (points.ContainsKey($"Discrete_Tap{i + 1}") && onOff == 1)
                     {
                         var tap = points[$"Discrete_Tap{i + 1}"];
-
-
 
                         var command2 = new ScadaCommandingEvent()
                         {
@@ -149,6 +147,20 @@ namespace CE
                             RegisterType = tap.RegisterType,
                             Milliseconds = (uint)((counter) * 60 * 1000),
                             Value = (uint)(flow / 100)
+                        };
+
+                        endpoint.Publish(command2).ConfigureAwait(false);
+                    }
+                    else if(points.ContainsKey($"Discrete_Tap{i + 1}") && onOff == 0)
+                    {
+                        var tap = points[$"Discrete_Tap{i + 1}"];
+
+                        var command2 = new ScadaCommandingEvent()
+                        {
+                            Index = (uint)tap.Index,
+                            RegisterType = tap.RegisterType,
+                            Milliseconds = (uint)((counter) * 60 * 1000),
+                            Value = 0
                         };
 
                         endpoint.Publish(command2).ConfigureAwait(false);
