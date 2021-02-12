@@ -9,6 +9,7 @@ using Core.Common.ServiceBus.Events;
 using NServiceBus;
 using SCADA.Common.DataModel;
 using SCADA.Common.Proxies;
+using SCADA.Common.ScadaServices.Providers;
 
 namespace NDS.ProcessingModule
 {
@@ -70,6 +71,12 @@ namespace NDS.ProcessingModule
 
         public void UpdateEvent(object sender, ScadaCommandingEvent message)
         {
+            if(message.RegisterType == RegisterType.BINARY_INPUT)
+            {
+                calculationEngineCommands = new ConcurrentBag<CeCommand>();
+                return;
+            }
+
             calculationEngineCommands.Add(new CeCommand
             {
                 RegisterType = message.RegisterType,

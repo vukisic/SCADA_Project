@@ -24,6 +24,7 @@ namespace CE
         private int points = 0;
         private WeatherAPI weatherAPI;
         private IEndpointInstance endpoint;
+        private static bool skip = false;
 
         private DNA<float> result;
 
@@ -71,6 +72,11 @@ namespace CE
                     for (int i = 0; i < weatherForecast.Count; i++)
                     {
                         current += (float)weather[i];
+                        if (skip && i==0)
+                        {
+                            current -= (float)weather[i];
+                            skip = false;
+                        }
                         ChangeStrategy();
 
                         result = algorithm.Start(current);
@@ -317,9 +323,47 @@ namespace CE
         private void OnPointUpdate(object sender, int e)
         {
             pointUpdateOccures = true;
+            if (points > 0)
+                skip = true;
             points = e;
             Stop();
+            OffSequence();
             Start();
+        }
+
+        private void OffSequence()
+        {
+            var clearCommand = new ScadaCommandingEvent()
+            {
+                Index = 1,
+                Milliseconds = 1,
+                RegisterType = RegisterType.BINARY_INPUT,
+                Value = 0
+            };
+            endpoint.Publish(clearCommand).ConfigureAwait(false).GetAwaiter().GetResult();
+
+            var proxy = new ScadaExportProxy();
+            var points = proxy.GetData();
+            var commands = new List<ScadaCommandingEvent>();
+            foreach (var item in points)
+            {
+                if (item.Key.Contains("Breaker_21Status") || item.Key.Contains("Breaker_22Status") || item.Key.Contains("Breaker_23Status") || item.Key.Contains("Discrete_Tap"))
+                {
+                    var command = new ScadaCommandingEvent()
+                    {
+                        Index = (uint)item.Value.Index,
+                        RegisterType = item.Value.RegisterType,
+                        Milliseconds = 0,
+                        Value = 0
+                    };
+                    commands.Add(command);
+                }
+            }
+
+            foreach (var item in commands)
+            {
+                endpoint.Publish(item).ConfigureAwait(false);
+            }
         }
     }
 }
