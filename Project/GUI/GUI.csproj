@@ -169,9 +169,6 @@
     <Compile Include="Models\TransformerFormData.cs" />
     <Compile Include="ServiceBus\EndPointCreator.cs" />
     <Compile Include="ServiceBus\ServiceBusStartup.cs" />
-    <Compile Include="Services\INotificationService.cs" />
-    <Compile Include="Services\NotificationService.cs" />
-    <Compile Include="Services\NotificationType.cs" />
     <Compile Include="Styles\HorzLineConv.cs" />
     <Compile Include="Styles\VertLineConv.cs" />
     <Compile Include="ViewModels\AlarmingViewModel.cs" />

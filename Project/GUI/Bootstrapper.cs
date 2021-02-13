@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
-using GUI.Services;
 using GUI.ViewModels;
 
 namespace GUI
@@ -29,8 +28,7 @@ namespace GUI
         {
             container.Instance(container);
             container
-                .Singleton<IWindowManager, WindowManager>()
-                .Singleton<INotificationService, NotificationService>();
+                .Singleton<IWindowManager, WindowManager>();
 
             GetType().Assembly.GetTypes()
             .Where(type => type.IsClass)
