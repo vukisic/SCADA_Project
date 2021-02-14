@@ -30,7 +30,7 @@
                             <!-- Horizontal line to the left -->
                             <Rectangle  Grid.Column="0"
                                         HorizontalAlignment="Stretch"
-                                        Stroke="Black"
+                                        Stroke="{DynamicResource MaterialDesignBody}"
                                         SnapsToDevicePixels="true">
                                 <Rectangle.Height>
                                     <Binding  Mode="OneWay"
@@ -43,7 +43,7 @@
                             <!-- Horizontal line to the right -->
                             <Rectangle Grid.Column="1"
                                        HorizontalAlignment="Stretch"
-                                       Stroke="Black"
+                                       Stroke="{DynamicResource MaterialDesignBody}"
                                        SnapsToDevicePixels="true">
                                 <Rectangle.Height>
                                     <Binding Mode="OneWay"
@@ -68,7 +68,7 @@
                             <!-- Vertical line above node -->
                             <Rectangle Grid.Row="0"
                                        Height="10"
-                                       Stroke="Black"
+                                       Stroke="{DynamicResource MaterialDesignBody}"
                                        SnapsToDevicePixels="true">
                                 <Rectangle.Width>
                                     <Binding Mode="OneWay"
@@ -87,7 +87,7 @@
                             <!-- Vertical line below node -->
                             <Rectangle Grid.Row="2"
                                        Height="10"
-                                       Stroke="Black"
+                                       Stroke="{DynamicResource MaterialDesignBody}"
                                        SnapsToDevicePixels="true">
                                 <Rectangle.Width>
                                     <Binding Mode="OneWay"
