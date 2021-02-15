@@ -28,7 +28,7 @@ namespace GUI.Core.Tree.Helpers
         /// <returns>Nodes where Item has specified type</returns>
         public IEnumerable<EquipmentTreeNode> Find(Type type)
         {
-            if (nodesByItemType.TryGetValue(type, out var nodes))
+            if (type != null && nodesByItemType.TryGetValue(type, out var nodes))
             {
                 return nodes;
             }

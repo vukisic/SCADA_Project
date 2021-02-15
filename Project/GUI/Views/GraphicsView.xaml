@@ -5,6 +5,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:core="clr-namespace:GUI.Core.Tree"
+             xmlns:schemaModels="clr-namespace:GUI.Models.Schema"
+             xmlns:models="clr-namespace:GUI.Models"
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              TextElement.Foreground="{DynamicResource MaterialDesignBody}"
              TextElement.FontWeight="Regular"
@@ -48,108 +50,67 @@
             <ColumnDefinition Width="2*" />
         </Grid.ColumnDefinitions>
 
+        <!-- Tree -->
         <TreeView Grid.Column="0"
                   Background="{DynamicResource MaterialDesignPaper}"
                   ItemContainerStyle="{StaticResource GraphStyle}"
                   ItemsSource="{Binding Nodes}" />
+
+        <!-- Transformer measurement gauges -->
         <ScrollViewer Grid.Column="1">
-            <StackPanel Orientation="Vertical">
-                <TextBlock Text="Transformator 1"
-                           Margin="10"
-                           HorizontalAlignment="Center" />
-
-                <StackPanel Orientation="Horizontal"
-                            HorizontalAlignment="Center">
-
-                    <StackPanel Orientation="Vertical"
-                                VerticalAlignment="Center"
-                                HorizontalAlignment="Center">
-                        <TextBlock Text="Tap"
-                                   HorizontalAlignment="Center" />
-                        <lvc:AngularGauge Height="85"
-                                          Width="85"
-                                          Value="60"
-                                          Margin="10"
-                                          FromValue="50"
-                                          ToValue="250"
-                                          LabelsStep="50"
-                                          TicksStep="25"
-                                          Wedge="200"
-                                          TicksForeground="White"
-                                          Foreground="White"
-                                          FontWeight="Bold"
-                                          FontSize="9"
-                                          SectionsInnerRadius=".5">
-                            <lvc:AngularGauge.Sections>
-                                <lvc:AngularSection FromValue="50"
-                                                    ToValue="200"
-                                                    Fill="#F8A725" />
-                                <lvc:AngularSection FromValue="200"
-                                                    ToValue="250"
-                                                    Fill="#FF3939" />
-                            </lvc:AngularGauge.Sections>
-                        </lvc:AngularGauge>
-                    </StackPanel>
-                    <StackPanel Orientation="Vertical"
-                                VerticalAlignment="Center"
-                                HorizontalAlignment="Center">
-                        <TextBlock Text="Voltage"
-                                   HorizontalAlignment="Center" />
-                        <lvc:AngularGauge Height="85"
-                                          Width="85"
-                                          Value="200"
-                                          Margin="10"
-                                          FromValue="50"
-                                          ToValue="250"
-                                          LabelsStep="50"
-                                          TicksStep="25"
-                                          Wedge="200"
-                                          TicksForeground="White"
-                                          Foreground="White"
-                                          FontWeight="Bold"
-                                          FontSize="9"
-                                          SectionsInnerRadius=".5">
-                            <lvc:AngularGauge.Sections>
-                                <lvc:AngularSection FromValue="50"
-                                                    ToValue="200"
-                                                    Fill="#F8A725" />
-                                <lvc:AngularSection FromValue="200"
-                                                    ToValue="250"
-                                                    Fill="#FF3939" />
-                            </lvc:AngularGauge.Sections>
-                        </lvc:AngularGauge>
-                    </StackPanel>
-                    <StackPanel Orientation="Vertical"
-                                VerticalAlignment="Center"
-                                HorizontalAlignment="Center">
-                        <TextBlock Text="Current"
-                                   HorizontalAlignment="Center" />
-                        <lvc:AngularGauge Height="85"
-                                          Width="85"
-                                          Value="160"
-                                          Margin="10"
-                                          FromValue="50"
-                                          ToValue="250"
-                                          LabelsStep="50"
-                                          TicksStep="25"
-                                          Wedge="200"
-                                          TicksForeground="White"
-                                          Foreground="White"
-                                          FontWeight="Bold"
-                                          FontSize="9"
-                                          SectionsInnerRadius=".5">
-                            <lvc:AngularGauge.Sections>
-                                <lvc:AngularSection FromValue="50"
-                                                    ToValue="200"
-                                                    Fill="#F8A725" />
-                                <lvc:AngularSection FromValue="200"
-                                                    ToValue="250"
-                                                    Fill="#FF3939" />
-                            </lvc:AngularGauge.Sections>
-                        </lvc:AngularGauge>
-                    </StackPanel>
-                </StackPanel>
-            </StackPanel>
+            <ItemsControl Name="TransformerMeasurements"
+                          ItemsSource="{Binding Transformers}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type schemaModels:TransformerModel}">
+                        <StackPanel>
+                            <TextBlock Text="{Binding RatioTapChanger.Name}"
+                                       Margin="10"
+                                       HorizontalAlignment="Center" />
+                            <ItemsControl ItemsSource="{Binding RatioTapChanger.Measurements}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal"
+                                                    HorizontalAlignment="Center" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate DataType="{x:Type models:BasePointDto}">
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding MeasurementType}"
+                                                       HorizontalAlignment="Center" />
+                                            <lvc:AngularGauge Height="85"
+                                                              Width="85"
+                                                              Value="{Binding Value}"
+                                                              Margin="10"
+                                                              FromValue="{Binding MinValue}"
+                                                              ToValue="{Binding MaxValue}"
+                                                              LabelsStep="50"
+                                                              TicksStep="25"
+                                                              Wedge="200"
+                                                              TicksForeground="White"
+                                                              Foreground="White"
+                                                              FontWeight="Bold"
+                                                              FontSize="9"
+                                                              SectionsInnerRadius=".5">
+                                                <lvc:AngularGauge.Sections>
+                                                    <lvc:AngularSection FromValue="{Binding MinValue}"
+                                                                        ToValue="{Binding MaxValue}"
+                                                                        Fill="GreenYellow" />
+                                                </lvc:AngularGauge.Sections>
+                                            </lvc:AngularGauge>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </ScrollViewer>
     </Grid>
 </UserControl>

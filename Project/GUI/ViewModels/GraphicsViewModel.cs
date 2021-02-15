@@ -12,9 +12,8 @@ namespace GUI.ViewModels
     public class GraphicsViewModel : Screen
     {
         private MeasurementUpdater measurementUpdater;
-        private ObservableCollection<EquipmentTreeNode> nodes;
-
-        private ObservableCollection<TransformerModel> transformers;
+        private ObservableCollection<EquipmentTreeNode> nodes = new ObservableCollection<EquipmentTreeNode>();
+        private ObservableCollection<TransformerModel> transformers = new ObservableCollection<TransformerModel>();
 
         public ObservableCollection<EquipmentTreeNode> Nodes
         {

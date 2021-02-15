@@ -22,7 +22,7 @@ namespace GUI.Core.Tree
                 var nodeToUpdate = nodeLookupByMrid.Find(point.ObjectMrid);
                 if (nodeToUpdate == null)
                 {
-                    return;
+                    continue;
                 }
 
                 if (nodeToUpdate.Item is TransformerModel transformerModel)

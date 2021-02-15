@@ -30,7 +30,7 @@ namespace GUI.Core.Tree.Helpers
         /// <returns>Node if found, null if not</returns>
         public EquipmentTreeNode Find(TKey key)
         {
-            if (nodeDict.TryGetValue(key, out var node))
+            if (key != null && nodeDict.TryGetValue(key, out var node))
             {
                 return node;
             }
