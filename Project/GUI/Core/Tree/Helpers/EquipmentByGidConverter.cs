@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Core.Common.ServiceBus.Commands;
 using Core.Common.ServiceBus.Dtos;
+using GUI.Models.Schema;
 
 namespace GUI.Core.Tree.Helpers
 {

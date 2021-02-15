@@ -2,8 +2,8 @@
 using System.Windows.Input;
 using Caliburn.Micro;
 using GUI.Core.Tree;
-using GUI.Core.Tree.Helpers;
 using GUI.Models;
+using GUI.Models.Schema;
 using GUI.ViewModels;
 
 namespace GUI.Command
@@ -40,6 +40,11 @@ namespace GUI.Command
             var tapChanger = transformerModel.RatioTapChanger;
 
             tapChanger.NormalStep = formData.NormalStep;
+        }
+
+        protected virtual void OnCanExecuteChanged(EventArgs e)
+        {
+            CanExecuteChanged?.Invoke(this, e);
         }
     }
 }

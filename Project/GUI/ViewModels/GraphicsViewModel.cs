@@ -1,9 +1,11 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using Caliburn.Micro;
 using Core.Common.ServiceBus.Commands;
 using Core.Common.ServiceBus.Events;
 using GUI.Core.Tree;
 using GUI.Core.Tree.Helpers;
+using GUI.Models.Schema;
 
 namespace GUI.ViewModels
 {
@@ -12,6 +14,8 @@ namespace GUI.ViewModels
         private MeasurementUpdater measurementUpdater;
         private ObservableCollection<EquipmentTreeNode> nodes;
 
+        private ObservableCollection<TransformerModel> transformers;
+
         public ObservableCollection<EquipmentTreeNode> Nodes
         {
             get { return nodes; }
@@ -19,6 +23,16 @@ namespace GUI.ViewModels
             {
                 nodes = value;
                 NotifyOfPropertyChange(() => Nodes);
+            }
+        }
+
+        public ObservableCollection<TransformerModel> Transformers
+        {
+            get { return transformers; }
+            set
+            {
+                transformers = value;
+                NotifyOfPropertyChange(() => Transformers);
             }
         }
 
@@ -33,7 +47,8 @@ namespace GUI.ViewModels
                 var fastNodeLookupByMrid = new FastLookupByMrid(root);
                 measurementUpdater = new MeasurementUpdater(fastNodeLookupByMrid);
 
-                Nodes = new ObservableCollection<EquipmentTreeNode>(new[] { root });
+                DisplayTree(root);
+                UpdateTransfomerList(root);
             });
         }
 
@@ -48,6 +63,23 @@ namespace GUI.ViewModels
 
                 measurementUpdater.UpdateValues(e);
             });
+        }
+
+        private void DisplayTree(EquipmentTreeNode root)
+        {
+            Nodes = new ObservableCollection<EquipmentTreeNode>(new[] { root });
+        }
+
+        private void UpdateTransfomerList(EquipmentTreeNode root)
+        {
+            var fastNodeLookupByItemType = new FastLookupByItemType(root);
+
+            var transformers = fastNodeLookupByItemType
+                .Find(typeof(TransformerModel))
+                .Select((node) => node.Item as TransformerModel)
+                .ToList();
+
+            Transformers = new ObservableCollection<TransformerModel>(transformers);
         }
     }
 }

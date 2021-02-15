@@ -44,5 +44,10 @@ namespace GUI.Command
                 SetElectricity(child, value);
             }
         }
+
+        protected virtual void OnCanExecuteChanged(EventArgs e)
+        {
+            CanExecuteChanged?.Invoke(this, e);
+        }
     }
 }

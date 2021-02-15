@@ -2,8 +2,8 @@
 using System.Windows.Input;
 using Caliburn.Micro;
 using GUI.Command;
-using GUI.Core.Tree.Helpers;
 using GUI.Models;
+using GUI.Models.Schema;
 
 namespace GUI.ViewModels
 {

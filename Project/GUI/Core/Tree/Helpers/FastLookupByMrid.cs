@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using GUI.Models.Schema;
 
 namespace GUI.Core.Tree.Helpers
 {

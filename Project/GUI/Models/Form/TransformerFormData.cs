@@ -1,5 +1,5 @@
 ﻿using Caliburn.Micro;
-using GUI.Core.Tree.Helpers;
+using GUI.Models.Schema;
 
 namespace GUI.Models
 {

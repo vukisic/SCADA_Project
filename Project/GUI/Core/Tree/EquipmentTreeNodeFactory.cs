@@ -6,6 +6,7 @@ using System.Linq;
 using Core.Common.ServiceBus.Dtos;
 using GUI.Command;
 using GUI.Core.Tree.Helpers;
+using GUI.Models.Schema;
 
 namespace GUI.Core.Tree
 {
