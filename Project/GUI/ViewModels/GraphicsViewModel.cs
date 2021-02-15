@@ -1,14 +1,15 @@
 ﻿using System.Collections.ObjectModel;
-using System.Diagnostics;
 using Caliburn.Micro;
 using Core.Common.ServiceBus.Commands;
 using Core.Common.ServiceBus.Events;
 using GUI.Core.Tree;
+using GUI.Core.Tree.Helpers;
 
 namespace GUI.ViewModels
 {
     public class GraphicsViewModel : Screen
     {
+        private MeasurementUpdater measurementUpdater;
         private ObservableCollection<EquipmentTreeNode> nodes;
 
         public ObservableCollection<EquipmentTreeNode> Nodes
@@ -21,12 +22,18 @@ namespace GUI.ViewModels
             }
         }
 
+        private bool IsModelRetrieved => Nodes?.Count > 0;
+
         public void Update(object sender, ModelUpdateCommand e)
         {
             App.Current.Dispatcher.Invoke((System.Action)delegate
             {
-                EquipmentTreeNode tree = EquipmentTreeFactory.CreateFrom(e);
-                DisplayTree(tree);
+                EquipmentTreeNode root = EquipmentTreeFactory.CreateFrom(e);
+
+                var fastNodeLookupByMrid = new FastLookupByMrid(root);
+                measurementUpdater = new MeasurementUpdater(fastNodeLookupByMrid);
+
+                Nodes = new ObservableCollection<EquipmentTreeNode>(new[] { root });
             });
         }
 
@@ -34,14 +41,13 @@ namespace GUI.ViewModels
         {
             App.Current.Dispatcher.Invoke((System.Action)delegate
             {
-                // Update code scada measurements
-            });
-        }
+                if (!IsModelRetrieved)
+                {
+                    return;
+                }
 
-        private void DisplayTree(EquipmentTreeNode tree)
-        {
-            Debug.WriteLine("Displaying tree...");
-            Nodes = new ObservableCollection<EquipmentTreeNode>(new[] { tree });
+                measurementUpdater.UpdateValues(e);
+            });
         }
     }
 }

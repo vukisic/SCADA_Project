@@ -160,9 +160,12 @@
     <Compile Include="Core\Tree\EquipmentTreeFactory.cs" />
     <Compile Include="Core\Tree\EquipmentTreeNode.cs" />
     <Compile Include="Core\Tree\EquipmentTreeNodeFactory.cs" />
+    <Compile Include="Core\Tree\Helpers\FastLookup.cs" />
+    <Compile Include="Core\Tree\Helpers\FastLookupByMrid.cs" />
     <Compile Include="Core\Tree\Helpers\EquipmentByGidConverter.cs" />
     <Compile Include="Core\Tree\Helpers\EquipmentNodeItem.cs" />
     <Compile Include="Core\Tree\Helpers\TransformerModel.cs" />
+    <Compile Include="Core\Tree\MeasurementUpdater.cs" />
     <Compile Include="Models\BasePointDto.cs" />
     <Compile Include="Models\HistoryDto.cs" />
     <Compile Include="Models\SwitchingEquipmentDto.cs" />
