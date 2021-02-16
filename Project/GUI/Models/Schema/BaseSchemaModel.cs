@@ -5,7 +5,7 @@ using Core.Common.ServiceBus.Dtos;
 
 namespace GUI.Models.Schema
 {
-    public class BaseSchemaModel : PropertyChangedBase, IIdentifiedObject, IMeasurable
+    public class BaseSchemaModel : PropertyChangedBase, ISchemaModel
     {
         public BaseSchemaModel(IIdentifiedObject identifiedObject = null)
         {

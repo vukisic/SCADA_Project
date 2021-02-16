@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows.Input;
 using Caliburn.Micro;
 using GUI.Core.Tree;
 using GUI.Models;
@@ -8,7 +7,7 @@ using GUI.ViewModels;
 
 namespace GUI.Command
 {
-    public class OpenTransformerFormCommand : ICommand
+    public class OpenTransformerFormCommand : System.Windows.Input.ICommand
     {
         private readonly EquipmentTreeNode node;
 
@@ -21,7 +20,7 @@ namespace GUI.Command
 
         public bool CanExecute(object parameter)
         {
-            return true;
+            return node?.Item is TransformerModel;
         }
 
         public void Execute(object parameter)

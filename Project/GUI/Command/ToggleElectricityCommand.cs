@@ -1,10 +1,13 @@
 ﻿using System;
-using System.Windows.Input;
+using Core.Common.ServiceBus.Events;
 using GUI.Core.Tree;
+using GUI.Models.Schema;
+using GUI.ServiceBus;
+using NServiceBus;
 
 namespace GUI.Command
 {
-    public class ToggleElectricityCommand : ICommand
+    public class ToggleElectricityCommand : System.Windows.Input.ICommand
     {
         public event EventHandler CanExecuteChanged;
 
@@ -27,7 +30,23 @@ namespace GUI.Command
                 return;
             }
 
-            SetElectricity(_node, !_node.TurnedOn, isRoot: true);
+            bool newTurnedOn = !_node.TurnedOn;
+
+            if (_node.Item is SwitchModel model)
+            {
+                var measurement = model.Measurement;
+                var endpoint = EndPointCreator.Instance().Get();
+                var command = new ScadaCommandingEvent()
+                {
+                    Index = (uint)measurement.Index,
+                    RegisterType = measurement.RegisterType,
+                    Milliseconds = 0,
+                    Value = (uint)(newTurnedOn ? 1 : 0)
+                };
+                endpoint.Publish(command).ConfigureAwait(false);
+            }
+
+            SetElectricity(_node, newTurnedOn, isRoot: true);
         }
 
         public void SetElectricity(EquipmentTreeNode node, bool value, bool isRoot = false)

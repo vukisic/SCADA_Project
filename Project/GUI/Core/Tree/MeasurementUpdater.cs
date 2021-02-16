@@ -24,10 +24,7 @@ namespace GUI.Core.Tree
                     continue;
                 }
 
-                if (nodeToUpdate.Item is TransformerModel transformerModel)
-                {
-                    transformerModel.UpdateMeasurements(Map(point));
-                }
+                nodeToUpdate.Item.UpdateMeasurements(Map(point));
             }
         }
 

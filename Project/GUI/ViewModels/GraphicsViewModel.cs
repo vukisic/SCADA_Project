@@ -41,10 +41,10 @@ namespace GUI.ViewModels
         {
             EquipmentTreeNode root = EquipmentTreeFactory.CreateFrom(e);
             var fastNodeLookupByMrid = new FastLookupByMrid(root);
-            measurementUpdater = new MeasurementUpdater(fastNodeLookupByMrid);
 
             App.Current.Dispatcher.Invoke((System.Action)delegate
             {
+                measurementUpdater = new MeasurementUpdater(fastNodeLookupByMrid);
                 DisplayTree(root);
                 UpdateTransfomerList(root);
             });

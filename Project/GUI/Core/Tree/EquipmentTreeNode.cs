@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System.Windows.Media;
 using Caliburn.Micro;
-using Core.Common.ServiceBus.Dtos;
+using GUI.Models.Schema;
 
 namespace GUI.Core.Tree
 {
@@ -55,9 +54,6 @@ namespace GUI.Core.Tree
 
         public string ToolTip => $"{Name}, {Item?.GID}";
 
-        // Domain
-        public Type Type { get; set; }
-
-        public IIdentifiedObject Item { get; set; }
+        public ISchemaModel Item { get; set; }
     }
 }

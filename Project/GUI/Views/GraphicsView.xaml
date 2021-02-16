@@ -70,7 +70,8 @@
                         <StackPanel>
                             <TextBlock Text="{Binding RatioTapChanger.Name}"
                                        Margin="10"
-                                       HorizontalAlignment="Center" />
+                                       HorizontalAlignment="Center"
+                                       FontWeight="Bold" />
                             <ItemsControl ItemsSource="{Binding RatioTapChanger.Measurements}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>

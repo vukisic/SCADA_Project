@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using Core.Common.ServiceBus.Dtos;
 using GUI.Command;
 using GUI.Core.Tree.Helpers;
 using GUI.Models.Schema;
+using GUI.Models.Schema.Helpers;
 
 namespace GUI.Core.Tree
 {
@@ -14,21 +14,22 @@ namespace GUI.Core.Tree
     {
         internal static EquipmentTreeNode CreateNode(EquipmentNodeItem currentItem, List<EquipmentTreeNode> children)
         {
+            var dtoType = currentItem.Type;
+
             var node = new EquipmentTreeNode
             {
                 Children = new ObservableCollection<EquipmentTreeNode>(children),
                 Name = currentItem.Item.Name,
-                Type = currentItem.Type,
-                Item = currentItem.Item
+                Item = IdentifiedObjectToSchemaModelMapper.Map(currentItem.Item, dtoType)
             };
 
-            AttachHandlers(node);
-            AttachImage(node);
+            AttachHandlers(node, dtoType);
+            AttachImage(node, dtoType);
 
             return node;
         }
 
-        private static void AttachImage(EquipmentTreeNode node)
+        private static void AttachImage(EquipmentTreeNode node, Type dtoType)
         {
             var imageByType = new Dictionary<Type, string>
             {
@@ -41,24 +42,22 @@ namespace GUI.Core.Tree
                 [typeof(ConnectivityNodeDto)] = "/Images/ConnectivityNode.png"
             };
 
-            if (imageByType.TryGetValue(node.Item.GetType(), out string imageSource))
+            if (imageByType.TryGetValue(dtoType, out string imageSource))
             {
                 node.ImageSource = imageSource;
             }
         }
 
-        private static void AttachHandlers(EquipmentTreeNode node)
+        private static void AttachHandlers(EquipmentTreeNode node, Type dtoType)
         {
             var typesWithElectricityToggleSupport = new[] { typeof(DisconnectorDto), typeof(BreakerDto) };
 
-            Debug.WriteLine($"Node type = {node.Type}");
-
-            if (typesWithElectricityToggleSupport.Any(type => type == node.Type))
+            if (typesWithElectricityToggleSupport.Any(type => type == dtoType))
             {
                 node.OnClick = new ToggleElectricityCommand(node);
             }
 
-            if (node.Item is TransformerModel)
+            if (dtoType == typeof(TransformerModel))
             {
                 node.OnClick = new OpenTransformerFormCommand(node);
             }
