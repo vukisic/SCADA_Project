@@ -5,7 +5,7 @@ using Core.Common.ServiceBus.Dtos;
 
 namespace GUI.Models.Schema
 {
-    public class BaseSchemaModel : PropertyChangedBase, IIdentifiedObject
+    public class BaseSchemaModel : PropertyChangedBase, IIdentifiedObject, IMeasurable
     {
         public BaseSchemaModel(IIdentifiedObject identifiedObject = null)
         {
@@ -20,9 +20,9 @@ namespace GUI.Models.Schema
         public string MRID { get; set; }
         public string Name { get; set; }
 
-        private ObservableCollection<BasePointDto> measurements = new ObservableCollection<BasePointDto>();
+        private ObservableCollection<MeasurementModel> measurements = new ObservableCollection<MeasurementModel>();
 
-        public ObservableCollection<BasePointDto> Measurements
+        public ObservableCollection<MeasurementModel> Measurements
         {
             get { return measurements; }
             set
@@ -32,7 +32,7 @@ namespace GUI.Models.Schema
             }
         }
 
-        public virtual void UpdateMeasurements(BasePointDto newMeasurement)
+        public virtual void UpdateMeasurements(MeasurementModel newMeasurement)
         {
             var oldMeasurement = measurements
                 .FirstOrDefault(measurement => measurement.MeasurementType == newMeasurement.MeasurementType);
@@ -46,7 +46,7 @@ namespace GUI.Models.Schema
             UpdateMeasurement(newMeasurement, oldMeasurement);
         }
 
-        private void UpdateMeasurement(BasePointDto newMeasurement, BasePointDto oldMeasurement)
+        private void UpdateMeasurement(MeasurementModel newMeasurement, MeasurementModel oldMeasurement)
         {
             oldMeasurement.CommandedValue = newMeasurement.CommandedValue;
             oldMeasurement.ClassType = newMeasurement.ClassType;

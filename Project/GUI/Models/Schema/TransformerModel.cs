@@ -18,7 +18,7 @@ namespace GUI.Models.Schema
         public PowerTransformerModel PowerTransformer { get; set; }
         public RatioTapChangerModel RatioTapChanger { get; set; }
 
-        public override void UpdateMeasurements(BasePointDto newMeasurement)
+        public override void UpdateMeasurements(MeasurementModel newMeasurement)
         {
             if (newMeasurement.ObjectMrid == PowerTransformer.MRID)
             {

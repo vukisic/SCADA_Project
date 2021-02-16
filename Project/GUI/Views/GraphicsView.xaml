@@ -79,30 +79,19 @@
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>
-                                    <DataTemplate DataType="{x:Type models:BasePointDto}">
+                                    <DataTemplate DataType="{x:Type schemaModels:MeasurementModel}">
                                         <StackPanel>
                                             <TextBlock Text="{Binding MeasurementType}"
                                                        HorizontalAlignment="Center" />
-                                            <lvc:AngularGauge Height="85"
-                                                              Width="85"
-                                                              Value="{Binding Value}"
-                                                              Margin="10"
-                                                              FromValue="{Binding MinValue}"
-                                                              ToValue="{Binding MaxValue}"
-                                                              LabelsStep="50"
-                                                              TicksStep="25"
-                                                              Wedge="200"
-                                                              TicksForeground="White"
-                                                              Foreground="White"
-                                                              FontWeight="Bold"
-                                                              FontSize="9"
-                                                              SectionsInnerRadius=".5">
-                                                <lvc:AngularGauge.Sections>
-                                                    <lvc:AngularSection FromValue="{Binding MinValue}"
-                                                                        ToValue="{Binding MaxValue}"
-                                                                        Fill="GreenYellow" />
-                                                </lvc:AngularGauge.Sections>
-                                            </lvc:AngularGauge>
+                                            <lvc:Gauge Height="85"
+                                                       Width="85"
+                                                       Margin="10"
+                                                       FromColor="GreenYellow"
+                                                       ToColor="OrangeRed"
+                                                       HighFontSize="9"
+                                                       From="{Binding MinValue}"
+                                                       To="{Binding MaxValue}"
+                                                       Value="{Binding Value}" />
                                         </StackPanel>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>

@@ -39,13 +39,12 @@ namespace GUI.ViewModels
 
         public void Update(object sender, ModelUpdateCommand e)
         {
+            EquipmentTreeNode root = EquipmentTreeFactory.CreateFrom(e);
+            var fastNodeLookupByMrid = new FastLookupByMrid(root);
+            measurementUpdater = new MeasurementUpdater(fastNodeLookupByMrid);
+
             App.Current.Dispatcher.Invoke((System.Action)delegate
             {
-                EquipmentTreeNode root = EquipmentTreeFactory.CreateFrom(e);
-
-                var fastNodeLookupByMrid = new FastLookupByMrid(root);
-                measurementUpdater = new MeasurementUpdater(fastNodeLookupByMrid);
-
                 DisplayTree(root);
                 UpdateTransfomerList(root);
             });
@@ -53,13 +52,13 @@ namespace GUI.ViewModels
 
         public void UpdateMeasurements(object sender, ScadaUpdateEvent e)
         {
+            if (!IsModelRetrieved)
+            {
+                return;
+            }
+
             App.Current.Dispatcher.Invoke((System.Action)delegate
             {
-                if (!IsModelRetrieved)
-                {
-                    return;
-                }
-
                 measurementUpdater.UpdateValues(e);
             });
         }

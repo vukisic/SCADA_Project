@@ -166,6 +166,8 @@
     <Compile Include="Core\Tree\Helpers\EquipmentByGidConverter.cs" />
     <Compile Include="Core\Tree\Helpers\EquipmentNodeItem.cs" />
     <Compile Include="Models\Schema\BaseSchemaModel.cs" />
+    <Compile Include="Models\Schema\IMeasurable.cs" />
+    <Compile Include="Models\Schema\MeasurementModel.cs" />
     <Compile Include="Models\Schema\PowerTransformerModel.cs" />
     <Compile Include="Models\Schema\RatioTapChangerModel.cs" />
     <Compile Include="Models\Schema\TransformerModel.cs" />

@@ -70,6 +70,7 @@
     <Compile Include="DataModel\DiscretePoint.cs" />
     <Compile Include="DataModel\Enums.cs" />
     <Compile Include="DataModel\Extensions.cs" />
+    <Compile Include="DataModel\IScadaPointDto.cs" />
     <Compile Include="DataModel\Mapper.cs" />
     <Compile Include="DataModel\ScadaPointDto.cs" />
     <Compile Include="DataModel\SwitchingEquipment.cs" />
