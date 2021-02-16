@@ -25,11 +25,11 @@
                   MinWidth="250">
         <StackPanel Margin="20"
                     HorizontalAlignment="Left">
-            <TextBlock Text="Normal step"
+            <TextBlock Text="Command value"
                        Margin="0, 5" />
-            <xctk:IntegerUpDown Value="{Binding FormData.NormalStep}"
-                                Minimum="{Binding FormData.LowStep}"
-                                Maximum="{Binding FormData.HighStep}"
+            <xctk:IntegerUpDown Value="{Binding FormData.Value}"
+                                Minimum="{Binding FormData.MinValue}"
+                                Maximum="{Binding FormData.MaxValue}"
                                 Foreground="{DynamicResource MaterialDesignBody}"
                                 Margin="0, 5" />
             <Button Margin="0, 50"

@@ -9,14 +9,14 @@ namespace GUI.Command
 {
     public class ToggleElectricityCommand : System.Windows.Input.ICommand
     {
-        public event EventHandler CanExecuteChanged;
-
         private readonly EquipmentTreeNode _node;
 
         public ToggleElectricityCommand(EquipmentTreeNode node)
         {
             _node = node;
         }
+
+        public event EventHandler CanExecuteChanged;
 
         public bool CanExecute(object parameter)
         {

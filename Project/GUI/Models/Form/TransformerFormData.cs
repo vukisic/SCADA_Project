@@ -1,5 +1,6 @@
 ﻿using Caliburn.Micro;
 using GUI.Models.Schema;
+using System.Linq;
 
 namespace GUI.Models
 {
@@ -8,24 +9,32 @@ namespace GUI.Models
         public TransformerFormData(TransformerModel transformer)
         {
             var tapChanger = transformer?.RatioTapChanger;
-            HighStep = tapChanger?.HighStep ?? int.MaxValue;
-            LowStep = tapChanger?.LowStep ?? 0;
-            normalStep = tapChanger?.NormalStep ?? 0;
+            var measurement = tapChanger.Measurements.FirstOrDefault(m => m.MeasurementType == FTN.Common.MeasurementType.Discrete);
+
+            Index = measurement?.Index;
+            RegisterType = measurement?.RegisterType;
+
+            MaxValue = (int)(measurement?.MaxValue ?? int.MaxValue);
+            MinValue = (int)(measurement?.MinValue ?? 0);
+            value = (int)(measurement?.Value ?? 0);
         }
 
-        private int normalStep;
+        public SCADA.Common.DataModel.RegisterType? RegisterType { get; }
+        public int? Index { get; }
 
-        public int NormalStep
+        private int value;
+
+        public int Value
         {
-            get => normalStep;
+            get => value;
             set
             {
-                normalStep = value;
-                NotifyOfPropertyChange(() => NormalStep);
+                this.value = value;
+                NotifyOfPropertyChange(() => Value);
             }
         }
 
-        public int HighStep { get; }
-        public int LowStep { get; }
+        public int MaxValue { get; }
+        public int MinValue { get; }
     }
 }
