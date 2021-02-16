@@ -53,7 +53,7 @@ namespace Simulator.Core
         public void LoadConfifg(Tuple<ushort, ushort, ushort, ushort> pointsNum)
         {
             dnp3_protocol.dnp3api.DNP3GetServerDatabaseValue(DNP3serverhandle, ref db, ref ptErrorValue);
-            MarshalUnmananagedArray2Struct(db.psServerDatabasePoint, (int)db.u32TotalPoints, out dnp3_protocol.dnp3types.sServerDatabasePoint[] points);
+            MarshalUnmananagedArray2Struct(db.psServerDatabasePoint, (int)db.u32TotalPoints, out List<dnp3_protocol.dnp3types.sServerDatabasePoint> points);
             var result = ConvertToPoints(points);
             GeneratePoints(ref psDNP3Objects, pointsNum);
             iErrorCode = dnp3_protocol.dnp3api.DNP3LoadConfiguration(DNP3serverhandle, ref sDNP3Config, ref ptErrorValue);
@@ -129,7 +129,7 @@ namespace Simulator.Core
                     {
                         dnp3_protocol.dnp3types.sDNPServerDatabase db = new dnp3_protocol.dnp3types.sDNPServerDatabase();
                         dnp3_protocol.dnp3api.DNP3GetServerDatabaseValue(DNP3serverhandle, ref db, ref ptErrorValue);
-                        MarshalUnmananagedArray2Struct(db.psServerDatabasePoint, (int)db.u32TotalPoints, out dnp3_protocol.dnp3types.sServerDatabasePoint[] points);
+                        MarshalUnmananagedArray2Struct(db.psServerDatabasePoint, (int)db.u32TotalPoints, out List<dnp3_protocol.dnp3types.sServerDatabasePoint> points);
                         var result = ConvertToPoints(points);
                         foreach (var item in result)
                         {
@@ -419,19 +419,19 @@ namespace Simulator.Core
         #endregion
 
         #region Utils
-        public void MarshalUnmananagedArray2Struct(IntPtr unmanagedArray, int length, out dnp3_protocol.dnp3types.sServerDatabasePoint[] mangagedArray)
+        public void MarshalUnmananagedArray2Struct(IntPtr unmanagedArray, int length, out List<dnp3_protocol.dnp3types.sServerDatabasePoint> mangagedArray)
         {
             var size = Marshal.SizeOf(typeof(dnp3_protocol.dnp3types.sServerDatabasePoint));
-            mangagedArray = new dnp3_protocol.dnp3types.sServerDatabasePoint[length];
+            mangagedArray = new List<dnp3_protocol.dnp3types.sServerDatabasePoint>();
 
             for (int i = 0; i < length; i++)
             {
-                IntPtr ins = new IntPtr(unmanagedArray.ToInt64() + i * size);
-                mangagedArray[i] = Marshal.PtrToStructure<dnp3_protocol.dnp3types.sServerDatabasePoint>(ins);
+                IntPtr ins = new IntPtr(unmanagedArray.ToInt32() + i * size);
+                mangagedArray.Add(Marshal.PtrToStructure<dnp3_protocol.dnp3types.sServerDatabasePoint>(ins));
             }
         }
 
-        public List<Point> ConvertToPoints(dnp3_protocol.dnp3types.sServerDatabasePoint[] mangagedArray)
+        public List<Point> ConvertToPoints(List<dnp3_protocol.dnp3types.sServerDatabasePoint> mangagedArray)
         {
             var list = new List<Point>();
             foreach (var item in mangagedArray)
