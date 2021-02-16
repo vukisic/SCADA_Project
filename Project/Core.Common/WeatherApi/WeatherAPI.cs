@@ -17,7 +17,7 @@ namespace Core.Common.WeatherApi
             try
             {
                 HttpClient client = new HttpClient();
-                var result = client.GetAsync("http://api.weatherapi.com/v1/forecast.json?key=f71ebcc49f3648b8807164839201012&q=Novi Sad&days=2").GetAwaiter().GetResult();
+                var result = client.GetAsync("http://api.weatherapi.com/v1/forecast.json?key=f71ebcc49f3648b8807164839201012&q=Berlin&days=2").GetAwaiter().GetResult();
                 result.EnsureSuccessStatusCode();
                 var r = result.Content.ReadAsStringAsync().GetAwaiter().GetResult();
                 var weather = JsonConvert.DeserializeObject<ForecastResponse>(r);
