@@ -97,7 +97,7 @@ namespace Simulator.Core
                 hours = WA.GetResultsForNext6Hours();
             }
 
-            simulator.MarshalUnmananagedArray2Struct(db.psServerDatabasePoint, (int)db.u32TotalPoints, out dnp3_protocol.dnp3types.sServerDatabasePoint[] points);
+            simulator.MarshalUnmananagedArray2Struct(db.psServerDatabasePoint, (int)db.u32TotalPoints, out List<dnp3_protocol.dnp3types.sServerDatabasePoint> points);
 
             var result = simulator.ConvertToPoints(points);
 
@@ -150,7 +150,7 @@ namespace Simulator.Core
         }
         private void GetPointsLeftBranch()
         {
-            simulator.MarshalUnmananagedArray2Struct(db.psServerDatabasePoint, (int)db.u32TotalPoints, out dnp3_protocol.dnp3types.sServerDatabasePoint[] points);
+            simulator.MarshalUnmananagedArray2Struct(db.psServerDatabasePoint, (int)db.u32TotalPoints, out List<dnp3_protocol.dnp3types.sServerDatabasePoint> points);
 
             var result = simulator.ConvertToPoints(points);
 
@@ -179,7 +179,7 @@ namespace Simulator.Core
 
         private void GetPointsRightBranch()
         {
-            simulator.MarshalUnmananagedArray2Struct(db.psServerDatabasePoint, (int)db.u32TotalPoints, out dnp3_protocol.dnp3types.sServerDatabasePoint[] points);
+            simulator.MarshalUnmananagedArray2Struct(db.psServerDatabasePoint, (int)db.u32TotalPoints, out List<dnp3_protocol.dnp3types.sServerDatabasePoint> points);
 
             var result = simulator.ConvertToPoints(points);
 
@@ -208,7 +208,7 @@ namespace Simulator.Core
 
         private void GetPoints()
         {
-            simulator.MarshalUnmananagedArray2Struct(db.psServerDatabasePoint, (int)db.u32TotalPoints, out dnp3_protocol.dnp3types.sServerDatabasePoint[] points);
+            simulator.MarshalUnmananagedArray2Struct(db.psServerDatabasePoint, (int)db.u32TotalPoints, out List<dnp3_protocol.dnp3types.sServerDatabasePoint> points);
 
             var result = simulator.ConvertToPoints(points);
 
