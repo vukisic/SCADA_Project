@@ -409,9 +409,9 @@
   
   <cim:RatioTapChanger rdf:ID="RatioTC_1">
     <cim:RatioTapChanger.TransformerWinding rdf:resource="#TRWinding_1"/>
-    <cim:TapChanger.highStep>14</cim:TapChanger.highStep>
+    <cim:TapChanger.highStep>5</cim:TapChanger.highStep>
     <cim:TapChanger.lowStep>0</cim:TapChanger.lowStep>
-    <cim:TapChanger.normalStep>7</cim:TapChanger.normalStep>
+    <cim:TapChanger.normalStep>1</cim:TapChanger.normalStep>
     <cim:IdentifiedObject.description>RatioTapChanger</cim:IdentifiedObject.description>
     <cim:IdentifiedObject.mRID>RatioTC_1</cim:IdentifiedObject.mRID>
     <cim:IdentifiedObject.name>RatioTC_1</cim:IdentifiedObject.name>
@@ -435,9 +435,9 @@
 
   <cim:RatioTapChanger rdf:ID="RatioTC_2">
     <cim:RatioTapChanger.TransformerWinding rdf:resource="#TRWinding_2"/>
-    <cim:TapChanger.highStep>14</cim:TapChanger.highStep>
+    <cim:TapChanger.highStep>5</cim:TapChanger.highStep>
     <cim:TapChanger.lowStep>0</cim:TapChanger.lowStep>
-    <cim:TapChanger.normalStep>7</cim:TapChanger.normalStep>
+    <cim:TapChanger.normalStep>1</cim:TapChanger.normalStep>
     <cim:IdentifiedObject.description>RatioTapChanger</cim:IdentifiedObject.description>
     <cim:IdentifiedObject.mRID>RatioTC_2</cim:IdentifiedObject.mRID>
     <cim:IdentifiedObject.name>RatioTC_2</cim:IdentifiedObject.name>
@@ -461,9 +461,9 @@
 
   <cim:RatioTapChanger rdf:ID="RatioTC_3">
     <cim:RatioTapChanger.TransformerWinding rdf:resource="#TRWinding_3"/>
-    <cim:TapChanger.highStep>14</cim:TapChanger.highStep>
+    <cim:TapChanger.highStep>5</cim:TapChanger.highStep>
     <cim:TapChanger.lowStep>0</cim:TapChanger.lowStep>
-    <cim:TapChanger.normalStep>7</cim:TapChanger.normalStep>
+    <cim:TapChanger.normalStep>1</cim:TapChanger.normalStep>
     <cim:IdentifiedObject.description>RatioTapChanger</cim:IdentifiedObject.description>
     <cim:IdentifiedObject.mRID>RatioTC_3</cim:IdentifiedObject.mRID>
     <cim:IdentifiedObject.name>RatioTC_3</cim:IdentifiedObject.name>
@@ -977,8 +977,8 @@
 
   <cim:Discrete rdf:ID="Discrete_Tap1">
     <cim:Discrete.maxValue>5</cim:Discrete.maxValue>
-    <cim:Discrete.minValue>1</cim:Discrete.minValue>
-    <cim:Discrete.normalValue>2</cim:Discrete.normalValue>
+    <cim:Discrete.minValue>0</cim:Discrete.minValue>
+    <cim:Discrete.normalValue>1</cim:Discrete.normalValue>
     <cim:Measurement.baseAddress>18</cim:Measurement.baseAddress>
     <cim:Measurement.direction>ReadWrite</cim:Measurement.direction>
     <cim:Measurement.measurementType>Discrete</cim:Measurement.measurementType>
@@ -994,8 +994,8 @@
 
   <cim:Discrete rdf:ID="Discrete_Tap2">
     <cim:Discrete.maxValue>5</cim:Discrete.maxValue>
-    <cim:Discrete.minValue>1</cim:Discrete.minValue>
-    <cim:Discrete.normalValue>2</cim:Discrete.normalValue>
+    <cim:Discrete.minValue>0</cim:Discrete.minValue>
+    <cim:Discrete.normalValue>1</cim:Discrete.normalValue>
     <cim:Measurement.baseAddress>19</cim:Measurement.baseAddress>
     <cim:Measurement.direction>ReadWrite</cim:Measurement.direction>
     <cim:Measurement.measurementType>Discrete</cim:Measurement.measurementType>
@@ -1010,8 +1010,8 @@
 
   <cim:Discrete rdf:ID="Discrete_Tap3">
     <cim:Discrete.maxValue>5</cim:Discrete.maxValue>
-    <cim:Discrete.minValue>1</cim:Discrete.minValue>
-    <cim:Discrete.normalValue>2</cim:Discrete.normalValue>
+    <cim:Discrete.minValue>0</cim:Discrete.minValue>
+    <cim:Discrete.normalValue>1</cim:Discrete.normalValue>
     <cim:Measurement.baseAddress>20</cim:Measurement.baseAddress>
     <cim:Measurement.direction>ReadWrite</cim:Measurement.direction>
     <cim:Measurement.measurementType>Discrete</cim:Measurement.measurementType>
