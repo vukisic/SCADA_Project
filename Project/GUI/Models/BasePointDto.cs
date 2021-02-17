@@ -1,19 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Caliburn.Micro;
-using Core.Common.ServiceBus.Events;
+﻿using Caliburn.Micro;
 using FTN.Common;
-using GUI.Command;
-using GUI.ServiceBus;
-using NServiceBus;
 using SCADA.Common.DataModel;
 
 namespace GUI.Models
 {
-    public class BasePointDto : PropertyChangedBase
+    public class BasePointDto : PropertyChangedBase, IScadaPointDto
     {
         #region Fields
 
@@ -31,11 +22,36 @@ namespace GUI.Models
         private float maxValue;
         private float normalValue;
         private float value;
-        #endregion
+
+        #endregion Fields
+
+        #region ctors
+
         public BasePointDto()
         {
         }
+
+        public BasePointDto(IScadaPointDto dto)
+        {
+            ClassType = dto.ClassType;
+            Direction = dto.Direction;
+            Index = dto.Index;
+            Mrid = dto.Mrid;
+            ObjectMrid = dto.ObjectMrid;
+            RegisterType = dto.RegisterType;
+            TimeStamp = dto.TimeStamp;
+            MeasurementType = dto.MeasurementType;
+            Alarm = dto.Alarm;
+            MinValue = dto.MinValue;
+            MaxValue = dto.MaxValue;
+            NormalValue = dto.NormalValue;
+            Value = dto.Value;
+        }
+
+        #endregion ctors
+
         #region Properties
+
         public double CommandedValue
         {
             get { return this.commandedValue; }
@@ -45,6 +61,7 @@ namespace GUI.Models
                 this.NotifyOfPropertyChange(() => this.CommandedValue);
             }
         }
+
         public ClassType ClassType
         {
             get { return this.classType; }
@@ -114,6 +131,7 @@ namespace GUI.Models
                 this.NotifyOfPropertyChange(() => this.TimeStamp);
             }
         }
+
         public MeasurementType MeasurementType
         {
             get { return this.measurementType; }
@@ -123,6 +141,7 @@ namespace GUI.Models
                 this.NotifyOfPropertyChange(() => this.MeasurementType);
             }
         }
+
         public AlarmType Alarm
         {
             get { return this.alarm; }
@@ -142,6 +161,7 @@ namespace GUI.Models
                 this.NotifyOfPropertyChange(() => this.MinValue);
             }
         }
+
         public float MaxValue
         {
             get { return this.maxValue; }
@@ -151,6 +171,7 @@ namespace GUI.Models
                 this.NotifyOfPropertyChange(() => this.MaxValue);
             }
         }
+
         public float NormalValue
         {
             get { return this.normalValue; }
@@ -160,6 +181,7 @@ namespace GUI.Models
                 this.NotifyOfPropertyChange(() => this.NormalValue);
             }
         }
+
         public float Value
         {
             get { return this.value; }
@@ -169,6 +191,7 @@ namespace GUI.Models
                 this.NotifyOfPropertyChange(() => this.Value);
             }
         }
-        #endregion 
+
+        #endregion Properties
     }
 }

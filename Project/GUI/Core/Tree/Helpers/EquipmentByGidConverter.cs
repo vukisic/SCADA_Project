@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Core.Common.ServiceBus.Commands;
 using Core.Common.ServiceBus.Dtos;
+using GUI.Models.Schema;
 
 namespace GUI.Core.Tree.Helpers
 {
@@ -115,7 +116,7 @@ namespace GUI.Core.Tree.Helpers
                 var powerTransformer = equipmentByGid[winding.PowerTransformer].Item as PowerTransformerDto;
                 var transformer = new TransformerModel(winding, tapChanger, powerTransformer);
 
-                equipmentByGid[winding.GID] = new EquipmentNodeItem(winding.GetType(),
+                equipmentByGid[winding.GID] = new EquipmentNodeItem(transformer.GetType(),
                     transformer,
                     connectedTo: winding.Terminals);
             }

@@ -5,6 +5,7 @@
 
 # NServiceBus
 .learningtransport
+LogEvents.txt
 
 # User-specific files
 *.rsuser
