@@ -1139,8 +1139,8 @@
   </cim:Analog>
 
   <cim:Analog rdf:ID="Voltage_Tap1">
-    <cim:Analog.maxValue>400</cim:Analog.maxValue>
-    <cim:Analog.minValue>200</cim:Analog.minValue>
+    <cim:Analog.maxValue>600</cim:Analog.maxValue>
+    <cim:Analog.minValue>0</cim:Analog.minValue>
     <cim:Analog.normalValue>250</cim:Analog.normalValue>
     <cim:Measurement.baseAddress>8</cim:Measurement.baseAddress>
     <cim:Measurement.direction>Read</cim:Measurement.direction>
@@ -1155,8 +1155,8 @@
   </cim:Analog>
 
   <cim:Analog rdf:ID="Voltage_Tap2">
-    <cim:Analog.maxValue>400</cim:Analog.maxValue>
-    <cim:Analog.minValue>200</cim:Analog.minValue>
+    <cim:Analog.maxValue>600</cim:Analog.maxValue>
+    <cim:Analog.minValue>0</cim:Analog.minValue>
     <cim:Analog.normalValue>220</cim:Analog.normalValue>
     <cim:Measurement.baseAddress>9</cim:Measurement.baseAddress>
     <cim:Measurement.direction>Read</cim:Measurement.direction>
@@ -1171,8 +1171,8 @@
   </cim:Analog>
 
   <cim:Analog rdf:ID="Voltage_Tap3">
-    <cim:Analog.maxValue>400</cim:Analog.maxValue>
-    <cim:Analog.minValue>200</cim:Analog.minValue>
+    <cim:Analog.maxValue>600</cim:Analog.maxValue>
+    <cim:Analog.minValue>0</cim:Analog.minValue>
     <cim:Analog.normalValue>220</cim:Analog.normalValue>
     <cim:Measurement.baseAddress>10</cim:Measurement.baseAddress>
     <cim:Measurement.direction>Read</cim:Measurement.direction>
@@ -1187,8 +1187,8 @@
   </cim:Analog>
 
   <cim:Analog rdf:ID="Current_Tap1">
-    <cim:Analog.maxValue>100</cim:Analog.maxValue>
-    <cim:Analog.minValue>2</cim:Analog.minValue>
+    <cim:Analog.maxValue>5</cim:Analog.maxValue>
+    <cim:Analog.minValue>0</cim:Analog.minValue>
     <cim:Analog.normalValue>20</cim:Analog.normalValue>
     <cim:Measurement.baseAddress>11</cim:Measurement.baseAddress>
     <cim:Measurement.direction>Read</cim:Measurement.direction>
@@ -1203,8 +1203,8 @@
   </cim:Analog>
 
   <cim:Analog rdf:ID="Current_Tap2">
-    <cim:Analog.maxValue>100</cim:Analog.maxValue>
-    <cim:Analog.minValue>2</cim:Analog.minValue>
+    <cim:Analog.maxValue>5</cim:Analog.maxValue>
+    <cim:Analog.minValue>0</cim:Analog.minValue>
     <cim:Analog.normalValue>20</cim:Analog.normalValue>
     <cim:Measurement.baseAddress>12</cim:Measurement.baseAddress>
     <cim:Measurement.direction>Read</cim:Measurement.direction>
@@ -1219,8 +1219,8 @@
   </cim:Analog>
 
   <cim:Analog rdf:ID="Current_Tap3">
-    <cim:Analog.maxValue>100</cim:Analog.maxValue>
-    <cim:Analog.minValue>2</cim:Analog.minValue>
+    <cim:Analog.maxValue>5</cim:Analog.maxValue>
+    <cim:Analog.minValue>0</cim:Analog.minValue>
     <cim:Analog.normalValue>20</cim:Analog.normalValue>
     <cim:Measurement.baseAddress>13</cim:Measurement.baseAddress>
     <cim:Measurement.direction>Read</cim:Measurement.direction>

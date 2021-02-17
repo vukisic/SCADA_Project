@@ -1561,9 +1561,9 @@
 
   <cim:Analog rdf:ID="Voltage_Tap1">
 
-    <cim:Analog.maxValue>400</cim:Analog.maxValue>
+    <cim:Analog.maxValue>600</cim:Analog.maxValue>
 
-    <cim:Analog.minValue>200</cim:Analog.minValue>
+    <cim:Analog.minValue>0</cim:Analog.minValue>
 
     <cim:Analog.normalValue>250</cim:Analog.normalValue>
 
@@ -1592,9 +1592,9 @@
 
   <cim:Analog rdf:ID="Voltage_Tap2">
 
-    <cim:Analog.maxValue>400</cim:Analog.maxValue>
+    <cim:Analog.maxValue>600</cim:Analog.maxValue>
 
-    <cim:Analog.minValue>200</cim:Analog.minValue>
+    <cim:Analog.minValue>0</cim:Analog.minValue>
 
     <cim:Analog.normalValue>220</cim:Analog.normalValue>
 
@@ -1623,9 +1623,9 @@
 
   <cim:Analog rdf:ID="Current_Tap1">
 
-    <cim:Analog.maxValue>100</cim:Analog.maxValue>
+    <cim:Analog.maxValue>5</cim:Analog.maxValue>
 
-    <cim:Analog.minValue>2</cim:Analog.minValue>
+    <cim:Analog.minValue>0</cim:Analog.minValue>
 
     <cim:Analog.normalValue>20</cim:Analog.normalValue>
 
@@ -1654,9 +1654,9 @@
 
   <cim:Analog rdf:ID="Current_Tap2">
 
-    <cim:Analog.maxValue>100</cim:Analog.maxValue>
+    <cim:Analog.maxValue>5</cim:Analog.maxValue>
 
-    <cim:Analog.minValue>2</cim:Analog.minValue>
+    <cim:Analog.minValue>0</cim:Analog.minValue>
 
     <cim:Analog.normalValue>20</cim:Analog.normalValue>
 
