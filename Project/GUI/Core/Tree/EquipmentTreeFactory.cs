@@ -15,6 +15,10 @@ namespace GUI.Core.Tree
             Dictionary<long, EquipmentNodeItem> equipmentNodeByGid = EquipmentByGidConverter.Convert(command);
 
             var nodes = GetTreeNodes(equipmentNodeByGid, command.SourceGid);
+            foreach (var item in nodes)
+            {
+                item.TurnedOn = false;
+            }
             return nodes.FirstOrDefault();
         }
 

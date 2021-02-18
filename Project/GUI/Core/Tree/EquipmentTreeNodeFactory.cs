@@ -20,7 +20,8 @@ namespace GUI.Core.Tree
             {
                 Children = new ObservableCollection<EquipmentTreeNode>(children),
                 Name = currentItem.Item.Name,
-                Item = IdentifiedObjectToSchemaModelMapper.Map(currentItem.Item, dtoType)
+                Item = IdentifiedObjectToSchemaModelMapper.Map(currentItem.Item, dtoType),
+                TurnedOn = false
             };
 
             AttachHandlers(node, dtoType);

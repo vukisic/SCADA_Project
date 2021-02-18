@@ -20,6 +20,7 @@ namespace GUI.Core.Tree
             {
                 turnedOn = value;
                 NotifyOfPropertyChange(() => TurnedOn);
+                NotifyOfPropertyChange(() => ToolTip);
                 NotifyOfPropertyChange(() => BorderColor);
             }
         }
@@ -48,12 +49,17 @@ namespace GUI.Core.Tree
             }
         }
 
-        public Brush BorderColor => new SolidColorBrush(TurnedOn ? Colors.Green : Colors.Red);
+        public Brush BorderColor => new SolidColorBrush(TurnedOn? Colors.Green : Colors.Red);
 
         public ICommand OnClick { get; set; }
 
-        public string ToolTip => $"{Name}, {Item?.GID}";
+        public string ToolTip => $"{Name}, {GetStatus()}";
 
         public ISchemaModel Item { get; set; }
+
+        private string GetStatus()
+        {
+            return TurnedOn ? "ON" : "OFF";
+        }
     }
 }

@@ -57,11 +57,6 @@ namespace GUI.Command
             }
 
             node.TurnedOn = value;
-
-            foreach (var child in node.Children)
-            {
-                SetElectricity(child, value);
-            }
         }
 
         protected virtual void OnCanExecuteChanged(EventArgs e)
