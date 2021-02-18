@@ -73,7 +73,31 @@ namespace GUI.Core.Tree
             }
             else if (updateEvent.Points.Count == 33)
             {
-                
+                var pump1 = nodeLookupByMrid.Find("AsyncM_1");
+                var pump2 = nodeLookupByMrid.Find("AsyncM_2");
+                var pump3 = nodeLookupByMrid.Find("AsyncM_3");
+
+                var list1 = new List<string>() { "Disc_01", "Breaker_01", "Disc_02", "Disc_11", "Breaker_11", "Disc_21", "RatioTC_1", "Breaker_21" };
+                var list2 = new List<string>() { "Disc_01", "Breaker_01", "Disc_02", "Disc_12", "Breaker_12", "Disc_22", "RatioTC_2", "Breaker_22" };
+                var list3 = new List<string>() { "Disc_01", "Breaker_01", "Disc_02", "Disc_13", "Breaker_13", "Disc_23", "RatioTC_3", "Breaker_23" };
+
+                var nodes1 = new List<EquipmentTreeNode>();
+                list1.ForEach(x => nodes1.Add(nodeLookupByMrid.Find(x)));
+
+                var nodes2 = new List<EquipmentTreeNode>();
+                list2.ForEach(x => nodes2.Add(nodeLookupByMrid.Find(x)));
+
+                var nodes3 = new List<EquipmentTreeNode>();
+                list3.ForEach(x => nodes3.Add(nodeLookupByMrid.Find(x)));
+
+                var result1 = nodes1.Any(x => x.TurnedOn == false);
+                pump1.TurnedOn = !result1;
+
+                var result2 = nodes2.Any(x => x.TurnedOn == false);
+                pump2.TurnedOn = !result2;
+
+                var result3 = nodes3.Any(x => x.TurnedOn == false);
+                pump3.TurnedOn = !result3;
             }
         }
 
