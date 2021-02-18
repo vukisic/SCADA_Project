@@ -407,6 +407,12 @@ namespace Simulator.Core
                 }
             }
 
+            if(breaker01.Value == 0 || dis01.Value == 0 || dis02.Value == 0 || dis12.Value == 0 || dis22.Value == 0 || breaker12.Value == 0)
+            {
+                TRCurrent2.Value = 0;
+                TRVoltage2.Value = 0;
+            }
+
             CheckFluidLevel();
 
             UpdatePoints();         
@@ -450,6 +456,11 @@ namespace Simulator.Core
                 }
             }
 
+            if (breaker01.Value == 0 || dis01.Value == 0 || dis02.Value == 0 || dis12.Value == 0 || dis22.Value == 0 || breaker12.Value == 0)
+            {
+                TRCurrent2.Value = 0;
+                TRVoltage2.Value = 0;
+            }
 
             if (fluidLever.Value > EmptyTank && breaker01.Value == 1 && dis01.Value == 1 && dis02.Value == 1 &&
                 dis11.Value == 1 && dis21.Value == 1 && breaker21.Value == 1 && breaker11.Value == 1 && !colding1Pump)
@@ -468,6 +479,12 @@ namespace Simulator.Core
                     if (pump1temp.Value > MinTemp)
                         pump1temp.Value -= ColdingConst;
                 }
+            }
+
+            if(breaker01.Value == 0 || dis01.Value == 0 || dis02.Value == 0 || dis11.Value == 0 || dis21.Value == 0 || breaker11.Value == 0)
+            {
+                TRCurrent1.Value = 0;
+                TRVoltage1.Value = 0;
             }
 
             CheckFluidLevel();
@@ -522,6 +539,12 @@ namespace Simulator.Core
                 }
             }
 
+            if (breaker01.Value == 0 || dis01.Value == 0 || dis02.Value == 0 || dis12.Value == 0 || dis22.Value == 0 || breaker12.Value == 0)
+            {
+                TRCurrent2.Value = 0;
+                TRVoltage2.Value = 0;
+            }
+
 
             if (fluidLever.Value > EmptyTank && breaker01.Value == 1 && dis01.Value == 1 && dis02.Value == 1 &&
                 dis11.Value == 1 && dis21.Value == 1 && breaker21.Value == 1 && breaker11.Value == 1 && !colding1Pump)
@@ -542,6 +565,12 @@ namespace Simulator.Core
                 }
             }
 
+            if (breaker01.Value == 0 || dis01.Value == 0 || dis02.Value == 0 || dis11.Value == 0 || dis21.Value == 0 || breaker11.Value == 0)
+            {
+                TRCurrent1.Value = 0;
+                TRVoltage1.Value = 0;
+            }
+
             if (fluidLever.Value > EmptyTank && breaker01.Value == 1 && dis01.Value == 1 && dis02.Value == 1 &&
                dis13.Value == 1 && dis23.Value == 1 && breaker23.Value == 1 && breaker13.Value == 1 && !colding3Pump)
             {
@@ -559,6 +588,12 @@ namespace Simulator.Core
                     if (pump3temp.Value > MinTemp)
                         pump3temp.Value -= ColdingConst;
                 }
+            }
+
+            if(breaker01.Value == 0 || dis01.Value == 0 || dis02.Value == 0 || dis13.Value == 0 || dis23.Value == 0 || breaker13.Value == 0)
+            {
+                TRCurrent3.Value = 0;
+                TRVoltage3.Value = 0;
             }
 
             CheckFluidLevel();
@@ -593,7 +628,7 @@ namespace Simulator.Core
             if (fluidLever.Value - pumpFlow.Value >= EmptyTank)
             {
                 voltage.Value = tapChanger.Value * VoltageFactor;
-                current.Value = 100 / voltage.Value;
+                current.Value = 1000 / voltage.Value;
                 voltage.Value = tapChanger.Value * VoltageFactor;
                 pumpTemp.Value += HeatingConst * voltage.Value;
                 fluidLever.Value -= pumpFlow.Value / 60; // 100/60 = 1,667 / s

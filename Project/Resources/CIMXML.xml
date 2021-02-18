@@ -1187,7 +1187,7 @@
   </cim:Analog>
 
   <cim:Analog rdf:ID="Current_Tap1">
-    <cim:Analog.maxValue>5</cim:Analog.maxValue>
+    <cim:Analog.maxValue>11</cim:Analog.maxValue>
     <cim:Analog.minValue>0</cim:Analog.minValue>
     <cim:Analog.normalValue>20</cim:Analog.normalValue>
     <cim:Measurement.baseAddress>11</cim:Measurement.baseAddress>
@@ -1203,7 +1203,7 @@
   </cim:Analog>
 
   <cim:Analog rdf:ID="Current_Tap2">
-    <cim:Analog.maxValue>5</cim:Analog.maxValue>
+    <cim:Analog.maxValue>11</cim:Analog.maxValue>
     <cim:Analog.minValue>0</cim:Analog.minValue>
     <cim:Analog.normalValue>20</cim:Analog.normalValue>
     <cim:Measurement.baseAddress>12</cim:Measurement.baseAddress>
@@ -1219,7 +1219,7 @@
   </cim:Analog>
 
   <cim:Analog rdf:ID="Current_Tap3">
-    <cim:Analog.maxValue>5</cim:Analog.maxValue>
+    <cim:Analog.maxValue>11</cim:Analog.maxValue>
     <cim:Analog.minValue>0</cim:Analog.minValue>
     <cim:Analog.normalValue>20</cim:Analog.normalValue>
     <cim:Measurement.baseAddress>13</cim:Measurement.baseAddress>

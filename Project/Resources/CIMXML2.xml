@@ -953,7 +953,7 @@
 
   <cim:Analog rdf:ID="Current_Tap2">
 
-    <cim:Analog.maxValue>5</cim:Analog.maxValue>
+    <cim:Analog.maxValue>11</cim:Analog.maxValue>
 
     <cim:Analog.minValue>0</cim:Analog.minValue>
 
