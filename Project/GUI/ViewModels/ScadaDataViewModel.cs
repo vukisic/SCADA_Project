@@ -103,6 +103,8 @@ namespace GUI.ViewModels
             var commands = new List<ScadaCommandingEvent>();
             foreach (var item in points)
             {
+                if (item.Key.Contains("Tap"))
+                    continue;
                 if(item.Key.Contains("Disc") || item.Key.Contains("Status"))
                 {
                     if (!item.Key.Contains("Breaker_21") && !item.Key.Contains("Breaker_22") && !item.Key.Contains("Breaker_23"))
@@ -135,6 +137,8 @@ namespace GUI.ViewModels
             var commands = new List<ScadaCommandingEvent>();
             foreach (var item in points)
             {
+                if (item.Key.Contains("Tap"))
+                    continue;
                 if (item.Key.Contains("Disc") || item.Key.Contains("Status"))
                 {
                     if (!item.Key.Contains("Breaker_21") && !item.Key.Contains("Breaker_22") && !item.Key.Contains("Breaker_23"))

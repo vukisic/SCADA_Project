@@ -30,7 +30,8 @@ namespace GUI.Core.Tree
                 nodeToUpdate.Item.UpdateMeasurements(Map(point));
                 if (point.RegisterType == RegisterType.ANALOG_OUTPUT && point.Mrid.Contains("Tap"))
                     nodeToUpdate.TurnedOn = point.Value > 0;
-
+                if (point.RegisterType == RegisterType.BINARY_OUTPUT)
+                    nodeToUpdate.TurnedOn = point.Value == 1;
                 // Logic for disable all child nodes 
                 //if (point.RegisterType == RegisterType.BINARY_OUTPUT && !point.Mrid.Contains("Tap"))
                 //{

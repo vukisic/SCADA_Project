@@ -407,7 +407,7 @@ namespace Simulator.Core
                 }
             }
 
-            if(breaker01.Value == 0 || dis01.Value == 0 || dis02.Value == 0 || dis12.Value == 0 || dis22.Value == 0 || breaker12.Value == 0)
+            if(breaker01.Value == 0 || dis01.Value == 0 || dis02.Value == 0 || dis12.Value == 0 || dis22.Value == 0 || breaker12.Value == 0 || breaker22.Value == 0)
             {
                 TRCurrent2.Value = 0;
                 TRVoltage2.Value = 0;
@@ -456,7 +456,7 @@ namespace Simulator.Core
                 }
             }
 
-            if (breaker01.Value == 0 || dis01.Value == 0 || dis02.Value == 0 || dis12.Value == 0 || dis22.Value == 0 || breaker12.Value == 0)
+            if (breaker01.Value == 0 || dis01.Value == 0 || dis02.Value == 0 || dis12.Value == 0 || dis22.Value == 0 || breaker12.Value == 0 || breaker22.Value == 0)
             {
                 TRCurrent2.Value = 0;
                 TRVoltage2.Value = 0;
@@ -481,7 +481,7 @@ namespace Simulator.Core
                 }
             }
 
-            if(breaker01.Value == 0 || dis01.Value == 0 || dis02.Value == 0 || dis11.Value == 0 || dis21.Value == 0 || breaker11.Value == 0)
+            if(breaker01.Value == 0 || dis01.Value == 0 || dis02.Value == 0 || dis11.Value == 0 || dis21.Value == 0 || breaker11.Value == 0 || breaker21.Value == 0)
             {
                 TRCurrent1.Value = 0;
                 TRVoltage1.Value = 0;
@@ -539,7 +539,7 @@ namespace Simulator.Core
                 }
             }
 
-            if (breaker01.Value == 0 || dis01.Value == 0 || dis02.Value == 0 || dis12.Value == 0 || dis22.Value == 0 || breaker12.Value == 0)
+            if (breaker01.Value == 0 || dis01.Value == 0 || dis02.Value == 0 || dis12.Value == 0 || dis22.Value == 0 || breaker12.Value == 0 || breaker22.Value == 0)
             {
                 TRCurrent2.Value = 0;
                 TRVoltage2.Value = 0;
@@ -565,7 +565,7 @@ namespace Simulator.Core
                 }
             }
 
-            if (breaker01.Value == 0 || dis01.Value == 0 || dis02.Value == 0 || dis11.Value == 0 || dis21.Value == 0 || breaker11.Value == 0)
+            if (breaker01.Value == 0 || dis01.Value == 0 || dis02.Value == 0 || dis11.Value == 0 || dis21.Value == 0 || breaker11.Value == 0 || breaker21.Value == 0)
             {
                 TRCurrent1.Value = 0;
                 TRVoltage1.Value = 0;
@@ -590,7 +590,7 @@ namespace Simulator.Core
                 }
             }
 
-            if(breaker01.Value == 0 || dis01.Value == 0 || dis02.Value == 0 || dis13.Value == 0 || dis23.Value == 0 || breaker13.Value == 0)
+            if(breaker01.Value == 0 || dis01.Value == 0 || dis02.Value == 0 || dis13.Value == 0 || dis23.Value == 0 || breaker13.Value == 0 || breaker23.Value == 0)
             {
                 TRCurrent3.Value = 0;
                 TRVoltage3.Value = 0;
