@@ -1,0 +1,985 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF xmlns:ftn="http://www.ftnydro.com/CIM15/2010/extension#" 
+	xmlns:cim="http://iec.ch/TC57/2010/CIM-schema-cim15#" 
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+
+  <cim:Substation rdf:ID="Substation_1">
+    <cim:Substation.capacity>5</cim:Substation.capacity>
+    <cim:IdentifiedObject.description>Substation</cim:IdentifiedObject.description>
+    <cim:IdentifiedObject.mRID>Substation_1</cim:IdentifiedObject.mRID>
+    <cim:IdentifiedObject.name>Substation_1</cim:IdentifiedObject.name>
+  </cim:Substation>
+
+
+  <cim:ConnectivityNode rdf:ID="CN_01">
+    <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#Substation_1"/>
+    <cim:IdentifiedObject.description>ConnectivityNode</cim:IdentifiedObject.description>
+    <cim:IdentifiedObject.mRID>CN_01</cim:IdentifiedObject.mRID>
+    <cim:IdentifiedObject.name>CN_01</cim:IdentifiedObject.name>
+  </cim:ConnectivityNode>
+
+
+  <cim:Terminal rdf:ID="Terminal_01">
+    <cim:Terminal.ConductingEquipment rdf:resource=""/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#CN_01"/>
+    <cim:IdentifiedObject.description>Terminal</cim:IdentifiedObject.description>
+    <cim:IdentifiedObject.mRID>Terminal_01</cim:IdentifiedObject.mRID>
+    <cim:IdentifiedObject.name>Terminal_01</cim:IdentifiedObject.name>
+  </cim:Terminal>
+
+
+  <cim:Disconnector rdf:ID="Disc_01">
+    <cim:Switch.manipulationCount>1</cim:Switch.manipulationCount>
+    <cim:Equipment.EquipmentContainer rdf:resource="#Substation_1"/>
+    <cim:IdentifiedObject.description>Disconnector</cim:IdentifiedObject.description>
+    <cim:IdentifiedObject.mRID>Disc_01</cim:IdentifiedObject.mRID>
+    <cim:IdentifiedObject.name>Disc_01</cim:IdentifiedObject.name>
+  </cim:Disconnector>
+
+
+  <cim:Terminal rdf:ID="Terminal_02">
+    <cim:Terminal.ConductingEquipment rdf:resource="#Disc_01"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#CN_01"/>
+    <cim:IdentifiedObject.description>Terminal</cim:IdentifiedObject.description>
+    <cim:IdentifiedObject.mRID>Terminal_02</cim:IdentifiedObject.mRID>
+    <cim:IdentifiedObject.name>Terminal_02</cim:IdentifiedObject.name>
+  </cim:Terminal>
+
+
+  <cim:ConnectivityNode rdf:ID="CN_02">
+    <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#Substation_1"/>
+    <cim:IdentifiedObject.description>ConnectivityNode</cim:IdentifiedObject.description>
+    <cim:IdentifiedObject.mRID>CN_02</cim:IdentifiedObject.mRID>
+    <cim:IdentifiedObject.name>CN_02</cim:IdentifiedObject.name>
+  </cim:ConnectivityNode>
+
+
+  <cim:Breaker rdf:ID="Breaker_01">
+    <cim:Switch.manipulationCount>1</cim:Switch.manipulationCount>
+    <cim:Equipment.EquipmentContainer rdf:resource="#Substation_1"/>
+    <cim:IdentifiedObject.description>Breaker</cim:IdentifiedObject.description>
+    <cim:IdentifiedObject.mRID>Breaker_01</cim:IdentifiedObject.mRID>
+    <cim:IdentifiedObject.name>Breaker_01</cim:IdentifiedObject.name>
+  </cim:Breaker>
+
+
+  <cim:Terminal rdf:ID="Terminal_03">
+    <cim:Terminal.ConductingEquipment rdf:resource="#Disc_01"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#CN_02"/>
+    <cim:IdentifiedObject.description>Terminal</cim:IdentifiedObject.description>
+    <cim:IdentifiedObject.mRID>Terminal_03</cim:IdentifiedObject.mRID>
+    <cim:IdentifiedObject.name>Terminal_03</cim:IdentifiedObject.name>
+  </cim:Terminal>
+
+
+  <cim:Terminal rdf:ID="Terminal_04">
+    <cim:Terminal.ConductingEquipment rdf:resource="#Breaker_01"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#CN_02"/>
+    <cim:IdentifiedObject.description>Terminal</cim:IdentifiedObject.description>
+    <cim:IdentifiedObject.mRID>Terminal_04</cim:IdentifiedObject.mRID>
+    <cim:IdentifiedObject.name>Terminal_04</cim:IdentifiedObject.name>
+  </cim:Terminal>
+
+
+  <cim:ConnectivityNode rdf:ID="CN_03">
+    <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#Substation_1"/>
+    <cim:IdentifiedObject.description>ConnectivityNode</cim:IdentifiedObject.description>
+    <cim:IdentifiedObject.mRID>CN_03</cim:IdentifiedObject.mRID>
+    <cim:IdentifiedObject.name>CN_03</cim:IdentifiedObject.name>
+  </cim:ConnectivityNode>
+
+
+  <cim:Disconnector rdf:ID="Disc_02">
+    <cim:Switch.manipulationCount>1</cim:Switch.manipulationCount>
+    <cim:Equipment.EquipmentContainer rdf:resource="#Substation_1"/>
+    <cim:IdentifiedObject.description>Disconnector</cim:IdentifiedObject.description>
+    <cim:IdentifiedObject.mRID>Disc_02</cim:IdentifiedObject.mRID>
+    <cim:IdentifiedObject.name>Disc_02</cim:IdentifiedObject.name>
+  </cim:Disconnector>
+
+
+  <cim:Terminal rdf:ID="Terminal_05">
+    <cim:Terminal.ConductingEquipment rdf:resource="#Breaker_01"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#CN_03"/>
+    <cim:IdentifiedObject.description>Terminal</cim:IdentifiedObject.description>
+    <cim:IdentifiedObject.mRID>Terminal_05</cim:IdentifiedObject.mRID>
+    <cim:IdentifiedObject.name>Terminal_05</cim:IdentifiedObject.name>
+  </cim:Terminal>
+
+
+  <cim:Terminal rdf:ID="Terminal_06">
+    <cim:Terminal.ConductingEquipment rdf:resource="#Disc_02"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#CN_03"/>
+    <cim:IdentifiedObject.description>Terminal</cim:IdentifiedObject.description>
+    <cim:IdentifiedObject.mRID>Terminal_06</cim:IdentifiedObject.mRID>
+    <cim:IdentifiedObject.name>Terminal_06</cim:IdentifiedObject.name>
+  </cim:Terminal>
+
+
+  <cim:ConnectivityNode rdf:ID="CN_04">
+    <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#Substation_1"/>
+    <cim:IdentifiedObject.description>ConnectivityNode</cim:IdentifiedObject.description>
+    <cim:IdentifiedObject.mRID>CN_04</cim:IdentifiedObject.mRID>
+    <cim:IdentifiedObject.name>CN_04</cim:IdentifiedObject.name>
+  </cim:ConnectivityNode>
+  
+  <cim:Terminal rdf:ID="Terminal_07">
+    <cim:Terminal.ConductingEquipment rdf:resource="#Disc_02"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#CN_04"/>
+    <cim:IdentifiedObject.description>Terminal</cim:IdentifiedObject.description>
+    <cim:IdentifiedObject.mRID>Terminal_07</cim:IdentifiedObject.mRID>
+    <cim:IdentifiedObject.name>Terminal_07</cim:IdentifiedObject.name>
+  </cim:Terminal>
+
+  <cim:Disconnector rdf:ID="Disc_12">
+    <cim:Switch.manipulationCount>1</cim:Switch.manipulationCount>
+    <cim:Equipment.EquipmentContainer rdf:resource="#Substation_1"/>
+    <cim:IdentifiedObject.description>Disconnector</cim:IdentifiedObject.description>
+    <cim:IdentifiedObject.mRID>Disc_12</cim:IdentifiedObject.mRID>
+    <cim:IdentifiedObject.name>Disc_12</cim:IdentifiedObject.name>
+  </cim:Disconnector>
+
+
+
+  <cim:Terminal rdf:ID="Terminal_12">
+
+    <cim:Terminal.ConductingEquipment rdf:resource="#Disc_12"/>
+
+    <cim:Terminal.ConnectivityNode rdf:resource="#CN_04"/>
+
+    <cim:IdentifiedObject.description>Terminal</cim:IdentifiedObject.description>
+
+    <cim:IdentifiedObject.mRID>Terminal_12</cim:IdentifiedObject.mRID>
+
+    <cim:IdentifiedObject.name>Terminal_12</cim:IdentifiedObject.name>
+
+  </cim:Terminal>
+
+
+  <cim:ConnectivityNode rdf:ID="CN_12">
+
+    <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#Substation_1"/>
+
+    <cim:IdentifiedObject.description>ConnectivityNode</cim:IdentifiedObject.description>
+
+    <cim:IdentifiedObject.mRID>CN_12</cim:IdentifiedObject.mRID>
+
+    <cim:IdentifiedObject.name>CN_12</cim:IdentifiedObject.name>
+
+  </cim:ConnectivityNode>
+
+  <cim:Breaker rdf:ID="Breaker_12">
+
+    <cim:Switch.manipulationCount>1</cim:Switch.manipulationCount>
+
+    <cim:Equipment.EquipmentContainer rdf:resource="#Substation_1"/>
+
+    <cim:IdentifiedObject.description>Breaker</cim:IdentifiedObject.description>
+
+    <cim:IdentifiedObject.mRID>Breaker_12</cim:IdentifiedObject.mRID>
+
+    <cim:IdentifiedObject.name>Breaker_12</cim:IdentifiedObject.name>
+
+  </cim:Breaker>
+
+
+  <cim:Terminal rdf:ID="Terminal_22">
+
+    <cim:Terminal.ConductingEquipment rdf:resource="#Disc_12"/>
+
+    <cim:Terminal.ConnectivityNode rdf:resource="#CN_12"/>
+
+    <cim:IdentifiedObject.description>Terminal</cim:IdentifiedObject.description>
+
+    <cim:IdentifiedObject.mRID>Terminal_22</cim:IdentifiedObject.mRID>
+
+    <cim:IdentifiedObject.name>Terminal_22</cim:IdentifiedObject.name>
+
+  </cim:Terminal>
+
+
+  <cim:Terminal rdf:ID="Terminal_32">
+
+    <cim:Terminal.ConductingEquipment rdf:resource="#Breaker_12"/>
+
+    <cim:Terminal.ConnectivityNode rdf:resource="#CN_12"/>
+
+    <cim:IdentifiedObject.description>Terminal</cim:IdentifiedObject.description>
+
+    <cim:IdentifiedObject.mRID>Terminal_32</cim:IdentifiedObject.mRID>
+
+    <cim:IdentifiedObject.name>Terminal_32</cim:IdentifiedObject.name>
+
+  </cim:Terminal>
+
+
+
+  <cim:Disconnector rdf:ID="Disc_22">
+
+    <cim:Switch.manipulationCount>1</cim:Switch.manipulationCount>
+
+    <cim:Equipment.EquipmentContainer rdf:resource="#Substation_1"/>
+
+    <cim:IdentifiedObject.description>Disconnector</cim:IdentifiedObject.description>
+
+    <cim:IdentifiedObject.mRID>Disc_22</cim:IdentifiedObject.mRID>
+
+    <cim:IdentifiedObject.name>Disc_22</cim:IdentifiedObject.name>
+
+  </cim:Disconnector>
+
+
+  <cim:ConnectivityNode rdf:ID="CN_22">
+
+    <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#Substation_1"/>
+
+    <cim:IdentifiedObject.description>ConnectivityNode</cim:IdentifiedObject.description>
+
+    <cim:IdentifiedObject.mRID>CN_22</cim:IdentifiedObject.mRID>
+
+    <cim:IdentifiedObject.name>CN_22</cim:IdentifiedObject.name>
+
+  </cim:ConnectivityNode>
+
+
+
+  <cim:Terminal rdf:ID="Terminal_42">
+
+    <cim:Terminal.ConductingEquipment rdf:resource="#Breaker_12"/>
+
+    <cim:Terminal.ConnectivityNode rdf:resource="#CN_22"/>
+
+    <cim:IdentifiedObject.description>Terminal</cim:IdentifiedObject.description>
+
+    <cim:IdentifiedObject.mRID>Terminal_42</cim:IdentifiedObject.mRID>
+
+    <cim:IdentifiedObject.name>Terminal_42</cim:IdentifiedObject.name>
+
+  </cim:Terminal>
+
+
+  <cim:Terminal rdf:ID="Terminal_52">
+
+    <cim:Terminal.ConductingEquipment rdf:resource="#Disc_22"/>
+
+    <cim:Terminal.ConnectivityNode rdf:resource="#CN_22"/>
+
+    <cim:IdentifiedObject.description>Terminal</cim:IdentifiedObject.description>
+
+    <cim:IdentifiedObject.mRID>Terminal_52</cim:IdentifiedObject.mRID>
+
+    <cim:IdentifiedObject.name>Terminal_52</cim:IdentifiedObject.name>
+
+  </cim:Terminal>
+
+
+  <cim:ConnectivityNode rdf:ID="CN_32">
+
+    <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#Substation_1"/>
+
+    <cim:IdentifiedObject.description>ConnectivityNode</cim:IdentifiedObject.description>
+
+    <cim:IdentifiedObject.mRID>CN_32</cim:IdentifiedObject.mRID>
+
+    <cim:IdentifiedObject.name>CN_32</cim:IdentifiedObject.name>
+
+  </cim:ConnectivityNode>
+
+
+
+  <cim:Terminal rdf:ID="Terminal_62">
+
+    <cim:Terminal.ConductingEquipment rdf:resource="#Disc_22"/>
+
+    <cim:Terminal.ConnectivityNode rdf:resource="#CN_32"/>
+
+    <cim:IdentifiedObject.description>Terminal</cim:IdentifiedObject.description>
+
+    <cim:IdentifiedObject.mRID>Terminal_62</cim:IdentifiedObject.mRID>
+
+    <cim:IdentifiedObject.name>Terminal_62</cim:IdentifiedObject.name>
+
+  </cim:Terminal>
+
+
+  <cim:PowerTransformer rdf:ID="PTR_2">
+
+    <cim:Equipment.EquipmentContainer rdf:resource="#Substation_1"/>
+
+    <cim:IdentifiedObject.description>PowerTransformer</cim:IdentifiedObject.description>
+
+    <cim:IdentifiedObject.mRID>PTR_2</cim:IdentifiedObject.mRID>
+
+    <cim:IdentifiedObject.name>PTR_2</cim:IdentifiedObject.name>
+
+  </cim:PowerTransformer>
+
+
+  <cim:RatioTapChanger rdf:ID="RatioTC_2">
+
+    <cim:RatioTapChanger.TransformerWinding rdf:resource="#TRWinding_2"/>
+
+    <cim:TapChanger.highStep>5</cim:TapChanger.highStep>
+
+    <cim:TapChanger.lowStep>0</cim:TapChanger.lowStep>
+
+    <cim:TapChanger.normalStep>1</cim:TapChanger.normalStep>
+
+    <cim:IdentifiedObject.description>RatioTapChanger</cim:IdentifiedObject.description>
+
+    <cim:IdentifiedObject.mRID>RatioTC_2</cim:IdentifiedObject.mRID>
+
+    <cim:IdentifiedObject.name>RatioTC_2</cim:IdentifiedObject.name>
+
+  </cim:RatioTapChanger>
+
+
+  <cim:TransformerWinding rdf:ID="TRWinding_2">
+
+    <cim:TransformerWinding.PowerTransformer rdf:resource="#PTR_2"/>
+
+    <cim:TransformerWinding.RatioTapChanger rdf:resource=""/>
+
+    <cim:Equipment.EquipmentContainer rdf:resource="#Substation_1"/>
+
+    <cim:IdentifiedObject.description>TransformerWinding</cim:IdentifiedObject.description>
+
+    <cim:IdentifiedObject.mRID>TRWinding_2</cim:IdentifiedObject.mRID>
+
+    <cim:IdentifiedObject.name>TRWinding_2</cim:IdentifiedObject.name>
+
+  </cim:TransformerWinding>
+
+
+
+  <cim:Terminal rdf:ID="Terminal_72">
+
+    <cim:Terminal.ConductingEquipment rdf:resource="#TRWinding_2"/>
+
+    <cim:Terminal.ConnectivityNode rdf:resource="#CN_32"/>
+
+    <cim:IdentifiedObject.description>Terminal</cim:IdentifiedObject.description>
+
+    <cim:IdentifiedObject.mRID>Terminal_72</cim:IdentifiedObject.mRID>
+
+    <cim:IdentifiedObject.name>Terminal_72</cim:IdentifiedObject.name>
+
+  </cim:Terminal>
+
+
+
+  <cim:Breaker rdf:ID="Breaker_22">
+
+    <cim:Switch.manipulationCount>1</cim:Switch.manipulationCount>
+
+    <cim:Equipment.EquipmentContainer rdf:resource="#Substation_1"/>
+
+    <cim:IdentifiedObject.description>Breaker</cim:IdentifiedObject.description>
+
+    <cim:IdentifiedObject.mRID>Breaker_22</cim:IdentifiedObject.mRID>
+
+    <cim:IdentifiedObject.name>Breaker_22</cim:IdentifiedObject.name>
+
+  </cim:Breaker>
+
+
+
+
+  <cim:ConnectivityNode rdf:ID="CN_42">
+
+    <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#Substation_1"/>
+
+    <cim:IdentifiedObject.description>ConnectivityNode</cim:IdentifiedObject.description>
+
+    <cim:IdentifiedObject.mRID>CN_42</cim:IdentifiedObject.mRID>
+
+    <cim:IdentifiedObject.name>CN_42</cim:IdentifiedObject.name>
+
+  </cim:ConnectivityNode>
+
+
+
+  <cim:Terminal rdf:ID="Terminal_82">
+
+    <cim:Terminal.ConductingEquipment rdf:resource="#TRWinding_2"/>
+
+    <cim:Terminal.ConnectivityNode rdf:resource="#CN_42"/>
+
+    <cim:IdentifiedObject.description>Terminal</cim:IdentifiedObject.description>
+
+    <cim:IdentifiedObject.mRID>Terminal_82</cim:IdentifiedObject.mRID>
+
+    <cim:IdentifiedObject.name>Terminal_82</cim:IdentifiedObject.name>
+
+  </cim:Terminal>
+
+
+
+  <cim:Terminal rdf:ID="Terminal_92">
+
+    <cim:Terminal.ConductingEquipment rdf:resource="#Breaker_22"/>
+
+    <cim:Terminal.ConnectivityNode rdf:resource="#CN_42"/>
+
+    <cim:IdentifiedObject.description>Terminal</cim:IdentifiedObject.description>
+
+    <cim:IdentifiedObject.mRID>Terminal_92</cim:IdentifiedObject.mRID>
+
+    <cim:IdentifiedObject.name>Terminal_92</cim:IdentifiedObject.name>
+
+  </cim:Terminal>
+
+
+
+  <cim:ConnectivityNode rdf:ID="CN_52">
+
+    <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#Substation_1"/>
+
+    <cim:IdentifiedObject.description>ConnectivityNode</cim:IdentifiedObject.description>
+
+    <cim:IdentifiedObject.mRID>CN_52</cim:IdentifiedObject.mRID>
+
+    <cim:IdentifiedObject.name>CN_52</cim:IdentifiedObject.name>
+
+  </cim:ConnectivityNode>
+
+
+  <cim:Terminal rdf:ID="Terminal_102">
+
+    <cim:Terminal.ConductingEquipment rdf:resource="#Breaker_22"/>
+
+    <cim:Terminal.ConnectivityNode rdf:resource="#CN_52"/>
+
+    <cim:IdentifiedObject.description>Terminal</cim:IdentifiedObject.description>
+
+    <cim:IdentifiedObject.mRID>Terminal_102</cim:IdentifiedObject.mRID>
+
+    <cim:IdentifiedObject.name>Terminal_102</cim:IdentifiedObject.name>
+
+  </cim:Terminal>
+
+
+  <cim:AsynchronousMachine rdf:ID="AsyncM_2">
+
+    <cim:AsynchronousMachine.cosPhi>0.707</cim:AsynchronousMachine.cosPhi>
+
+    <cim:AsynchronousMachine.currentTemp>50</cim:AsynchronousMachine.currentTemp>
+
+    <cim:AsynchronousMachine.maximumTemp>300</cim:AsynchronousMachine.maximumTemp>
+
+    <cim:AsynchronousMachine.minimumTemp>20</cim:AsynchronousMachine.minimumTemp>
+
+    <cim:AsynchronousMachine.ratedP>300</cim:AsynchronousMachine.ratedP>
+
+    <cim:Equipment.EquipmentContainer rdf:resource="#Substation_1"/>
+
+    <cim:IdentifiedObject.description>AsynchronousMachine</cim:IdentifiedObject.description>
+
+    <cim:IdentifiedObject.mRID>AsyncM_2</cim:IdentifiedObject.mRID>
+
+    <cim:IdentifiedObject.name>AsyncM_2</cim:IdentifiedObject.name>
+
+  </cim:AsynchronousMachine>
+
+
+
+  <cim:Terminal rdf:ID="Terminal_112">
+
+    <cim:Terminal.ConductingEquipment rdf:resource="#AsyncM_2"/>
+
+    <cim:Terminal.ConnectivityNode rdf:resource="#CN_52"/>
+
+    <cim:IdentifiedObject.description>Terminal</cim:IdentifiedObject.description>
+
+    <cim:IdentifiedObject.mRID>Terminal_112</cim:IdentifiedObject.mRID>
+
+    <cim:IdentifiedObject.name>Terminal_112</cim:IdentifiedObject.name>
+
+  </cim:Terminal>
+
+
+
+  <!-- Discrete measurements -->
+
+
+
+  <cim:Discrete rdf:ID="Breaker_01Status">
+
+    <cim:Discrete.maxValue>1</cim:Discrete.maxValue>
+
+    <cim:Discrete.minValue>0</cim:Discrete.minValue>
+
+    <cim:Discrete.normalValue>0</cim:Discrete.normalValue>
+
+    <cim:Measurement.baseAddress>1</cim:Measurement.baseAddress>
+
+    <cim:Measurement.direction>ReadWrite</cim:Measurement.direction>
+
+    <cim:Measurement.measurementType>Status</cim:Measurement.measurementType>
+
+    <cim:Measurement.objectmRID>Breaker_01</cim:Measurement.objectmRID>
+
+    <cim:Measurement.PowerSystemResource rdf:resource="#Breaker_01"/>
+
+    <cim:Measurement.Terminals rdf:resource="#Terminal_01"/>
+
+    <cim:Measurement.timeStamp>TimeStamp</cim:Measurement.timeStamp>
+
+    <cim:IdentifiedObject.description>Discrete measurement</cim:IdentifiedObject.description>
+
+    <cim:IdentifiedObject.mRID>Breaker_01Status</cim:IdentifiedObject.mRID>
+
+    <cim:IdentifiedObject.name>Breaker_01Status</cim:IdentifiedObject.name>
+
+  </cim:Discrete>
+
+
+
+  <cim:Discrete rdf:ID="Breaker_12Status">
+
+    <cim:Discrete.maxValue>1</cim:Discrete.maxValue>
+
+    <cim:Discrete.minValue>0</cim:Discrete.minValue>
+
+    <cim:Discrete.normalValue>0</cim:Discrete.normalValue>
+
+    <cim:Measurement.baseAddress>4</cim:Measurement.baseAddress>
+
+    <cim:Measurement.direction>ReadWrite</cim:Measurement.direction>
+
+    <cim:Measurement.measurementType>Status</cim:Measurement.measurementType>
+
+    <cim:Measurement.objectmRID>Breaker_12</cim:Measurement.objectmRID>
+
+    <cim:Measurement.PowerSystemResource rdf:resource="#Breaker_12"/>
+
+    <cim:Measurement.Terminals rdf:resource="#Terminal_32"/>
+
+    <cim:Measurement.timeStamp>TimeStamp</cim:Measurement.timeStamp>
+
+    <cim:IdentifiedObject.description>Discrete measurement</cim:IdentifiedObject.description>
+
+    <cim:IdentifiedObject.mRID>Breaker_12Status</cim:IdentifiedObject.mRID>
+
+    <cim:IdentifiedObject.name>Breaker_12Status</cim:IdentifiedObject.name>
+
+  </cim:Discrete>
+
+
+  <cim:Discrete rdf:ID="Breaker_22Status">
+
+    <cim:Discrete.maxValue>1</cim:Discrete.maxValue>
+
+    <cim:Discrete.minValue>0</cim:Discrete.minValue>
+
+    <cim:Discrete.normalValue>0</cim:Discrete.normalValue>
+
+    <cim:Measurement.baseAddress>5</cim:Measurement.baseAddress>
+
+    <cim:Measurement.direction>ReadWrite</cim:Measurement.direction>
+
+    <cim:Measurement.measurementType>Status</cim:Measurement.measurementType>
+
+    <cim:Measurement.objectmRID>Breaker_22</cim:Measurement.objectmRID>
+
+    <cim:Measurement.PowerSystemResource rdf:resource="#Breaker_22"/>
+
+    <cim:Measurement.Terminals rdf:resource="#Terminal_92"/>
+
+    <cim:Measurement.timeStamp>TimeStamp</cim:Measurement.timeStamp>
+
+    <cim:IdentifiedObject.description>Discrete measurement</cim:IdentifiedObject.description>
+
+    <cim:IdentifiedObject.mRID>Breaker_22Status</cim:IdentifiedObject.mRID>
+
+    <cim:IdentifiedObject.name>Breaker_22Status</cim:IdentifiedObject.name>
+
+  </cim:Discrete>
+
+
+
+
+  <cim:Discrete rdf:ID="Discrete_Disc01">
+
+    <cim:Discrete.maxValue>1</cim:Discrete.maxValue>
+
+    <cim:Discrete.minValue>0</cim:Discrete.minValue>
+
+    <cim:Discrete.normalValue>0</cim:Discrete.normalValue>
+
+    <cim:Measurement.baseAddress>8</cim:Measurement.baseAddress>
+
+    <cim:Measurement.direction>ReadWrite</cim:Measurement.direction>
+
+    <cim:Measurement.measurementType>Status</cim:Measurement.measurementType>
+
+    <cim:Measurement.objectmRID>Disc_01</cim:Measurement.objectmRID>
+
+    <cim:Measurement.PowerSystemResource rdf:resource="#Disc_01"/>
+
+    <cim:Measurement.Terminals rdf:resource="#Terminal_02"/>
+
+    <cim:Measurement.timeStamp>TimeStamp</cim:Measurement.timeStamp>
+
+    <cim:IdentifiedObject.description>Discrete measurement</cim:IdentifiedObject.description>
+
+    <cim:IdentifiedObject.mRID>Discrete_Disc01</cim:IdentifiedObject.mRID>
+
+    <cim:IdentifiedObject.name>Discrete_Disc01</cim:IdentifiedObject.name>
+
+  </cim:Discrete>
+
+
+  <cim:Discrete rdf:ID="Discrete_Disc02">
+
+    <cim:Discrete.maxValue>1</cim:Discrete.maxValue>
+
+    <cim:Discrete.minValue>0</cim:Discrete.minValue>
+
+    <cim:Discrete.normalValue>0</cim:Discrete.normalValue>
+
+    <cim:Measurement.baseAddress>9</cim:Measurement.baseAddress>
+
+    <cim:Measurement.direction>ReadWrite</cim:Measurement.direction>
+
+    <cim:Measurement.measurementType>Status</cim:Measurement.measurementType>
+
+    <cim:Measurement.objectmRID>Disc_02</cim:Measurement.objectmRID>
+
+    <cim:Measurement.PowerSystemResource rdf:resource="#Disc_02"/>
+
+    <cim:Measurement.Terminals rdf:resource="#Terminal_06"/>
+
+    <cim:Measurement.timeStamp>TimeStamp</cim:Measurement.timeStamp>
+
+    <cim:IdentifiedObject.description>Discrete measurement</cim:IdentifiedObject.description>
+
+    <cim:IdentifiedObject.mRID>Discrete_Disc02</cim:IdentifiedObject.mRID>
+
+    <cim:IdentifiedObject.name>Discrete_Disc02</cim:IdentifiedObject.name>
+
+  </cim:Discrete>
+
+
+
+  <cim:Discrete rdf:ID="Discrete_Disc12">
+
+    <cim:Discrete.maxValue>1</cim:Discrete.maxValue>
+
+    <cim:Discrete.minValue>0</cim:Discrete.minValue>
+
+    <cim:Discrete.normalValue>0</cim:Discrete.normalValue>
+
+    <cim:Measurement.baseAddress>12</cim:Measurement.baseAddress>
+
+    <cim:Measurement.direction>ReadWrite</cim:Measurement.direction>
+
+    <cim:Measurement.measurementType>Status</cim:Measurement.measurementType>
+
+    <cim:Measurement.objectmRID>Disc_12</cim:Measurement.objectmRID>
+
+    <cim:Measurement.PowerSystemResource rdf:resource="#Disc_12"/>
+
+    <cim:Measurement.Terminals rdf:resource="#Terminal_12"/>
+
+    <cim:Measurement.timeStamp>TimeStamp</cim:Measurement.timeStamp>
+
+    <cim:IdentifiedObject.description>Discrete measurement</cim:IdentifiedObject.description>
+
+    <cim:IdentifiedObject.mRID>Discrete_Disc12</cim:IdentifiedObject.mRID>
+
+    <cim:IdentifiedObject.name>Discrete_Disc12</cim:IdentifiedObject.name>
+
+  </cim:Discrete>
+
+
+  <cim:Discrete rdf:ID="Discrete_Disc22">
+
+    <cim:Discrete.maxValue>1</cim:Discrete.maxValue>
+
+    <cim:Discrete.minValue>0</cim:Discrete.minValue>
+
+    <cim:Discrete.normalValue>0</cim:Discrete.normalValue>
+
+    <cim:Measurement.baseAddress>13</cim:Measurement.baseAddress>
+
+    <cim:Measurement.direction>ReadWrite</cim:Measurement.direction>
+
+    <cim:Measurement.measurementType>Status</cim:Measurement.measurementType>
+
+    <cim:Measurement.objectmRID>Disc_22</cim:Measurement.objectmRID>
+
+    <cim:Measurement.PowerSystemResource rdf:resource="#Disc_22"/>
+
+    <cim:Measurement.Terminals rdf:resource="#Terminal_52"/>
+
+    <cim:Measurement.timeStamp>TimeStamp</cim:Measurement.timeStamp>
+
+    <cim:IdentifiedObject.description>Discrete measurement</cim:IdentifiedObject.description>
+
+    <cim:IdentifiedObject.mRID>Discrete_Disc22</cim:IdentifiedObject.mRID>
+
+    <cim:IdentifiedObject.name>Discrete_Disc22</cim:IdentifiedObject.name>
+
+  </cim:Discrete>
+
+
+
+  <cim:Discrete rdf:ID="FullTank">
+
+    <cim:Discrete.maxValue>1</cim:Discrete.maxValue>
+
+    <cim:Discrete.minValue>0</cim:Discrete.minValue>
+
+    <cim:Discrete.normalValue>0</cim:Discrete.normalValue>
+
+    <cim:Measurement.baseAddress>16</cim:Measurement.baseAddress>
+
+    <cim:Measurement.direction>Read</cim:Measurement.direction>
+
+    <cim:Measurement.measurementType>Status</cim:Measurement.measurementType>
+
+    <cim:Measurement.objectmRID/>
+
+    <cim:Measurement.PowerSystemResource rdf:resource=""/>
+
+    <cim:Measurement.Terminals rdf:resource=""/>
+
+    <cim:Measurement.timeStamp>TimeStamp</cim:Measurement.timeStamp>
+
+    <cim:IdentifiedObject.description>Discrete measurement</cim:IdentifiedObject.description>
+
+    <cim:IdentifiedObject.mRID>FullTank</cim:IdentifiedObject.mRID>
+
+    <cim:IdentifiedObject.name>FullTank</cim:IdentifiedObject.name>
+
+  </cim:Discrete>
+
+
+  <cim:Discrete rdf:ID="EmptyTank">
+
+    <cim:Discrete.maxValue>1</cim:Discrete.maxValue>
+
+    <cim:Discrete.minValue>0</cim:Discrete.minValue>
+
+    <cim:Discrete.normalValue>0</cim:Discrete.normalValue>
+
+    <cim:Measurement.baseAddress>17</cim:Measurement.baseAddress>
+
+    <cim:Measurement.direction>Read</cim:Measurement.direction>
+
+    <cim:Measurement.measurementType>Status</cim:Measurement.measurementType>
+
+    <cim:Measurement.objectmRID/>
+
+    <cim:Measurement.PowerSystemResource rdf:resource=""/>
+
+    <cim:Measurement.Terminals rdf:resource=""/>
+
+    <cim:Measurement.timeStamp>TimeStamp</cim:Measurement.timeStamp>
+
+    <cim:IdentifiedObject.description>Discrete measurement</cim:IdentifiedObject.description>
+
+    <cim:IdentifiedObject.mRID>EmptyTank</cim:IdentifiedObject.mRID>
+
+    <cim:IdentifiedObject.name>EmptyTank</cim:IdentifiedObject.name>
+
+  </cim:Discrete>
+
+
+
+  <cim:Discrete rdf:ID="Discrete_Tap2">
+
+    <cim:Discrete.maxValue>5</cim:Discrete.maxValue>
+
+    <cim:Discrete.minValue>0</cim:Discrete.minValue>
+
+    <cim:Discrete.normalValue>1</cim:Discrete.normalValue>
+
+    <cim:Measurement.baseAddress>19</cim:Measurement.baseAddress>
+
+    <cim:Measurement.direction>ReadWrite</cim:Measurement.direction>
+
+    <cim:Measurement.measurementType>Discrete</cim:Measurement.measurementType>
+
+    <cim:Measurement.objectmRID>RatioTC_2</cim:Measurement.objectmRID>
+
+    <cim:Measurement.PowerSystemResource rdf:resource="#RatioTC_2"/>
+
+    <cim:Measurement.Terminals rdf:resource="#Terminal_82"/>
+
+    <cim:Measurement.timeStamp>TimeStamp</cim:Measurement.timeStamp>
+
+    <cim:IdentifiedObject.description>Discrete_Tap2</cim:IdentifiedObject.description>
+
+    <cim:IdentifiedObject.mRID>Discrete_Tap2</cim:IdentifiedObject.mRID>
+
+    <cim:IdentifiedObject.name>Discrete_Tap2</cim:IdentifiedObject.name>
+
+  </cim:Discrete>
+
+
+
+
+  <!-- Analog measurements -->
+
+
+
+  <cim:Analog rdf:ID="FluidLevel_Tank">
+
+    <cim:Analog.maxValue>100</cim:Analog.maxValue>
+
+    <cim:Analog.minValue>0</cim:Analog.minValue>
+
+    <cim:Analog.normalValue>10</cim:Analog.normalValue>
+
+    <cim:Measurement.baseAddress>1</cim:Measurement.baseAddress>
+
+    <cim:Measurement.direction>Read</cim:Measurement.direction>
+
+    <cim:Measurement.measurementType>FluidLevel</cim:Measurement.measurementType>
+
+    <cim:Measurement.objectmRID>NONE</cim:Measurement.objectmRID>
+
+    <cim:Measurement.PowerSystemResource rdf:resource="#Substation_1"/>
+
+    <cim:Measurement.Terminals rdf:resource=""/>
+
+    <cim:Measurement.timeStamp>TimeStamp</cim:Measurement.timeStamp>
+
+    <cim:IdentifiedObject.description>Level of fluid in tank</cim:IdentifiedObject.description>
+
+    <cim:IdentifiedObject.mRID>FluidLevel_Tank</cim:IdentifiedObject.mRID>
+
+    <cim:IdentifiedObject.name>FluidLevel_Tank</cim:IdentifiedObject.name>
+
+  </cim:Analog>
+
+
+  <cim:Analog rdf:ID="Temp_AM2">
+
+    <cim:Analog.maxValue>300</cim:Analog.maxValue>
+
+    <cim:Analog.minValue>20</cim:Analog.minValue>
+
+    <cim:Analog.normalValue>50</cim:Analog.normalValue>
+
+    <cim:Measurement.baseAddress>3</cim:Measurement.baseAddress>
+
+    <cim:Measurement.direction>Read</cim:Measurement.direction>
+
+    <cim:Measurement.measurementType>Temperature</cim:Measurement.measurementType>
+
+    <cim:Measurement.objectmRID>AsyncM_2</cim:Measurement.objectmRID>
+
+    <cim:Measurement.PowerSystemResource rdf:resource="#AsyncM_2"/>
+
+    <cim:Measurement.Terminals rdf:resource="#Terminal_112"/>
+
+    <cim:Measurement.timeStamp>TimeStamp</cim:Measurement.timeStamp>
+
+    <cim:IdentifiedObject.description>Temperature of AMachine2</cim:IdentifiedObject.description>
+
+    <cim:IdentifiedObject.mRID>Temp_AM2</cim:IdentifiedObject.mRID>
+
+    <cim:IdentifiedObject.name>Temp_AM2</cim:IdentifiedObject.name>
+
+  </cim:Analog>
+
+
+
+  <cim:Analog rdf:ID="Flow_AM2">
+
+    <cim:Analog.maxValue>100</cim:Analog.maxValue>
+
+    <cim:Analog.minValue>0</cim:Analog.minValue>
+
+    <cim:Analog.normalValue>50</cim:Analog.normalValue>
+
+    <cim:Measurement.baseAddress>6</cim:Measurement.baseAddress>
+
+    <cim:Measurement.direction>Read</cim:Measurement.direction>
+
+    <cim:Measurement.measurementType>Flow</cim:Measurement.measurementType>
+
+    <cim:Measurement.objectmRID>AsyncM_2</cim:Measurement.objectmRID>
+
+    <cim:Measurement.PowerSystemResource rdf:resource="#AsyncM_2"/>
+
+    <cim:Measurement.Terminals rdf:resource="#Terminal_112"/>
+
+    <cim:Measurement.timeStamp>TimeStamp</cim:Measurement.timeStamp>
+
+    <cim:IdentifiedObject.description>Flow of AMachine2</cim:IdentifiedObject.description>
+
+    <cim:IdentifiedObject.mRID>Flow_AM2</cim:IdentifiedObject.mRID>
+
+    <cim:IdentifiedObject.name>Flow_AM2</cim:IdentifiedObject.name>
+
+  </cim:Analog>
+
+
+  <cim:Analog rdf:ID="Voltage_Tap2">
+
+    <cim:Analog.maxValue>600</cim:Analog.maxValue>
+
+    <cim:Analog.minValue>0</cim:Analog.minValue>
+
+    <cim:Analog.normalValue>220</cim:Analog.normalValue>
+
+    <cim:Measurement.baseAddress>9</cim:Measurement.baseAddress>
+
+    <cim:Measurement.direction>Read</cim:Measurement.direction>
+
+    <cim:Measurement.measurementType>Voltage</cim:Measurement.measurementType>
+
+    <cim:Measurement.objectmRID>RatioTC_2</cim:Measurement.objectmRID>
+
+    <cim:Measurement.PowerSystemResource rdf:resource="#RatioTC_2"/>
+
+    <cim:Measurement.Terminals rdf:resource="#Terminal_82"/>
+
+    <cim:Measurement.timeStamp>TimeStamp</cim:Measurement.timeStamp>
+
+    <cim:IdentifiedObject.description>Voltage_Tap2</cim:IdentifiedObject.description>
+
+    <cim:IdentifiedObject.mRID>Voltage_Tap2</cim:IdentifiedObject.mRID>
+
+    <cim:IdentifiedObject.name>Voltage_Tap2</cim:IdentifiedObject.name>
+
+  </cim:Analog>
+
+
+
+  <cim:Analog rdf:ID="Current_Tap2">
+
+    <cim:Analog.maxValue>11</cim:Analog.maxValue>
+
+    <cim:Analog.minValue>0</cim:Analog.minValue>
+
+    <cim:Analog.normalValue>20</cim:Analog.normalValue>
+
+    <cim:Measurement.baseAddress>12</cim:Measurement.baseAddress>
+
+    <cim:Measurement.direction>Read</cim:Measurement.direction>
+
+    <cim:Measurement.measurementType>Current</cim:Measurement.measurementType>
+
+    <cim:Measurement.objectmRID>RatioTC_2</cim:Measurement.objectmRID>
+
+    <cim:Measurement.PowerSystemResource rdf:resource="#RatioTC_2"/>
+
+    <cim:Measurement.Terminals rdf:resource="#Terminal_82"/>
+
+    <cim:Measurement.timeStamp>TimeStamp</cim:Measurement.timeStamp>
+
+    <cim:IdentifiedObject.description>Current_Tap2</cim:IdentifiedObject.description>
+
+    <cim:IdentifiedObject.mRID>Current_Tap2</cim:IdentifiedObject.mRID>
+
+    <cim:IdentifiedObject.name>Current_Tap2</cim:IdentifiedObject.name>
+
+  </cim:Analog>
+
+
+</rdf:RDF>

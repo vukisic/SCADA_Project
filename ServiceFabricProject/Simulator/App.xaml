@@ -1,0 +1,45 @@
+﻿<Application x:Class="Simulator.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Simulator">
+    <Application.Resources>
+        <ResourceDictionary>
+            <Style x:Key="DataGridStyle" TargetType="DataGrid">
+                <Setter Property="Background" Value="#343a40"></Setter>
+                <Setter Property="Foreground" Value="White"></Setter>
+            </Style>
+            <Style x:Key="DataGridColumnStyle" TargetType="DataGridColumnHeader">
+                <Setter Property="Background" Value="#343a40"></Setter>
+                <Setter Property="Foreground" Value="White"></Setter>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            </Style>
+            <Style x:Key="DataGridCellStyle" TargetType="DataGridCell">
+                <Setter Property="Background" Value="#343a40"></Setter>
+                <Setter Property="Foreground" Value="White"></Setter>
+            </Style>
+            <Style x:Key="TextBlockStyle" TargetType="TextBlock">
+                <Setter Property="Background" Value="#343a40"></Setter>
+                <Setter Property="Foreground" Value="White"></Setter>
+            </Style>
+            <Style x:Key="ButtonStyle" TargetType="Button">
+                <Setter Property="Background" Value="#343a40"></Setter>
+                <Setter Property="Foreground" Value="White"></Setter>
+            </Style>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary>
+                    <local:Bootstrapper x:Key="Bootstrapper"/>
+
+                </ResourceDictionary>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Dark.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.DeepOrange.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
+                <!-- MahApps.Metro resource dictionaries. Make sure that all file names are Case Sensitive! -->
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Dark.Emerald.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+
+    </Application.Resources>
+</Application>

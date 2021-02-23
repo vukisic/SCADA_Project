@@ -1,0 +1,130 @@
+﻿<UserControl x:Class="GUI.Views.CEDataView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GUI.Views"
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             mc:Ignorable="d" Background="Black"
+             d:DesignHeight="700" d:DesignWidth="1200" >
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width=".1*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width=".1*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width=".1*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width=".1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height=".1*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height=".1*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height=".1*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height=".1*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height=".1*"/>
+            <RowDefinition Height=".2*"/>
+            <RowDefinition Height=".1*"/>
+        </Grid.RowDefinitions>
+        <lvc:CartesianChart x:Name="MyChart1" Series="{Binding IncomeSeries}" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="8" Grid.RowSpan="2" Background="MediumOrchid" >
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="Income" FontSize="13" Foreground="Black"></lvc:Axis>
+            </lvc:CartesianChart.AxisY>
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="Hour" Labels="{Binding Times}" FontSize="13" Foreground="Black"></lvc:Axis>
+            </lvc:CartesianChart.AxisX>
+            <lvc:CartesianChart.DataTooltip>
+                <lvc:DefaultTooltip Background="Black"/>
+            </lvc:CartesianChart.DataTooltip>
+        </lvc:CartesianChart>
+        <lvc:CartesianChart x:Name="MyChart2" Series="{Binding FluidLevelSeries}" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="8" Grid.RowSpan="2" Background="DarkSeaGreen" >
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="Fluid level" FontSize="13" Foreground="Black"></lvc:Axis>
+            </lvc:CartesianChart.AxisY>
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="Hour" Labels="{Binding Times}" FontSize="13" Foreground="Black"></lvc:Axis>
+            </lvc:CartesianChart.AxisX>
+            <lvc:CartesianChart.DataTooltip>
+                <lvc:DefaultTooltip Background="Black"/>
+            </lvc:CartesianChart.DataTooltip>
+        </lvc:CartesianChart>
+        <lvc:CartesianChart x:Name="MyChart3" Series="{Binding WorkingSeries1}" Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="2" Grid.RowSpan="2" Background="IndianRed">
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="Working time - pump 1" FontSize="13" Foreground="Black"></lvc:Axis>
+            </lvc:CartesianChart.AxisY>
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="Hour" Labels="{Binding Times}" FontSize="13" Foreground="Black"></lvc:Axis>
+            </lvc:CartesianChart.AxisX>
+            <lvc:CartesianChart.DataTooltip>
+                <lvc:DefaultTooltip Background="Black"/>
+            </lvc:CartesianChart.DataTooltip>
+        </lvc:CartesianChart>
+        <lvc:CartesianChart x:Name="MyChart4" Series="{Binding WorkingSeries2}" Grid.Column="4" Grid.Row="7" Grid.ColumnSpan="2" Grid.RowSpan="2" Background="IndianRed">
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="Working time - pump 2" FontSize="13" Foreground="Black"></lvc:Axis>
+            </lvc:CartesianChart.AxisY>
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="Hour" Labels="{Binding Times}" FontSize="13" Foreground="Black"></lvc:Axis>
+            </lvc:CartesianChart.AxisX>
+            <lvc:CartesianChart.DataTooltip>
+                <lvc:DefaultTooltip Background="Black"/>
+            </lvc:CartesianChart.DataTooltip>
+        </lvc:CartesianChart>
+        <lvc:CartesianChart x:Name="MyChart5" Series="{Binding WorkingSeries3}" Grid.Column="7" Grid.Row="7" Grid.ColumnSpan="2" Grid.RowSpan="2" Background="IndianRed">
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="Working time - pump 3" FontSize="13" Foreground="Black"></lvc:Axis>
+            </lvc:CartesianChart.AxisY>
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="Hour" Labels="{Binding Times}" FontSize="13" Foreground="Black"></lvc:Axis>
+            </lvc:CartesianChart.AxisX>
+            <lvc:CartesianChart.DataTooltip>
+                <lvc:DefaultTooltip Background="Black"/>
+            </lvc:CartesianChart.DataTooltip>
+        </lvc:CartesianChart>
+        <lvc:CartesianChart x:Name="MyChart6" Series="{Binding FlowSeries1}" Grid.Column="1" Grid.Row="10" Grid.ColumnSpan="2" Grid.RowSpan="2"  Background="CornflowerBlue">
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="Flow - pump 1" FontSize="13" Foreground="Black"></lvc:Axis>
+            </lvc:CartesianChart.AxisY>
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="Hour" Labels="{Binding Times}" FontSize="13" Foreground="Black"></lvc:Axis>
+            </lvc:CartesianChart.AxisX>
+            <lvc:CartesianChart.DataTooltip>
+                <lvc:DefaultTooltip Background="Black"/>
+            </lvc:CartesianChart.DataTooltip>
+        </lvc:CartesianChart>
+        <lvc:CartesianChart x:Name="MyChart7" Series="{Binding FlowSeries2}" Grid.Column="4" Grid.Row="10" Grid.ColumnSpan="2" Grid.RowSpan="2" Background="CornflowerBlue">
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="Flow - pump 2" FontSize="13" Foreground="Black"></lvc:Axis>
+            </lvc:CartesianChart.AxisY>
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="Hour" Labels="{Binding Times}" FontSize="13" Foreground="Black"></lvc:Axis>
+            </lvc:CartesianChart.AxisX>
+            <lvc:CartesianChart.DataTooltip>
+                <lvc:DefaultTooltip Background="Black"/>
+            </lvc:CartesianChart.DataTooltip>
+        </lvc:CartesianChart>
+        <lvc:CartesianChart x:Name="MyChart8" Series="{Binding FlowSeries3}" Grid.Column="7" Grid.Row="10" Grid.ColumnSpan="2" Grid.RowSpan="2" Background="CornflowerBlue">
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="Flow - pump 3" FontSize="13" Foreground="Black"></lvc:Axis>
+            </lvc:CartesianChart.AxisY>
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="Hour" Labels="{Binding Times}" FontSize="13" Foreground="Black"></lvc:Axis>
+            </lvc:CartesianChart.AxisX>
+            <lvc:CartesianChart.DataTooltip>
+                <lvc:DefaultTooltip Background="Black"/>
+            </lvc:CartesianChart.DataTooltip>
+        </lvc:CartesianChart>
+        <TextBlock Text="{Binding UpdateTime, StringFormat=Update time: {0}}" VerticalAlignment="Center" Foreground="White" Grid.Row="13" Grid.Column="1" Grid.ColumnSpan="2"></TextBlock>
+    </Grid>
+</UserControl>

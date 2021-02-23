@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{6E79FCA4-42E3-4D2F-B4A3-28E691BF04C3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SCADA.Common</RootNamespace>
+    <AssemblyName>SCADA.Common</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.12.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.12\lib\net45\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Connection\FunctionExecutor.cs" />
+    <Compile Include="Connection\IConnection.cs" />
+    <Compile Include="Connection\IFunctionExecutor.cs" />
+    <Compile Include="Connection\TCPConnection.cs" />
+    <Compile Include="ConversionResult.cs" />
+    <Compile Include="CrcCalculator.cs" />
+    <Compile Include="DataModel\AnalogPoint.cs" />
+    <Compile Include="DataModel\BasePoint.cs" />
+    <Compile Include="DataModel\CeCommand.cs" />
+    <Compile Include="DataModel\DiscretePoint.cs" />
+    <Compile Include="DataModel\Enums.cs" />
+    <Compile Include="DataModel\Extensions.cs" />
+    <Compile Include="DataModel\IScadaPointDto.cs" />
+    <Compile Include="DataModel\Mapper.cs" />
+    <Compile Include="DataModel\ScadaPointDto.cs" />
+    <Compile Include="DataModel\SwitchingEquipment.cs" />
+    <Compile Include="Logging\LogEventModel.cs" />
+    <Compile Include="Logging\LogEventType.cs" />
+    <Compile Include="Logging\LogHelper.cs" />
+    <Compile Include="Messaging\DNP3Function.cs" />
+    <Compile Include="Messaging\DNP3FunctionFactory.cs" />
+    <Compile Include="Messaging\IDNP3Function.cs" />
+    <Compile Include="Messaging\MessageHeaderBuilder.cs" />
+    <Compile Include="Messaging\Messages\Confirm.cs" />
+    <Compile Include="Messaging\Messages\MessagesHelper.cs" />
+    <Compile Include="Messaging\Messages\ReadClass0.cs" />
+    <Compile Include="Messaging\Messages\Read.cs" />
+    <Compile Include="Messaging\Messages\Unsolicited.cs" />
+    <Compile Include="Messaging\Messages\WriteAnalogOutput.cs" />
+    <Compile Include="Messaging\Messages\WriteDiscreteOutput.cs" />
+    <Compile Include="Messaging\Parameters\DNP3CommandParameters.cs" />
+    <Compile Include="Messaging\Parameters\DNP3ConfirmCommandParamters.cs" />
+    <Compile Include="Messaging\Parameters\DNP3ReadClass0CommandParameters.cs" />
+    <Compile Include="Messaging\Parameters\DNP3ReadCommandParameters.cs" />
+    <Compile Include="Messaging\Parameters\DNP3WriteCommandParameters.cs" />
+    <Compile Include="Migrations\202101251217330_Init.cs" />
+    <Compile Include="Migrations\202101251217330_Init.designer.cs">
+      <DependentUpon>202101251217330_Init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\DomDbModel.cs" />
+    <Compile Include="Models\HistoryDbModel.cs" />
+    <Compile Include="Models\PointDbModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Proxies\AlarmKruncingProxy.cs" />
+    <Compile Include="Proxies\DOMProxy.cs" />
+    <Compile Include="Proxies\HistoryProxy.cs" />
+    <Compile Include="Proxies\LoggingProxy.cs" />
+    <Compile Include="Proxies\ScadaProxyFactory.cs" />
+    <Compile Include="ScadaDb\Access\ScadaDbContext.cs" />
+    <Compile Include="ScadaDb\Access\ScadaDbInitializer.cs" />
+    <Compile Include="ScadaDb\Providers\DomRepository.cs" />
+    <Compile Include="ScadaDb\Providers\HistoryRepository.cs" />
+    <Compile Include="ScadaDb\Providers\ReplicationRepository.cs" />
+    <Compile Include="ScadaDb\Repositories\IDomRepository.cs" />
+    <Compile Include="ScadaDb\Repositories\IHistoryRepository.cs" />
+    <Compile Include="ScadaDb\Repositories\IReplicationRepository.cs" />
+    <Compile Include="ScadaDb\Utils\ReplicationConverter.cs" />
+    <Compile Include="ScadaModelConverter.cs" />
+    <Compile Include="ScadaServices\Common\IAlarmKruncing.cs" />
+    <Compile Include="ScadaServices\Common\IDom.cs" />
+    <Compile Include="ScadaServices\Common\IHistory.cs" />
+    <Compile Include="ScadaServices\Common\ILogging.cs" />
+    <Compile Include="ScadaServices\Common\IScadaExport.cs" />
+    <Compile Include="ScadaServices\Common\IScadaStorage.cs" />
+    <Compile Include="ScadaServices\Providers\AlarmKruncingProvider.cs" />
+    <Compile Include="ScadaServices\Providers\DOMProvider.cs" />
+    <Compile Include="ScadaServices\Providers\HistoryProvider.cs" />
+    <Compile Include="ScadaServices\Providers\LoggingProvider.cs" />
+    <Compile Include="ScadaServices\Providers\ScadaExport.cs" />
+    <Compile Include="ScadaServices\Providers\ScadaStorageProvider.cs" />
+    <Compile Include="Proxies\ScadaStorageProxy.cs" />
+    <Compile Include="ScadaServices\Services\AlarmingKruncingHost.cs" />
+    <Compile Include="ScadaServices\Services\DOMHost.cs" />
+    <Compile Include="ScadaServices\Services\HistoryHost.cs" />
+    <Compile Include="ScadaServices\Services\LoggingHost.cs" />
+    <Compile Include="ScadaServices\Services\ScadaExportService.cs" />
+    <Compile Include="ScadaServices\Services\ScadaStorageService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{892cbe15-9ed7-4540-81fa-0eaaba592138}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NetworkModelService\DataModel\DataModel.csproj">
+      <Project>{ade96497-7c11-40b6-ae82-57f956c9f104}</Project>
+      <Name>DataModel</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202101251217330_Init.resx">
+      <DependentUpon>202101251217330_Init.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
+  </Target>
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
+</Project>
