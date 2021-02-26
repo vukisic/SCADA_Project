@@ -27,8 +27,12 @@ namespace SCADA.Common.ScadaDb.Providers
 
         public void Set(List<BasePoint> points)
         {
-            _context.Database.ExecuteSqlCommand("TRUNCATE TABLE PointDbModels");
-            _context.SaveChanges();
+            using(var ctx = new ScadaDbContext())
+            {
+                ctx.Database.ExecuteSqlCommand("TRUNCATE TABLE PointDbModels");
+                ctx.SaveChanges();
+            }
+            _context = new ScadaDbContext();
             var converter = new ReplicationConverter();
             var convertedPoints = converter.ConvertForDb(points);
             foreach (var item in convertedPoints)

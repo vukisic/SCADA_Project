@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -12,7 +14,9 @@ namespace SCADA.Common.Models
     [DataContract]
     public class PointDbModel
     {
+        [Key]
         [DataMember]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
         [DataMember]
         public ClassType ClassType { get; set; }

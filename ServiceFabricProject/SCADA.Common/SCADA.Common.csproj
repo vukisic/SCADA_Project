@@ -24,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -97,6 +98,18 @@
     <Compile Include="Migrations\202101251217330_Init.designer.cs">
       <DependentUpon>202101251217330_Init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202102252211528_Key.cs" />
+    <Compile Include="Migrations\202102252211528_Key.designer.cs">
+      <DependentUpon>202102252211528_Key.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202102252223096_Key2.cs" />
+    <Compile Include="Migrations\202102252223096_Key2.designer.cs">
+      <DependentUpon>202102252223096_Key2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202102252304293_Key3.cs" />
+    <Compile Include="Migrations\202102252304293_Key3.designer.cs">
+      <DependentUpon>202102252304293_Key3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DomDbModel.cs" />
     <Compile Include="Models\HistoryDbModel.cs" />
@@ -154,6 +167,15 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202101251217330_Init.resx">
       <DependentUpon>202101251217330_Init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202102252211528_Key.resx">
+      <DependentUpon>202102252211528_Key.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202102252223096_Key2.resx">
+      <DependentUpon>202102252223096_Key2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202102252304293_Key3.resx">
+      <DependentUpon>202102252304293_Key3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
