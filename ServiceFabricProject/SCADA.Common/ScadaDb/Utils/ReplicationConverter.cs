@@ -62,6 +62,7 @@ namespace SCADA.Common.ScadaDb.Utils
         public List<PointDbModel> ConvertForDb(List<BasePoint> points)
         {
             var list = new List<PointDbModel>();
+            int counter = 0;
             foreach (var item in points)
             {
                 if(item.RegisterType == RegisterType.ANALOG_INPUT || item.RegisterType == RegisterType.ANALOG_OUTPUT)
@@ -69,6 +70,7 @@ namespace SCADA.Common.ScadaDb.Utils
                     var analogPoint = item as AnalogPoint;
                     var point = new PointDbModel()
                     {
+                        Id = counter,
                         Alarm = analogPoint.Alarm,
                         ClassType = analogPoint.ClassType,
                         Direction = analogPoint.Direction,
@@ -90,6 +92,7 @@ namespace SCADA.Common.ScadaDb.Utils
                     var discretePoint = item as DiscretePoint;
                     var point = new PointDbModel()
                     {
+                        Id = counter,
                         Alarm = discretePoint.Alarm,
                         ClassType = discretePoint.ClassType,
                         Direction = discretePoint.Direction,
@@ -106,6 +109,7 @@ namespace SCADA.Common.ScadaDb.Utils
                     };
                     list.Add(point);
                 }
+                ++counter;
             }
 
             return list;
