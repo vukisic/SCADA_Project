@@ -17,6 +17,26 @@ SCADA Master Project
   - `NDS`
 - Build and Run
 
+# Getting started (Cloud) - `InProgress`
+## Requirements
+- Visual Studio 2019
+- Azure Storage Simulator
+- Service Fabric
+## Setup
+- Open up solution in `Visual Studio`
+- Start Storage Emulator (Storage Emulator must be up and running)
+- Start Service Fabric (Up and running & connected)
+- Double click on ServiceFabric icon in Nofification area in taskbar (should open new tab in browser with Service Fabric Explorer)
+- Build and Run Solution
+- Service Fabric Explorer should look like this if everything is ok
+
+![sfe](https://raw.githubusercontent.com/vukisic/SCADA_Project/main/docs/sfe.png)
+
+- Visual Studio Output should look like this if everiting is ok
+
+![sfevl](https://raw.githubusercontent.com/vukisic/SCADA_Project/main/docs/sfev.png)
+
+
 # NServiceBus Licence
 - Go to Solution -> Resources
 - Open CMD in that folder
