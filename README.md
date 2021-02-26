@@ -22,6 +22,9 @@ SCADA Master Project
 - Visual Studio 2019
 - Azure Storage Simulator
 - Service Fabric
+
+`If you have any problems related to Azure SQL, contact Vuk Isic`
+
 ## Setup
 - Open up solution in `Visual Studio`
 - Start Storage Emulator (Storage Emulator must be up and running)
