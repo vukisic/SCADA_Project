@@ -43,7 +43,7 @@ namespace FTN.ESI.SIMES.CIM.CIMAdapter
 
 			if ((delta != null) && (delta.NumberOfOperations != 0))
 			{
-                _networkModelServiceProxy = new NetworkModelServiceProxy(new System.ServiceModel.EndpointAddress("net.tcp://localhost:22330/NetworkModelServiceSF"));
+                _networkModelServiceProxy = new NetworkModelServiceProxy();
                 updateResult = _networkModelServiceProxy.ApplyDelta(delta).ToString();
                 _networkModelServiceProxy = null;
 			}

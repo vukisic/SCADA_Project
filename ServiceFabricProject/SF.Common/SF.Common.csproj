@@ -120,6 +120,7 @@
     <Compile Include="Proxies\HistoryServiceProxy.cs" />
     <Compile Include="Proxies\NetworkModelServiceProxy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Proxies\NetworkModelServiceTransactionProxy.cs" />
     <Compile Include="Proxies\ScadaStorageProxy.cs" />
     <Compile Include="Proxies\WeatherServiceProxy.cs" />
     <Compile Include="WCFClient.cs" />
