@@ -38,34 +38,41 @@ namespace Test
             //}).GetAwaiter().GetResult();
             //proxy.GetAll().GetAwaiter().GetResult().ForEach(x => Console.WriteLine(x.Mrid));
             /* --- ScadaStorageService --- */
-            ScadaStorageProxy proxy = new ScadaStorageProxy();
-            var dict = GetScadaModel();
-            proxy.SetModel(dict).GetAwaiter().GetResult();
-            var m1 = proxy.GetModel().GetAwaiter().GetResult();
-            PrintScadaModel(m1);
-            proxy.UpdateModelValue(GetScadaModel(true)).GetAwaiter().GetResult();
-            var m2 = proxy.GetModel().GetAwaiter().GetResult();
-            PrintScadaModel(m2);
+            //ScadaStorageProxy proxy = new ScadaStorageProxy();
+            //var dict = GetScadaModel();
+            //proxy.SetModel(dict).GetAwaiter().GetResult();
+            //var m1 = proxy.GetModel().GetAwaiter().GetResult();
+            //PrintScadaModel(m1);
+            //proxy.UpdateModelValue(GetScadaModel(true)).GetAwaiter().GetResult();
+            //var m2 = proxy.GetModel().GetAwaiter().GetResult();
+            //PrintScadaModel(m2);
 
-            Console.WriteLine("DOM\n\n");
-            proxy.SetDomModel(new List<SwitchingEquipment> { new SwitchingEquipment() { Mrid = "SW1", ManipulationConut = 5 } }).GetAwaiter().GetResult();
-            proxy.GetDomModel().GetAwaiter().GetResult().ForEach(x => Console.WriteLine($"{x.Mrid} - {x.ManipulationConut}"));
+            //Console.WriteLine("DOM\n\n");
+            //proxy.SetDomModel(new List<SwitchingEquipment> { new SwitchingEquipment() { Mrid = "SW1", ManipulationConut = 5 } }).GetAwaiter().GetResult();
+            //proxy.GetDomModel().GetAwaiter().GetResult().ForEach(x => Console.WriteLine($"{x.Mrid} - {x.ManipulationConut}"));
 
-            Console.WriteLine("CIM\n");
-            Dictionary<DMSType, Container> dr = new Dictionary<DMSType, Container>();
-            dr[DMSType.BREAKER] = new Container();
-            dr[DMSType.DISCRETE] = new Container();
+            //Console.WriteLine("CIM\n");
+            //Dictionary<DMSType, Container> dr = new Dictionary<DMSType, Container>();
+            //dr[DMSType.BREAKER] = new Container();
+            //dr[DMSType.DISCRETE] = new Container();
 
-            proxy.SetCimModel(dr).GetAwaiter().GetResult();
-            var cim = proxy.GetCimModel().GetAwaiter().GetResult();
-            foreach (var item in cim)
-            {
-                Console.WriteLine($"{item.Key}");
-            }
+            //proxy.SetCimModel(dr).GetAwaiter().GetResult();
+            //var cim = proxy.GetCimModel().GetAwaiter().GetResult();
+            //foreach (var item in cim)
+            //{
+            //    Console.WriteLine($"{item.Key}");
+            //}
 
-            Console.WriteLine();
-            var single = proxy.GetSingle(RegisterType.ANALOG_OUTPUT, 1).GetAwaiter().GetResult();
-            Console.WriteLine($"SINGLE {single.Mrid}");
+            //Console.WriteLine();
+            //var single = proxy.GetSingle(RegisterType.ANALOG_OUTPUT, 1).GetAwaiter().GetResult();
+            //Console.WriteLine($"SINGLE {single.Mrid}");
+
+            NetworkModelServiceTransactionProxy nmsProxy = new NetworkModelServiceTransactionProxy();
+            nmsProxy.Rollback().GetAwaiter().GetResult();
+
+            Console.WriteLine("\n\nALL DONE\n\n");
+
+
             Console.ReadLine();
         }
 

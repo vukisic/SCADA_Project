@@ -22,7 +22,6 @@ namespace FTN.Services.NetworkModelService
         private ModelResourcesDesc resourcesDescs;
         private string _tableName = "Delta";
         private AzureStorage storage;
-        public static EventHandler<string> eventHandler;
         private IReliableStateManager _manager;
         #endregion
         public NetworkModel(IReliableStateManager stateManager)
@@ -33,7 +32,6 @@ namespace FTN.Services.NetworkModelService
             resourcesDescs = new ModelResourcesDesc();
             storage = new AzureStorage(_tableName, false);
             GidHelper = new Dictionary<long, long>();
-            eventHandler = new EventHandler<string>(HandleEvent);
             GetDictionaries().GetAwaiter().GetResult();
             Initialize();
         }
@@ -88,17 +86,6 @@ namespace FTN.Services.NetworkModelService
             }
             catch { }
             
-        }
-
-        private void HandleEvent(object sender, string e)
-        {
-            switch (e.ToLower())
-            {
-                case "prepare": Prepare(); break;
-                case "commit": Commit(); break;
-                case "rollback": Rollback(); break;
-                default: break;
-            }
         }
 
         #region Find
@@ -505,23 +492,24 @@ namespace FTN.Services.NetworkModelService
         #endregion
 
         #region ITransactionSteps
-        public bool Prepare()
+        public Task<bool> Prepare()
         {
             Console.WriteLine("NMS Prepare");
-            return true;
+            return Task.FromResult<bool>(true);
         }
 
-        public bool Commit()
+        public Task<bool> Commit()
         {
             Console.WriteLine("NMS Commit");
             MergeModelsFinal();
-            return true;
+            return Task.FromResult<bool>(true);
         }
 
-        public void Rollback()
+        public Task Rollback()
         {
             Console.WriteLine("NMS Rollback");
             RestoreModel();
+            return Task.CompletedTask;
         }
         #endregion
     }

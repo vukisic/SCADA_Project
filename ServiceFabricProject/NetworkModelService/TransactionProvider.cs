@@ -13,7 +13,7 @@ namespace FTN.Services.NetworkModelService
         {
             try
             {
-                NetworkModel.eventHandler?.Invoke(this, "Commit");
+                //NetworkModel.eventHandler?.Invoke(this, "Commit");
                 return true;
             }
             catch (Exception e)
@@ -27,7 +27,7 @@ namespace FTN.Services.NetworkModelService
         {
             try
             {
-                NetworkModel.eventHandler?.Invoke(this, "Prepare");
+                //NetworkModel.eventHandler?.Invoke(this, "Prepare");
                 return true;
             }
             catch (Exception e)
@@ -38,14 +38,7 @@ namespace FTN.Services.NetworkModelService
 
         public void Rollback()
         {
-            try
-            {
-                NetworkModel.eventHandler?.Invoke(this, "Rollback");
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
+            
         }
     }
 }

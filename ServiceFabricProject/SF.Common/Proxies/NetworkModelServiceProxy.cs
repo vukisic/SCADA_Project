@@ -15,7 +15,7 @@ namespace SF.Common.Proxies
 {
     public class NetworkModelServiceProxy : ClientBase<INetworkModelService>
     {
-        public NetworkModelServiceProxy(EndpointAddress address):base(new NetTcpBinding(SecurityMode.None), address)
+        public NetworkModelServiceProxy():base(new NetTcpBinding(SecurityMode.None), new EndpointAddress("net.tcp://localhost:22330/NetworkModelServiceSF"))
         {
 
         }
