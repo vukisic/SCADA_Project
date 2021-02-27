@@ -17,10 +17,11 @@ namespace NetworkModelServiceSF
     {
         public static NetworkModel _networkModel;
         private IReliableStateManager _stateManager;
-        public NetworkModelServiceProvider(IReliableStateManager stateManager)
+        private StatefulServiceContext _context;
+        public NetworkModelServiceProvider(IReliableStateManager stateManager, StatefulServiceContext context)
         {
             _stateManager = stateManager;
-           // _networkModel = new NetworkModel(_stateManager);
+            _context = context;
         }
 
         public Task<UpdateResult> ApplyDelta(Delta delta)

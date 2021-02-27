@@ -14,17 +14,15 @@ namespace NetworkModelServiceSF
         private StatefulServiceContext _context;
         public static NetworkModel _networkModel;
 
-        public NetworkModelServiceTransactionProvider(StatefulServiceContext context, NetworkModel networkModel)
+        public NetworkModelServiceTransactionProvider(StatefulServiceContext context)
         {
             _context = context;
-            _networkModel = networkModel;
         }
 
         public Task<bool> Commit()
         {
             try
             {
-                //NetworkModel.eventHandler?.Invoke(this, "Commit");
                 return _networkModel.Commit();
             }
             catch (Exception e)
@@ -37,7 +35,6 @@ namespace NetworkModelServiceSF
         {
             try
             {
-                //NetworkModel.eventHandler?.Invoke(this, "Commit");
                 return _networkModel.Prepare();
             }
             catch (Exception e)
@@ -50,7 +47,6 @@ namespace NetworkModelServiceSF
         {
             try
             {
-                //NetworkModel.eventHandler?.Invoke(this, "Commit");
                 return _networkModel.Rollback();
             }
             catch (Exception e)

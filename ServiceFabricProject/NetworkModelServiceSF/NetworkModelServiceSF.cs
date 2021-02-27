@@ -36,7 +36,7 @@ namespace NetworkModelServiceSF
                     string scheme = endpointConfig.Protocol.ToString();
                     string uri = string.Format(CultureInfo.InvariantCulture, "{0}://{1}:{2}/NetworkModelServiceSF", "net.tcp", host, port);
                     var listener = new WcfCommunicationListener<INetworkModelService>(
-                        wcfServiceObject: new NetworkModelServiceProvider(this.StateManager),
+                        wcfServiceObject: new NetworkModelServiceProvider(this.StateManager, this.Context),
                         serviceContext: context,
                         listenerBinding: new NetTcpBinding(SecurityMode.None),
                         address: new EndpointAddress(uri)
@@ -52,7 +52,7 @@ namespace NetworkModelServiceSF
                     string scheme = endpointConfig.Protocol.ToString();
                     string uri = string.Format(CultureInfo.InvariantCulture, "{0}://{1}:{2}/NetworkModelServiceSF", "net.tcp", host, port);
                     var listener = new WcfCommunicationListener<ITransactionStepsAsync>(
-                        wcfServiceObject: new NetworkModelServiceTransactionProvider(this.Context, this._networkModel),
+                        wcfServiceObject: new NetworkModelServiceTransactionProvider(this.Context),
                         serviceContext: context,
                         listenerBinding: new NetTcpBinding(SecurityMode.None),
                         address: new EndpointAddress(uri)
