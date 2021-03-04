@@ -32,6 +32,7 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CEService\CEService.csproj" />
     <ProjectReference Include="..\DomService\DomService.csproj" />
     <ProjectReference Include="..\HistoryService\HistoryService.csproj" />
     <ProjectReference Include="..\NetworkModelServiceSF\NetworkModelServiceSF.csproj" />

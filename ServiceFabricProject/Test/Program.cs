@@ -67,9 +67,13 @@ namespace Test
             //var single = proxy.GetSingle(RegisterType.ANALOG_OUTPUT, 1).GetAwaiter().GetResult();
             //Console.WriteLine($"SINGLE {single.Mrid}");
 
-            NetworkModelServiceTransactionProxy nmsProxy = new NetworkModelServiceTransactionProxy();
-            nmsProxy.Rollback().GetAwaiter().GetResult();
-
+            /*NetworkModelServiceTransactionProxy nmsProxy = new NetworkModelServiceTransactionProxy();
+            nmsProxy.Rollback().GetAwaiter().GetResult();*/
+            Console.WriteLine("CEEE");
+            CEModelProxy nmsProxy = new CEModelProxy();
+            Dictionary<DMSType, Container> pom = new Dictionary<DMSType, Container>();
+            pom[DMSType.ANALOG] = new Container() { Entities = new Dictionary<long, FTN.Services.NetworkModelService.DataModel.Core.IdentifiedObject>() };
+            nmsProxy.ModelUpdate(pom).GetAwaiter().GetResult();
             Console.WriteLine("\n\nALL DONE\n\n");
 
 
