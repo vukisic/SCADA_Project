@@ -18,11 +18,11 @@ namespace CE
     {
         private IFitnessFunction algorithm;
         private Thread _worker;
-        public EventHandler<int> _updateEvent = delegate { };
         private bool pointUpdateOccures;
         private bool endFlag;
         private int points = 0;
         private WeatherAPI weatherAPI;
+        public int TPoints = 0;
         private IEndpointInstance endpoint;
         private static bool skip = false;
 
@@ -30,7 +30,6 @@ namespace CE
 
         public CEWorker()
         {
-            _updateEvent += OnPointUpdate;
             endpoint = ServiceBusStartup.StartInstance("CE").GetAwaiter().GetResult();
         }
 
@@ -320,12 +319,12 @@ namespace CE
             Stop();
         }
 
-        private void OnPointUpdate(object sender, int e)
+        public void OnPointUpdate(int tPoints)
         {
             pointUpdateOccures = true;
             if (points > 0)
                 skip = true;
-            points = e;
+            points = tPoints;
             Stop();
             OffSequence();
             Start();

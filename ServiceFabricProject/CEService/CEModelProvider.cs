@@ -4,6 +4,7 @@ using System.Fabric;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CE;
 using CE.Common;
 using Core.Common.Contracts;
 using FTN.Common;
@@ -14,6 +15,9 @@ namespace CEService
     public class CEModelProvider : IModelUpdateAsync
     {
         private StatelessServiceContext _context;
+
+        public static CEWorker cEWorker;
+
         public CEModelProvider(StatelessServiceContext context)
         {
             _context = context;
@@ -22,16 +26,19 @@ namespace CEService
         public Task<bool> ModelUpdate(Dictionary<DMSType, Container> model)
         {
             Console.WriteLine("New update request!");
-            //dobio si model, javi se TM-u da ucestvujes u transakciji
             EnList();
-            CeDataBase.Model = model;
-
+            cEWorker.TPoints = GetPointsCount(model);
             return Task.FromResult<bool>(true);
         }
         public void EnList()
         {
             /*TransactionManagerProxy proxyForTM = new TransactionManagerProxy();
             proxyForTM.Enlist();*/
+        }
+
+        private int GetPointsCount(Dictionary<DMSType, Container> collection)
+        {
+            return collection[DMSType.ASYNCHRONOUSMACHINE] == null ? 0 : collection[DMSType.ASYNCHRONOUSMACHINE].Count;
         }
     }
 }

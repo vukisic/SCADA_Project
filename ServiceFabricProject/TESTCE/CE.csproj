@@ -49,7 +49,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CEServiceInvoker.cs" />
     <Compile Include="CEWorker.cs" />
     <Compile Include="Data\CeForecast.cs" />
     <Compile Include="Data\CeForecastResult.cs" />
@@ -70,10 +69,6 @@
     <ProjectReference Include="..\CE.Common\CE.Common.csproj">
       <Project>{b440de64-0b7c-490b-afb7-8f4bfa249afc}</Project>
       <Name>CE.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CETransaction\CETransaction.csproj">
-      <Project>{AB741CE2-D3AE-4B84-9B78-580304CACD8A}</Project>
-      <Name>CETransaction</Name>
     </ProjectReference>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{892cbe15-9ed7-4540-81fa-0eaaba592138}</Project>

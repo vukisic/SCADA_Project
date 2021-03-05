@@ -4,14 +4,15 @@ using System.Fabric;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CE;
 using CE.Common;
-using CETransaction;
 using Core.Common.Contracts;
 
 namespace CEService
 {
     public class CETransactionProvider : ITransactionStepsAsync
     {
+        public static CEWorker cEWorker;
         private StatelessServiceContext _context;
 
         public CETransactionProvider(StatelessServiceContext context)
@@ -22,7 +23,7 @@ namespace CEService
         public Task<bool> Commit()
         {
             Console.WriteLine("Commited? YES");
-            CEServer._pointUpdate.Invoke(this, CeDataBase.Model);
+            cEWorker.OnPointUpdate(cEWorker.TPoints);
             return Task.FromResult<bool>(true);
         }
 

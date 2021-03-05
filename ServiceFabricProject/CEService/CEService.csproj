@@ -124,10 +124,6 @@
       <Project>{b440de64-0b7c-490b-afb7-8f4bfa249afc}</Project>
       <Name>CE.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CETransaction\CETransaction.csproj">
-      <Project>{ab741ce2-d3ae-4b84-9b78-580304cacd8a}</Project>
-      <Name>CETransaction</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{892cbe15-9ed7-4540-81fa-0eaaba592138}</Project>
       <Name>Common</Name>
@@ -139,6 +135,10 @@
     <ProjectReference Include="..\NetworkModelService\DataModel\DataModel.csproj">
       <Project>{ade96497-7c11-40b6-ae82-57f956c9f104}</Project>
       <Name>DataModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TESTCE\CE.csproj">
+      <Project>{eadb9b49-06a9-4cf1-b7d2-28be829d1556}</Project>
+      <Name>CE</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
