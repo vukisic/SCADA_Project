@@ -8,9 +8,9 @@ using Newtonsoft.Json;
 
 namespace Core.Common.WeatherApi
 {
-    public class WeatherAPI
+    public class WeatherServiceProxy
     {
-        public WeatherAPI() { }
+        public WeatherServiceProxy() { }
         public List<double> GetResultsForNext6Hours()
         {
             List<double> results = new List<double>();

@@ -56,7 +56,7 @@ namespace Simulator.Core
         private bool colding2Pump = false;
         private bool colding3Pump = false;
         private int hourIndex = 0;
-        private WeatherAPI WA;
+        private WeatherServiceProxy WA;
         private float FullTank;
         private float EmptyTank;
         private float HeatingConst;
@@ -83,7 +83,7 @@ namespace Simulator.Core
             ColdingConst = float.Parse(ConfigurationManager.AppSettings["ColdingConst"]);
             ConstPumpFlow = float.Parse(ConfigurationManager.AppSettings["ConstPumpFlow"]);
             TankSurface = float.Parse(ConfigurationManager.AppSettings["TankSurface"]);
-            WA = new WeatherAPI();
+            WA = new WeatherServiceProxy();
             hours = WA.GetResultsForNext6Hours();
             db = new dnp3_protocol.dnp3types.sDNPServerDatabase();
             secondsCount = 3600;

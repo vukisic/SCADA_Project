@@ -21,7 +21,7 @@ namespace CE
         private bool pointUpdateOccures;
         private bool endFlag;
         private int points = 0;
-        private WeatherAPI weatherAPI;
+        private WeatherServiceProxy weatherAPI;
         public int TPoints = 0;
         private IEndpointInstance endpoint;
         private static bool skip = false;
@@ -30,7 +30,7 @@ namespace CE
 
         public CEWorker()
         {
-            endpoint = ServiceBusStartup.StartInstance("CE").GetAwaiter().GetResult();
+            //endpoint = ServiceBusStartup.StartInstance("CE").GetAwaiter().GetResult();
         }
 
         public void Start()
@@ -38,7 +38,7 @@ namespace CE
             _worker = new Thread(DoWork);
             endFlag = true;
             _worker.Name = "CE Worker";
-            weatherAPI = new WeatherAPI();
+            weatherAPI = new WeatherServiceProxy();
             _worker.Start();
         }
 

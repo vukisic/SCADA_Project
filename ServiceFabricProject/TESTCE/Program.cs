@@ -9,12 +9,7 @@ namespace CE
             Console.Title = "CE";
             Console.WriteLine("CE started working..");
 
-            CEServiceInvoker serviceInvoker = new CEServiceInvoker();
-            serviceInvoker.Start();
-
             Console.ReadLine();
-
-            serviceInvoker.Stop();
         }
     }
 }
