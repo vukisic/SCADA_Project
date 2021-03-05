@@ -38,7 +38,8 @@ namespace CEService
 
         private int GetPointsCount(Dictionary<DMSType, Container> collection)
         {
-
+            if (!collection.ContainsKey(DMSType.ASYNCHRONOUSMACHINE))
+                return 0;
             return collection[DMSType.ASYNCHRONOUSMACHINE] == null ? 0 : collection[DMSType.ASYNCHRONOUSMACHINE].Count;
         }
     }
