@@ -120,6 +120,7 @@
     <Compile Include="Proxies\CETransactionProxy.cs" />
     <Compile Include="Proxies\DomServiceProxy.cs" />
     <Compile Include="Proxies\HistoryServiceProxy.cs" />
+    <Compile Include="Proxies\ScadaExportProxy.cs" />
     <Compile Include="Proxies\SimulatorProxy.cs" />
     <Compile Include="Proxies\NetworkModelServiceProxy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -69,13 +69,23 @@ namespace Test
 
             /*NetworkModelServiceTransactionProxy nmsProxy = new NetworkModelServiceTransactionProxy();
             nmsProxy.Rollback().GetAwaiter().GetResult();*/
-            Console.WriteLine("CEEE");
-            CEModelProxy nmsProxy = new CEModelProxy();
-            Dictionary<DMSType, Container> pom = new Dictionary<DMSType, Container>();
-            pom[DMSType.ANALOG] = new Container() { Entities = new Dictionary<long, FTN.Services.NetworkModelService.DataModel.Core.IdentifiedObject>() };
-            nmsProxy.ModelUpdate(pom).GetAwaiter().GetResult();
-            Console.WriteLine("\n\nALL DONE\n\n");
+            //Console.WriteLine("CEEE");
+            //CEModelProxy nmsProxy = new CEModelProxy();
+            //Dictionary<DMSType, Container> pom = new Dictionary<DMSType, Container>();
+            //pom[DMSType.ANALOG] = new Container() { Entities = new Dictionary<long, FTN.Services.NetworkModelService.DataModel.Core.IdentifiedObject>() };
+            //nmsProxy.ModelUpdate(pom).GetAwaiter().GetResult();
+            //Console.WriteLine("\n\nALL DONE\n\n");
 
+            Console.WriteLine("Scada Model");
+            ScadaStorageProxy proxy = new ScadaStorageProxy();
+            var m1 = proxy.GetModel().GetAwaiter().GetResult();
+            PrintScadaModel(m1);
+
+            Console.WriteLine("Scada Export Proxy");
+            ScadaExportProxy exportProxy = new ScadaExportProxy();
+            var m2 = exportProxy.GetData().GetAwaiter().GetResult();
+            m2.Values.ToList().ForEach(x => Console.WriteLine($"{x.Mrid}"));
+            
 
             Console.ReadLine();
         }
