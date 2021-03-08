@@ -36,6 +36,7 @@
     <ProjectReference Include="..\DomService\DomService.csproj" />
     <ProjectReference Include="..\HistoryService\HistoryService.csproj" />
     <ProjectReference Include="..\NetworkModelServiceSF\NetworkModelServiceSF.csproj" />
+    <ProjectReference Include="..\ScadaExportService\ScadaExportService.csproj" />
     <ProjectReference Include="..\ScadaStorageService\ScadaStorageService.csproj" />
     <ProjectReference Include="..\WeatherForecast\WeatherForecast.csproj" />
   </ItemGroup>
