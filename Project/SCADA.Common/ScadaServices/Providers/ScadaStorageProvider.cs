@@ -22,6 +22,7 @@ namespace SCADA.Common.ScadaServices.Providers
         public static Dictionary<Tuple<RegisterType, int>, BasePoint> TransactionModel { get; set; }
         public static Dictionary<DMSType, Container> CimModel { get; set; }
         public static List<SwitchingEquipment> Dom { get; set; }
+        public HistoryProvider historian = new HistoryProvider();
 
         public Dictionary<DMSType, Container> GetCimModel()
         {
@@ -91,13 +92,24 @@ namespace SCADA.Common.ScadaServices.Providers
                 case RegisterType.BINARY_INPUT:
                 case RegisterType.BINARY_OUTPUT:
                     {
-                        ((DiscretePoint)Model[keyValuePair.Key]).Value = (keyValuePair.Value as DiscretePoint).Value;
+                        
+                        if (((DiscretePoint)Model[keyValuePair.Key]).Value != (keyValuePair.Value as DiscretePoint).Value)
+                        {
+                            ((DiscretePoint)Model[keyValuePair.Key]).Value = (keyValuePair.Value as DiscretePoint).Value;
+                            historian.Add((Model[keyValuePair.Key] as DiscretePoint).ToHistoryDbModel());
+                        }
+                        
                         break;
                     }
                 case RegisterType.ANALOG_INPUT:
                 case RegisterType.ANALOG_OUTPUT:
                     {
-                        ((AnalogPoint)Model[keyValuePair.Key]).Value = (keyValuePair.Value as AnalogPoint).Value;
+                        if(((AnalogPoint)Model[keyValuePair.Key]).Value != (keyValuePair.Value as AnalogPoint).Value)
+                        {
+                            ((AnalogPoint)Model[keyValuePair.Key]).Value = (keyValuePair.Value as AnalogPoint).Value;
+                            historian.Add((Model[keyValuePair.Key] as AnalogPoint).ToHistoryDbModel());
+                        }
+                        
                         break;
                     }
             }

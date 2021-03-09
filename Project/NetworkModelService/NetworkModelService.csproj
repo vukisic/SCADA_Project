@@ -98,6 +98,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AffectedEntities.cs" />
     <Compile Include="DeltaDB\DeltaDBContext.cs" />
     <Compile Include="DeltaDB\DeltaDBInitializer.cs" />
     <Compile Include="DeltaDB\DeltaDBModel.cs" />
@@ -114,7 +115,6 @@
     <Compile Include="NetworkModelService.cs" />
     <Compile Include="NMSServiceBus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="GDA\ResourceIterator.cs" />
     <Compile Include="TransactionProvider.cs" />
   </ItemGroup>
   <ItemGroup>
