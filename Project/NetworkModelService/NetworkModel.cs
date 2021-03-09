@@ -16,30 +16,13 @@ namespace FTN.Services.NetworkModelService
 {
     public class NetworkModel
     {
-        /// <summary>
-        /// Dictionaru which contains all data: Key - DMSType, Value - Container
-        /// </summary>
         private Dictionary<DMSType, Container> networkDataModel;
-
-        /// <summary>
-        /// Dictionaru which contains all data: Key - DMSType, Value - Container => Copy
-        /// </summary>
         private Dictionary<DMSType, Container> networkDataModelCopy;
-
         private Dictionary<long, long> GidHelper;
-
-        /// <summary>
-        /// ModelResourceDesc class contains metadata of the model
-        /// </summary>
         private ModelResourcesDesc resourcesDescs;
-
         private IDeltaDBRepository repo;
-
         public static EventHandler<string> eventHandler;
 
-        /// <summary>
-        /// Initializes a new instance of the Model class.
-        /// </summary>
         public NetworkModel()
         {
             networkDataModel = new Dictionary<DMSType, Container>();
@@ -97,12 +80,11 @@ namespace FTN.Services.NetworkModelService
             }
         }
 
+        public DMSType GetDMSType(long globalId)
+        {
+            return (DMSType)ModelCodeHelper.ExtractTypeFromGlobalId(globalId);
+        }
 
-        /// <summary>
-        /// Checks if container exists in model.
-        /// </summary>
-        /// <param name="type">Type of container.</param>
-        /// <returns>True if container exists, otherwise FALSE.</returns>
         private bool ContainerExists(DMSType type)
         {
             if (networkDataModelCopy.ContainsKey(type))
@@ -113,11 +95,6 @@ namespace FTN.Services.NetworkModelService
             return false;
         }
 
-        /// <summary>
-        /// Gets container of specified type.
-        /// </summary>
-        /// <param name="type">Type of container.</param>
-        /// <returns>Container for specified local id</returns>
         private Container GetContainer(DMSType type)
         {
             if (ContainerExists(type))
@@ -134,127 +111,22 @@ namespace FTN.Services.NetworkModelService
 
         #endregion Find
 
-        #region GDA query
-
-        /// <summary>
-        /// Gets resource description for entity requested by globalId.
-        /// </summary>
-        /// <param name="globalId">Id of the entity</param>
-        /// <param name="properties">List of requested properties</param>		
-        /// <returns>Resource description of the specified entity</returns>
-        public ResourceDescription GetValues(long globalId, List<ModelCode> properties)
+        public IdentifiedObject GetValue(long globalId)
         {
-            CommonTrace.WriteTrace(CommonTrace.TraceVerbose, string.Format("Getting values for GID = 0x{0:x16}.", globalId));
-
-            try
-            {
-                IdentifiedObject io = GetEntity(globalId);
-
-                ResourceDescription rd = new ResourceDescription(globalId);
-
-                Property property = null;
-
-                // insert specified properties
-                foreach (ModelCode propId in properties)
-                {
-                    property = new Property(propId);
-                    io.GetProperty(property);
-                    rd.AddProperty(property);
-                }
-
-                CommonTrace.WriteTrace(CommonTrace.TraceVerbose, string.Format("Getting values for GID = 0x{0:x16} succedded.", globalId));
-
-                return rd;
-            }
-            catch (Exception ex)
-            {
-                string message = string.Format("Failed to get values for entity with GID = 0x{0:x16}. {1}", globalId, ex.Message);
-                throw new Exception(message);
-            }
+            return GetEntity(globalId);
         }
 
-        /// <summary>
-        /// Gets resource iterator that holds descriptions for all entities of the specified type.
-        /// </summary>		
-        /// <param name="type">Type of entity that is requested</param>
-        /// <param name="properties">List of requested properties</param>		
-        /// <returns>Resource iterator for the requested entities</returns>
-        public ResourceIterator GetExtentValues(ModelCode entityType, List<ModelCode> properties)
+        public List<IdentifiedObject> GetValues(List<long> globalIds)
         {
-            CommonTrace.WriteTrace(CommonTrace.TraceVerbose, "Getting extent values for entity type = {0} .", entityType);
-
-            try
+            var results = new List<IdentifiedObject>();
+            foreach (var item in globalIds)
             {
-                List<long> globalIds = new List<long>();
-                Dictionary<DMSType, List<ModelCode>> class2PropertyIDs = new Dictionary<DMSType, List<ModelCode>>();
-
-                DMSType entityDmsType = ModelCodeHelper.GetTypeFromModelCode(entityType);
-
-                if (ContainerExists(entityDmsType))
-                {
-                    Container container = GetContainer(entityDmsType);
-                    globalIds = container.GetEntitiesGlobalIds();
-                    class2PropertyIDs.Add(entityDmsType, properties);
-                }
-
-                ResourceIterator ri = new ResourceIterator(globalIds, class2PropertyIDs);
-
-                CommonTrace.WriteTrace(CommonTrace.TraceVerbose, "Getting extent values for entity type = {0} succedded.", entityType);
-
-                return ri;
+                var entity = GetEntity(item);
+                if (entity != null)
+                    results.Add(entity);
             }
-            catch (Exception ex)
-            {
-                string message = string.Format("Failed to get extent values for entity type = {0}. {1}", entityType, ex.Message);
-                throw new Exception(message);
-            }
+            return results;
         }
-
-        /// <summary>
-        /// Gets resource iterator that holds descriptions for all entities related to specified source.
-        /// </summary>
-        /// <param name="contextId">Context Id</param>
-        /// <param name="properties">List of requested properties</param>
-        /// <param name="association">Relation between source and entities that should be returned</param>
-        /// <param name="source">Id of entity that is start for association search</param>
-        /// <param name="typeOfQuery">Query type choice(global or local)</param>
-        /// <returns>Resource iterator for the requested entities</returns>
-        public ResourceIterator GetRelatedValues(long source, List<ModelCode> properties, Association association)
-        {
-            CommonTrace.WriteTrace(CommonTrace.TraceVerbose, string.Format("Getting related values for source = 0x{0:x16}.", source));
-
-            try
-            {
-                List<long> relatedGids = ApplyAssocioationOnSource(source, association);
-
-
-                Dictionary<DMSType, List<ModelCode>> class2PropertyIDs = new Dictionary<DMSType, List<ModelCode>>();
-
-                foreach (long relatedGid in relatedGids)
-                {
-                    DMSType entityDmsType = (DMSType)ModelCodeHelper.ExtractTypeFromGlobalId(relatedGid);
-
-                    if (!class2PropertyIDs.ContainsKey(entityDmsType))
-                    {
-                        class2PropertyIDs.Add(entityDmsType, properties);
-                    }
-                }
-
-                ResourceIterator ri = new ResourceIterator(relatedGids, class2PropertyIDs);
-
-                CommonTrace.WriteTrace(CommonTrace.TraceVerbose, string.Format("Getting related values for source = 0x{0:x16} succeeded.", source));
-
-                return ri;
-            }
-            catch (Exception ex)
-            {
-                string message = string.Format("Failed to get related values for source GID = 0x{0:x16}. {1}.", source, ex.Message);
-                CommonTrace.WriteTrace(CommonTrace.TraceError, message);
-                throw new Exception(message);
-            }
-        }
-
-        #endregion GDA query	
 
         public UpdateResult ApplyDelta(Delta delta)
         {
@@ -333,11 +205,7 @@ namespace FTN.Services.NetworkModelService
 
             return updateResult;
         }
-
-        /// <summary>
-        /// Inserts entity into the network model.
-        /// </summary>
-        /// <param name="rd">Description of the resource that should be inserted</param>        
+     
 		private void InsertEntity(ResourceDescription rd, out ResourceDescription newRd)
         {
             newRd = rd;
@@ -446,12 +314,7 @@ namespace FTN.Services.NetworkModelService
             }
         }
 
-
-        #region Update&DeleteMethods
-        /// <summary>
-        /// Updates entity in block model.
-        /// </summary>
-        /// <param name="rd">Description of the resource that should be updated</param>		
+        #region Update&DeleteMethods		
         private void UpdateEntity(ResourceDescription rd)
         {
             if (rd == null || rd.Properties == null && rd.Properties.Count == 0)
@@ -523,10 +386,6 @@ namespace FTN.Services.NetworkModelService
             }
         }
 
-        /// <summary>
-        /// Deletes resource from the netowrk model.
-        /// </summary>
-        /// <param name="rd">Description of the resource that should be deleted</param>		
         private void DeleteEntity(ResourceDescription rd)
         {
             if (rd == null)
@@ -618,88 +477,6 @@ namespace FTN.Services.NetworkModelService
             }
         }
         #endregion
-        /// <summary>
-        /// Returns related gids with source according to the association 
-        /// </summary>
-        /// <param name="source">source id</param>		
-        /// <param name="association">desinition of association</param>
-        /// <returns>related gids</returns>
-        private List<long> ApplyAssocioationOnSource(long source, Association association)
-        {
-            List<long> relatedGids = new List<long>();
-
-            if (association == null)
-            {
-                association = new Association();
-            }
-
-            IdentifiedObject io = GetEntity(source);
-
-            if (!io.HasProperty(association.PropertyId))
-            {
-                throw new Exception(string.Format("Entity with GID = 0x{0:x16} does not contain prperty with Id = {1}.", source, association.PropertyId));
-            }
-
-            Property propertyRef = null;
-            if (Property.GetPropertyType(association.PropertyId) == PropertyType.Reference)
-            {
-                propertyRef = io.GetProperty(association.PropertyId);
-                long relatedGidFromProperty = propertyRef.AsReference();
-
-                if (relatedGidFromProperty != 0)
-                {
-                    if (association.Type == 0 || (short)ModelCodeHelper.GetTypeFromModelCode(association.Type) == ModelCodeHelper.ExtractTypeFromGlobalId(relatedGidFromProperty))
-                    {
-                        relatedGids.Add(relatedGidFromProperty);
-                    }
-                }
-            }
-            else if (Property.GetPropertyType(association.PropertyId) == PropertyType.ReferenceVector)
-            {
-                propertyRef = io.GetProperty(association.PropertyId);
-                List<long> relatedGidsFromProperty = propertyRef.AsReferences();
-
-                if (relatedGidsFromProperty != null)
-                {
-                    foreach (long relatedGidFromProperty in relatedGidsFromProperty)
-                    {
-                        if (association.Type == 0 || (short)ModelCodeHelper.GetTypeFromModelCode(association.Type) == ModelCodeHelper.ExtractTypeFromGlobalId(relatedGidFromProperty))
-                        {
-                            relatedGids.Add(relatedGidFromProperty);
-                        }
-                    }
-                }
-            }
-            else
-            {
-                throw new Exception(string.Format("Association propertyId = {0} is not reference or reference vector type.", association.PropertyId));
-            }
-
-            return relatedGids;
-        }
-
-        /// <summary>
-        /// Writes delta to log
-        /// </summary>
-        /// <param name="delta">delta instance which will be logged</param>
-        public static void TraceDelta(Delta delta)
-        {
-            try
-            {
-                StringWriter stringWriter = new StringWriter();
-                XmlTextWriter xmlWriter = new XmlTextWriter(stringWriter);
-                xmlWriter.Formatting = Formatting.Indented;
-                delta.ExportToXml(xmlWriter);
-                xmlWriter.Flush();
-                CommonTrace.WriteTrace(CommonTrace.TraceInfo, stringWriter.ToString());
-                xmlWriter.Close();
-                stringWriter.Close();
-            }
-            catch (Exception ex)
-            {
-                CommonTrace.WriteTrace(CommonTrace.TraceError, "Failed to trace delta with ID = {0}. Reason: {1}", delta.Id, ex.Message);
-            }
-        }
 
         private void Initialize()
         {
@@ -863,6 +640,20 @@ namespace FTN.Services.NetworkModelService
             }
             return false;
 
+        }
+
+        private bool CompareResourceDescriptions(ResourceDescription rd1, ResourceDescription rd2)
+        {
+            foreach (var prop in rd1.Properties )
+            {
+                var rd2prop = rd2.GetProperty(prop.Id);
+                if(rd2prop != null)
+                {
+                    if (!rd2prop.PropertyValue.Equals(prop.PropertyValue))
+                        return true;
+                }
+            }
+            return false;
         }
 
         private int GetAllCounters(Dictionary<short, int> counters)

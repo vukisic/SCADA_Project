@@ -15,11 +15,9 @@ namespace NDS.ProcessingModule
     {
         private IProcessingManager processingManager;
         private Thread acquisitionWorker;
-        private HistoryProxy historian;
         private LoggingProxy log;
         private int acquisitionInterval;
         private int seconds;
-        private int historyInterval;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Acquisitor"/> class.
@@ -30,12 +28,9 @@ namespace NDS.ProcessingModule
 		public Acquisitor(IProcessingManager processingManager)
         {
             this.processingManager = processingManager;
-            historian = ScadaProxyFactory.Instance().HistoryProxy();
             log = ScadaProxyFactory.Instance().LoggingProxy();
             if (!Int32.TryParse(ConfigurationManager.AppSettings["AcquisitionInterval"], out acquisitionInterval))
                 acquisitionInterval = 1000;
-            if (!Int32.TryParse(ConfigurationManager.AppSettings["HistoryInterval"], out historyInterval))
-                acquisitionInterval = 30;
             seconds = 0;
             this.InitializeAcquisitionThread();
             this.StartAcquisitionThread();
@@ -71,8 +66,6 @@ namespace NDS.ProcessingModule
                 {
                     Thread.Sleep(acquisitionInterval);
                     processingManager.ExecuteReadClass0Command();
-                    if (++seconds == historyInterval)
-                        UpdateHistory();
                 }
             }
             catch (Exception ex)
@@ -81,25 +74,6 @@ namespace NDS.ProcessingModule
                 log.Log(new SCADA.Common.Logging.LogEventModel() { EventType = SCADA.Common.Logging.LogEventType.ERROR, Message = message });
             }
         }
-
-        private void UpdateHistory()
-        {
-            var points = ScadaProxyFactory.Instance().ScadaStorageProxy().GetModel();
-            var history = new List<HistoryDbModel>();
-            foreach (var item in points.Values)
-            {
-                if(item.RegisterType == RegisterType.ANALOG_INPUT || item.RegisterType == RegisterType.ANALOG_OUTPUT)
-                {
-                    history.Add((item as AnalogPoint).ToHistoryDbModel());
-                }
-                else
-                {
-                    history.Add((item as DiscretePoint).ToHistoryDbModel());
-                }
-            }
-            historian.AddRange(history);
-        }
-
         #endregion Private Methods
 
         /// <inheritdoc />

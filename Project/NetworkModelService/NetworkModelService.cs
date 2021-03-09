@@ -21,7 +21,6 @@ namespace FTN.Services.NetworkModelService
 		{			
 			nm = new NetworkModel();			
 			GenericDataAccess.NetworkModel = nm;
-            ResourceIterator.NetworkModel = nm;
 			InitializeHosts();
 		}
 	
