@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ServiceModel;
+using FTN.Services.NetworkModelService;
 
 namespace TMContracts
 {
@@ -13,7 +14,7 @@ namespace TMContracts
             proxy = channelFactory.CreateChannel();
         }
 
-        public bool ModelUpdate(Dictionary<FTN.Common.DMSType, FTN.Services.NetworkModelService.Container> model)
+        public bool ModelUpdate(AffectedEntities model)
         {
             return proxy.ModelUpdate(model);
         }

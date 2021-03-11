@@ -30,7 +30,12 @@ namespace SCADATransaction
             ushort biCount = (ushort)(model.Values.Where(x => x.RegisterType == SCADA.Common.DataModel.RegisterType.BINARY_INPUT).Count());
             ushort boCount = (ushort)(model.Values.Where(x => x.RegisterType == SCADA.Common.DataModel.RegisterType.BINARY_OUTPUT).Count());
 
-            proxy.UpdateConfig(Tuple.Create<ushort, ushort, ushort, ushort>(biCount,boCount,aiCount,aoCount), pairs);
+            try
+            {
+                proxy.UpdateConfig(Tuple.Create<ushort, ushort, ushort, ushort>(biCount, boCount, aiCount, aoCount), pairs);
+            }
+            catch (Exception) { }
+            
         }
     }
 }

@@ -13,21 +13,23 @@ using TMContracts;
 namespace FTN.Services.NetworkModelService
 {
 	public class NetworkModelService : IDisposable
-	{				
+	{
 		private NetworkModel nm = null;
 		private List<ServiceHost> hosts = null;
 
 		public NetworkModelService()
 		{			
-			nm = new NetworkModel();			
-			GenericDataAccess.NetworkModel = nm;
 			InitializeHosts();
-		}
+           
+        }
 	
 		public void Start()
 		{
-			StartHosts();			
-		}
+			StartHosts();
+            nm = new NetworkModel();
+            GenericDataAccess.NetworkModel = nm;
+            nm.Initialize();
+        }
 
 		public void Dispose()
 		{

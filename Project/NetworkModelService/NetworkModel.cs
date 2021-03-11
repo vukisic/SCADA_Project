@@ -22,6 +22,7 @@ namespace FTN.Services.NetworkModelService
         private ModelResourcesDesc resourcesDescs;
         private IDeltaDBRepository repo;
         public static EventHandler<string> eventHandler;
+        private AffectedEntities affectedEntities;
 
         public NetworkModel()
         {
@@ -31,7 +32,7 @@ namespace FTN.Services.NetworkModelService
             repo = new DeltaDBRepository();
             GidHelper = new Dictionary<long, long>();
             eventHandler = new EventHandler<string>(HandleEvent);
-            Initialize();
+            //Initialize();
         }
 
         private void HandleEvent(object sender, string e)
@@ -135,6 +136,7 @@ namespace FTN.Services.NetworkModelService
             UpdateResult updateResult = new UpdateResult();
             Delta newDelta = new Delta();
             GetShallowCopyModel();
+            affectedEntities = new AffectedEntities();
             try
             {
                 CommonTrace.WriteTrace(CommonTrace.TraceInfo, "Applying  delta to network model.");
@@ -259,6 +261,10 @@ namespace FTN.Services.NetworkModelService
                 // create entity and add it to container
                 IdentifiedObject io = container.CreateEntity(globalId);
 
+                // --------------------------------------------------
+                affectedEntities.Add(globalId, DeltaOpType.Insert);
+                // --------------------------------------------------
+
                 // apply properties on created entity
                 if (rd.Properties != null)
                 {
@@ -337,6 +343,10 @@ namespace FTN.Services.NetworkModelService
                 }
 
                 IdentifiedObject io = GetEntity(globalId);
+                
+                // --------------------------------------------------
+                affectedEntities.Add(globalId, DeltaOpType.Update);
+                // --------------------------------------------------
 
                 // updating properties of entity
                 foreach (Property property in rd.Properties)
@@ -466,7 +476,11 @@ namespace FTN.Services.NetworkModelService
                 DMSType type = (DMSType)ModelCodeHelper.ExtractTypeFromGlobalId(globalId);
                 Container container = GetContainer(type);
                 container.RemoveEntity(globalId);
-
+                
+                // --------------------------------------------------
+                affectedEntities.Add(globalId, DeltaOpType.Delete);
+                // --------------------------------------------------
+                
                 CommonTrace.WriteTrace(CommonTrace.TraceVerbose, "Deleting entity with GID ({0:x16}) successfully finished.", globalId);
             }
             catch (Exception ex)
@@ -478,10 +492,10 @@ namespace FTN.Services.NetworkModelService
         }
         #endregion
 
-        private void Initialize()
+        public void Initialize()
         {
             List<Delta> result = ReadAllDeltas();
-
+            affectedEntities = new AffectedEntities();
             if (result.Count <= 0)
             {
                 return;
@@ -541,10 +555,10 @@ namespace FTN.Services.NetworkModelService
             NMSCalculationEngineProxy proxyForCE = new NMSCalculationEngineProxy();
 
             bool success = false;
-            if (proxyForScada.ModelUpdate(networkDataModelCopy))
+            if (proxyForScada.ModelUpdate(affectedEntities))
                 success = true;
 
-            if (proxyForCE.ModelUpdate(networkDataModelCopy))
+            if (proxyForCE.ModelUpdate(affectedEntities))
                 success = true;
 
             proxyForTM.EndEnlist(success);
