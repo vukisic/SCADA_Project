@@ -53,15 +53,23 @@
             <ColumnDefinition Width="3*" />
             <ColumnDefinition Width="2*" />
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
         <!-- Tree -->
-        <TreeView Grid.Column="0"
+        <TreeView Grid.Column="0" Grid.Row="0" Grid.RowSpan="6"
                   Background="{DynamicResource MaterialDesignPaper}"
                   ItemContainerStyle="{StaticResource GraphStyle}"
                   ItemsSource="{Binding Nodes}" />
-
+        
         <!-- Transformer measurement gauges -->
-        <ScrollViewer Grid.Column="1">
+        <ScrollViewer Grid.Column="1" Grid.Row="0" Grid.RowSpan="5">
             <ItemsControl Name="TransformerMeasurements"
                           ItemsSource="{Binding Transformers}">
                 <ItemsControl.ItemsPanel>
@@ -106,7 +114,8 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollViewer>
+        <TextBlock Grid.Column="1" Grid.Row="6" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="2" Width="Auto" Text="{Binding Level}"/>
 
-      
+
     </Grid>
 </UserControl>
