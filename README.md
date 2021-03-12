@@ -8,6 +8,7 @@ SCADA Master Project
 - Solution -> Properties -> Multiple StartUp Projects Configuration
 - Set target to x86 for all projects (not AnyCPU)
 - Set the following order and foreach set `Start` option
+  - `ProjectWebApi`
   - `Simulator`
   - `GUI`
   - `NetworkModelServiceSelfHost`
