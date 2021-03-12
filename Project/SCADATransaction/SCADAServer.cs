@@ -104,7 +104,7 @@ namespace SCADATransaction
                 instace.Publish(ev).ConfigureAwait(false).GetAwaiter().GetResult();
                 instace.Publish(dom).ConfigureAwait(false).GetAwaiter().GetResult();
             }
-            catch (Exception ex) { }
+            catch (Exception) { }
         }
     }
 }

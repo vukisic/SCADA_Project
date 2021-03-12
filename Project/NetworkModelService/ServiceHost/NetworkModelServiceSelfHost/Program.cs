@@ -17,21 +17,23 @@ namespace FTN.Services.NetworkModelService
             Console.Title = "NMS";
 			try
 			{
-				string message = "Starting Network Model Serivice...";
-				CommonTrace.WriteTrace(CommonTrace.TraceInfo, message);
-				Console.WriteLine("\n{0}\n", message);
+                string message = "Starting Network Model Serivice...";
+                CommonTrace.WriteTrace(CommonTrace.TraceInfo, message);
+                Console.WriteLine("\n{0}\n", message);
                 var serviceHost = new ServiceHost(typeof(TransactionProvider));
                 serviceHost.AddServiceEndpoint(typeof(ITransactionSteps), new NetTcpBinding(), new Uri("net.tcp://localhost:4001/ITransactionSteps"));
                 serviceHost.Open();
+                
                 using (NetworkModelService nms = new NetworkModelService())
-				{					
-					nms.Start();
-
-					message = "Press <Enter> to stop the service.";
-					CommonTrace.WriteTrace(CommonTrace.TraceInfo, message);
-					Console.WriteLine(message);
-					Console.ReadLine();
-				}
+                {
+                    nms.Start();
+                    message = "Press <Enter> to stop the service.";
+                    CommonTrace.WriteTrace(CommonTrace.TraceInfo, message);
+                    Console.WriteLine(message);
+                    Console.ReadLine();
+                }
+               
+               
 			}
 			catch (Exception ex)
 			{

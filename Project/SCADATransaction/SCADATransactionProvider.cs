@@ -21,6 +21,7 @@ namespace SCADATransaction
             result = converter.Convert(proxy.GetCimModel());
             proxy.SetTransactionModel(result.Points);
             proxy.SetDomModel(result.Equipment.Values.ToList());
+            var temp = proxy.GetTransactionModel();
             return true;
         }
 

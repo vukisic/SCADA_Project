@@ -98,7 +98,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AffectedEntities.cs" />
     <Compile Include="DeltaDB\DeltaDBContext.cs" />
     <Compile Include="DeltaDB\DeltaDBInitializer.cs" />
     <Compile Include="DeltaDB\DeltaDBModel.cs" />

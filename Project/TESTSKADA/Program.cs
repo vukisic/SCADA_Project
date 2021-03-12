@@ -39,16 +39,20 @@ namespace NDS
                 .ConfigureAwait(false);
 
             SCADAServer.instace = endpoint;
+            
             ScadaStorageService storage = new ScadaStorageService();
             storage.Open();
-            AlarmingKruncingHost ak = new AlarmingKruncingHost();
-            ak.Open();
 
+            SCADAServer scada = new SCADAServer();
+            scada.OpenTransaction();
+            scada.OpenModel();
             DOMHost dom = new DOMHost();
             dom.Open();
 
             HistoryHost historyHost = new HistoryHost();
             historyHost.Open();
+            AlarmingKruncingHost ak = new AlarmingKruncingHost();
+            ak.Open();
 
             ScadaExportService scadaExportService = new ScadaExportService();
             scadaExportService.Open();
@@ -56,10 +60,7 @@ namespace NDS
             Console.WriteLine("Services are working..");
             logger.Log(new SCADA.Common.Logging.LogEventModel() { EventType = SCADA.Common.Logging.LogEventType.INFO, Message = "SCADA Services Started!" });
 
-            SCADAServer scada = new SCADAServer();
-            
-            scada.OpenModel();
-            scada.OpenTransaction();
+           
 
             GuiDBUpdater updater = new GuiDBUpdater(endpoint);
             updater.Start();
