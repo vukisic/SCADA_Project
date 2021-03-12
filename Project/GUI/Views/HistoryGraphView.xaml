@@ -1,0 +1,83 @@
+﻿<UserControl x:Class="GUI.Views.HistoryGraphView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GUI.Views"
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextElement.FontWeight="Regular"
+             TextElement.FontSize="13"
+             TextOptions.TextFormattingMode="Ideal"
+             TextOptions.TextRenderingMode="Auto"
+             Background="{DynamicResource MaterialDesignPaper}"
+             FontFamily="{DynamicResource MaterialDesignFont}"
+             mc:Ignorable="d"
+             d:DesignHeight="700" d:DesignWidth="1200">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <lvc:CartesianChart x:Name="MyChart1" Series="{Binding Pump1Y}" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="1" Background="#70A288" Foreground="White" >
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="Pump1 Flow" FontSize="12" Foreground="#031D44"></lvc:Axis>
+            </lvc:CartesianChart.AxisY>
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="Time" Labels="{Binding Pump1X}" FontSize="13" Foreground="#031D44"></lvc:Axis>
+            </lvc:CartesianChart.AxisX>
+            <lvc:CartesianChart.DataTooltip>
+                <lvc:DefaultTooltip Background="#031D44"/>
+            </lvc:CartesianChart.DataTooltip>
+        </lvc:CartesianChart>
+
+        <lvc:CartesianChart x:Name="MyChart2" Series="{Binding Pump2Y}" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" Grid.RowSpan="1" Background="#70A288" Foreground="White" >
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="Pump2 Flow" FontSize="12" Foreground="#031D44"></lvc:Axis>
+            </lvc:CartesianChart.AxisY>
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="Time" Labels="{Binding Pump2X}" FontSize="13" Foreground="#031D44"></lvc:Axis>
+            </lvc:CartesianChart.AxisX>
+            <lvc:CartesianChart.DataTooltip>
+                <lvc:DefaultTooltip Background="#031D44"/>
+            </lvc:CartesianChart.DataTooltip>
+        </lvc:CartesianChart>
+
+        <lvc:CartesianChart x:Name="MyChart3" Series="{Binding Pump3Y}" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="2" Grid.RowSpan="1" Background="#70A288" Foreground="White" >
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="Pump3 Flow" FontSize="12" Foreground="#031D44"></lvc:Axis>
+            </lvc:CartesianChart.AxisY>
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="Time" Labels="{Binding Pump3X}" FontSize="13" Foreground="#031D44"></lvc:Axis>
+            </lvc:CartesianChart.AxisX>
+            <lvc:CartesianChart.DataTooltip>
+                <lvc:DefaultTooltip Background="#031D44"/>
+            </lvc:CartesianChart.DataTooltip>
+        </lvc:CartesianChart>
+
+        <lvc:CartesianChart x:Name="MyChart4" Series="{Binding FluidY}" Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="2" Grid.RowSpan="1" Background="#6EA4BF" Foreground="White" >
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="Fluid Level" FontSize="12" Foreground="#031D44"></lvc:Axis>
+            </lvc:CartesianChart.AxisY>
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="Time" Labels="{Binding FluidX}" FontSize="13" Foreground="#031D44"></lvc:Axis>
+            </lvc:CartesianChart.AxisX>
+            <lvc:CartesianChart.DataTooltip>
+                <lvc:DefaultTooltip Background="#031D44"/>
+            </lvc:CartesianChart.DataTooltip>
+        </lvc:CartesianChart>
+    </Grid>
+</UserControl>

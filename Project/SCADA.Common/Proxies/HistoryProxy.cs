@@ -46,5 +46,10 @@ namespace SCADA.Common.Proxies
         {
             return proxy.GetAll();
         }
+
+        public HistoryGraph GetGraph()
+        {
+            return proxy.GetGraph();
+        }
     }
 }

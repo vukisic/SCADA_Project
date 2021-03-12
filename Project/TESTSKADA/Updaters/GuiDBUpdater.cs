@@ -44,6 +44,10 @@ namespace NDS.Updaters
                 {
                     History = ScadaProxyFactory.Instance().HistoryProxy().GetAll()
                 };
+                HistoryGraphicalEvent graph = new HistoryGraphicalEvent()
+                {
+                    Graph = ScadaProxyFactory.Instance().HistoryProxy().GetGraph()
+                };
                 ScadaUpdateEvent ev = new ScadaUpdateEvent()
                 {
                     Points = new List<SCADA.Common.DataModel.ScadaPointDto>()
@@ -59,6 +63,7 @@ namespace NDS.Updaters
                     endpoint.Publish(dom).ConfigureAwait(false).GetAwaiter().GetResult();
                 if (history.History.Count > 0)
                     endpoint.Publish(history).ConfigureAwait(false).GetAwaiter().GetResult();
+                endpoint.Publish(graph).ConfigureAwait(false).GetAwaiter().GetResult();
 
                 Thread.Sleep(GetConfigTime());
             }

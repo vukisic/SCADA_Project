@@ -188,6 +188,7 @@
     <Compile Include="ViewModels\ControlViewModel.cs" />
     <Compile Include="ViewModels\DOMViewModel.cs" />
     <Compile Include="ViewModels\GraphicsViewModel.cs" />
+    <Compile Include="ViewModels\HistoryGraphViewModel.cs" />
     <Compile Include="ViewModels\HistoryViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\ScadaDataViewModel.cs" />
@@ -206,6 +207,9 @@
     </Compile>
     <Compile Include="Views\GraphicsView.xaml.cs">
       <DependentUpon>GraphicsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\HistoryGraphView.xaml.cs">
+      <DependentUpon>HistoryGraphView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\HistoryView.xaml.cs">
       <DependentUpon>HistoryView.xaml</DependentUpon>
@@ -273,6 +277,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\GraphicsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\HistoryGraphView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

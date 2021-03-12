@@ -45,5 +45,10 @@ namespace SCADA.Common.ScadaServices.Providers
         {
             return historyRepository.GetInInverval(from, to);
         }
+
+        public HistoryGraph GetGraph()
+        {
+            return historyRepository.GetGraph();
+        }
     }
 }
