@@ -33,12 +33,15 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         ToolTip="{Binding Path=ToolTip}">
-                    <Image Height="Auto"
+                    <StackPanel Orientation="Horizontal">
+                        <Image Height="Auto"
                            Width="Auto">
-                        <Image.Source>
-                            <BitmapImage UriSource="{Binding ImageSource}" />
-                        </Image.Source>
-                    </Image>
+                            <Image.Source>
+                                <BitmapImage UriSource="{Binding ImageSource}" />
+                            </Image.Source>
+                        </Image>
+                        <TextBlock Text="{Binding Path=ValueText}"/>
+                    </StackPanel>
                 </Button>
                
             </HierarchicalDataTemplate>
@@ -103,5 +106,7 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollViewer>
+
+      
     </Grid>
 </UserControl>
