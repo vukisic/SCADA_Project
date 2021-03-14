@@ -15,8 +15,7 @@ using SCADA.Common.DataModel;
 namespace CE
 {
     public class CEWorker : IDisposable
-    {
-
+    { 
         private long seconds = 0;
         private long pump1Time;
         private long pump2Time;
@@ -71,11 +70,11 @@ namespace CE
                         hourIndex++;
                     }
 
-                    if (secundsForWeather == 60)
+                   /* if (secundsForWeather == 60)
                     {
                         CheckWeather();
                         secundsForWeather = 0;
-                    }
+                    }*/
 
                     if (seconds == 10800 || seconds == 0)
                     {
@@ -205,10 +204,10 @@ namespace CE
                 var weather = new List<double>();
                 weatherForecast.ForEach(x => weather.Add(x * area));
                 float current = GetCurrentFluidLevel();
-
+                
                 for (int i = 0; i < weatherForecast.Count; i++)
                 {
-
+                    current += (float)weather[i];
                     if (skip && i == 0)
                     {
                         current -= (float)weather[i];
@@ -239,7 +238,7 @@ namespace CE
             return ret;
         }
 
-        private void CheckWeather()
+        /*private void CheckWeather()
         {
             var weatherForecast = weatherAPI.GetResultsForNext6Hours();
             var weather = new List<double>();
@@ -247,7 +246,7 @@ namespace CE
             weatherForecast.ForEach(x => weather.Add(x * area));
             float current = GetCurrentFluidLevel();
             current += (float)weather[hourIndex] / 60;
-        }
+        }*/
 
         private void SendCommand(CeForecast forecastResult)
         {

@@ -55,7 +55,6 @@ namespace Simulator.Core
         private bool colding1Pump = false;
         private bool colding2Pump = false;
         private bool colding3Pump = false;
-        private int hourIndex = 0;
         private WeatherAPI WA;
         private float FullTank;
         private float EmptyTank;
@@ -92,11 +91,7 @@ namespace Simulator.Core
 
         private void OnEveryMinute()
         {
-            if (hourIndex == 5)
-            {
-                hourIndex = 0;
-                hours = WA.GetResultsForNext6Hours();
-            }
+            hours = WA.GetResultsForNext6Hours();
 
             simulator.MarshalUnmananagedArray2Struct(db.psServerDatabasePoint, (int)db.u32TotalPoints, out List<dnp3_protocol.dnp3types.sServerDatabasePoint> points);
 
@@ -108,7 +103,7 @@ namespace Simulator.Core
                 var point = item as AnalogPoint;
                 SingleInt32Union analogValue = new SingleInt32Union();
 
-                analogValue.f = (int)(point.Value + (float)hours[hourIndex] / 60 * TankSurface);
+                analogValue.f = (int)(point.Value + (float)hours[0] / 60 * TankSurface);
                 simulator.UpdatePoint(pairs["FluidLevel_Tank"], dnp3types.eDNP3GroupID.ANALOG_INPUT, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue);
 
                 if (point.Value > FullTank)
@@ -120,7 +115,6 @@ namespace Simulator.Core
             }
             if (minutesCount == 60)
             {
-                hourIndex++;
                 minutesCount = 0;
             }
         }
