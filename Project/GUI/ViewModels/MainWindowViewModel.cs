@@ -10,7 +10,7 @@ using NServiceBus;
 
 namespace GUI.ViewModels
 {
-    public class MainWindowViewModel : Conductor<object>, IHandleMessages<ModelUpdateCommand>, IHandleMessages<HistoryGraphicalEvent>, IHandleMessages<ScadaUpdateEvent>, IHandleMessages<DomUpdateEvent>, IHandleMessages<HistoryUpdateEvent>, IHandleMessages<CeUpdateEvent>
+    public class MainWindowViewModel : Conductor<object>, IHandleMessages<ModelUpdateCommand>, IHandleMessages<HistoryGraphicalEvent>, IHandleMessages<ScadaUpdateEvent>, IHandleMessages<DomUpdateEvent>, IHandleMessages<HistoryUpdateEvent>, IHandleMessages<CeUpdateEvent>, IHandleMessages<CeGraphicalEvent>
     {
         private static EventHandler<ScadaUpdateEvent> scadaUpdate = delegate { };
         private static EventHandler<DomUpdateEvent> domUpdate = delegate { };
@@ -18,6 +18,7 @@ namespace GUI.ViewModels
         private static EventHandler<ModelUpdateCommand> modelUpdate = delegate { };
         private static EventHandler<CeUpdateEvent> ceUpdate = delegate { };
         private static EventHandler<HistoryGraphicalEvent> graphUpdate = delegate { };
+        private static EventHandler<CeGraphicalEvent> ceUpdatePumpsValues = delegate { };
 
         private ScadaDataViewModel scada = new ScadaDataViewModel();
         private DOMViewModel dom = new DOMViewModel();
@@ -36,6 +37,7 @@ namespace GUI.ViewModels
             modelUpdate += graphics.Update;
             ceUpdate += ce.Update;
             graphUpdate += graph.Update;
+            ceUpdatePumpsValues += ce.UpdatePumpsValues;
             LoadScadaDataView();
         }
         public void LoadGraphicsView()
@@ -106,6 +108,12 @@ namespace GUI.ViewModels
         public Task Handle(HistoryGraphicalEvent message, IMessageHandlerContext context)
         {
             graphUpdate.Invoke(this, message);
+            return Task.CompletedTask;
+        }
+
+        public Task Handle(CeGraphicalEvent message, IMessageHandlerContext context)
+        {
+            ceUpdatePumpsValues.Invoke(this, message);
             return Task.CompletedTask;
         }
     }

@@ -53,8 +53,8 @@
     <Compile Include="CEWorker.cs" />
     <Compile Include="Data\CeForecast.cs" />
     <Compile Include="Data\CeForecastResult.cs" />
-    <Compile Include="Data\GraphElement.cs" />
-    <Compile Include="Data\WorkingGraph.cs" />
+    <Compile Include="Data\CeGraphElement.cs" />
+    <Compile Include="Data\CeGraph.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReadConfigResults.cs" />

@@ -21,7 +21,7 @@ namespace CE
         private long pump2Time;
         private long pump3Time;
 
-        private WorkingGraph graph = new WorkingGraph();
+        //private WorkingGraph graph = new WorkingGraph();
 
         private IFitnessFunction algorithm;
         private Thread _worker;
@@ -101,6 +101,8 @@ namespace CE
             ScadaExportProxy proxy = new ScadaExportProxy();
             var measurements = proxy.GetData();
 
+            CeGraphicalEvent graph = new CeGraphicalEvent();
+
             if (!measurements.ContainsKey("FluidLevel_Tank"))
                 return;
             var fluidLevel = measurements["FluidLevel_Tank"] as AnalogPoint;
@@ -111,8 +113,8 @@ namespace CE
                 TurnOffPumps();
             }
 
-            graph.Pump1.YAxe.Add(DateTime.Now);
-            graph.Pump1.XAxe.Add(pump1Time);
+            graph.PumpsValues.Pump1.XAxes.Add(DateTime.Now);
+            graph.PumpsValues.Pump1.YAxes.Add(pump1Time);
             if (measurements.ContainsKey("Flow_AM1"))
             {
                 var flow1 = measurements["Flow_AM1"] as AnalogPoint;
@@ -121,8 +123,8 @@ namespace CE
             }
 
 
-            graph.Pump2.YAxe.Add(DateTime.Now);
-            graph.Pump2.XAxe.Add(pump2Time);
+            graph.PumpsValues.Pump2.XAxes.Add(DateTime.Now);
+            graph.PumpsValues.Pump2.YAxes.Add(pump2Time);
             if (measurements.ContainsKey("Flow_AM2"))
             {
                 var flow2 = measurements["Flow_AM2"] as AnalogPoint;
@@ -130,8 +132,8 @@ namespace CE
                     pump2Time += 10;
             }
 
-            graph.Pump3.YAxe.Add(DateTime.Now);
-            graph.Pump3.XAxe.Add(pump3Time);
+            graph.PumpsValues.Pump3.XAxes.Add(DateTime.Now);
+            graph.PumpsValues.Pump3.YAxes.Add(pump3Time);
             if (measurements.ContainsKey("Flow_AM3"))
             {
                 var flow3 = measurements["Flow_AM3"] as AnalogPoint;
@@ -139,7 +141,7 @@ namespace CE
                     pump3Time += 10;
             }
 
-            //endpoint.Publish(graph).GetAwaiter().GetResult();
+            endpoint.Publish(graph).ConfigureAwait(false).GetAwaiter().GetResult();
         }
 
         private void TurnOffPumps()

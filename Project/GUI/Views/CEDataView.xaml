@@ -34,7 +34,9 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height=".1*"/>
-            
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height=".1*"/>
             <RowDefinition Height=".2*"/>
             <RowDefinition Height=".1*"/>
         </Grid.RowDefinitions>
@@ -126,7 +128,17 @@
                 <lvc:DefaultTooltip Background="Black"/>
             </lvc:CartesianChart.DataTooltip>
         </lvc:CartesianChart>
-        
-        <TextBlock Text="{Binding UpdateTime, StringFormat=Update time: {0}}" VerticalAlignment="Center" Foreground="White" Grid.Row="13" Grid.Column="1" Grid.ColumnSpan="2"></TextBlock>
+        <lvc:CartesianChart x:Name="MyChart9" Series="{Binding PumpSeriesY}" Grid.Column="1" Grid.Row="13" Grid.ColumnSpan="7" Grid.RowSpan="2" Background="#e6b89c" >
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="Pumps" FontSize="13" Foreground="Black"></lvc:Axis>
+            </lvc:CartesianChart.AxisY>
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="Hour" Labels="{Binding Pump1X}" FontSize="13" Foreground="Black"></lvc:Axis>
+            </lvc:CartesianChart.AxisX>
+            <lvc:CartesianChart.DataTooltip>
+                <lvc:DefaultTooltip Background="Black"/>
+            </lvc:CartesianChart.DataTooltip>
+        </lvc:CartesianChart>
+        <TextBlock Text="{Binding UpdateTime, StringFormat=Update time: {0}}" VerticalAlignment="Center" Foreground="White" Grid.Row="16" Grid.Column="1" Grid.ColumnSpan="2"></TextBlock>
     </Grid>
 </UserControl>
