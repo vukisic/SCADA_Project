@@ -13,6 +13,14 @@ using LiveCharts.Helpers;
 using LiveCharts.Wpf;
 using System.Windows.Media;
 using CE.Data;
+using System.Windows.Media.Animation;
+using System.ComponentModel;
+using System.Windows;
+using DocumentFormat.OpenXml.Office.CustomUI;
+using System.Web.UI.WebControls;
+using System.Windows.Controls;
+using System.Windows.Input;
+using Realms.Sync;
 
 namespace GUI.ViewModels
 {
@@ -42,6 +50,10 @@ namespace GUI.ViewModels
         public SeriesCollection FlowSeries2 { get; set; }
         public SeriesCollection FlowSeries3 { get; set; }
         public SeriesCollection PumpSeriesY { get; set; }
+
+        public LineSeries LineSeries1 { get; set; }
+        public LineSeries LineSeries2 { get; set; }
+        public LineSeries LineSeries3 { get; set; }
 
         #region Properties
 
@@ -164,8 +176,6 @@ namespace GUI.ViewModels
                 NotifyOfPropertyChange(() => Hours);
             }
         }
-
-
         #endregion
 
         public CEDataViewModel()
@@ -205,6 +215,26 @@ namespace GUI.ViewModels
 
             DrawCharts();
             DrawPumpsValuesChart();
+        }
+        public void ChangeVisibility1()
+        {
+            LineSeries1.Visibility = LineSeries1.Visibility == Visibility.Visible
+                ? Visibility.Hidden
+                : Visibility.Visible;
+        }
+
+        public void ChangeVisibility2()
+        {
+            LineSeries2.Visibility = LineSeries2.Visibility == Visibility.Visible
+                ? Visibility.Hidden
+                : Visibility.Visible;
+        }
+
+        public void ChangeVisibility3()
+        {
+            LineSeries3.Visibility = LineSeries3.Visibility == Visibility.Visible
+                ? Visibility.Hidden
+                : Visibility.Visible;
         }
 
         internal void Update(object sender, CeUpdateEvent e)
@@ -414,30 +444,35 @@ namespace GUI.ViewModels
         {
             App.Current.Dispatcher.Invoke((System.Action)delegate
             {
-                PumpSeriesY = new SeriesCollection
+                LineSeries1 = new LineSeries
                 {
-                    new LineSeries
-                    {
-                        Title = "Pump1",
-                        //Values = Pump1Y.AsChartValues(),
-                        Values = new ChartValues<float> {33, 56, 3, 99},
-                        Stroke = Brushes.Blue,
-                    },
-                    new LineSeries
-                    {
-                        Title = "Pump2",
-                        //Values = Pump2Y.AsChartValues(),
-                        Values = new ChartValues<float> {44, 22, 38, 99},
-                        Stroke = Brushes.Red,
-                    },
-                    new LineSeries
-                    {
-                        Title = "Pump3",
-                        //Values = Pump3Y.AsChartValues(),
-                        Values = new ChartValues<float> {77, 24, 51, 45},
-                        Stroke = Brushes.Green,
-                    },
+                    Title = "Pump1",
+                    Values = Pump1Y.AsChartValues(),
+                    //Values = new ChartValues<float> { 33, 56, 3, 99 },
+                    Stroke = Brushes.Blue,
                 };
+
+                LineSeries2 = new LineSeries
+                {
+                    Title = "Pump2",
+                    Values = Pump2Y.AsChartValues(),
+                    //Values = new ChartValues<float> { 44, 22, 38, 99 },
+                    Stroke = Brushes.Red,
+                };
+
+                LineSeries3 = new LineSeries
+                {
+                    Title = "Pump3",
+                    Values = Pump3Y.AsChartValues(),
+                    //Values = new ChartValues<float> { 77, 24, 51, 45 },
+                    Stroke = Brushes.Green,
+                };
+
+                PumpSeriesY = new SeriesCollection();
+                PumpSeriesY.Add(LineSeries1);
+                PumpSeriesY.Add(LineSeries2);
+                PumpSeriesY.Add(LineSeries3);
+
             });
         }
     }

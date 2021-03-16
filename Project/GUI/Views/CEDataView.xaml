@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GUI.Views"
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             xmlns:cal="http://www.caliburnproject.org"
              mc:Ignorable="d" Background="Black"
              d:DesignHeight="700" d:DesignWidth="1200" >
     <Grid>
@@ -139,6 +140,15 @@
                 <lvc:DefaultTooltip Background="Black"/>
             </lvc:CartesianChart.DataTooltip>
         </lvc:CartesianChart>
+        <CheckBox Grid.Row="13" Grid.Column="8" Content="Pump1" Margin="10,0,0,32" IsChecked="True" Grid.ColumnSpan="2"
+                  cal:Message.Attach="[Event Checked] = [Action ChangeVisibility1]; [Event Unchecked] = [Action ChangeVisibility1]"></CheckBox>
+        <Rectangle Grid.Row="13" Grid.Column="8" Fill="Blue" Width="15" Height="15" Margin="79,8,94,39"/>
+        <CheckBox Grid.Row="13" Grid.Column="8" Content="Pump2" Margin="10,43,0,53" Grid.RowSpan="2" IsChecked="True" Grid.ColumnSpan="2"
+                  cal:Message.Attach="[Event Checked] = [Action ChangeVisibility2]; [Event Unchecked] = [Action ChangeVisibility2]"></CheckBox>
+        <Rectangle Grid.Row="13" Grid.Column="8" Fill="Red" Width="15" Height="15" Margin="79,44,94,53" Grid.RowSpan="2"/>
+        <CheckBox Grid.Row="14" Grid.Column="8" Content="Pump3" Margin="10,25,0,10" IsChecked="True" Grid.ColumnSpan="2"
+                  cal:Message.Attach="[Event Checked] = [Action ChangeVisibility3]; [Event Unchecked] = [Action ChangeVisibility3]"></CheckBox>
+        <Rectangle Grid.Row="14" Grid.Column="8" Fill="Green" Width="15" Height="15"  VerticalAlignment="Center" Margin="79,28,94,10"/>
         <TextBlock Text="{Binding UpdateTime, StringFormat=Update time: {0}}" VerticalAlignment="Center" Foreground="White" Grid.Row="16" Grid.Column="1" Grid.ColumnSpan="2"></TextBlock>
     </Grid>
 </UserControl>
