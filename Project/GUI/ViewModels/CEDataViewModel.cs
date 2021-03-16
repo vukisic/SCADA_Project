@@ -21,6 +21,7 @@ using System.Web.UI.WebControls;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Realms.Sync;
+using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace GUI.ViewModels
 {
@@ -279,8 +280,27 @@ namespace GUI.ViewModels
                     Data.Hours.Add(Mapper.Map<PumpsHours>(item));
                 }
 
+                AddGraphicValuesToIncome();
                 DrawCharts();
             });
+        }
+
+        private void AddGraphicValuesToIncome()
+        {
+            if (Income.Count > 0)
+            {
+                ObservableCollection<double> newList = new ObservableCollection<double>();
+
+                for (int i = 0; i < Income.Count - 1; i++)
+                {
+                    newList.Add(Income[i]);
+                    newList.Add(Income[i] - (Income[i] - Income[i + 1]) / 3);
+                    newList.Add(Income[i] - 2 * (Income[i] - Income[i + 1]) / 3);
+                }
+                newList.Add(Income[Income.Count - 1]);
+
+                Income = newList;
+            }
         }
 
         internal void UpdatePumpsValues(object sender, CeGraphicalEvent e)
