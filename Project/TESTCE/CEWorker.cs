@@ -35,6 +35,7 @@ namespace CE
         private int secundsForWeather = 60;
         private int hourIndex = 0;
         private int hourIndexChanged = 0;
+        private CeGraphicalEvent graph;
 
         private DNA<float> result;
 
@@ -61,31 +62,24 @@ namespace CE
         }
         private void DoWorkNew()
         {
+            graph = new CeGraphicalEvent();
+            graph.PumpsValues = new Core.Common.ServiceBus.Events.CeGraph();
             while (endFlag)
             {
-                if (pointUpdateOccures)
+                try
                 {
                     if (hourIndexChanged == 3600)
                     {
                         hourIndex++;
                     }
 
-                   /* if (secundsForWeather == 60)
-                    {
-                        CheckWeather();
-                        secundsForWeather = 0;
-                    }*/
-
-                    if (seconds == 10800 || seconds == 0)
+                    if (seconds == 10800 || seconds == 0 || pointUpdateOccures)
                     {
                         // 3hrs
                         Calculations();
                         seconds = 0;
                     }
-                    else
-                    {
-                        CheckState();
-                    }
+                    CheckState();
 
                     // Sleep for 10s
                     Thread.Sleep(10000);
@@ -94,6 +88,10 @@ namespace CE
                     secundsForWeather += 10;
                     hourIndexChanged += 10;
                 }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
             }
         }
         private void CheckState()
@@ -101,7 +99,7 @@ namespace CE
             ScadaExportProxy proxy = new ScadaExportProxy();
             var measurements = proxy.GetData();
 
-            CeGraphicalEvent graph = new CeGraphicalEvent();
+            
 
             if (!measurements.ContainsKey("FluidLevel_Tank"))
                 return;

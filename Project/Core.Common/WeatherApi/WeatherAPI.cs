@@ -27,7 +27,7 @@ namespace Core.Common.WeatherApi
             }
             catch (Exception)
             {
-                return new List<double>() {0,0,0,0,0,0};
+                return new List<double>() {1.2,0,0,0,0,0};
             }
 
         }

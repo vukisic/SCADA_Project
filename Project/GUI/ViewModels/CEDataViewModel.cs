@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Caliburn.Micro;
-using Core.Common.ServiceBus.Commands;
 using Core.Common.ServiceBus.Events;
 using GUI.Core;
 using System.Collections.ObjectModel;
@@ -12,20 +7,11 @@ using LiveCharts;
 using LiveCharts.Helpers;
 using LiveCharts.Wpf;
 using System.Windows.Media;
-using CE.Data;
-using System.Windows.Media.Animation;
-using System.ComponentModel;
 using System.Windows;
-using DocumentFormat.OpenXml.Office.CustomUI;
-using System.Web.UI.WebControls;
-using System.Windows.Controls;
-using System.Windows.Input;
-using Realms.Sync;
-using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace GUI.ViewModels
 {
-    
+
     public class CEDataViewModel : Screen
     {
         private string updateTime;
