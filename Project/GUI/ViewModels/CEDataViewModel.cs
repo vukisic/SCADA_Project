@@ -21,11 +21,11 @@ namespace GUI.ViewModels
         private ObservableCollection<PumpsFlows> flows;
         private ObservableCollection<PumpsHours> hours;
 
-        private ObservableCollection<DateTime> pump1X;
+        private ObservableCollection<string> pump1X;
         private ObservableCollection<float> pump1Y; 
-        private ObservableCollection<DateTime> pump2X;
+        private ObservableCollection<string> pump2X;
         private ObservableCollection<float> pump2Y;
-        private ObservableCollection<DateTime> pump3X;
+        private ObservableCollection<string> pump3X;
         private ObservableCollection<float> pump3Y;
 
         public SeriesCollection IncomeSeries { get; set; }
@@ -104,7 +104,7 @@ namespace GUI.ViewModels
             }
         }
 
-        public ObservableCollection<DateTime> Pump1X
+        public ObservableCollection<string> Pump1X
         {
             get { return pump1X; }
             set
@@ -124,7 +124,7 @@ namespace GUI.ViewModels
             }
         }
 
-        public ObservableCollection<DateTime> Pump2X
+        public ObservableCollection<string> Pump2X
         {
             get { return pump2X; }
             set
@@ -144,7 +144,7 @@ namespace GUI.ViewModels
             }
         }
 
-        public ObservableCollection<DateTime> Pump3X
+        public ObservableCollection<string> Pump3X
         {
             get { return pump3X; }
             set
@@ -172,11 +172,11 @@ namespace GUI.ViewModels
             FluidLevel = new ObservableCollection<float>();
             Flows = new ObservableCollection<PumpsFlows>();
             Hours = new ObservableCollection<PumpsHours>();
-            Pump1X = new ObservableCollection<DateTime>();
+            Pump1X = new ObservableCollection<string>();
             Pump1Y = new ObservableCollection<float>();
-            Pump2X = new ObservableCollection<DateTime>();
+            Pump2X = new ObservableCollection<string>();
             Pump2Y = new ObservableCollection<float>();
-            Pump3X = new ObservableCollection<DateTime>();
+            Pump3X = new ObservableCollection<string>();
             Pump3Y = new ObservableCollection<float>();
 
             foreach (var item in Data.Times)
@@ -293,36 +293,36 @@ namespace GUI.ViewModels
         {
             App.Current.Dispatcher.Invoke((System.Action)delegate
             {
-                Pump1X = new ObservableCollection<DateTime>();
+                Pump1X = new ObservableCollection<string>();
                 Pump1Y = new ObservableCollection<float>();
 
                 foreach(var item in e.PumpsValues.Pump1.XAxes)
                 {
-                    Pump1X.Add(item);
+                    Pump1X.Add(item.ToString("HH:mm"));
                 }
                 foreach (var item in e.PumpsValues.Pump1.YAxes)
                 {
                     Pump1Y.Add(item);
                 }
 
-                Pump2X = new ObservableCollection<DateTime>();
+                Pump2X = new ObservableCollection<string>();
                 Pump2Y = new ObservableCollection<float>();
 
                 foreach (var item in e.PumpsValues.Pump2.XAxes)
                 {
-                    Pump2X.Add(item);
+                    Pump2X.Add(item.ToString("HH:mm"));
                 }
                 foreach (var item in e.PumpsValues.Pump2.YAxes)
                 {
                     Pump2Y.Add(item);
                 }
 
-                Pump3X = new ObservableCollection<DateTime>();
+                Pump3X = new ObservableCollection<string>();
                 Pump3Y = new ObservableCollection<float>();
 
                 foreach (var item in e.PumpsValues.Pump3.XAxes)
                 {
-                    Pump3X.Add(item);
+                    Pump3X.Add(item.ToString("HH:mm"));
                 }
                 foreach (var item in e.PumpsValues.Pump3.YAxes)
                 {
