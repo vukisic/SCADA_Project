@@ -21,8 +21,6 @@ namespace CE
         private long pump2Time;
         private long pump3Time;
 
-        //private WorkingGraph graph = new WorkingGraph();
-
         private IFitnessFunction algorithm;
         private Thread _worker;
         public EventHandler<int> _updateEvent = delegate { };
@@ -207,21 +205,26 @@ namespace CE
                 
                 for (int i = 0; i < weatherForecast.Count; i++)
                 {
-                    current += (float)weather[i];
-                    if (skip && i == 0)
-                    {
-                        current -= (float)weather[i];
-                        skip = false;
-                    }
                     ChangeStrategy();
+                    for (int j = 0; j < 4; j++)
+                    {
+                        var income = ((float)weather[i]) / 4;
+                        current += income;
 
-                    result = algorithm.Start(current);
-                    var processedResult = ProcessResults(current, result);
-                    forecastResult.Results.AddRange(processedResult);
-                    current -= GetTotalFromResults(result.Genes);
+                        if (skip && i == 0)
+                        {
+                            current -= income;
+                            skip = false;
+                            break;
+                        }
+
+                        result = algorithm.Start(current);
+                        var processedResult = ProcessResult(current, result);
+                        forecastResult.Results.AddRange(processedResult);
+                        current -= GetTotalFromResults(result.Genes);
+                    }
                 }
-
-                // Update and Command
+                
                 SendCommand(forecastResult);
                 Update(forecastResult, weather);
 
@@ -237,16 +240,6 @@ namespace CE
 
             return ret;
         }
-
-        /*private void CheckWeather()
-        {
-            var weatherForecast = weatherAPI.GetResultsForNext6Hours();
-            var weather = new List<double>();
-            var area = GetSurfaceArea();
-            weatherForecast.ForEach(x => weather.Add(x * area));
-            float current = GetCurrentFluidLevel();
-            current += (float)weather[hourIndex] / 60;
-        }*/
 
         private void SendCommand(CeForecast forecastResult)
         {
@@ -314,11 +307,21 @@ namespace CE
         private void Update(CeForecast forecastResult, List<double> weather)
         {
             CeUpdateEvent update = new CeUpdateEvent();
-            update.Income = weather;
+            update.Income = new List<double>();
+            for (int i = 0; i < weather.Count; i++)
+            {
+                double integralIncome = 0;
+                for (int j = 0; j < 4; j++)
+                {
+                    integralIncome += weather[i] / 4;
+                    update.Income.Add(integralIncome);
+                }
+            }
             update.Times = GetTimes();
             update.FluidLevel = new List<float>();
             foreach (var item in forecastResult.Results)
             {
+                update.FluidLevel.Add(item.StartFluidLevel);
                 update.FluidLevel.Add(item.EndFluidLevel);
             }
             update.Hours = new List<PumpsHours>();
@@ -362,26 +365,22 @@ namespace CE
             return list;
         }
 
-        private List<CeForecastResult> ProcessResults(float current, DNA<float> result)
+        private List<CeForecastResult> ProcessResult(float current, DNA<float> result)
         {
             var results = new List<CeForecastResult>();
-            float totalPerIteration = (GetTotalFromResults(result.Genes) / 4);
-            for (int i = 0; i < 4; i++)
-            {
-                var item = new CeForecastResult();
-                item.Result = result;
-                item.StartFluidLevel = current;
-                item.EndFluidLevel = current - totalPerIteration;
-                current -= totalPerIteration;
+            float totalPerIteration = GetTotalFromResults(result.Genes);
+            var item = new CeForecastResult();
+            item.Result = result;
+            item.StartFluidLevel = current;
+            item.EndFluidLevel = current - totalPerIteration;
 
-                for (int j = 0; j < result.Genes.Count(); j += 3)
-                {
-                    item.Pumps.Add(result.Genes[j]);
-                    item.Times.Add(result.Genes[j + 2]);
-                    item.Flows.Add(result.Genes[j + 1]);
-                }
-                results.Add(item);
+            for (int j = 0; j < result.Genes.Count(); j += 3)
+            {
+                item.Pumps.Add(result.Genes[j]);
+                item.Times.Add(result.Genes[j + 2]);
+                item.Flows.Add(result.Genes[j + 1]);
             }
+            results.Add(item);
             return results;
         }
 
