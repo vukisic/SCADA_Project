@@ -17,9 +17,9 @@ namespace CE
     public class CEWorker : IDisposable
     { 
         private long seconds = 0;
-        private long pump1Time;
-        private long pump2Time;
-        private long pump3Time;
+        //private long pump1Time;
+        //private long pump2Time;
+        //private long pump3Time;
 
         private IFitnessFunction algorithm;
         private Thread _worker;
@@ -97,8 +97,6 @@ namespace CE
             ScadaExportProxy proxy = new ScadaExportProxy();
             var measurements = proxy.GetData();
 
-            
-
             if (!measurements.ContainsKey("FluidLevel_Tank"))
                 return;
             var fluidLevel = measurements["FluidLevel_Tank"] as AnalogPoint;
@@ -109,35 +107,35 @@ namespace CE
                 TurnOffPumps();
             }
 
-            graph.PumpsValues.Pump1.XAxes.Add(DateTime.Now);
-            graph.PumpsValues.Pump1.YAxes.Add(pump1Time);
-            if (measurements.ContainsKey("Flow_AM1"))
-            {
-                var flow1 = measurements["Flow_AM1"] as AnalogPoint;
-                if (flow1 != null && flow1.Value > 0)
-                    pump1Time += 10;
-            }
+            //graph.PumpsValues.Pump1.XAxes.Add(DateTime.Now);
+            //graph.PumpsValues.Pump1.YAxes.Add(pump1Time);
+            //if (measurements.ContainsKey("Flow_AM1"))
+            //{
+            //    var flow1 = measurements["Flow_AM1"] as AnalogPoint;
+            //    if (flow1 != null && flow1.Value > 0)
+            //        pump1Time += 10;
+            //}
 
 
-            graph.PumpsValues.Pump2.XAxes.Add(DateTime.Now);
-            graph.PumpsValues.Pump2.YAxes.Add(pump2Time);
-            if (measurements.ContainsKey("Flow_AM2"))
-            {
-                var flow2 = measurements["Flow_AM2"] as AnalogPoint;
-                if (flow2 != null && flow2.Value > 0)
-                    pump2Time += 10;
-            }
+            //graph.PumpsValues.Pump2.XAxes.Add(DateTime.Now);
+            //graph.PumpsValues.Pump2.YAxes.Add(pump2Time);
+            //if (measurements.ContainsKey("Flow_AM2"))
+            //{
+            //    var flow2 = measurements["Flow_AM2"] as AnalogPoint;
+            //    if (flow2 != null && flow2.Value > 0)
+            //        pump2Time += 10;
+            //}
 
-            graph.PumpsValues.Pump3.XAxes.Add(DateTime.Now);
-            graph.PumpsValues.Pump3.YAxes.Add(pump3Time);
-            if (measurements.ContainsKey("Flow_AM3"))
-            {
-                var flow3 = measurements["Flow_AM3"] as AnalogPoint;
-                if (flow3 != null && flow3.Value > 0)
-                    pump3Time += 10;
-            }
+            //graph.PumpsValues.Pump3.XAxes.Add(DateTime.Now);
+            //graph.PumpsValues.Pump3.YAxes.Add(pump3Time);
+            //if (measurements.ContainsKey("Flow_AM3"))
+            //{
+            //    var flow3 = measurements["Flow_AM3"] as AnalogPoint;
+            //    if (flow3 != null && flow3.Value > 0)
+            //        pump3Time += 10;
+            //}
 
-            endpoint.Publish(graph).ConfigureAwait(false).GetAwaiter().GetResult();
+            //endpoint.Publish(graph).ConfigureAwait(false).GetAwaiter().GetResult();
         }
 
         private void TurnOffPumps()
@@ -327,28 +325,59 @@ namespace CE
             update.Hours = new List<PumpsHours>();
             update.Flows = new List<PumpsFlows>();
 
-
+            CeGraphicalEvent graph = new CeGraphicalEvent();
+            graph.PumpsValues = new Core.Common.ServiceBus.Events.CeGraph();
+            List<List<long>> list = new List<List<long>>();
             for (int i = 0; i < points; i++)
             {
+                var macList = new List<long>();
+                long cumm = 0;
                 var hours = new PumpsHours();
                 var flows = new PumpsFlows();
                 foreach (var item in forecastResult.Results)
                 {
+                    
                     if (item.Pumps[i] == 1)
                     {
                         hours.Hours.Add(item.Times[i]);
                         flows.Flows.Add(item.Flows[i]);
+                        cumm += (long) (item.Times[i]);
                     }
                     else
                     {
                         hours.Hours.Add(0);
                         flows.Flows.Add(0);
                     }
+                    macList.Add(cumm);
                 }
                 update.Hours.Add(hours);
                 update.Flows.Add(flows);
+                list.Add(macList);
             }
             endpoint.Publish(update).ConfigureAwait(false).GetAwaiter().GetResult();
+            if(points == 1)
+            {
+                graph.PumpsValues.Pump1.XAxes = update.Times.ConvertAll(x=>DateTime.Parse(x));
+                graph.PumpsValues.Pump1.YAxes = list[0];
+            }
+            if (points == 2)
+            {
+                graph.PumpsValues.Pump1.XAxes = update.Times.ConvertAll(x => DateTime.Parse(x));
+                graph.PumpsValues.Pump1.YAxes = list[0];
+                graph.PumpsValues.Pump2.XAxes = update.Times.ConvertAll(x => DateTime.Parse(x));
+                graph.PumpsValues.Pump2.YAxes = list[1];
+            }
+            if(points == 3)
+            {
+                graph.PumpsValues.Pump1.XAxes = update.Times.ConvertAll(x => DateTime.Parse(x));
+                graph.PumpsValues.Pump1.YAxes = list[0];
+                graph.PumpsValues.Pump2.XAxes = update.Times.ConvertAll(x => DateTime.Parse(x));
+                graph.PumpsValues.Pump2.YAxes = list[1];
+                graph.PumpsValues.Pump3.XAxes = update.Times.ConvertAll(x => DateTime.Parse(x));
+                graph.PumpsValues.Pump3.YAxes = list[2];
+            }
+            endpoint.Publish(graph).ConfigureAwait(false).GetAwaiter().GetResult();
+
         }
 
         private List<string> GetTimes()
