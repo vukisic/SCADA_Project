@@ -154,6 +154,7 @@ namespace Calculations
             } while (true);
 
             // bestIndividual send to scada
+            lastBestSolution = float.MaxValue;
             return bestIndividual;
         }
 

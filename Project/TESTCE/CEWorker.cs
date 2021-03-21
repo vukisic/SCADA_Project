@@ -148,7 +148,7 @@ namespace CE
 
             if (points.ContainsKey("Breaker_21Status"))
             {
-                var breaker1 = points["Breaker_21Status"] as AnalogPoint;
+                var breaker1 = points["Breaker_21Status"] as DiscretePoint;
                 var command1 = new ScadaCommandingEvent()
                 {
                     Index = (uint)breaker1.Index,
@@ -161,7 +161,7 @@ namespace CE
 
             if (points.ContainsKey("Breaker_21Status"))
             {
-                var breaker2 = points["Breaker_22Status"] as AnalogPoint;
+                var breaker2 = points["Breaker_22Status"] as DiscretePoint;
                 var command2 = new ScadaCommandingEvent()
                 {
                     Index = (uint)breaker2.Index,
@@ -175,7 +175,7 @@ namespace CE
 
             if (points.ContainsKey("Breaker_21Status"))
             {
-                var breaker3 = points["Breaker_23Status"] as AnalogPoint;
+                var breaker3 = points["Breaker_23Status"] as DiscretePoint;
                 var command3 = new ScadaCommandingEvent()
                 {
                     Index = (uint)breaker3.Index,

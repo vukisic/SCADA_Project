@@ -170,6 +170,7 @@ namespace Calculations
 
             } while (true);
 
+            lastBestSolution = float.MaxValue;
             return bestIndividual;
 
         }

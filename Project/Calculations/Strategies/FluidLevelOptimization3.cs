@@ -184,6 +184,7 @@ namespace Calculations
                     break;
             } while (true);
 
+            lastBestSolution = float.MaxValue;
             return bestIndividual;
 
         }
