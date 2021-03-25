@@ -38,9 +38,9 @@ namespace GUI.ViewModels
         public SeriesCollection FlowSeries3 { get; set; }
         public SeriesCollection PumpSeriesY { get; set; }
 
-        public LineSeries LineSeries1 { get; set; }
-        public LineSeries LineSeries2 { get; set; }
-        public LineSeries LineSeries3 { get; set; }
+        public static LineSeries LineSeries1 { get; set; }
+        public static LineSeries LineSeries2 { get; set; }
+        public static LineSeries LineSeries3 { get; set; }
 
         #region Properties
 
@@ -110,7 +110,7 @@ namespace GUI.ViewModels
             set
             {
                 pump1X = value;
-                NotifyOfPropertyChange(() => Hours);
+                NotifyOfPropertyChange(() => Pump1X);
             }
         }
 
@@ -120,7 +120,7 @@ namespace GUI.ViewModels
             set
             {
                 pump1Y = value;
-                NotifyOfPropertyChange(() => Hours);
+                NotifyOfPropertyChange(() => Pump1Y);
             }
         }
 
@@ -130,7 +130,7 @@ namespace GUI.ViewModels
             set
             {
                 pump2X = value;
-                NotifyOfPropertyChange(() => Hours);
+                NotifyOfPropertyChange(() => Pump2X);
             }
         }
 
@@ -140,7 +140,7 @@ namespace GUI.ViewModels
             set
             {
                 pump2Y = value;
-                NotifyOfPropertyChange(() => Hours);
+                NotifyOfPropertyChange(() => Pump2Y);
             }
         }
 
@@ -150,7 +150,7 @@ namespace GUI.ViewModels
             set
             {
                 pump3X = value;
-                NotifyOfPropertyChange(() => Hours);
+                NotifyOfPropertyChange(() => Pump3X);
             }
         }
 
@@ -160,7 +160,7 @@ namespace GUI.ViewModels
             set
             {
                 pump3Y = value;
-                NotifyOfPropertyChange(() => Hours);
+                NotifyOfPropertyChange(() => Pump3Y);
             }
         }
         #endregion
@@ -205,23 +205,26 @@ namespace GUI.ViewModels
         }
         public void ChangeVisibility1()
         {
-            LineSeries1.Visibility = LineSeries1.Visibility == Visibility.Visible
-                ? Visibility.Hidden
-                : Visibility.Visible;
+            if(PumpSeriesY.Count > 0)
+            {
+                (PumpSeriesY[0] as LineSeries).Visibility = (PumpSeriesY[0] as LineSeries).Visibility == Visibility.Visible ? Visibility.Hidden : Visibility.Visible;
+            }
         }
 
         public void ChangeVisibility2()
         {
-            LineSeries2.Visibility = LineSeries2.Visibility == Visibility.Visible
-                ? Visibility.Hidden
-                : Visibility.Visible;
+            if (PumpSeriesY.Count > 1)
+            {
+                (PumpSeriesY[1] as LineSeries).Visibility = (PumpSeriesY[1] as LineSeries).Visibility == Visibility.Visible ? Visibility.Hidden : Visibility.Visible;
+            }
         }
 
         public void ChangeVisibility3()
         {
-            LineSeries3.Visibility = LineSeries3.Visibility == Visibility.Visible
-                ? Visibility.Hidden
-                : Visibility.Visible;
+            if (PumpSeriesY.Count > 2)
+            {
+                (PumpSeriesY[2] as LineSeries).Visibility = (PumpSeriesY[2] as LineSeries).Visibility == Visibility.Visible ? Visibility.Hidden : Visibility.Visible;
+            }
         }
 
         internal void Update(object sender, CeUpdateEvent e)
@@ -452,33 +455,35 @@ namespace GUI.ViewModels
             {
                 LineSeries1 = new LineSeries
                 {
+                    Name = "P1",
                     Title = "Pump1",
                     Values = Pump1Y.AsChartValues(),
-                    //Values = new ChartValues<float> { 33, 56, 3, 99 },
                     Stroke = Brushes.Blue,
+                    Visibility = Visibility.Visible
                 };
 
                 LineSeries2 = new LineSeries
                 {
+                    Name = "P2",
                     Title = "Pump2",
                     Values = Pump2Y.AsChartValues(),
-                    //Values = new ChartValues<float> { 44, 22, 38, 99 },
                     Stroke = Brushes.Red,
+                    Visibility = Visibility.Visible
                 };
 
                 LineSeries3 = new LineSeries
                 {
+                    Name = "P3",
                     Title = "Pump3",
                     Values = Pump3Y.AsChartValues(),
-                    //Values = new ChartValues<float> { 77, 24, 51, 45 },
                     Stroke = Brushes.Green,
+                    Visibility = Visibility.Visible
                 };
 
                 PumpSeriesY = new SeriesCollection();
                 PumpSeriesY.Add(LineSeries1);
                 PumpSeriesY.Add(LineSeries2);
                 PumpSeriesY.Add(LineSeries3);
-
             });
         }
     }

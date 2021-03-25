@@ -139,6 +139,7 @@
             <lvc:CartesianChart.DataTooltip>
                 <lvc:DefaultTooltip Background="Black"/>
             </lvc:CartesianChart.DataTooltip>
+           
         </lvc:CartesianChart>
         <CheckBox Grid.Row="13" Grid.Column="8" Content="Pump1" Margin="10,0,0,32" IsChecked="True" Grid.ColumnSpan="2"
                   cal:Message.Attach="[Event Checked] = [Action ChangeVisibility1]; [Event Unchecked] = [Action ChangeVisibility1]"></CheckBox>
