@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Core.Common.ServiceBus.Commands;
 using Core.Common.ServiceBus.Dtos.Conversion;
@@ -9,6 +10,7 @@ using FTN.Services.NetworkModelService.DataModel.Core;
 using Microsoft.ServiceFabric.Data;
 using Microsoft.ServiceFabric.Data.Collections;
 using NServiceBus;
+using SF.Common.Proxies;
 using TMContracts;
 
 namespace FTN.Services.NetworkModelService
@@ -23,6 +25,7 @@ namespace FTN.Services.NetworkModelService
         private string _tableName = "Delta";
         private AzureStorage storage;
         private IReliableStateManager _manager;
+        private AffectedEntities affectedEntities;
         #endregion
         public NetworkModel(IReliableStateManager stateManager)
         {
@@ -149,14 +152,34 @@ namespace FTN.Services.NetworkModelService
 
         #endregion Find
 
+        public async Task<IdentifiedObject> GetValue(long globalId)
+        {
+            await GetDictionaries();
+            return GetEntity(globalId);
+        }
+
+        public async Task<List<IdentifiedObject>> GetValues(List<long> globalIds)
+        {
+            await GetDictionaries();
+            var results = new List<IdentifiedObject>();
+            foreach (var item in globalIds)
+            {
+                var entity = GetEntity(item);
+                if (entity != null)
+                    results.Add(entity);
+            }
+            return results;
+        }
+
         public UpdateResult ApplyDelta(Delta delta)
         {
             GetDictionaries().GetAwaiter().GetResult();
             bool applyingStarted = false;
-            bool transactionSucceded = true;
+            bool transactionSucceded = false;
             UpdateResult updateResult = new UpdateResult();
             Delta newDelta = new Delta();
             GetShallowCopyModel();
+            affectedEntities = new AffectedEntities();
             try
             {
                 CommonTrace.WriteTrace(CommonTrace.TraceInfo, "Applying  delta to network model.");
@@ -177,7 +200,19 @@ namespace FTN.Services.NetworkModelService
                     InsertEntity(rd, out ResourceDescription newRd);
                     newDelta.AddDeltaOperation(DeltaOpType.Insert, newRd, true);
                 }
+                #region Update&Delete
+                foreach (ResourceDescription rd in delta.UpdateOperations)
+                {
+                    UpdateEntity(rd);
+                }
 
+                foreach (ResourceDescription rd in delta.DeleteOperations)
+                {
+                    DeleteEntity(rd);
+                }
+                #endregion
+
+                transactionSucceded = true;
                 //transactionSucceded = TryApplyTransaction();
 
                 if (transactionSucceded)
@@ -216,8 +251,9 @@ namespace FTN.Services.NetworkModelService
 
             return updateResult;
         }
-      
-		private void InsertEntity(ResourceDescription rd, out ResourceDescription newRd)
+
+        #region Operations
+        private void InsertEntity(ResourceDescription rd, out ResourceDescription newRd)
         {
             newRd = rd;
             if (rd == null)
@@ -269,6 +305,10 @@ namespace FTN.Services.NetworkModelService
 
                 // create entity and add it to container
                 IdentifiedObject io = container.CreateEntity(globalId);
+
+                // --------------------------------------------------
+                affectedEntities.Add(globalId, DeltaOpType.Insert);
+                // --------------------------------------------------
 
                 // apply properties on created entity
                 if (rd.Properties != null)
@@ -324,11 +364,182 @@ namespace FTN.Services.NetworkModelService
                 throw new Exception(message);
             }
         }
+		
+        private void UpdateEntity(ResourceDescription rd)
+        {
+            if (rd == null || rd.Properties == null && rd.Properties.Count == 0)
+            {
+                CommonTrace.WriteTrace(CommonTrace.TraceInfo, "Update entity is not done because update operation is empty.");
+                return;
+            }
+
+            try
+            {
+                long globalId = rd.Id;
+
+                CommonTrace.WriteTrace(CommonTrace.TraceVerbose, "Updating entity with GID ({0:x16}).", globalId);
+
+                if (!this.EntityExists(globalId))
+                {
+                    string message = string.Format("Failed to update entity because entity with specified GID ({0:x16}) does not exist in network model.", globalId);
+                    CommonTrace.WriteTrace(CommonTrace.TraceError, message);
+                    throw new Exception(message);
+                }
+
+                IdentifiedObject io = GetEntity(globalId);
+
+                // --------------------------------------------------
+                affectedEntities.Add(globalId, DeltaOpType.Update);
+                // --------------------------------------------------
+
+                // updating properties of entity
+                foreach (Property property in rd.Properties)
+                {
+                    if (property.Type == PropertyType.Reference)
+                    {
+                        long oldTargetGlobalId = io.GetProperty(property.Id).AsReference();
+
+                        if (oldTargetGlobalId != 0)
+                        {
+                            IdentifiedObject oldTargetEntity = GetEntity(oldTargetGlobalId);
+                            oldTargetEntity.RemoveReference(property.Id, globalId);
+                        }
+
+                        // updating reference of entity
+                        long targetGlobalId = property.AsReference();
+
+                        if (targetGlobalId != 0)
+                        {
+                            if (!EntityExists(targetGlobalId))
+                            {
+                                string message = string.Format("Failed to get target entity with GID: 0x{0:X16}.", targetGlobalId);
+                                throw new Exception(message);
+                            }
+
+                            IdentifiedObject targetEntity = GetEntity(targetGlobalId);
+                            targetEntity.AddReference(property.Id, globalId);
+                        }
+
+                        // update value of the property in specified entity
+                        io.SetProperty(property);
+                    }
+                    else
+                    {
+                        // update value of the property in specified entity
+                        io.SetProperty(property);
+                    }
+                }
+
+                CommonTrace.WriteTrace(CommonTrace.TraceVerbose, "Updating entity with GID ({0:x16}) successfully finished.", globalId);
+            }
+            catch (Exception ex)
+            {
+                string message = string.Format("Failed to update entity (GID = 0x{0:x16}) in model. {1} ", rd.Id, ex.Message);
+                CommonTrace.WriteTrace(CommonTrace.TraceError, message);
+                throw new Exception(message);
+            }
+        }
+
+        private void DeleteEntity(ResourceDescription rd)
+        {
+            if (rd == null)
+            {
+                CommonTrace.WriteTrace(CommonTrace.TraceInfo, "Delete entity is not done because update operation is empty.");
+                return;
+            }
+
+            try
+            {
+                long globalId = rd.Id;
+
+                CommonTrace.WriteTrace(CommonTrace.TraceVerbose, "Deleting entity with GID ({0:x16}).", globalId);
+
+                // check if entity exists
+                if (!this.EntityExists(globalId))
+                {
+                    string message = string.Format("Failed to delete entity because entity with specified GID ({0:x16}) does not exist in network model.", globalId);
+                    CommonTrace.WriteTrace(CommonTrace.TraceError, message);
+                    throw new Exception(message);
+                }
+
+                // get entity to be deleted
+                IdentifiedObject io = GetEntity(globalId);
+
+                // check if entity could be deleted (if it is not referenced by any other entity)
+                if (io.IsReferenced)
+                {
+                    Dictionary<ModelCode, List<long>> references = new Dictionary<ModelCode, List<long>>();
+                    io.GetReferences(references, TypeOfReference.Target);
+
+                    StringBuilder sb = new StringBuilder();
+
+                    foreach (KeyValuePair<ModelCode, List<long>> kvp in references)
+                    {
+                        foreach (long referenceGlobalId in kvp.Value)
+                        {
+                            sb.AppendFormat("0x{0:x16}, ", referenceGlobalId);
+                        }
+                    }
+
+                    string message = string.Format("Failed to delete entity (GID = 0x{0:x16}) because it is referenced by entities with GIDs: {1}.", globalId, sb.ToString());
+                    CommonTrace.WriteTrace(CommonTrace.TraceError, message);
+                    throw new Exception(message);
+                }
+
+                // find property ids
+                List<ModelCode> propertyIds = resourcesDescs.GetAllSettablePropertyIdsForEntityId(io.GID);
+
+                // remove references
+                Property property = null;
+                foreach (ModelCode propertyId in propertyIds)
+                {
+                    PropertyType propertyType = Property.GetPropertyType(propertyId);
+
+                    if (propertyType == PropertyType.Reference)
+                    {
+                        property = io.GetProperty(propertyId);
+
+                        if (propertyType == PropertyType.Reference)
+                        {
+                            // get target entity and remove reference to another entity
+                            long targetGlobalId = property.AsReference();
+
+                            if (targetGlobalId != 0)
+                            {
+                                // get target entity
+                                IdentifiedObject targetEntity = GetEntity(targetGlobalId);
+
+                                // remove reference to another entity
+                                targetEntity.RemoveReference(propertyId, globalId);
+                            }
+                        }
+                    }
+                }
+
+                // remove entity form netowrk model
+                DMSType type = (DMSType)ModelCodeHelper.ExtractTypeFromGlobalId(globalId);
+                Container container = GetContainer(type);
+                container.RemoveEntity(globalId);
+
+                // --------------------------------------------------
+                affectedEntities.Add(globalId, DeltaOpType.Delete);
+                // --------------------------------------------------
+
+                CommonTrace.WriteTrace(CommonTrace.TraceVerbose, "Deleting entity with GID ({0:x16}) successfully finished.", globalId);
+            }
+            catch (Exception ex)
+            {
+                string message = string.Format("Failed to delete entity (GID = 0x{0:x16}) from model. {1}", rd.Id, ex.Message);
+                CommonTrace.WriteTrace(CommonTrace.TraceError, message);
+                throw new Exception(message);
+            }
+        }
+        #endregion
 
         private void Initialize()
         {
             List<Delta> result = ReadAllDeltas();
-
+            affectedEntities = new AffectedEntities();
             if (result.Count <= 0)
             {
                 return;
@@ -343,6 +554,16 @@ namespace FTN.Services.NetworkModelService
                     foreach (ResourceDescription rd in delta.InsertOperations)
                     {
                         InsertEntity(rd, out tempRd);
+                    }
+
+                    foreach (ResourceDescription rd in delta.UpdateOperations)
+                    {
+                        UpdateEntity(rd);
+                    }
+
+                    foreach (ResourceDescription rd in delta.DeleteOperations)
+                    {
+                        DeleteEntity(rd);
                     }
 
                     MergeModelsFinal();
@@ -375,13 +596,13 @@ namespace FTN.Services.NetworkModelService
 
             //Posalji Scadi i CEu novi model
             NMSSCADAProxy proxyForScada = new NMSSCADAProxy();
-            NMSCalculationEngineProxy proxyForCE = new NMSCalculationEngineProxy();
+            CEModelProxy proxyForCE = new CEModelProxy();
 
             bool success = false;
-            if (proxyForScada.ModelUpdate(networkDataModelCopy))
-                success = true;
+            //if (proxyForScada.ModelUpdate(affectedEntities))
+            //    success = true;
 
-            if (proxyForCE.ModelUpdate(networkDataModelCopy))
+            if (proxyForCE.ModelUpdate(affectedEntities).GetAwaiter().GetResult())
                 success = true;
 
             proxyForTM.EndEnlist(success);

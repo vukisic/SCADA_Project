@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Caliburn.Micro;
-using Core.Common.ServiceBus.Commands;
 using Core.Common.ServiceBus.Events;
 using GUI.Core;
 using System.Collections.ObjectModel;
@@ -12,10 +7,11 @@ using LiveCharts;
 using LiveCharts.Helpers;
 using LiveCharts.Wpf;
 using System.Windows.Media;
+using System.Windows;
 
 namespace GUI.ViewModels
 {
-    
+
     public class CEDataViewModel : Screen
     {
         private string updateTime;
@@ -25,6 +21,13 @@ namespace GUI.ViewModels
         private ObservableCollection<PumpsFlows> flows;
         private ObservableCollection<PumpsHours> hours;
 
+        private ObservableCollection<string> pump1X;
+        private ObservableCollection<float> pump1Y; 
+        private ObservableCollection<string> pump2X;
+        private ObservableCollection<float> pump2Y;
+        private ObservableCollection<string> pump3X;
+        private ObservableCollection<float> pump3Y;
+
         public SeriesCollection IncomeSeries { get; set; }
         public SeriesCollection FluidLevelSeries { get; set; }
         public SeriesCollection WorkingSeries1 { get; set; }
@@ -33,6 +36,11 @@ namespace GUI.ViewModels
         public SeriesCollection FlowSeries1 { get; set; }
         public SeriesCollection FlowSeries2 { get; set; }
         public SeriesCollection FlowSeries3 { get; set; }
+        public SeriesCollection PumpSeriesY { get; set; }
+
+        public static LineSeries LineSeries1 { get; set; }
+        public static LineSeries LineSeries2 { get; set; }
+        public static LineSeries LineSeries3 { get; set; }
 
         #region Properties
 
@@ -96,6 +104,65 @@ namespace GUI.ViewModels
             }
         }
 
+        public ObservableCollection<string> Pump1X
+        {
+            get { return pump1X; }
+            set
+            {
+                pump1X = value;
+                NotifyOfPropertyChange(() => Pump1X);
+            }
+        }
+
+        public ObservableCollection<float> Pump1Y
+        {
+            get { return pump1Y; }
+            set
+            {
+                pump1Y = value;
+                NotifyOfPropertyChange(() => Pump1Y);
+            }
+        }
+
+        public ObservableCollection<string> Pump2X
+        {
+            get { return pump2X; }
+            set
+            {
+                pump2X = value;
+                NotifyOfPropertyChange(() => Pump2X);
+            }
+        }
+
+        public ObservableCollection<float> Pump2Y
+        {
+            get { return pump2Y; }
+            set
+            {
+                pump2Y = value;
+                NotifyOfPropertyChange(() => Pump2Y);
+            }
+        }
+
+        public ObservableCollection<string> Pump3X
+        {
+            get { return pump3X; }
+            set
+            {
+                pump3X = value;
+                NotifyOfPropertyChange(() => Pump3X);
+            }
+        }
+
+        public ObservableCollection<float> Pump3Y
+        {
+            get { return pump3Y; }
+            set
+            {
+                pump3Y = value;
+                NotifyOfPropertyChange(() => Pump3Y);
+            }
+        }
         #endregion
 
         public CEDataViewModel()
@@ -105,6 +172,12 @@ namespace GUI.ViewModels
             FluidLevel = new ObservableCollection<float>();
             Flows = new ObservableCollection<PumpsFlows>();
             Hours = new ObservableCollection<PumpsHours>();
+            Pump1X = new ObservableCollection<string>();
+            Pump1Y = new ObservableCollection<float>();
+            Pump2X = new ObservableCollection<string>();
+            Pump2Y = new ObservableCollection<float>();
+            Pump3X = new ObservableCollection<string>();
+            Pump3Y = new ObservableCollection<float>();
 
             foreach (var item in Data.Times)
             {
@@ -128,6 +201,30 @@ namespace GUI.ViewModels
             }
 
             DrawCharts();
+            DrawPumpsValuesChart();
+        }
+        public void ChangeVisibility1()
+        {
+            if(PumpSeriesY.Count > 0)
+            {
+                (PumpSeriesY[0] as LineSeries).Visibility = (PumpSeriesY[0] as LineSeries).Visibility == Visibility.Visible ? Visibility.Hidden : Visibility.Visible;
+            }
+        }
+
+        public void ChangeVisibility2()
+        {
+            if (PumpSeriesY.Count > 1)
+            {
+                (PumpSeriesY[1] as LineSeries).Visibility = (PumpSeriesY[1] as LineSeries).Visibility == Visibility.Visible ? Visibility.Hidden : Visibility.Visible;
+            }
+        }
+
+        public void ChangeVisibility3()
+        {
+            if (PumpSeriesY.Count > 2)
+            {
+                (PumpSeriesY[2] as LineSeries).Visibility = (PumpSeriesY[2] as LineSeries).Visibility == Visibility.Visible ? Visibility.Hidden : Visibility.Visible;
+            }
         }
 
         internal void Update(object sender, CeUpdateEvent e)
@@ -171,7 +268,71 @@ namespace GUI.ViewModels
                     Hours.Add(Mapper.Map<PumpsHours>(item));
                     Data.Hours.Add(Mapper.Map<PumpsHours>(item));
                 }
+
+                AddGraphicValuesToIncome();
                 DrawCharts();
+            });
+        }
+
+        private void AddGraphicValuesToIncome()
+        {
+            if (Income.Count > 0)
+            {
+                ObservableCollection<double> newList = new ObservableCollection<double>();
+
+                for (int i = 0; i < Income.Count - 1; i++)
+                {
+                    newList.Add(Income[i]);
+                    newList.Add(Income[i] - (Income[i] - Income[i + 1]) / 3);
+                    newList.Add(Income[i] - 2 * (Income[i] - Income[i + 1]) / 3);
+                }
+                newList.Add(Income[Income.Count - 1]);
+
+                Income = newList;
+            }
+        }
+
+        internal void UpdatePumpsValues(object sender, CeGraphicalEvent e)
+        {
+            App.Current.Dispatcher.Invoke((System.Action)delegate
+            {
+                Pump1X = new ObservableCollection<string>();
+                Pump1Y = new ObservableCollection<float>();
+
+                foreach(var item in e.PumpsValues.Pump1.XAxes)
+                {
+                    Pump1X.Add(item.ToString("HH:mm"));
+                }
+                foreach (var item in e.PumpsValues.Pump1.YAxes)
+                {
+                    Pump1Y.Add(item);
+                }
+
+                Pump2X = new ObservableCollection<string>();
+                Pump2Y = new ObservableCollection<float>();
+
+                foreach (var item in e.PumpsValues.Pump2.XAxes)
+                {
+                    Pump2X.Add(item.ToString("HH:mm"));
+                }
+                foreach (var item in e.PumpsValues.Pump2.YAxes)
+                {
+                    Pump2Y.Add(item);
+                }
+
+                Pump3X = new ObservableCollection<string>();
+                Pump3Y = new ObservableCollection<float>();
+
+                foreach (var item in e.PumpsValues.Pump3.XAxes)
+                {
+                    Pump3X.Add(item.ToString("HH:mm"));
+                }
+                foreach (var item in e.PumpsValues.Pump3.YAxes)
+                {
+                    Pump3Y.Add(item);
+                }
+
+                DrawPumpsValuesChart();
             });
         }
 
@@ -285,6 +446,44 @@ namespace GUI.ViewModels
                         },
                     };
                 }
+            });
+        }
+
+        private void DrawPumpsValuesChart()
+        {
+            App.Current.Dispatcher.Invoke((System.Action)delegate
+            {
+                LineSeries1 = new LineSeries
+                {
+                    Name = "P1",
+                    Title = "Pump1",
+                    Values = Pump1Y.AsChartValues(),
+                    Stroke = Brushes.Blue,
+                    Visibility = Visibility.Visible
+                };
+
+                LineSeries2 = new LineSeries
+                {
+                    Name = "P2",
+                    Title = "Pump2",
+                    Values = Pump2Y.AsChartValues(),
+                    Stroke = Brushes.Red,
+                    Visibility = Visibility.Visible
+                };
+
+                LineSeries3 = new LineSeries
+                {
+                    Name = "P3",
+                    Title = "Pump3",
+                    Values = Pump3Y.AsChartValues(),
+                    Stroke = Brushes.Green,
+                    Visibility = Visibility.Visible
+                };
+
+                PumpSeriesY = new SeriesCollection();
+                PumpSeriesY.Add(LineSeries1);
+                PumpSeriesY.Add(LineSeries2);
+                PumpSeriesY.Add(LineSeries3);
             });
         }
     }

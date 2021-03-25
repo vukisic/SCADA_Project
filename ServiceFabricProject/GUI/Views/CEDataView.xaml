@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GUI.Views"
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             xmlns:cal="http://www.caliburnproject.org"
              mc:Ignorable="d" Background="Black"
              d:DesignHeight="700" d:DesignWidth="1200" >
     <Grid>
@@ -34,10 +35,13 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height=".1*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height=".1*"/>
             <RowDefinition Height=".2*"/>
             <RowDefinition Height=".1*"/>
         </Grid.RowDefinitions>
-        <lvc:CartesianChart x:Name="MyChart1" Series="{Binding IncomeSeries}" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="8" Grid.RowSpan="2" Background="MediumOrchid" >
+        <lvc:CartesianChart x:Name="MyChart1" Series="{Binding IncomeSeries}" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="8" Grid.RowSpan="2" Background="Thistle" >
             <lvc:CartesianChart.AxisY>
                 <lvc:Axis Title="Income" FontSize="13" Foreground="Black"></lvc:Axis>
             </lvc:CartesianChart.AxisY>
@@ -48,7 +52,7 @@
                 <lvc:DefaultTooltip Background="Black"/>
             </lvc:CartesianChart.DataTooltip>
         </lvc:CartesianChart>
-        <lvc:CartesianChart x:Name="MyChart2" Series="{Binding FluidLevelSeries}" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="8" Grid.RowSpan="2" Background="DarkSeaGreen" >
+        <lvc:CartesianChart x:Name="MyChart2" Series="{Binding FluidLevelSeries}" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="8" Grid.RowSpan="2" Background="#b8d8ba" >
             <lvc:CartesianChart.AxisY>
                 <lvc:Axis Title="Fluid level" FontSize="13" Foreground="Black"></lvc:Axis>
             </lvc:CartesianChart.AxisY>
@@ -59,7 +63,7 @@
                 <lvc:DefaultTooltip Background="Black"/>
             </lvc:CartesianChart.DataTooltip>
         </lvc:CartesianChart>
-        <lvc:CartesianChart x:Name="MyChart3" Series="{Binding WorkingSeries1}" Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="2" Grid.RowSpan="2" Background="IndianRed">
+        <lvc:CartesianChart x:Name="MyChart3" Series="{Binding WorkingSeries1}" Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="2" Grid.RowSpan="2" Background="#fe938c">
             <lvc:CartesianChart.AxisY>
                 <lvc:Axis Title="Working time - pump 1" FontSize="13" Foreground="Black"></lvc:Axis>
             </lvc:CartesianChart.AxisY>
@@ -70,7 +74,7 @@
                 <lvc:DefaultTooltip Background="Black"/>
             </lvc:CartesianChart.DataTooltip>
         </lvc:CartesianChart>
-        <lvc:CartesianChart x:Name="MyChart4" Series="{Binding WorkingSeries2}" Grid.Column="4" Grid.Row="7" Grid.ColumnSpan="2" Grid.RowSpan="2" Background="IndianRed">
+        <lvc:CartesianChart x:Name="MyChart4" Series="{Binding WorkingSeries2}" Grid.Column="4" Grid.Row="7" Grid.ColumnSpan="2" Grid.RowSpan="2" Background="#fe938c">
             <lvc:CartesianChart.AxisY>
                 <lvc:Axis Title="Working time - pump 2" FontSize="13" Foreground="Black"></lvc:Axis>
             </lvc:CartesianChart.AxisY>
@@ -81,7 +85,7 @@
                 <lvc:DefaultTooltip Background="Black"/>
             </lvc:CartesianChart.DataTooltip>
         </lvc:CartesianChart>
-        <lvc:CartesianChart x:Name="MyChart5" Series="{Binding WorkingSeries3}" Grid.Column="7" Grid.Row="7" Grid.ColumnSpan="2" Grid.RowSpan="2" Background="IndianRed">
+        <lvc:CartesianChart x:Name="MyChart5" Series="{Binding WorkingSeries3}" Grid.Column="7" Grid.Row="7" Grid.ColumnSpan="2" Grid.RowSpan="2" Background="#fe938c">
             <lvc:CartesianChart.AxisY>
                 <lvc:Axis Title="Working time - pump 3" FontSize="13" Foreground="Black"></lvc:Axis>
             </lvc:CartesianChart.AxisY>
@@ -92,7 +96,7 @@
                 <lvc:DefaultTooltip Background="Black"/>
             </lvc:CartesianChart.DataTooltip>
         </lvc:CartesianChart>
-        <lvc:CartesianChart x:Name="MyChart6" Series="{Binding FlowSeries1}" Grid.Column="1" Grid.Row="10" Grid.ColumnSpan="2" Grid.RowSpan="2"  Background="CornflowerBlue">
+        <lvc:CartesianChart x:Name="MyChart6" Series="{Binding FlowSeries1}" Grid.Column="1" Grid.Row="10" Grid.ColumnSpan="2" Grid.RowSpan="2"  Background="#9cafb7">
             <lvc:CartesianChart.AxisY>
                 <lvc:Axis Title="Flow - pump 1" FontSize="13" Foreground="Black"></lvc:Axis>
             </lvc:CartesianChart.AxisY>
@@ -103,7 +107,7 @@
                 <lvc:DefaultTooltip Background="Black"/>
             </lvc:CartesianChart.DataTooltip>
         </lvc:CartesianChart>
-        <lvc:CartesianChart x:Name="MyChart7" Series="{Binding FlowSeries2}" Grid.Column="4" Grid.Row="10" Grid.ColumnSpan="2" Grid.RowSpan="2" Background="CornflowerBlue">
+        <lvc:CartesianChart x:Name="MyChart7" Series="{Binding FlowSeries2}" Grid.Column="4" Grid.Row="10" Grid.ColumnSpan="2" Grid.RowSpan="2" Background="#9cafb7">
             <lvc:CartesianChart.AxisY>
                 <lvc:Axis Title="Flow - pump 2" FontSize="13" Foreground="Black"></lvc:Axis>
             </lvc:CartesianChart.AxisY>
@@ -114,7 +118,7 @@
                 <lvc:DefaultTooltip Background="Black"/>
             </lvc:CartesianChart.DataTooltip>
         </lvc:CartesianChart>
-        <lvc:CartesianChart x:Name="MyChart8" Series="{Binding FlowSeries3}" Grid.Column="7" Grid.Row="10" Grid.ColumnSpan="2" Grid.RowSpan="2" Background="CornflowerBlue">
+        <lvc:CartesianChart x:Name="MyChart8" Series="{Binding FlowSeries3}" Grid.Column="7" Grid.Row="10" Grid.ColumnSpan="2" Grid.RowSpan="2" Background="#9cafb7">
             <lvc:CartesianChart.AxisY>
                 <lvc:Axis Title="Flow - pump 3" FontSize="13" Foreground="Black"></lvc:Axis>
             </lvc:CartesianChart.AxisY>
@@ -125,6 +129,27 @@
                 <lvc:DefaultTooltip Background="Black"/>
             </lvc:CartesianChart.DataTooltip>
         </lvc:CartesianChart>
-        <TextBlock Text="{Binding UpdateTime, StringFormat=Update time: {0}}" VerticalAlignment="Center" Foreground="White" Grid.Row="13" Grid.Column="1" Grid.ColumnSpan="2"></TextBlock>
+        <lvc:CartesianChart x:Name="MyChart9" Series="{Binding PumpSeriesY}" Grid.Column="1" Grid.Row="13" Grid.ColumnSpan="7" Grid.RowSpan="2" Background="#e6b89c" >
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="Pumps" FontSize="13" Foreground="Black"></lvc:Axis>
+            </lvc:CartesianChart.AxisY>
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="Hour" Labels="{Binding Pump1X}" FontSize="13" Foreground="Black"></lvc:Axis>
+            </lvc:CartesianChart.AxisX>
+            <lvc:CartesianChart.DataTooltip>
+                <lvc:DefaultTooltip Background="Black"/>
+            </lvc:CartesianChart.DataTooltip>
+           
+        </lvc:CartesianChart>
+        <CheckBox Grid.Row="13" Grid.Column="8" Content="Pump1" Margin="10,0,0,32" IsChecked="True" Grid.ColumnSpan="2"
+                  cal:Message.Attach="[Event Checked] = [Action ChangeVisibility1]; [Event Unchecked] = [Action ChangeVisibility1]"></CheckBox>
+        <Rectangle Grid.Row="13" Grid.Column="8" Fill="Blue" Width="15" Height="15" Margin="79,8,94,39"/>
+        <CheckBox Grid.Row="13" Grid.Column="8" Content="Pump2" Margin="10,43,0,53" Grid.RowSpan="2" IsChecked="True" Grid.ColumnSpan="2"
+                  cal:Message.Attach="[Event Checked] = [Action ChangeVisibility2]; [Event Unchecked] = [Action ChangeVisibility2]"></CheckBox>
+        <Rectangle Grid.Row="13" Grid.Column="8" Fill="Red" Width="15" Height="15" Margin="79,44,94,53" Grid.RowSpan="2"/>
+        <CheckBox Grid.Row="14" Grid.Column="8" Content="Pump3" Margin="10,25,0,10" IsChecked="True" Grid.ColumnSpan="2"
+                  cal:Message.Attach="[Event Checked] = [Action ChangeVisibility3]; [Event Unchecked] = [Action ChangeVisibility3]"></CheckBox>
+        <Rectangle Grid.Row="14" Grid.Column="8" Fill="Green" Width="15" Height="15"  VerticalAlignment="Center" Margin="79,28,94,10"/>
+        <TextBlock Text="{Binding UpdateTime, StringFormat=Update time: {0}}" VerticalAlignment="Center" Foreground="White" Grid.Row="16" Grid.Column="1" Grid.ColumnSpan="2"></TextBlock>
     </Grid>
 </UserControl>

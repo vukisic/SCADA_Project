@@ -136,6 +136,10 @@
       <Project>{ade96497-7c11-40b6-ae82-57f956c9f104}</Project>
       <Name>DataModel</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SF.Common\SF.Common.csproj">
+      <Project>{e6bfcee8-13cd-410a-9c94-f33f4cc5b34a}</Project>
+      <Name>SF.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TESTCE\CE.csproj">
       <Project>{eadb9b49-06a9-4cf1-b7d2-28be829d1556}</Project>
       <Name>CE</Name>

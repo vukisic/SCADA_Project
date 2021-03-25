@@ -89,6 +89,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AffectedEntities.cs" />
     <Compile Include="Container.cs" />
     <Compile Include="Core\AsynchronousMachine.cs" />
     <Compile Include="Core\ConductingEquipment.cs" />

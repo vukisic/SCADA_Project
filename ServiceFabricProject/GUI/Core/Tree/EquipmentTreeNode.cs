@@ -21,6 +21,22 @@ namespace GUI.Core.Tree
                 turnedOn = value;
                 NotifyOfPropertyChange(() => TurnedOn);
                 NotifyOfPropertyChange(() => ToolTip);
+                NotifyOfPropertyChange(() => ValueText);
+                NotifyOfPropertyChange(() => BorderColor);
+            }
+        }
+
+        private bool active = true;
+
+        public bool Active
+        {
+            get { return active; }
+            set
+            {
+                active = value;
+                NotifyOfPropertyChange(() => Active);
+                NotifyOfPropertyChange(() => ToolTip);
+                NotifyOfPropertyChange(() => ValueText);
                 NotifyOfPropertyChange(() => BorderColor);
             }
         }
@@ -49,17 +65,19 @@ namespace GUI.Core.Tree
             }
         }
 
-        public Brush BorderColor => new SolidColorBrush(TurnedOn? Colors.Green : Colors.Red);
+        public Brush BorderColor => new SolidColorBrush(TurnedOn && Active ? Colors.Green : Colors.Red);
 
         public ICommand OnClick { get; set; }
 
         public string ToolTip => $"{Name}, {GetStatus()}";
+        public string ValueText => $"{GetStatus()}";
+        public string SpecialValue { get; set; }
 
         public ISchemaModel Item { get; set; }
 
         private string GetStatus()
         {
-            return TurnedOn ? "ON" : "OFF";
+            return SpecialValue == null ? TurnedOn ? "ON" : "OFF" : SpecialValue;
         }
     }
 }

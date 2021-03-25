@@ -24,9 +24,12 @@ namespace SCADATransaction
             if (cimModel == null)
                 cimModel = new Dictionary<DMSType, Container>();
 
-            model.Insert = model.Insert.Where(x => this.GetDMSType(x) == DMSType.ANALOG || this.GetDMSType(x) == DMSType.DISCRETE || this.GetDMSType(x) == DMSType.BREAKER || this.GetDMSType(x) == DMSType.DISCONNECTOR).ToList();
-            model.Update = model.Update.Where(x => this.GetDMSType(x) == DMSType.ANALOG || this.GetDMSType(x) == DMSType.DISCRETE || this.GetDMSType(x) == DMSType.BREAKER || this.GetDMSType(x) == DMSType.DISCONNECTOR).ToList();
-            model.Delete = model.Delete.Where(x => this.GetDMSType(x) == DMSType.ANALOG || this.GetDMSType(x) == DMSType.DISCRETE || this.GetDMSType(x) == DMSType.BREAKER || this.GetDMSType(x) == DMSType.DISCONNECTOR).ToList();
+            model.Insert = model.Insert.Where(x => this.GetDMSType(x) == DMSType.ANALOG || this.GetDMSType(x) == DMSType.DISCRETE || 
+                                                this.GetDMSType(x) == DMSType.BREAKER || this.GetDMSType(x) == DMSType.DISCONNECTOR).ToList();
+            model.Update = model.Update.Where(x => this.GetDMSType(x) == DMSType.ANALOG || this.GetDMSType(x) == DMSType.DISCRETE ||
+                                                this.GetDMSType(x) == DMSType.BREAKER || this.GetDMSType(x) == DMSType.DISCONNECTOR).ToList();
+            model.Delete = model.Delete.Where(x => this.GetDMSType(x) == DMSType.ANALOG || this.GetDMSType(x) == DMSType.DISCRETE ||
+                                                this.GetDMSType(x) == DMSType.BREAKER || this.GetDMSType(x) == DMSType.DISCONNECTOR).ToList();
 
             if(model.Insert.Count > 0)
             {

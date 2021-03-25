@@ -29,6 +29,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <TextBlock Text="&#x0a;SCADA &#x0a;Team 2020" Grid.Row="1" Style="{StaticResource TextBlockStyle}"
@@ -82,7 +83,15 @@
             </StackPanel>
         </Button>
 
-        <ContentControl Grid.Row="1" Grid.Column="2" Grid.RowSpan="7" 
+        <Button Grid.Row="8" Grid.Column="0" x:Name="HistoryGraphView" Style="{StaticResource ButtonStyle}"
+                    FontWeight="Bold" FontStyle="Italic" Grid.ColumnSpan="2" Background="#84a98c">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="History Graph" Height="30" Margin="10,0"/>
+                <materialDesign:PackIcon Kind="Historic" Height="20" Width="20"/>
+            </StackPanel>
+        </Button>
+
+        <ContentControl Grid.Row="1" Grid.Column="2" Grid.RowSpan="8" 
                         x:Name="ActiveItem" />
     </Grid>
 </Controls:MetroWindow>

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Core.Common.Contracts;
 using FTN.Common;
 using FTN.Services.NetworkModelService;
+using FTN.Services.NetworkModelService.DataModel.Core;
 using Microsoft.ServiceFabric.Data;
 
 namespace NetworkModelServiceSF
@@ -27,6 +28,16 @@ namespace NetworkModelServiceSF
         public Task<UpdateResult> ApplyDelta(Delta delta)
         {
             return Task.FromResult(_networkModel.ApplyDelta(delta));
+        }
+
+        public Task<IdentifiedObject> GetValue(long globalId)
+        {
+            return _networkModel.GetValue(globalId);
+        }
+
+        public Task<List<IdentifiedObject>> GetValues(List<long> globalIds)
+        {
+            return _networkModel.GetValues(globalIds);
         }
     }
 }
