@@ -173,6 +173,7 @@ namespace FTN.Services.NetworkModelService
 
         public UpdateResult ApplyDelta(Delta delta)
         {
+            GetDictionaries().GetAwaiter().GetResult();
             bool applyingStarted = false;
             bool transactionSucceded = false;
             UpdateResult updateResult = new UpdateResult();
@@ -211,7 +212,8 @@ namespace FTN.Services.NetworkModelService
                 }
                 #endregion
 
-                transactionSucceded = TryApplyTransaction();
+                transactionSucceded = true;
+                //transactionSucceded = TryApplyTransaction();
 
                 if (transactionSucceded)
                 {

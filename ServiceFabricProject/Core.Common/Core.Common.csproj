@@ -136,8 +136,12 @@
     <Compile Include="ServiceBus\Dtos\TerminalDto.cs" />
     <Compile Include="ServiceBus\Dtos\TransformerWindingDto.cs" />
     <Compile Include="ServiceBus\EndpointNames.cs" />
+    <Compile Include="ServiceBus\Events\CeGraph.cs" />
+    <Compile Include="ServiceBus\Events\CeGraphElement.cs" />
+    <Compile Include="ServiceBus\Events\CeGraphicalEvent.cs" />
     <Compile Include="ServiceBus\Events\CeUpdateEvent.cs" />
     <Compile Include="ServiceBus\Events\DomUpdateEvent.cs" />
+    <Compile Include="ServiceBus\Events\HistoryGraphicalEvent.cs" />
     <Compile Include="ServiceBus\Events\HistoryUpdateEvent.cs" />
     <Compile Include="ServiceBus\Events\PumpsFlows.cs" />
     <Compile Include="ServiceBus\Events\PumpsHours.cs" />

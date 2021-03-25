@@ -19,53 +19,54 @@ namespace Test
             //WeatherServiceProxy proxy = new WeatherServiceProxy();
             //proxy.GetForecast();
             /* --- NetworkModelService --- */
-            //NetworkModelServiceProxy proxy = new NetworkModelServiceProxy(new System.ServiceModel.EndpointAddress("net.tcp://localhost:22330/NetworkModelServiceSF"));
+            //NetworkModelServiceProxy proxy = new NetworkModelServiceProxy();
             //proxy.ApplyDelta(null);
             /* --- DomService --- */
-            //DomServiceProxy proxy = new DomServiceProxy();
-            //proxy.AddOrUpdate(new SCADA.Common.Models.DomDbModel() { ManipulationConut = 0, Mrid = "Test", TimeStamp = DateTime.Now.ToString() }).GetAwaiter().GetResult();
-            //proxy.GetAll().GetAwaiter().GetResult().ForEach(x => Console.WriteLine(x.Mrid));
+            DomServiceProxy Dproxy = new DomServiceProxy();
+            Dproxy.AddOrUpdate(new SCADA.Common.Models.DomDbModel() { ManipulationConut = 0, Mrid = "Test", TimeStamp = DateTime.Now.ToString() }).GetAwaiter().GetResult();
+            Dproxy.GetAll().GetAwaiter().GetResult().ForEach(x => Console.WriteLine(x.Mrid));
             /* --- HistoryService --- */
-            //HistoryServiceProxy proxy = new HistoryServiceProxy();
-            //proxy.Add(new SCADA.Common.Models.HistoryDbModel() 
-            //{ 
-            //    ClassType = SCADA.Common.DataModel.ClassType.CLASS_0, 
-            //    Index = 0, 
-            //    MeasurementType = "Power", 
-            //    Mrid = "Test", 
-            //    RegisterType = SCADA.Common.DataModel.RegisterType.BINARY_OUTPUT, 
-            //    TimeStamp = DateTime.Now.ToString(), Value = 1 
-            //}).GetAwaiter().GetResult();
-            //proxy.GetAll().GetAwaiter().GetResult().ForEach(x => Console.WriteLine(x.Mrid));
+            HistoryServiceProxy Hproxy = new HistoryServiceProxy();
+            Hproxy.Add(new SCADA.Common.Models.HistoryDbModel()
+            {
+                ClassType = SCADA.Common.DataModel.ClassType.CLASS_0,
+                Index = 0,
+                MeasurementType = "Power",
+                Mrid = "Test",
+                RegisterType = SCADA.Common.DataModel.RegisterType.BINARY_OUTPUT,
+                TimeStamp = DateTime.Now.ToString(),
+                Value = 1
+            }).GetAwaiter().GetResult();
+            Hproxy.GetAll().GetAwaiter().GetResult().ForEach(x => Console.WriteLine(x.Mrid));
             /* --- ScadaStorageService --- */
-            //ScadaStorageProxy proxy = new ScadaStorageProxy();
-            //var dict = GetScadaModel();
-            //proxy.SetModel(dict).GetAwaiter().GetResult();
-            //var m1 = proxy.GetModel().GetAwaiter().GetResult();
-            //PrintScadaModel(m1);
-            //proxy.UpdateModelValue(GetScadaModel(true)).GetAwaiter().GetResult();
-            //var m2 = proxy.GetModel().GetAwaiter().GetResult();
-            //PrintScadaModel(m2);
+            ScadaStorageProxy proxy = new ScadaStorageProxy();
+            var dict = GetScadaModel();
+            proxy.SetModel(dict).GetAwaiter().GetResult();
+            var m1 = proxy.GetModel().GetAwaiter().GetResult();
+            PrintScadaModel(m1);
+            proxy.UpdateModelValue(GetScadaModel(true)).GetAwaiter().GetResult();
+            var m2 = proxy.GetModel().GetAwaiter().GetResult();
+            PrintScadaModel(m2);
 
-            //Console.WriteLine("DOM\n\n");
-            //proxy.SetDomModel(new List<SwitchingEquipment> { new SwitchingEquipment() { Mrid = "SW1", ManipulationConut = 5 } }).GetAwaiter().GetResult();
-            //proxy.GetDomModel().GetAwaiter().GetResult().ForEach(x => Console.WriteLine($"{x.Mrid} - {x.ManipulationConut}"));
+            Console.WriteLine("DOM\n\n");
+            proxy.SetDomModel(new List<SwitchingEquipment> { new SwitchingEquipment() { Mrid = "SW1", ManipulationConut = 5 } }).GetAwaiter().GetResult();
+            proxy.GetDomModel().GetAwaiter().GetResult().ForEach(x => Console.WriteLine($"{x.Mrid} - {x.ManipulationConut}"));
 
-            //Console.WriteLine("CIM\n");
-            //Dictionary<DMSType, Container> dr = new Dictionary<DMSType, Container>();
-            //dr[DMSType.BREAKER] = new Container();
-            //dr[DMSType.DISCRETE] = new Container();
+            Console.WriteLine("CIM\n");
+            Dictionary<DMSType, Container> dr = new Dictionary<DMSType, Container>();
+            dr[DMSType.BREAKER] = new Container();
+            dr[DMSType.DISCRETE] = new Container();
 
-            //proxy.SetCimModel(dr).GetAwaiter().GetResult();
-            //var cim = proxy.GetCimModel().GetAwaiter().GetResult();
-            //foreach (var item in cim)
-            //{
-            //    Console.WriteLine($"{item.Key}");
-            //}
+            proxy.SetCimModel(dr).GetAwaiter().GetResult();
+            var cim = proxy.GetCimModel().GetAwaiter().GetResult();
+            foreach (var item in cim)
+            {
+                Console.WriteLine($"{item.Key}");
+            }
 
-            //Console.WriteLine();
-            //var single = proxy.GetSingle(RegisterType.ANALOG_OUTPUT, 1).GetAwaiter().GetResult();
-            //Console.WriteLine($"SINGLE {single.Mrid}");
+            Console.WriteLine();
+            var single = proxy.GetSingle(RegisterType.ANALOG_OUTPUT, 1).GetAwaiter().GetResult();
+            Console.WriteLine($"SINGLE {single.Mrid}");
 
             /*NetworkModelServiceTransactionProxy nmsProxy = new NetworkModelServiceTransactionProxy();
             nmsProxy.Rollback().GetAwaiter().GetResult();*/
@@ -76,16 +77,16 @@ namespace Test
             //nmsProxy.ModelUpdate(pom).GetAwaiter().GetResult();
             //Console.WriteLine("\n\nALL DONE\n\n");
 
-            Console.WriteLine("Scada Model");
-            ScadaStorageProxy proxy = new ScadaStorageProxy();
-            var m1 = proxy.GetModel().GetAwaiter().GetResult();
-            PrintScadaModel(m1);
+            //Console.WriteLine("Scada Model");
+            //ScadaStorageProxy proxy = new ScadaStorageProxy();
+            //var m1 = proxy.GetModel().GetAwaiter().GetResult();
+            //PrintScadaModel(m1);
 
-            Console.WriteLine("Scada Export Proxy");
-            ScadaExportProxy exportProxy = new ScadaExportProxy();
-            var m2 = exportProxy.GetData().GetAwaiter().GetResult();
-            m2.Values.ToList().ForEach(x => Console.WriteLine($"{x.Mrid}"));
-            
+            //Console.WriteLine("Scada Export Proxy");
+            //ScadaExportProxy exportProxy = new ScadaExportProxy();
+            //var m2 = exportProxy.GetData().GetAwaiter().GetResult();
+            //m2.Values.ToList().ForEach(x => Console.WriteLine($"{x.Mrid}"));
+
 
             Console.ReadLine();
         }

@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Caliburn.Micro;
 using Core.Common.ServiceBus.Commands;
@@ -14,6 +15,7 @@ namespace GUI.ViewModels
         private MeasurementUpdater measurementUpdater;
         private ObservableCollection<EquipmentTreeNode> nodes = new ObservableCollection<EquipmentTreeNode>();
         private ObservableCollection<TransformerModel> transformers = new ObservableCollection<TransformerModel>();
+        private string level;
 
         public ObservableCollection<EquipmentTreeNode> Nodes
         {
@@ -32,6 +34,16 @@ namespace GUI.ViewModels
             {
                 transformers = value;
                 NotifyOfPropertyChange(() => Transformers);
+            }
+        }
+
+        public string Level
+        {
+            get { return level; }
+            set
+            {
+                level = value;
+                NotifyOfPropertyChange(() => Level);
             }
         }
 
@@ -60,6 +72,11 @@ namespace GUI.ViewModels
             App.Current.Dispatcher.Invoke((System.Action)delegate
             {
                 measurementUpdater.UpdateValues(e);
+                var lvl = e.Points.SingleOrDefault(x => x.Mrid.Contains("Level"));
+                if(lvl != null)
+                {
+                    Level = $"Fluid Level: {lvl.Value}";
+                }
             });
         }
 

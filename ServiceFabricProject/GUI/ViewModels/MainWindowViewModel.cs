@@ -10,19 +10,23 @@ using NServiceBus;
 
 namespace GUI.ViewModels
 {
-    public class MainWindowViewModel : Conductor<object>, IHandleMessages<ModelUpdateCommand>, IHandleMessages<ScadaUpdateEvent>, IHandleMessages<DomUpdateEvent>, IHandleMessages<HistoryUpdateEvent>, IHandleMessages<CeUpdateEvent>
+    public class MainWindowViewModel : Conductor<object>, IHandleMessages<ModelUpdateCommand>, IHandleMessages<HistoryGraphicalEvent>, IHandleMessages<ScadaUpdateEvent>, IHandleMessages<DomUpdateEvent>, IHandleMessages<HistoryUpdateEvent>, IHandleMessages<CeUpdateEvent>, IHandleMessages<CeGraphicalEvent>
     {
         private static EventHandler<ScadaUpdateEvent> scadaUpdate = delegate { };
         private static EventHandler<DomUpdateEvent> domUpdate = delegate { };
         private static EventHandler<HistoryUpdateEvent> historyUpdate = delegate { };
         private static EventHandler<ModelUpdateCommand> modelUpdate = delegate { };
         private static EventHandler<CeUpdateEvent> ceUpdate = delegate { };
+        private static EventHandler<HistoryGraphicalEvent> graphUpdate = delegate { };
+        private static EventHandler<CeGraphicalEvent> ceUpdatePumpsValues = delegate { };
+
         private ScadaDataViewModel scada = new ScadaDataViewModel();
         private DOMViewModel dom = new DOMViewModel();
         private AlarmingViewModel alarms = new AlarmingViewModel();
         private HistoryViewModel history = new HistoryViewModel();
         private GraphicsViewModel graphics = new GraphicsViewModel();
         private CEDataViewModel ce = new CEDataViewModel();
+        private HistoryGraphViewModel graph = new HistoryGraphViewModel();
         public MainWindowViewModel()
         {
             scadaUpdate += scada.Update;
@@ -32,6 +36,8 @@ namespace GUI.ViewModels
             historyUpdate += history.Update;
             modelUpdate += graphics.Update;
             ceUpdate += ce.Update;
+            graphUpdate += graph.Update;
+            ceUpdatePumpsValues += ce.UpdatePumpsValues;
             LoadScadaDataView();
         }
         public void LoadGraphicsView()
@@ -64,6 +70,11 @@ namespace GUI.ViewModels
             ActivateItem(ce);
         }
 
+        public void HistoryGraphView()
+        {
+            ActivateItem(graph);
+        }
+
         public Task Handle(ScadaUpdateEvent message, IMessageHandlerContext context)
         {
             scadaUpdate.Invoke(this,message);
@@ -91,6 +102,18 @@ namespace GUI.ViewModels
         public Task Handle(CeUpdateEvent message, IMessageHandlerContext context)
         {
             ceUpdate.Invoke(this, message);
+            return Task.CompletedTask;
+        }
+
+        public Task Handle(HistoryGraphicalEvent message, IMessageHandlerContext context)
+        {
+            graphUpdate.Invoke(this, message);
+            return Task.CompletedTask;
+        }
+
+        public Task Handle(CeGraphicalEvent message, IMessageHandlerContext context)
+        {
+            ceUpdatePumpsValues.Invoke(this, message);
             return Task.CompletedTask;
         }
     }
