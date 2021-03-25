@@ -21,7 +21,7 @@ namespace SF.Common.Proxies
 
         }
 
-        public async Task<bool> ModelUpdate(Dictionary<DMSType, Container> model)
+        public async Task<bool> ModelUpdate(AffectedEntities model)
         {
             return await Task.Run(async () => { return await Channel.ModelUpdate(model); });
         }

@@ -14,6 +14,6 @@ namespace Core.Common.Contracts
     public interface IModelUpdateAsync
     {
         [OperationContract]
-        Task<bool> ModelUpdate(Dictionary<DMSType, Container> model);
+        Task<bool> ModelUpdate(AffectedEntities model);
     }
 }

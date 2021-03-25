@@ -128,6 +128,10 @@
       <Project>{83773854-5d2a-458a-a6e5-299dd7e6240a}</Project>
       <Name>Core.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NetworkModelService\DataModel\DataModel.csproj">
+      <Project>{ADE96497-7C11-40B6-AE82-57F956C9F104}</Project>
+      <Name>DataModel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NetworkModelService\NetworkModelService.csproj">
       <Project>{2630d180-1b68-4e84-aeac-42ee8c88b50f}</Project>
       <Name>NetworkModelService</Name>

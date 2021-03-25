@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Core.Common.Contracts;
 using FTN.Common;
+using FTN.Services.NetworkModelService.DataModel.Core;
 using Microsoft.ServiceFabric.Services.Client;
 using Microsoft.ServiceFabric.Services.Communication.Wcf;
 using Microsoft.ServiceFabric.Services.Communication.Wcf.Client;
@@ -23,6 +24,16 @@ namespace SF.Common.Proxies
         public UpdateResult ApplyDelta(Delta delta)
         {
             return Channel.ApplyDelta(delta).ConfigureAwait(false).GetAwaiter().GetResult();
+        }
+
+        public Task<IdentifiedObject> GetValue(long globalId)
+        {
+            return Channel.GetValue(globalId);
+        }
+
+        public Task<List<IdentifiedObject>> GetValues(List<long> globalIds)
+        {
+            return Channel.GetValues(globalIds);
         }
     }
 }
