@@ -39,7 +39,6 @@ namespace CE
 
         public CEWorker()
         {
-            _updateEvent += OnPointUpdate;
             endpoint = ServiceBusStartup.StartInstance("CE").GetAwaiter().GetResult();
         }
 
