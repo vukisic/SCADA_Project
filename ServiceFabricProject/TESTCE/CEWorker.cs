@@ -9,6 +9,7 @@ using CE.Data;
 using CE.ServiceBus;
 using Core.Common.ServiceBus.Events;
 using Core.Common.WeatherApi;
+using NServiceBus;
 using SCADA.Common.DataModel;
 
 namespace CE
@@ -237,6 +238,17 @@ namespace CE
 
             return ret;
         }
+
+        /*private void OnPointUpdate(object sender, int e)
+        {
+            pointUpdateOccures = true;
+            if (points > 0)
+                skip = true;
+            points = e;
+            Stop();
+            OffSequence();
+            Start();
+        }*/
         public void OnPointUpdate(int tPoints)
         {
             pointUpdateOccures = true;
@@ -499,16 +511,7 @@ namespace CE
             Stop();
         }
 
-        private void OnPointUpdate(object sender, int e)
-        {
-            pointUpdateOccures = true;
-            if (points > 0)
-                skip = true;
-            points = e;
-            Stop();
-            OffSequence();
-            Start();
-        }
+
 
         private void OffSequence()
         {
