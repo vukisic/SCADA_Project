@@ -9,7 +9,6 @@ using CE.Data;
 using CE.ServiceBus;
 using Core.Common.ServiceBus.Events;
 using Core.Common.WeatherApi;
-using NServiceBus;
 using SCADA.Common.DataModel;
 
 namespace CE
@@ -20,14 +19,14 @@ namespace CE
         //private long pump1Time;
         //private long pump2Time;
         //private long pump3Time;
-
+        public int TPoints = 0;
         private IFitnessFunction algorithm;
         private Thread _worker;
         public EventHandler<int> _updateEvent = delegate { };
         private bool pointUpdateOccures;
         private bool endFlag;
         private int points = 0;
-        private WeatherAPI weatherAPI;
+        private WeatherServiceProxy weatherAPI;
         private IEndpointInstance endpoint;
         private static bool skip = false;
         private int secundsForWeather = 60;
@@ -48,7 +47,7 @@ namespace CE
             _worker = new Thread(DoWorkNew);
             endFlag = true;
             _worker.Name = "CE Worker";
-            weatherAPI = new WeatherAPI();
+            weatherAPI = new WeatherServiceProxy();
             _worker.Start();
         }
 
@@ -237,6 +236,16 @@ namespace CE
             bool ret = (fluidLevel <= upperBound && fluidLevel >= lowerBound);
 
             return ret;
+        }
+        public void OnPointUpdate(int tPoints)
+        {
+            pointUpdateOccures = true;
+            if (points > 0)
+                skip = true;
+            points = tPoints;
+            Stop();
+            OffSequence();
+            Start();
         }
 
         private void SendCommand(CeForecast forecastResult)
