@@ -461,11 +461,11 @@ namespace CE
                 case 3: algorithm = new FluidLevelOptimization3(results.OptimalFluidLevel, results.Percetage, results.TimeFactor, results.Iterations); break;
             }
 
-            //result - najbolje rjesenje (jedinka)
-            // result.Genes[0] - prvi gen (da li pumpa radi ili ne radi)
-            //ako je case 1 - bice 3 gena - jedna pumpa
-            //ako je case 2 - bice 6 gena - dvije pumpe
-            //ako je case 3 - bice 9 gena - tri pumpe
+           /* result - najbolje rjesenje (jedinka)
+                result.Genes[0] - prvi gen (da li pumpa radi ili ne radi)
+                ako je case 1 - bice 3 gena - jedna pumpa
+                ako je case 2 - bice 6 gena - dvije pumpe
+                ako je case 3 - bice 9 gena - tri pumpe */
 
             pointUpdateOccures = false;
         }
