@@ -39,7 +39,7 @@ namespace CE
 
         public CEWorker()
         {
-            endpoint = ServiceBusStartup.StartInstance("CE").GetAwaiter().GetResult();
+           // endpoint = ServiceBusStartup.StartInstance("CE").GetAwaiter().GetResult();
         }
 
         public void Start()
@@ -222,8 +222,8 @@ namespace CE
                     }
                 }
 
-                SendCommand(forecastResult);
-                Update(forecastResult, weather);
+                //SendCommand(forecastResult);
+                //Update(forecastResult, weather);
 
             }
         }

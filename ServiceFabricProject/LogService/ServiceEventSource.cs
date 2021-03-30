@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.ServiceFabric.Services.Runtime;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.Tracing;
 using System.Fabric;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace LogService
 {
-    [EventSource(Name = "LogService")]
+    [EventSource(Name = "MyCompany-ServiceFabricApp-LogService")]
     internal sealed class ServiceEventSource : EventSource
     {
         public static readonly ServiceEventSource Current = new ServiceEventSource();
@@ -170,5 +171,3 @@ namespace LogService
         #endregion
     }
 }
-
-

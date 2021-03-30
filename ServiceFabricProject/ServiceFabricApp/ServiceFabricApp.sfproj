@@ -35,9 +35,11 @@
     <ProjectReference Include="..\CEService\CEService.csproj" />
     <ProjectReference Include="..\DomService\DomService.csproj" />
     <ProjectReference Include="..\HistoryService\HistoryService.csproj" />
+    <ProjectReference Include="..\LogService\LogService.csproj" />
     <ProjectReference Include="..\NetworkModelServiceSF\NetworkModelServiceSF.csproj" />
     <ProjectReference Include="..\ScadaExportService\ScadaExportService.csproj" />
     <ProjectReference Include="..\ScadaStorageService\ScadaStorageService.csproj" />
+    <ProjectReference Include="..\TransactionManagerService\TransactionManagerService.csproj" />
     <ProjectReference Include="..\WeatherForecast\WeatherForecast.csproj" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />

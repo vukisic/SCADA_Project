@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Fabric;
 using System.Linq;
-using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using Core.Common.Contracts;
@@ -11,7 +10,6 @@ using TransactionManager;
 
 namespace TransactionManagerService
 {
-    [ServiceBehavior(AddressFilterMode = AddressFilterMode.Any)]
     public class TransactionManagerServiceProvider : IEnlistManagerAsync
     {
         public static EnlistManager _enlistManager;
@@ -20,6 +18,7 @@ namespace TransactionManagerService
 
         public TransactionManagerServiceProvider(IReliableStateManager stateManager, StatefulServiceContext context)
         {
+            _enlistManager = new EnlistManager(stateManager);
             _stateManager = stateManager;
             _context = context;
         }

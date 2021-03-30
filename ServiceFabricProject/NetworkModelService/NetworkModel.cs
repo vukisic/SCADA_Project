@@ -575,10 +575,10 @@ namespace FTN.Services.NetworkModelService
                 }
             }
 
-            if (!TryApplyTransaction())
-            {
-                RestoreModel();
-            }
+            //if (!TryApplyTransaction())
+            //{
+            //    RestoreModel();
+            //}
         }
 
         private bool TryApplyTransaction()

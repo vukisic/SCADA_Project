@@ -22,51 +22,51 @@ namespace Test
             //NetworkModelServiceProxy proxy = new NetworkModelServiceProxy();
             //proxy.ApplyDelta(null);
             /* --- DomService --- */
-            DomServiceProxy Dproxy = new DomServiceProxy();
-            Dproxy.AddOrUpdate(new SCADA.Common.Models.DomDbModel() { ManipulationConut = 0, Mrid = "Test", TimeStamp = DateTime.Now.ToString() }).GetAwaiter().GetResult();
-            Dproxy.GetAll().GetAwaiter().GetResult().ForEach(x => Console.WriteLine(x.Mrid));
-            /* --- HistoryService --- */
-            HistoryServiceProxy Hproxy = new HistoryServiceProxy();
-            Hproxy.Add(new SCADA.Common.Models.HistoryDbModel()
-            {
-                ClassType = SCADA.Common.DataModel.ClassType.CLASS_0,
-                Index = 0,
-                MeasurementType = "Power",
-                Mrid = "Test",
-                RegisterType = SCADA.Common.DataModel.RegisterType.BINARY_OUTPUT,
-                TimeStamp = DateTime.Now.ToString(),
-                Value = 1
-            }).GetAwaiter().GetResult();
-            Hproxy.GetAll().GetAwaiter().GetResult().ForEach(x => Console.WriteLine(x.Mrid));
-            /* --- ScadaStorageService --- */
-            ScadaStorageProxy proxy = new ScadaStorageProxy();
-            var dict = GetScadaModel();
-            proxy.SetModel(dict).GetAwaiter().GetResult();
-            var m1 = proxy.GetModel().GetAwaiter().GetResult();
-            PrintScadaModel(m1);
-            proxy.UpdateModelValue(GetScadaModel(true)).GetAwaiter().GetResult();
-            var m2 = proxy.GetModel().GetAwaiter().GetResult();
-            PrintScadaModel(m2);
+            //DomServiceProxy Dproxy = new DomServiceProxy();
+            //Dproxy.AddOrUpdate(new SCADA.Common.Models.DomDbModel() { ManipulationConut = 0, Mrid = "Test", TimeStamp = DateTime.Now.ToString() }).GetAwaiter().GetResult();
+            //Dproxy.GetAll().GetAwaiter().GetResult().ForEach(x => Console.WriteLine(x.Mrid));
+            ///* --- HistoryService --- */
+            //HistoryServiceProxy Hproxy = new HistoryServiceProxy();
+            //Hproxy.Add(new SCADA.Common.Models.HistoryDbModel()
+            //{
+            //    ClassType = SCADA.Common.DataModel.ClassType.CLASS_0,
+            //    Index = 0,
+            //    MeasurementType = "Power",
+            //    Mrid = "Test",
+            //    RegisterType = SCADA.Common.DataModel.RegisterType.BINARY_OUTPUT,
+            //    TimeStamp = DateTime.Now.ToString(),
+            //    Value = 1
+            //}).GetAwaiter().GetResult();
+            //Hproxy.GetAll().GetAwaiter().GetResult().ForEach(x => Console.WriteLine(x.Mrid));
+            ///* --- ScadaStorageService --- */
+            //ScadaStorageProxy proxy = new ScadaStorageProxy();
+            //var dict = GetScadaModel();
+            //proxy.SetModel(dict).GetAwaiter().GetResult();
+            //var m1 = proxy.GetModel().GetAwaiter().GetResult();
+            //PrintScadaModel(m1);
+            //proxy.UpdateModelValue(GetScadaModel(true)).GetAwaiter().GetResult();
+            //var m2 = proxy.GetModel().GetAwaiter().GetResult();
+            //PrintScadaModel(m2);
 
-            Console.WriteLine("DOM\n\n");
-            proxy.SetDomModel(new List<SwitchingEquipment> { new SwitchingEquipment() { Mrid = "SW1", ManipulationConut = 5 } }).GetAwaiter().GetResult();
-            proxy.GetDomModel().GetAwaiter().GetResult().ForEach(x => Console.WriteLine($"{x.Mrid} - {x.ManipulationConut}"));
+            //Console.WriteLine("DOM\n\n");
+            //proxy.SetDomModel(new List<SwitchingEquipment> { new SwitchingEquipment() { Mrid = "SW1", ManipulationConut = 5 } }).GetAwaiter().GetResult();
+            //proxy.GetDomModel().GetAwaiter().GetResult().ForEach(x => Console.WriteLine($"{x.Mrid} - {x.ManipulationConut}"));
 
-            Console.WriteLine("CIM\n");
-            Dictionary<DMSType, Container> dr = new Dictionary<DMSType, Container>();
-            dr[DMSType.BREAKER] = new Container();
-            dr[DMSType.DISCRETE] = new Container();
+            //Console.WriteLine("CIM\n");
+            //Dictionary<DMSType, Container> dr = new Dictionary<DMSType, Container>();
+            //dr[DMSType.BREAKER] = new Container();
+            //dr[DMSType.DISCRETE] = new Container();
 
-            proxy.SetCimModel(dr).GetAwaiter().GetResult();
-            var cim = proxy.GetCimModel().GetAwaiter().GetResult();
-            foreach (var item in cim)
-            {
-                Console.WriteLine($"{item.Key}");
-            }
+            //proxy.SetCimModel(dr).GetAwaiter().GetResult();
+            //var cim = proxy.GetCimModel().GetAwaiter().GetResult();
+            //foreach (var item in cim)
+            //{
+            //    Console.WriteLine($"{item.Key}");
+            //}
 
-            Console.WriteLine();
-            var single = proxy.GetSingle(RegisterType.ANALOG_OUTPUT, 1).GetAwaiter().GetResult();
-            Console.WriteLine($"SINGLE {single.Mrid}");
+            //Console.WriteLine();
+            //var single = proxy.GetSingle(RegisterType.ANALOG_OUTPUT, 1).GetAwaiter().GetResult();
+            //Console.WriteLine($"SINGLE {single.Mrid}");
 
             /*NetworkModelServiceTransactionProxy nmsProxy = new NetworkModelServiceTransactionProxy();
             nmsProxy.Rollback().GetAwaiter().GetResult();*/
@@ -86,6 +86,14 @@ namespace Test
             //ScadaExportProxy exportProxy = new ScadaExportProxy();
             //var m2 = exportProxy.GetData().GetAwaiter().GetResult();
             //m2.Values.ToList().ForEach(x => Console.WriteLine($"{x.Mrid}"));
+
+            Console.WriteLine("Log");
+            LogServiceProxy log = new LogServiceProxy();
+            log.Log(new SCADA.Common.Logging.LogEventModel() { EventType = SCADA.Common.Logging.LogEventType.DEBUG, Message = "A" }).GetAwaiter().GetResult();
+
+            Console.WriteLine("TM");
+            TransactionManagerServiceProxy tm = new TransactionManagerServiceProxy();
+            tm.Enlist().GetAwaiter().GetResult();
 
 
             Console.ReadLine();
