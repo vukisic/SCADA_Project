@@ -87,14 +87,18 @@ namespace Test
             //var m2 = exportProxy.GetData().GetAwaiter().GetResult();
             //m2.Values.ToList().ForEach(x => Console.WriteLine($"{x.Mrid}"));
 
-            Console.WriteLine("Log");
-            LogServiceProxy log = new LogServiceProxy();
-            log.Log(new SCADA.Common.Logging.LogEventModel() { EventType = SCADA.Common.Logging.LogEventType.DEBUG, Message = "A" }).GetAwaiter().GetResult();
+            //Console.WriteLine("Log");
+            //LogServiceProxy log = new LogServiceProxy();
+            //log.Log(new SCADA.Common.Logging.LogEventModel() { EventType = SCADA.Common.Logging.LogEventType.DEBUG, Message = "A" }).GetAwaiter().GetResult();
 
-            Console.WriteLine("TM");
-            TransactionManagerServiceProxy tm = new TransactionManagerServiceProxy();
-            tm.Enlist().GetAwaiter().GetResult();
+            //Console.WriteLine("TM");
+            //TransactionManagerServiceProxy tm = new TransactionManagerServiceProxy();
+            //tm.Enlist().GetAwaiter().GetResult();
 
+            Console.WriteLine("Alarm");
+            var alarm = new AlarmingProxy();
+            var result = alarm.Check(GetScadaModel()).GetAwaiter().GetResult();
+            PrintScadaModel(result);
 
             Console.ReadLine();
         }
@@ -104,7 +108,7 @@ namespace Test
             var dict = new Dictionary<Tuple<RegisterType, int>, BasePoint>();
             if (!test)
             {
-                var analog = new AnalogPoint() { Alarm = AlarmType.NO_ALARM, ClassType = ClassType.CLASS_0, Direction = FTN.Common.SignalDirection.ReadWrite, Index = 1, MeasurementType = FTN.Common.MeasurementType.ActiveEnergy, Mrid = "TEST_ANALOG", ObjectMrid = null, RegisterType = RegisterType.ANALOG_OUTPUT, TimeStamp = DateTime.Now.ToString(),MaxValue = 5,MinValue =0, NormalValue= 0, Value=1 };
+                var analog = new AnalogPoint() { Alarm = AlarmType.NO_ALARM, ClassType = ClassType.CLASS_0, Direction = FTN.Common.SignalDirection.ReadWrite, Index = 1, MeasurementType = FTN.Common.MeasurementType.ActiveEnergy, Mrid = "TEST_ANALOG", ObjectMrid = null, RegisterType = RegisterType.ANALOG_OUTPUT, TimeStamp = DateTime.Now.ToString(),MaxValue = 5,MinValue =0, NormalValue= 0, Value=10 };
                 var binary = new DiscretePoint() { Alarm = AlarmType.NO_ALARM, ClassType = ClassType.CLASS_0, Direction = FTN.Common.SignalDirection.ReadWrite, Index = 3, MeasurementType = FTN.Common.MeasurementType.Status, Mrid = "TEST_BINARY", ObjectMrid = null, RegisterType = RegisterType.BINARY_OUTPUT, TimeStamp = DateTime.Now.ToString(), MaxValue=1,MinValue=0, NormalValue=0, Value=1 };
                 dict[Tuple.Create(analog.RegisterType, analog.Index)] = analog;
                 dict[Tuple.Create(binary.RegisterType, binary.Index)] = binary;
@@ -127,12 +131,12 @@ namespace Test
                 if(item.Key.Item1 == RegisterType.ANALOG_INPUT || item.Key.Item1 == RegisterType.ANALOG_OUTPUT)
                 {
                     var point = item.Value as AnalogPoint;
-                    Console.WriteLine($"Analog| {point.Mrid} - {point.Value}");
+                    Console.WriteLine($"Analog| {point.Mrid} - {point.Value} - {point.Alarm}");
                 }
                 else
                 {
                     var point = item.Value as DiscretePoint;
-                    Console.WriteLine($"Binary| {point.Mrid} - {point.Value}");
+                    Console.WriteLine($"Binary| {point.Mrid} - {point.Value} - {point.Alarm}");
                 }
             }
             Console.WriteLine();

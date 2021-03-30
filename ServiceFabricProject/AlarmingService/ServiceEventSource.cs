@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.ServiceFabric.Services.Runtime;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.Tracing;
 using System.Fabric;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AlarmingService
 {
-    [EventSource(Name = "AlarmingService")]
+    [EventSource(Name = "MyCompany-ServiceFabricApp-AlarmingService")]
     internal sealed class ServiceEventSource : EventSource
     {
         public static readonly ServiceEventSource Current = new ServiceEventSource();
@@ -169,3 +170,4 @@ namespace AlarmingService
 #endif
         #endregion
     }
+}

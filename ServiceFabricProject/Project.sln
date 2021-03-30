@@ -77,6 +77,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogService", "LogService\Lo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransactionManagerService", "TransactionManagerService\TransactionManagerService.csproj", "{2D0F168E-4A15-4BE0-9CE9-B17F094DE275}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmingService", "AlarmingService\AlarmingService.csproj", "{E57BDA95-E7FA-4BFF-A47C-0FDF673FE3B9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -403,6 +405,14 @@ Global
 		{2D0F168E-4A15-4BE0-9CE9-B17F094DE275}.Release|x64.ActiveCfg = Release|x64
 		{2D0F168E-4A15-4BE0-9CE9-B17F094DE275}.Release|x64.Build.0 = Release|x64
 		{2D0F168E-4A15-4BE0-9CE9-B17F094DE275}.Release|x86.ActiveCfg = Release|x64
+		{E57BDA95-E7FA-4BFF-A47C-0FDF673FE3B9}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{E57BDA95-E7FA-4BFF-A47C-0FDF673FE3B9}.Debug|x64.ActiveCfg = Debug|x64
+		{E57BDA95-E7FA-4BFF-A47C-0FDF673FE3B9}.Debug|x64.Build.0 = Debug|x64
+		{E57BDA95-E7FA-4BFF-A47C-0FDF673FE3B9}.Debug|x86.ActiveCfg = Debug|x64
+		{E57BDA95-E7FA-4BFF-A47C-0FDF673FE3B9}.Release|Any CPU.ActiveCfg = Release|x64
+		{E57BDA95-E7FA-4BFF-A47C-0FDF673FE3B9}.Release|x64.ActiveCfg = Release|x64
+		{E57BDA95-E7FA-4BFF-A47C-0FDF673FE3B9}.Release|x64.Build.0 = Release|x64
+		{E57BDA95-E7FA-4BFF-A47C-0FDF673FE3B9}.Release|x86.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

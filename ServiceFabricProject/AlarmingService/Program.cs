@@ -1,17 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.ServiceFabric.Services.Runtime;
+using System;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
+using System.Fabric;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.ServiceFabric.Services.Runtime;
 
 namespace AlarmingService
 {
-    class Program
+    internal static class Program
     {
-        static void Main(string[] args)
+        /// <summary>
+        /// This is the entry point of the service host process.
+        /// </summary>
+        private static void Main()
         {
             try
             {

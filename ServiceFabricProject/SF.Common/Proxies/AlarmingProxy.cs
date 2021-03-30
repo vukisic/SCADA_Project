@@ -12,22 +12,23 @@ using SCADA.Common.DataModel;
 
 namespace SF.Common.Proxies
 {
-    public class AlarmingServiceProxy
+    public class AlarmingProxy
     {
-        public async Task<Dictionary<Tuple<RegisterType, int>, BasePoint>> Check(Dictionary<Tuple<RegisterType, int>, BasePoint> points)
+        public Task<Dictionary<Tuple<RegisterType, int>, BasePoint>> Check(Dictionary<Tuple<RegisterType, int>, BasePoint> points)
         {
             var client = BuildClient();
-            return await client.InvokeWithRetryAsync(x => x.Channel.Check(points));
+            return client.InvokeWithRetryAsync(x => x.Channel.Check(points));
         }
 
-        private WcfClient<IAlarmingService> BuildClient()
+        private WcfClient<IAlarmingServiceAsync> BuildClient()
         {
             Binding binding = WcfUtility.CreateTcpClientBinding();
             IServicePartitionResolver partitionResolver = ServicePartitionResolver.GetDefault();
-            var wcfClientFactory = new WcfCommunicationClientFactory<IAlarmingService>(clientBinding: binding, servicePartitionResolver: partitionResolver);
+            var wcfClientFactory = new WcfCommunicationClientFactory<IAlarmingServiceAsync>(clientBinding: binding, servicePartitionResolver: partitionResolver);
             var ServiceUri = new Uri("fabric:/ServiceFabricApp/AlarmingService");
-            var client = new WcfClient<IAlarmingService>(wcfClientFactory, ServiceUri);
+            var client = new WcfClient<IAlarmingServiceAsync>(wcfClientFactory, ServiceUri);
             return client;
         }
+
     }
 }

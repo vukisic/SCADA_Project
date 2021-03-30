@@ -129,6 +129,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contracts\IAlarmingServiceAsync.cs" />
     <Compile Include="Contracts\IConfigurationChange.cs" />
     <Compile Include="Contracts\IDomService.cs" />
     <Compile Include="Contracts\IEnlistManagerAsync.cs" />
