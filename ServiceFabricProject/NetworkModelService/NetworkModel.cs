@@ -575,24 +575,24 @@ namespace FTN.Services.NetworkModelService
                 }
             }
 
-            //if (!TryApplyTransaction())
-            //{
-            //    RestoreModel();
-            //}
+            if (!TryApplyTransaction())
+            {
+                RestoreModel();
+            }
         }
 
         private bool TryApplyTransaction()
         {
-            TransactionManagerProxy proxyForTM = new TransactionManagerProxy();
+            TransactionManagerServiceProxy proxyForTM = new TransactionManagerServiceProxy();
 
             //Zapocni transakciju i prijavi se na nju
             bool pom = false;
             while (!pom)
             {
-                pom = proxyForTM.StartEnlist();
+                pom = proxyForTM.StartEnlist().GetAwaiter().GetResult();
             }
 
-            proxyForTM.Enlist();
+            proxyForTM.Enlist().GetAwaiter().GetResult();
 
             //Posalji Scadi i CEu novi model
             NMSSCADAProxy proxyForScada = new NMSSCADAProxy();
@@ -605,7 +605,7 @@ namespace FTN.Services.NetworkModelService
             if (proxyForCE.ModelUpdate(affectedEntities).GetAwaiter().GetResult())
                 success = true;
 
-            proxyForTM.EndEnlist(success);
+            proxyForTM.EndEnlist(success).GetAwaiter().GetResult();
             try
             {
                 var instance = NMSServiceBus.StartInstance().GetAwaiter().GetResult();

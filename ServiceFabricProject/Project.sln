@@ -73,6 +73,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScadaExportService", "Scada
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUI", "GUI\GUI.csproj", "{21D08459-0DF6-4A0E-AFFE-39A2974401F3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransactionManagerService", "TransactionManagerService\TransactionManagerService.csproj", "{209E6B10-B482-49CD-AB76-640FE2133788}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -244,8 +246,8 @@ Global
 		{6E79FCA4-42E3-4D2F-B4A3-28E691BF04C3}.Release|x64.Build.0 = Release|Any CPU
 		{6E79FCA4-42E3-4D2F-B4A3-28E691BF04C3}.Release|x86.ActiveCfg = Release|Any CPU
 		{6E79FCA4-42E3-4D2F-B4A3-28E691BF04C3}.Release|x86.Build.0 = Release|Any CPU
-		{D4D93CF6-137A-41B3-9EA7-66678376D99F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D4D93CF6-137A-41B3-9EA7-66678376D99F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4D93CF6-137A-41B3-9EA7-66678376D99F}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{D4D93CF6-137A-41B3-9EA7-66678376D99F}.Debug|Any CPU.Build.0 = Debug|x86
 		{D4D93CF6-137A-41B3-9EA7-66678376D99F}.Debug|x64.ActiveCfg = Debug|x86
 		{D4D93CF6-137A-41B3-9EA7-66678376D99F}.Debug|x64.Build.0 = Debug|x86
 		{D4D93CF6-137A-41B3-9EA7-66678376D99F}.Debug|x86.ActiveCfg = Debug|Any CPU
@@ -383,6 +385,18 @@ Global
 		{21D08459-0DF6-4A0E-AFFE-39A2974401F3}.Release|x64.Build.0 = Release|Any CPU
 		{21D08459-0DF6-4A0E-AFFE-39A2974401F3}.Release|x86.ActiveCfg = Release|Any CPU
 		{21D08459-0DF6-4A0E-AFFE-39A2974401F3}.Release|x86.Build.0 = Release|Any CPU
+		{209E6B10-B482-49CD-AB76-640FE2133788}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{209E6B10-B482-49CD-AB76-640FE2133788}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{209E6B10-B482-49CD-AB76-640FE2133788}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{209E6B10-B482-49CD-AB76-640FE2133788}.Debug|x64.Build.0 = Debug|Any CPU
+		{209E6B10-B482-49CD-AB76-640FE2133788}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{209E6B10-B482-49CD-AB76-640FE2133788}.Debug|x86.Build.0 = Debug|Any CPU
+		{209E6B10-B482-49CD-AB76-640FE2133788}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{209E6B10-B482-49CD-AB76-640FE2133788}.Release|Any CPU.Build.0 = Release|Any CPU
+		{209E6B10-B482-49CD-AB76-640FE2133788}.Release|x64.ActiveCfg = Release|Any CPU
+		{209E6B10-B482-49CD-AB76-640FE2133788}.Release|x64.Build.0 = Release|Any CPU
+		{209E6B10-B482-49CD-AB76-640FE2133788}.Release|x86.ActiveCfg = Release|Any CPU
+		{209E6B10-B482-49CD-AB76-640FE2133788}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

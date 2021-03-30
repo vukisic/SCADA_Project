@@ -1,17 +1,25 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.ServiceFabric.Data;
+using SF.Common.Proxies;
 using TMContracts;
 
 namespace TransactionManager
 {
-    public class EnlistManager : IEnlistManager
+    public class EnlistManager
     {
-        public void EndEnlist(bool isSuccessful)
+        private IReliableStateManager _manager;
+        public EnlistManager(IReliableStateManager stateManager)
+        {
+            _manager = stateManager;
+        }
+        public async Task EndEnlist(bool isSuccessful)
         {
             Console.WriteLine("NMS ended transaction.");
-            StepsOfTransaction();
+            await StepsOfTransaction();
         }
-        public void StepsOfTransaction()
+        public async Task StepsOfTransaction()
         {
             Thread.Sleep(2000);
             bool isPreparedSCADA = false;
@@ -21,39 +29,39 @@ namespace TransactionManager
             bool commitedNMS = false;
             bool commitedCE = false;
 
-            SCADATransactionProxy proxyForScada = new SCADATransactionProxy();
-            isPreparedSCADA = proxyForScada.Prepare();
+            //SCADATransactionProxy proxyForScada = new SCADATransactionProxy();
+            //isPreparedSCADA = proxyForScada.Prepare();
 
-            CalculationEngineTransactionProxy proxyForCE = new CalculationEngineTransactionProxy();
-            isPreparedCE = proxyForCE.Prepare();
+            CETransactionProxy proxyForCE = new CETransactionProxy();
+            isPreparedCE = await proxyForCE.Prepare();
 
-            NMSProxy proxyForNms = new NMSProxy();
-            isPreparedNMS = proxyForNms.Prepare();
+            NetworkModelServiceTransactionProxy proxyForNms = new NetworkModelServiceTransactionProxy();
+            isPreparedNMS = await proxyForNms.Prepare();
 
 
             if (isPreparedSCADA && isPreparedCE && isPreparedNMS)
             {
                 Console.WriteLine("Every service is prepared to commit..calling commit");
-                commitedSCADA = proxyForScada.Commit();
-                commitedNMS = proxyForCE.Commit();
-                commitedCE = proxyForNms.Commit();
+                //commitedSCADA = proxyForScada.Commit();
+                commitedNMS = await proxyForCE.Commit();
+                commitedCE = await proxyForNms.Commit();
             }
 
             if (!(commitedSCADA && commitedCE && commitedNMS))
             {
                 Console.WriteLine("ERROR..requesting rollback");
-                proxyForScada.Rollback();
-                proxyForCE.Rollback();
-                proxyForNms.Rollback();
+                //proxyForScada.Rollback();
+                await proxyForCE.Rollback();
+                await proxyForNms.Rollback();
             }
             Console.WriteLine("Every service commited! MODEL UPDATED!");
         }
-        public void Enlist()
+        public async Task Enlist()
         {
             Console.WriteLine("New service enter transaction.");
         }
 
-        public bool StartEnlist()
+        public async Task<bool> StartEnlist()
         {
             Console.WriteLine("NMS started transaction.");
             return true;

@@ -131,6 +131,7 @@
   <ItemGroup>
     <Compile Include="Contracts\IConfigurationChange.cs" />
     <Compile Include="Contracts\IDomService.cs" />
+    <Compile Include="Contracts\IEnlistManagerAsync.cs" />
     <Compile Include="Contracts\IHistoryService.cs" />
     <Compile Include="Contracts\IModelUpdateAsync.cs" />
     <Compile Include="Contracts\INetworkModelService.cs" />
