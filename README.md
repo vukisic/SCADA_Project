@@ -44,6 +44,7 @@ SCADA Master Project
 # NServiceBus Licence
 - Go to Solution -> Resources
 - Open CMD in that folder
+- `New Licence` [Download](https://drive.google.com/file/d/1nhRgNQIZ_MQHS1nUYmveLc5Y1fkz5JuY/view?usp=sharing)
 - mkdir %LocalAppData%\ParticularSoftware 2> NUL
 - copy /Y license.xml %LocalAppData%\ParticularSoftware
 
