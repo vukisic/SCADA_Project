@@ -95,10 +95,14 @@ namespace Test
             //TransactionManagerServiceProxy tm = new TransactionManagerServiceProxy();
             //tm.Enlist().GetAwaiter().GetResult();
 
-            Console.WriteLine("Alarm");
-            var alarm = new AlarmingProxy();
-            var result = alarm.Check(GetScadaModel()).GetAwaiter().GetResult();
-            PrintScadaModel(result);
+            //Console.WriteLine("Alarm");
+            //var alarm = new AlarmingProxy();
+            //var result = alarm.Check(GetScadaModel()).GetAwaiter().GetResult();
+            //PrintScadaModel(result);
+
+            var commanding = new CommandingProxy();
+            commanding.Commmand(new SCADA.Common.ScadaCommand(RegisterType.BINARY_OUTPUT, 1, 1, 3000));
+            Console.WriteLine("All Done!");
 
             Console.ReadLine();
         }

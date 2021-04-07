@@ -137,6 +137,7 @@
     <Compile Include="Proxies\AlarmingProxy.cs" />
     <Compile Include="Proxies\CEModelProxy.cs" />
     <Compile Include="Proxies\CETransactionProxy.cs" />
+    <Compile Include="Proxies\CommandingProxy.cs" />
     <Compile Include="Proxies\DomServiceProxy.cs" />
     <Compile Include="Proxies\HistoryServiceProxy.cs" />
     <Compile Include="Proxies\LogServiceProxy.cs" />

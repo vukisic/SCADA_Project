@@ -130,6 +130,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contracts\IAlarmingServiceAsync.cs" />
+    <Compile Include="Contracts\ICommandingServiceAsync.cs" />
     <Compile Include="Contracts\IConfigurationChange.cs" />
     <Compile Include="Contracts\IDomService.cs" />
     <Compile Include="Contracts\IEnlistManagerAsync.cs" />

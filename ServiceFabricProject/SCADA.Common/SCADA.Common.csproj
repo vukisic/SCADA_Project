@@ -140,6 +140,7 @@
     <Compile Include="Proxies\HistoryProxy.cs" />
     <Compile Include="Proxies\LoggingProxy.cs" />
     <Compile Include="Proxies\ScadaProxyFactory.cs" />
+    <Compile Include="ScadaCommand.cs" />
     <Compile Include="ScadaDb\Access\ScadaDbContext.cs" />
     <Compile Include="ScadaDb\Access\ScadaDbInitializer.cs" />
     <Compile Include="ScadaDb\Providers\DomRepository.cs" />

@@ -59,6 +59,7 @@ namespace CE
         }
         private void DoWorkNew()
         {
+            Thread.Sleep(10000);
             graph = new CeGraphicalEvent();
             graph.PumpsValues = new Core.Common.ServiceBus.Events.CeGraph();
             while (endFlag)
@@ -93,10 +94,10 @@ namespace CE
         }
         private void CheckState()
         {
-            ScadaExportProxy proxy = new ScadaExportProxy();
-            var measurements = proxy.GetData();
+            var proxy = new SF.Common.Proxies.ScadaExportProxy();
+            var measurements = proxy.GetData().GetAwaiter().GetResult();
 
-            if (!measurements.ContainsKey("FluidLevel_Tank"))
+            if (measurements == null || !measurements.ContainsKey("FluidLevel_Tank"))
                 return;
             var fluidLevel = measurements["FluidLevel_Tank"] as AnalogPoint;
 
@@ -140,9 +141,10 @@ namespace CE
         private void TurnOffPumps()
         {
 
-            ScadaExportProxy proxy = new ScadaExportProxy();
-            var points = proxy.GetData();
-
+            var proxy = new SF.Common.Proxies.ScadaExportProxy();
+            var points = proxy.GetData().GetAwaiter().GetResult();
+            if (points == null)
+                return;
             if (points.ContainsKey("Breaker_21Status"))
             {
                 var breaker1 = points["Breaker_21Status"] as DiscretePoint;
@@ -261,9 +263,10 @@ namespace CE
 
         private void SendCommand(CeForecast forecastResult)
         {
-            ScadaExportProxy proxy = new ScadaExportProxy();
-            var points = proxy.GetData();
-
+            var proxy = new SF.Common.Proxies.ScadaExportProxy();
+            var points = proxy.GetData().GetAwaiter().GetResult();
+            if (points == null)
+                return;
             float counter = 0;
             foreach (var item in forecastResult.Results.Take(12))
             {
@@ -435,9 +438,15 @@ namespace CE
 
         private float GetCurrentFluidLevel()
         {
-            ScadaExportProxy proxy = new ScadaExportProxy();
-            var point = (proxy.GetData()["FluidLevel_Tank"] as AnalogPoint);
-            return point.Value;
+            SF.Common.Proxies.ScadaExportProxy proxy = new SF.Common.Proxies.ScadaExportProxy();
+            var data = proxy.GetData().GetAwaiter().GetResult();
+            if (data != null)
+            {
+                var point = (data["FluidLevel_Tank"] as AnalogPoint);
+                return point.Value;
+            }
+            return 0;
+           
         }
 
         private float GetTotalFromResults(float[] results)
@@ -523,8 +532,10 @@ namespace CE
             };
             endpoint.Publish(clearCommand).ConfigureAwait(false).GetAwaiter().GetResult();
 
-            var proxy = new ScadaExportProxy();
-            var points = proxy.GetData();
+            var proxy = new SF.Common.Proxies.ScadaExportProxy();
+            var points = proxy.GetData().GetAwaiter().GetResult();
+            if (points == null)
+                return;
             var commands = new List<ScadaCommandingEvent>();
             foreach (var item in points)
             {
