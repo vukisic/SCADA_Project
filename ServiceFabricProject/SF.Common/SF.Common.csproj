@@ -134,6 +134,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigurationReader.cs" />
+    <Compile Include="Contracts\IPubSubAsync.cs" />
     <Compile Include="Proxies\AlarmingProxy.cs" />
     <Compile Include="Proxies\CEModelProxy.cs" />
     <Compile Include="Proxies\CETransactionProxy.cs" />
