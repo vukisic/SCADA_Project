@@ -28,8 +28,7 @@
       <!-- This endpoint is used by the communication listener to obtain the port on which to 
            listen. Please note that if your service is partitioned, this port is shared with 
            replicas of different partitions that are placed in your code. -->
-      <Endpoint Name="ServiceEndPoint" Protocol="tcp"  Port="33331"/>
-      <Endpoint Name="ServiceEndPointTR" Protocol="tcp"  Port="33333"/>
+      <Endpoint Name="ServiceEndpointCE" Protocol="tcp"  Port="44445"/>
     </Endpoints>
   </Resources>
 </ServiceManifest>

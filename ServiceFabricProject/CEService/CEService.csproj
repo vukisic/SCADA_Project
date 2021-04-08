@@ -106,8 +106,7 @@
     <Reference Include="System.ServiceModel" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CEModelProvider.cs" />
-    <Compile Include="CETransactionProvider.cs" />
+    <Compile Include="CEServiceProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CEService.cs" />
     <Compile Include="Program.cs" />
