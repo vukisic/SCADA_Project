@@ -33,7 +33,9 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AlarmingService\AlarmingService.csproj" />
+    <ProjectReference Include="..\CEDynamicsService\CEDynamicsService.csproj" />
     <ProjectReference Include="..\CEService\CEService.csproj" />
+    <ProjectReference Include="..\CEStorageService\CEStorageService.csproj" />
     <ProjectReference Include="..\CommandingService\CommandingService.csproj" />
     <ProjectReference Include="..\DomService\DomService.csproj" />
     <ProjectReference Include="..\HistoryService\HistoryService.csproj" />
