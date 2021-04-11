@@ -578,7 +578,7 @@ namespace FTN.Services.NetworkModelService
                 }
             }
 
-           // TryApplyTransaction();
+           TryApplyTransaction();
             //if (!TryApplyTransaction())
             //{
             //    RestoreModel();

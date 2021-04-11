@@ -65,15 +65,15 @@ namespace GUI.Command
 
         private static void SendMessageToScada(ScadaCommandingEvent commandingEvent)
         {
-            var proxy = new PubSubServiceProxy();
-            var json = JsonTool.Serialize(commandingEvent);
-            var msg = new PubSubMessage
-            {
-                Content = json,
-                ContentType = ContentType.SCADA_UPDATE,
-                Sender = Sender.GUI
-            };
-            proxy.SendMessage(msg).ConfigureAwait(false).GetAwaiter().GetResult();
+            //var proxy = new PubSubServiceProxy();
+            //var json = JsonTool.Serialize(commandingEvent);
+            //var msg = new PubSubMessage
+            //{
+            //    Content = json,
+            //    ContentType = ContentType.SCADA_UPDATE,
+            //    Sender = Sender.GUI
+            //};
+            //proxy.SendMessage(msg).ConfigureAwait(false).GetAwaiter().GetResult();
         }
     }
 }

@@ -25,7 +25,7 @@ namespace SF.Common.Proxies
             Binding binding = WcfUtility.CreateTcpClientBinding();
             IServicePartitionResolver partitionResolver = ServicePartitionResolver.GetDefault();
             var wcfClientFactory = new WcfCommunicationClientFactory<IPubSubAsync>(clientBinding: binding, servicePartitionResolver: partitionResolver);
-            var ServiceUri = new Uri("fabric:/ServiceFabricApp/PubSub");
+            var ServiceUri = new Uri("fabric:/ServiceFabricApp/PubSubService");
             var client = new WcfClient<IPubSubAsync>(wcfClientFactory, ServiceUri);
             return client;
         }
