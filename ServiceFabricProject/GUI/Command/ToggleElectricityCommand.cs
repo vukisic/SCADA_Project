@@ -1,9 +1,10 @@
 ﻿using System;
+using Core.Common.Json;
+using Core.Common.PubSub;
 using Core.Common.ServiceBus.Events;
 using GUI.Core.Tree;
 using GUI.Models.Schema;
-using GUI.ServiceBus;
-using NServiceBus;
+using SF.Common.Proxies;
 
 namespace GUI.Command
 {
@@ -35,15 +36,13 @@ namespace GUI.Command
             if (_node.Item is SwitchModel model)
             {
                 var measurement = model.Measurement;
-                var endpoint = EndPointCreator.Instance().Get();
-                var command = new ScadaCommandingEvent()
+                SendMessageToScada(new ScadaCommandingEvent()
                 {
                     Index = (uint)measurement.Index,
                     RegisterType = measurement.RegisterType,
                     Milliseconds = 0,
                     Value = (uint)(newTurnedOn ? 1 : 0)
-                };
-                endpoint.Publish(command).ConfigureAwait(false);
+                });
             }
 
             SetElectricity(_node, newTurnedOn, isRoot: true);
@@ -62,6 +61,19 @@ namespace GUI.Command
         protected virtual void OnCanExecuteChanged(EventArgs e)
         {
             CanExecuteChanged?.Invoke(this, e);
+        }
+
+        private static void SendMessageToScada(ScadaCommandingEvent commandingEvent)
+        {
+            var proxy = new PubSubServiceProxy();
+            var json = JsonTool.Serialize(commandingEvent);
+            var msg = new PubSubMessage
+            {
+                Content = json,
+                ContentType = ContentType.SCADA_UPDATE,
+                Sender = Sender.GUI
+            };
+            proxy.SendMessage(msg).ConfigureAwait(false).GetAwaiter().GetResult();
         }
     }
 }

@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Core.Common.Json;
+using Core.Common.PubSub;
 using Core.Common.ServiceBus.Dtos.Conversion;
 using Core.Common.ServiceBus.Events;
 using FTN.Common;
 using FTN.Services.NetworkModelService.DataModel.Core;
 using Microsoft.ServiceFabric.Data;
 using Microsoft.ServiceFabric.Data.Collections;
-using NServiceBus;
 using SF.Common.Proxies;
 using TMContracts;
 
@@ -610,10 +611,16 @@ namespace FTN.Services.NetworkModelService
             proxyForTM.EndEnlist(success).GetAwaiter().GetResult();
             try
             {
-                var instance = NMSServiceBus.StartInstance().GetAwaiter().GetResult();
+                var proxy = new PubSubServiceProxy();
                 var dtos = DtoConverter.Convert(networkDataModelCopy);
-                var command = new ModelUpdateEvent(dtos);
-                instance.Send(command).ConfigureAwait(false).GetAwaiter().GetResult();
+                var json = JsonTool.Serialize(new ModelUpdateEvent(dtos));
+                var msg = new PubSubMessage()
+                {
+                    Content = json,
+                    ContentType = ContentType.NMS_UPDATE,
+                    Sender = Sender.NMS
+                };
+                proxy.SendMessage(msg).ConfigureAwait(false).GetAwaiter().GetResult();
             }
             catch { }
 
