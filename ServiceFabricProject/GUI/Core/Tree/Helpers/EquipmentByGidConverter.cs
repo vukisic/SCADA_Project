@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
-using Core.Common.ServiceBus.Commands;
 using Core.Common.ServiceBus.Dtos;
+using Core.Common.ServiceBus.Events;
 using GUI.Models.Schema;
 
 namespace GUI.Core.Tree.Helpers
 {
     public static class EquipmentByGidConverter
     {
-        public static Dictionary<long, EquipmentNodeItem> Convert(ModelUpdateCommand command)
+        public static Dictionary<long, EquipmentNodeItem> Convert(ModelUpdateEvent command)
         {
             var equipmentByGid = new Dictionary<long, EquipmentNodeItem>();
 
@@ -22,7 +22,7 @@ namespace GUI.Core.Tree.Helpers
             return equipmentByGid;
         }
 
-        private static void RegisterConnectivityNodes(ModelUpdateCommand command, Dictionary<long, EquipmentNodeItem> equipmentByGid)
+        private static void RegisterConnectivityNodes(ModelUpdateEvent command, Dictionary<long, EquipmentNodeItem> equipmentByGid)
         {
             foreach (var connectivityNode in command.ConnectivityNodes)
             {
@@ -33,7 +33,7 @@ namespace GUI.Core.Tree.Helpers
             }
         }
 
-        private static void RegisterTerminals(ModelUpdateCommand command, Dictionary<long, EquipmentNodeItem> equipmentByGid)
+        private static void RegisterTerminals(ModelUpdateEvent command, Dictionary<long, EquipmentNodeItem> equipmentByGid)
         {
             foreach (var terminal in command.Terminals)
             {
@@ -44,7 +44,7 @@ namespace GUI.Core.Tree.Helpers
             }
         }
 
-        private static void RegisterAsynchronousMachines(ModelUpdateCommand command, Dictionary<long, EquipmentNodeItem> equipmentByGid)
+        private static void RegisterAsynchronousMachines(ModelUpdateEvent command, Dictionary<long, EquipmentNodeItem> equipmentByGid)
         {
             foreach (var item in command.AsynchronousMachines)
             {
@@ -54,7 +54,7 @@ namespace GUI.Core.Tree.Helpers
             }
         }
 
-        private static void RegisterBreakers(ModelUpdateCommand command, Dictionary<long, EquipmentNodeItem> equipmentByGid)
+        private static void RegisterBreakers(ModelUpdateEvent command, Dictionary<long, EquipmentNodeItem> equipmentByGid)
         {
             foreach (var breaker in command.Breakers)
             {
@@ -64,7 +64,7 @@ namespace GUI.Core.Tree.Helpers
             }
         }
 
-        private static void RegisterDisconnectors(ModelUpdateCommand command, Dictionary<long, EquipmentNodeItem> equipmentByGid)
+        private static void RegisterDisconnectors(ModelUpdateEvent command, Dictionary<long, EquipmentNodeItem> equipmentByGid)
         {
             foreach (var disconnector in command.Disconnectors)
             {
@@ -74,7 +74,7 @@ namespace GUI.Core.Tree.Helpers
             }
         }
 
-        private static void RegisterMeasurements(ModelUpdateCommand command, Dictionary<long, EquipmentNodeItem> equipmentByGid)
+        private static void RegisterMeasurements(ModelUpdateEvent command, Dictionary<long, EquipmentNodeItem> equipmentByGid)
         {
             foreach (var analogMeasurement in command.Analogs)
             {
@@ -92,7 +92,7 @@ namespace GUI.Core.Tree.Helpers
             }
         }
 
-        private static void RegisterTransformers(ModelUpdateCommand command, Dictionary<long, EquipmentNodeItem> equipmentByGid)
+        private static void RegisterTransformers(ModelUpdateEvent command, Dictionary<long, EquipmentNodeItem> equipmentByGid)
         {
             foreach (var powerTransformer in command.PowerTransformers)
             {

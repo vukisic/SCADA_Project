@@ -134,7 +134,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigurationReader.cs" />
-    <Compile Include="Contracts\IPubSubAsync.cs" />
     <Compile Include="Proxies\AlarmingProxy.cs" />
     <Compile Include="Proxies\CEModelProxy.cs" />
     <Compile Include="Proxies\CETransactionProxy.cs" />
@@ -142,6 +141,7 @@
     <Compile Include="Proxies\DomServiceProxy.cs" />
     <Compile Include="Proxies\HistoryServiceProxy.cs" />
     <Compile Include="Proxies\LogServiceProxy.cs" />
+    <Compile Include="Proxies\PubSubServiceProxy.cs" />
     <Compile Include="Proxies\ScadaExportProxy.cs" />
     <Compile Include="Proxies\SimulatorProxy.cs" />
     <Compile Include="Proxies\NetworkModelServiceProxy.cs" />

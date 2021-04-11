@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NServiceBus;
+﻿using System.Runtime.Serialization;
 using SCADA.Common.Models;
 
 namespace Core.Common.ServiceBus.Events
 {
-    public class HistoryGraphicalEvent : IEvent
+    [DataContract]
+    public class HistoryGraphicalEvent
     {
+        [DataMember]
         public HistoryGraph Graph { get; set; }
     }
 }

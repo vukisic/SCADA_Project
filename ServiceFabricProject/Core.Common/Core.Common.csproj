@@ -217,6 +217,7 @@
     <Compile Include="Contracts\ILogService.cs" />
     <Compile Include="Contracts\IModelUpdateAsync.cs" />
     <Compile Include="Contracts\INetworkModelService.cs" />
+    <Compile Include="Contracts\IPubSubAsync.cs" />
     <Compile Include="Contracts\IScadaExportServiceAsync.cs" />
     <Compile Include="Contracts\IScadaStorageService.cs" />
     <Compile Include="Contracts\ITransactionStepsAsync.cs" />
@@ -227,7 +228,7 @@
     <Compile Include="PubSub\PubSubMessageSerializer.cs" />
     <Compile Include="PubSub\Subscriber.cs" />
     <Compile Include="PubSub\Subscription.cs" />
-    <Compile Include="ServiceBus\Commands\ModelUpdateCommand.cs" />
+    <Compile Include="ServiceBus\Events\ModelUpdateEvent.cs" />
     <Compile Include="ServiceBus\Dtos\AnalogDto.cs" />
     <Compile Include="ServiceBus\Dtos\AsynchronousMachineDto.cs" />
     <Compile Include="ServiceBus\Dtos\BreakerDto.cs" />
@@ -283,6 +284,9 @@
       <Project>{6e79fca4-42e3-4d2f-b4a3-28e691bf04c3}</Project>
       <Name>SCADA.Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ServiceBus\Commands\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

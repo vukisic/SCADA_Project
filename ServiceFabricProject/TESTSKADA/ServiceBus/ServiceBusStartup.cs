@@ -1,7 +1,5 @@
 ﻿using System.Threading.Tasks;
 using Core.Common.ServiceBus;
-using Core.Common.ServiceBus.Commands;
-using Core.Common.ServiceBus.Events;
 using NServiceBus;
 
 namespace NDS.ServiceBus
@@ -31,7 +29,7 @@ namespace NDS.ServiceBus
             transport.NoPayloadSizeRestriction();
             var routing = transport.Routing();
 
-            // Route example: 
+            // Route example:
             //routing.RouteToEndpoint(typeof(ScadaUpdateEvent), EndpointNames.GUI);
             // Note: you only need to define routes for commands (no need to do so for events!)
 

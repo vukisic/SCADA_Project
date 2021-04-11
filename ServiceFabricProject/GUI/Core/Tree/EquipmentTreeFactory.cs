@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Core.Common.ServiceBus.Commands;
+using Core.Common.ServiceBus.Events;
 using GUI.Core.Tree.Helpers;
 
 namespace GUI.Core.Tree
 {
     public static class EquipmentTreeFactory
     {
-        public static EquipmentTreeNode CreateFrom(ModelUpdateCommand command)
+        public static EquipmentTreeNode CreateFrom(ModelUpdateEvent command)
         {
             Debug.WriteLine("Creating tree from command...");
 

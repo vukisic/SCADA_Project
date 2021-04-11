@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Core.Common.ServiceBus.Commands;
 using Core.Common.ServiceBus.Dtos.Conversion;
+using Core.Common.ServiceBus.Events;
 using FTN.Common;
 using FTN.Services.NetworkModelService.DataModel.Core;
 using Microsoft.ServiceFabric.Data;
@@ -18,6 +18,7 @@ namespace FTN.Services.NetworkModelService
     public class NetworkModel
     {
         #region Fields
+
         private Dictionary<DMSType, Container> networkDataModel;
         private Dictionary<DMSType, Container> networkDataModelCopy;
         private Dictionary<long, long> GidHelper;
@@ -26,7 +27,9 @@ namespace FTN.Services.NetworkModelService
         private AzureStorage storage;
         private IReliableStateManager _manager;
         private AffectedEntities affectedEntities;
-        #endregion
+
+        #endregion Fields
+
         public NetworkModel(IReliableStateManager stateManager)
         {
             _manager = stateManager;
@@ -38,7 +41,7 @@ namespace FTN.Services.NetworkModelService
             GetDictionaries().GetAwaiter().GetResult();
             Initialize();
         }
-       
+
         private async Task GetDictionaries()
         {
             try
@@ -68,7 +71,6 @@ namespace FTN.Services.NetworkModelService
                 }
             }
             catch { }
-           
         }
 
         private async Task SetDictionaries()
@@ -88,7 +90,6 @@ namespace FTN.Services.NetworkModelService
                 }
             }
             catch { }
-            
         }
 
         #region Find
@@ -147,7 +148,6 @@ namespace FTN.Services.NetworkModelService
                 string message = string.Format("Container does not exist for type {0}.", type);
                 throw new Exception(message);
             }
-
         }
 
         #endregion Find
@@ -200,7 +200,9 @@ namespace FTN.Services.NetworkModelService
                     InsertEntity(rd, out ResourceDescription newRd);
                     newDelta.AddDeltaOperation(DeltaOpType.Insert, newRd, true);
                 }
+
                 #region Update&Delete
+
                 foreach (ResourceDescription rd in delta.UpdateOperations)
                 {
                     UpdateEntity(rd);
@@ -210,7 +212,8 @@ namespace FTN.Services.NetworkModelService
                 {
                     DeleteEntity(rd);
                 }
-                #endregion
+
+                #endregion Update&Delete
 
                 transactionSucceded = true;
                 //transactionSucceded = TryApplyTransaction();
@@ -219,7 +222,6 @@ namespace FTN.Services.NetworkModelService
                 {
                     MergeModelsFinal();
                 }
-
             }
             catch (Exception ex)
             {
@@ -253,6 +255,7 @@ namespace FTN.Services.NetworkModelService
         }
 
         #region Operations
+
         private void InsertEntity(ResourceDescription rd, out ResourceDescription newRd)
         {
             newRd = rd;
@@ -266,7 +269,7 @@ namespace FTN.Services.NetworkModelService
 
             CommonTrace.WriteTrace(CommonTrace.TraceInfo, "Inserting entity with GID ({0:x16}).", globalId);
 
-            // check if mapping for specified global id already exists			
+            // check if mapping for specified global id already exists
             if (this.EntityExists(globalId))
             {
                 string message = string.Format("Failed to insert entity because entity with specified GID ({0:x16}) already exists in network model.", globalId);
@@ -292,7 +295,7 @@ namespace FTN.Services.NetworkModelService
 
                 Container container = null;
 
-                // get container or create container 
+                // get container or create container
                 if (ContainerExists(type))
                 {
                     container = GetContainer(type);
@@ -323,8 +326,7 @@ namespace FTN.Services.NetworkModelService
 
                         if (property.Type == PropertyType.Reference)
                         {
-
-                            // if property is a reference to another entity 
+                            // if property is a reference to another entity
                             long targetGlobalId = property.AsReference();
                             if (GidHelper.ContainsKey(targetGlobalId))
                             {
@@ -334,7 +336,6 @@ namespace FTN.Services.NetworkModelService
                             }
                             if (targetGlobalId != 0)
                             {
-
                                 if (!EntityExists(targetGlobalId))
                                 {
                                     string message = string.Format("Failed to get target entity with GID: 0x{0:X16}. {1}", targetGlobalId);
@@ -364,7 +365,7 @@ namespace FTN.Services.NetworkModelService
                 throw new Exception(message);
             }
         }
-		
+
         private void UpdateEntity(ResourceDescription rd)
         {
             if (rd == null || rd.Properties == null && rd.Properties.Count == 0)
@@ -534,7 +535,8 @@ namespace FTN.Services.NetworkModelService
                 throw new Exception(message);
             }
         }
-        #endregion
+
+        #endregion Operations
 
         private void Initialize()
         {
@@ -610,7 +612,7 @@ namespace FTN.Services.NetworkModelService
             {
                 var instance = NMSServiceBus.StartInstance().GetAwaiter().GetResult();
                 var dtos = DtoConverter.Convert(networkDataModelCopy);
-                var command = new ModelUpdateCommand(dtos);
+                var command = new ModelUpdateEvent(dtos);
                 instance.Send(command).ConfigureAwait(false).GetAwaiter().GetResult();
             }
             catch { }
@@ -662,6 +664,7 @@ namespace FTN.Services.NetworkModelService
             GetShallowCopyModel();
             SetDictionaries().GetAwaiter().GetResult();
         }
+
         private void MergeModelsFinal()
         {
             networkDataModel = new Dictionary<DMSType, Container>(networkDataModelCopy);
@@ -669,6 +672,7 @@ namespace FTN.Services.NetworkModelService
             GetShallowCopyModel();
             SetDictionaries().GetAwaiter().GetResult();
         }
+
         private void GetShallowCopyModel()
         {
             networkDataModelCopy = new Dictionary<DMSType, Container>();
@@ -677,6 +681,7 @@ namespace FTN.Services.NetworkModelService
                 networkDataModelCopy[item.Key] = GetContainerCopy(item.Key);
             }
         }
+
         private Container GetContainerCopy(DMSType type)
         {
             var container = new Container();
@@ -698,7 +703,6 @@ namespace FTN.Services.NetworkModelService
                 return result != null;
             }
             return false;
-
         }
 
         private int GetAllCounters(Dictionary<short, int> counters)
@@ -710,9 +714,11 @@ namespace FTN.Services.NetworkModelService
             }
             return result;
         }
-        #endregion
+
+        #endregion CustomMethods
 
         #region ITransactionSteps
+
         public Task<bool> Prepare()
         {
             Console.WriteLine("NMS Prepare");
@@ -732,6 +738,7 @@ namespace FTN.Services.NetworkModelService
             RestoreModel();
             return Task.CompletedTask;
         }
-        #endregion
+
+        #endregion ITransactionSteps
     }
 }

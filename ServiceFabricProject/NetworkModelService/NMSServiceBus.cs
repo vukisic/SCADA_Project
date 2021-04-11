@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Core.Common.ServiceBus;
-using Core.Common.ServiceBus.Commands;
+using Core.Common.ServiceBus.Events;
 using NServiceBus;
 
 namespace FTN.Services.NetworkModelService
@@ -29,10 +29,10 @@ namespace FTN.Services.NetworkModelService
             var transport = endpointConfiguration.UseTransport<LearningTransport>();
 
             var routing = transport.Routing();
-            routing.RouteToEndpoint(typeof(ModelUpdateCommand), EndpointNames.GUI);
+            routing.RouteToEndpoint(typeof(ModelUpdateEvent), EndpointNames.GUI);
             endpointConfiguration.SendOnly();
 
-            // Route example: 
+            // Route example:
             // routing.RouteToEndpoint(typeof(DemoCommand), EndpointNames.GUI);
             // Note: you only need to define routes for commands (no need to do so for events!)
 

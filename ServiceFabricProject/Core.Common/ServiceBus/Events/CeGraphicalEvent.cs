@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NServiceBus;
+﻿using System.Runtime.Serialization;
 
 namespace Core.Common.ServiceBus.Events
 {
-    public class CeGraphicalEvent : IEvent
+    [DataContract]
+    public class CeGraphicalEvent
     {
+        [DataMember]
         public CeGraph PumpsValues { get; set; }
     }
 }

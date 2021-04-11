@@ -1,8 +1,8 @@
-﻿using Core.Common.PubSub;
-using System.ServiceModel;
+﻿using System.ServiceModel;
 using System.Threading.Tasks;
+using Core.Common.PubSub;
 
-namespace SF.Common.Contracts
+namespace Core.Common.Contracts
 {
     [ServiceContract]
     public interface IPubSubAsync

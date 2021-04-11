@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
-using NServiceBus;
+using System.Runtime.Serialization;
 using SCADA.Common.DataModel;
 
 namespace Core.Common.ServiceBus.Events
 {
-    public class DomUpdateEvent : IEvent
+    [DataContract]
+    public class DomUpdateEvent
     {
+        [DataMember]
         public List<SwitchingEquipment> DomData { get; set; }
     }
 }
