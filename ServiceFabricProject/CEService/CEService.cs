@@ -15,9 +15,6 @@ using System.Threading.Tasks;
 
 namespace CEService
 {
-    /// <summary>
-    /// An instance of this class is created for each service instance by the Service Fabric runtime.
-    /// </summary>
     internal sealed class CEService : StatelessService
     {
         public CEWorker _ceWorker;
@@ -26,53 +23,19 @@ namespace CEService
             : base(context)
         { }
 
-        /// <summary>
-        /// Optional override to create listeners (e.g., TCP, HTTP) for this service replica to handle client or user requests.
-        /// </summary>
-        /// <returns>A collection of listeners.</returns>
         protected override IEnumerable<ServiceInstanceListener> CreateServiceInstanceListeners()
         {
-            return new[] {
-
-                new ServiceInstanceListener((context) =>
+            return new[] { new ServiceInstanceListener((context) =>
                 {
-                    string host = host = context.NodeContext.IPAddressOrFQDN;
-
-                    EndpointResourceDescription endpointConfig = context.CodePackageActivationContext.GetEndpoint("ServiceEndPoint");
-
-                    int port = endpointConfig.Port;
-                    string scheme = endpointConfig.Protocol.ToString();
-                    string uri = string.Format(CultureInfo.InvariantCulture, "{0}://{1}:{2}/CEService", "net.tcp", host, port);
-
-                    var listener = new WcfCommunicationListener<IModelUpdateAsync>(
-                        wcfServiceObject: new CEModelProvider(this.Context),
+                    var listener = new WcfCommunicationListener<ICEServiceAsync>(
+                        wcfServiceObject: new CEServiceProvider(this.UpdatePoints),
                         serviceContext: context,
                         listenerBinding: new NetTcpBinding(SecurityMode.None),
-                        address: new EndpointAddress(uri)
-
+                        endpointResourceName: "ServiceEndpointCE"
                     );
                     return listener;
-                },"CEModelProvider"),
 
-                new ServiceInstanceListener((context) =>
-                {
-
-                    string host = host = context.NodeContext.IPAddressOrFQDN;
-
-                    EndpointResourceDescription endpointConfig = context.CodePackageActivationContext.GetEndpoint("ServiceEndPointTR");
-
-                    int port = endpointConfig.Port;
-                    string scheme = endpointConfig.Protocol.ToString();
-                    string uri = string.Format(CultureInfo.InvariantCulture, "{0}://{1}:{2}/CEService", "net.tcp", host, port);
-
-                    var listener = new WcfCommunicationListener<ITransactionStepsAsync>(
-                        wcfServiceObject: new CETransactionProvider(this.Context),
-                        serviceContext: context,
-                        listenerBinding: new NetTcpBinding(SecurityMode.None),
-                        address: new EndpointAddress(uri)
-                    );
-                    return listener;
-                },"CETransactionProvider")
+                })
             };
         }
 
@@ -81,10 +44,14 @@ namespace CEService
             await Task.Run(() =>
             {
                 _ceWorker = new CEWorker();
-                CEModelProvider.cEWorker = _ceWorker;
-                CETransactionProvider.cEWorker = _ceWorker;
                 _ceWorker.Start();
             });
+        }
+
+        public Task UpdatePoints(int points)
+        {
+            _ceWorker.OnPointUpdate(points);
+            return Task.CompletedTask;
         }
     }
 }

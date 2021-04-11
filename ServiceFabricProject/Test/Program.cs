@@ -104,6 +104,9 @@ namespace Test
             commanding.Commmand(new SCADA.Common.ScadaCommand(RegisterType.BINARY_OUTPUT, 1, 1, 3000));
             Console.WriteLine("All Done!");
 
+            var tProxy = new CEServiceProxy();
+            tProxy.SetPoints(5).GetAwaiter().GetResult();
+
             Console.ReadLine();
         }
 
