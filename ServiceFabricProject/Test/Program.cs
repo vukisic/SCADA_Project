@@ -100,12 +100,24 @@ namespace Test
             //var result = alarm.Check(GetScadaModel()).GetAwaiter().GetResult();
             //PrintScadaModel(result);
 
-            var commanding = new CommandingProxy();
-            commanding.Commmand(new SCADA.Common.ScadaCommand(RegisterType.BINARY_OUTPUT, 1, 1, 3000));
-            Console.WriteLine("All Done!");
+            //var commanding = new CommandingProxy();
+            //commanding.Commmand(new SCADA.Common.ScadaCommand(RegisterType.BINARY_OUTPUT, 1, 1, 3000));
+            //Console.WriteLine("All Done!");
 
-            var tProxy = new CEServiceProxy();
-            tProxy.SetPoints(5).GetAwaiter().GetResult();
+            //var tProxy = new CEServiceProxy();
+            //tProxy.SetPoints(5).GetAwaiter().GetResult();
+
+            try
+            {
+                PubSubServiceProxy pubsub = new PubSubServiceProxy();
+                pubsub.SendMessage(null).GetAwaiter().GetResult();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+           
 
             Console.ReadLine();
         }

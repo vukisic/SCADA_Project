@@ -578,6 +578,7 @@ namespace FTN.Services.NetworkModelService
                 }
             }
 
+           // TryApplyTransaction();
             //if (!TryApplyTransaction())
             //{
             //    RestoreModel();
@@ -586,29 +587,29 @@ namespace FTN.Services.NetworkModelService
 
         private bool TryApplyTransaction()
         {
-            TransactionManagerServiceProxy proxyForTM = new TransactionManagerServiceProxy();
+            //TransactionManagerServiceProxy proxyForTM = new TransactionManagerServiceProxy();
 
-            //Zapocni transakciju i prijavi se na nju
-            bool pom = false;
-            while (!pom)
-            {
-                pom = proxyForTM.StartEnlist().GetAwaiter().GetResult();
-            }
+            ////Zapocni transakciju i prijavi se na nju
+            //bool pom = false;
+            //while (!pom)
+            //{
+            //    pom = proxyForTM.StartEnlist().GetAwaiter().GetResult();
+            //}
 
-            proxyForTM.Enlist().GetAwaiter().GetResult();
+            //proxyForTM.Enlist().GetAwaiter().GetResult();
 
-            //Posalji Scadi i CEu novi model
-            NMSSCADAProxy proxyForScada = new NMSSCADAProxy();
-            CEModelProxy proxyForCE = new CEModelProxy();
+            ////Posalji Scadi i CEu novi model
+            //NMSSCADAProxy proxyForScada = new NMSSCADAProxy();
+            //CEModelProxy proxyForCE = new CEModelProxy();
 
-            bool success = false;
-            //if (proxyForScada.ModelUpdate(affectedEntities))
+            //bool success = false;
+            ////if (proxyForScada.ModelUpdate(affectedEntities))
+            ////    success = true;
+
+            //if (proxyForCE.ModelUpdate(affectedEntities).GetAwaiter().GetResult())
             //    success = true;
 
-            if (proxyForCE.ModelUpdate(affectedEntities).GetAwaiter().GetResult())
-                success = true;
-
-            proxyForTM.EndEnlist(success).GetAwaiter().GetResult();
+            //proxyForTM.EndEnlist(success).GetAwaiter().GetResult();
             try
             {
                 var proxy = new PubSubServiceProxy();
@@ -624,7 +625,7 @@ namespace FTN.Services.NetworkModelService
             }
             catch { }
 
-            return success;
+            return true;
         }
 
         private void SaveDelta(Delta delta)

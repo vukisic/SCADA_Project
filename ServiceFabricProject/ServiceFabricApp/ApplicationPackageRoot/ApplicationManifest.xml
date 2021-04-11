@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ApplicationManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ApplicationTypeName="ServiceFabricAppType" ApplicationTypeVersion="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric">
   <Parameters>
-    <Parameter Name="PubSubService_InstanceCount" DefaultValue="-1" />
+    <Parameter Name="PubSubCommunicationService_InstanceCount" DefaultValue="-1" />
     <Parameter Name="CEDynamicsService_InstanceCount" DefaultValue="-1" />
     <Parameter Name="CEStorageService_MinReplicaSetSize" DefaultValue="3" />
     <Parameter Name="CEStorageService_PartitionCount" DefaultValue="1" />
@@ -30,7 +30,7 @@
        should match the Name and Version attributes of the ServiceManifest element defined in the
        ServiceManifest.xml file. -->
   <ServiceManifestImport>
-    <ServiceManifestRef ServiceManifestName="PubSubServicePkg" ServiceManifestVersion="1.0.0" />
+    <ServiceManifestRef ServiceManifestName="PubSubCommunicationServicePkg" ServiceManifestVersion="1.0.0" />
     <ConfigOverrides />
   </ServiceManifestImport>
   <ServiceManifestImport>
@@ -91,9 +91,8 @@
          ServiceFabric PowerShell module.
 
          The attribute ServiceTypeName below must match the name defined in the imported ServiceManifest.xml file. -->
-
-    <Service Name="PubSubService" ServicePackageActivationMode="ExclusiveProcess">
-      <StatelessService ServiceTypeName="PubSubServiceType" InstanceCount="[PubSubService_InstanceCount]">
+    <Service Name="PubSubCommunicationService" ServicePackageActivationMode="ExclusiveProcess">
+      <StatelessService ServiceTypeName="PubSubCommunicationServiceType" InstanceCount="[PubSubCommunicationService_InstanceCount]">
         <SingletonPartition />
       </StatelessService>
     </Service>
