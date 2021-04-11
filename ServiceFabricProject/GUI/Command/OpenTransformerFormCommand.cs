@@ -2,13 +2,14 @@
 using System.Diagnostics;
 using System.Linq;
 using Caliburn.Micro;
+using Core.Common.Json;
+using Core.Common.PubSub;
 using Core.Common.ServiceBus.Events;
 using GUI.Core.Tree;
 using GUI.Models;
 using GUI.Models.Schema;
-using GUI.ServiceBus;
 using GUI.ViewModels;
-using NServiceBus;
+using SF.Common.Proxies;
 
 namespace GUI.Command
 {
@@ -43,6 +44,11 @@ namespace GUI.Command
             windowManager.ShowDialog(formViewModel);
         }
 
+        protected virtual void OnCanExecuteChanged(EventArgs e)
+        {
+            CanExecuteChanged?.Invoke(this, e);
+        }
+
         private bool HasMeasurements()
         {
             if (node?.Item is TransformerModel model)
@@ -61,20 +67,26 @@ namespace GUI.Command
                 return;
             };
 
-            var endpoint = EndPointCreator.Instance().Get();
-            var command = new ScadaCommandingEvent()
+            SendMessageToScada(new ScadaCommandingEvent()
             {
                 Index = (uint)formData.Index,
                 RegisterType = formData.RegisterType.Value,
                 Milliseconds = 0,
                 Value = (uint)formData.Value
-            };
-            endpoint.Publish(command).ConfigureAwait(false);
+            });
         }
 
-        protected virtual void OnCanExecuteChanged(EventArgs e)
+        private static void SendMessageToScada(ScadaCommandingEvent commandingEvent)
         {
-            CanExecuteChanged?.Invoke(this, e);
+            var proxy = new PubSubServiceProxy();
+            var json = JsonTool.Serialize(commandingEvent);
+            var msg = new PubSubMessage
+            {
+                Content = json,
+                ContentType = ContentType.SCADA_UPDATE,
+                Sender = Sender.GUI
+            };
+            proxy.SendMessage(msg).ConfigureAwait(false).GetAwaiter().GetResult();
         }
     }
 }

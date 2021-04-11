@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
-using NServiceBus;
+using System.Runtime.Serialization;
 using SCADA.Common.Models;
 
 namespace Core.Common.ServiceBus.Events
 {
-    public class HistoryUpdateEvent : IEvent
+    [DataContract]
+    public class HistoryUpdateEvent
     {
+        [DataMember]
         public List<HistoryDbModel> History { get; set; }
     }
 }

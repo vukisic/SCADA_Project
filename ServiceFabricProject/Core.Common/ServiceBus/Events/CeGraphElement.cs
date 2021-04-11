@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.Serialization;
 
 namespace Core.Common.ServiceBus.Events
 {
+    [DataContract]
     public class CeGraphElement
     {
+        [DataMember]
         public List<DateTime> XAxes { get; set; }
+
+        [DataMember]
         public List<long> YAxes { get; set; }
 
         public CeGraphElement()

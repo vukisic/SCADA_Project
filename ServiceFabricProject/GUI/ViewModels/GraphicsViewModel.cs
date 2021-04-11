@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using Caliburn.Micro;
-using Core.Common.ServiceBus.Commands;
 using Core.Common.ServiceBus.Events;
 using GUI.Core.Tree;
 using GUI.Core.Tree.Helpers;
@@ -49,7 +47,7 @@ namespace GUI.ViewModels
 
         private bool IsModelRetrieved => Nodes?.Count > 0;
 
-        public void Update(object sender, ModelUpdateCommand e)
+        public void Update(object sender, ModelUpdateEvent e)
         {
             EquipmentTreeNode root = EquipmentTreeFactory.CreateFrom(e);
             var fastNodeLookupByMrid = new FastLookupByMrid(root);
@@ -73,7 +71,7 @@ namespace GUI.ViewModels
             {
                 measurementUpdater.UpdateValues(e);
                 var lvl = e.Points.SingleOrDefault(x => x.Mrid.Contains("Level"));
-                if(lvl != null)
+                if (lvl != null)
                 {
                     Level = $"Fluid Level: {lvl.Value}";
                 }
