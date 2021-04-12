@@ -29,8 +29,8 @@ namespace TransactionManager
             bool commitedNMS = false;
             bool commitedCE = false;
 
-            //SCADATransactionProxy proxyForScada = new SCADATransactionProxy();
-            //isPreparedSCADA = proxyForScada.Prepare();
+            NDSTransactionProxy proxyForScada = new NDSTransactionProxy();
+            isPreparedSCADA = await proxyForScada.Prepare();
 
             CETransactionProxy proxyForCE = new CETransactionProxy();
             isPreparedCE = await proxyForCE.Prepare();
@@ -42,7 +42,7 @@ namespace TransactionManager
             if (isPreparedSCADA && isPreparedCE && isPreparedNMS)
             {
                 Console.WriteLine("Every service is prepared to commit..calling commit");
-                //commitedSCADA = proxyForScada.Commit();
+                commitedSCADA = await proxyForScada.Commit();
                 commitedNMS = await proxyForCE.Commit();
                 commitedCE = await proxyForNms.Commit();
             }
@@ -50,7 +50,7 @@ namespace TransactionManager
             if (!(commitedSCADA && commitedCE && commitedNMS))
             {
                 Console.WriteLine("ERROR..requesting rollback");
-                //proxyForScada.Rollback();
+                await proxyForScada.Rollback();
                 await proxyForCE.Rollback();
                 await proxyForNms.Rollback();
             }
