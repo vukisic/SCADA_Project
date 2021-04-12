@@ -38,8 +38,10 @@
     <ProjectReference Include="..\CEStorageService\CEStorageService.csproj" />
     <ProjectReference Include="..\CommandingService\CommandingService.csproj" />
     <ProjectReference Include="..\DomService\DomService.csproj" />
+    <ProjectReference Include="..\FEPService\FEPService.csproj" />
     <ProjectReference Include="..\HistoryService\HistoryService.csproj" />
     <ProjectReference Include="..\LogService\LogService.csproj" />
+    <ProjectReference Include="..\NDSService\NDSService.csproj" />
     <ProjectReference Include="..\NetworkModelServiceSF\NetworkModelServiceSF.csproj" />
     <ProjectReference Include="..\PubSubService\PubSubService.csproj" />
     <ProjectReference Include="..\ScadaExportService\ScadaExportService.csproj" />
