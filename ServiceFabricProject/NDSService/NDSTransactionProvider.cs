@@ -29,9 +29,9 @@ namespace NDSService
             ushort biCount = (ushort)(model.Values.Where(x => x.RegisterType == SCADA.Common.DataModel.RegisterType.BINARY_INPUT).Count());
             ushort boCount = (ushort)(model.Values.Where(x => x.RegisterType == SCADA.Common.DataModel.RegisterType.BINARY_OUTPUT).Count());
             SimulatorProxy sim = new SimulatorProxy();
-            //await sim.UpdateConfig(Tuple.Create<ushort, ushort, ushort, ushort>(biCount, boCount, aiCount, aoCount), result.MridIndexPairs);
+            sim.UpdateConfig(Tuple.Create<ushort, ushort, ushort, ushort>(biCount, boCount, aiCount, aoCount), result.MridIndexPairs);
             DomServiceProxy dom = new DomServiceProxy();
-            //await dom.Add((await proxy.GetModel()).Values.ToList().ToDbModel());
+            await dom.Add((await proxy.GetModel()).Values.ToList().ToDbModel());
             // ovo .ToDbModel je iz kalse Extension u ScadaCommon-u negde, nadji i kopiraj u servis tu klasu
             return true;
         }
