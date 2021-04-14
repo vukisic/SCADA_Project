@@ -26,6 +26,17 @@ namespace NDS.FrontEnd
         private IFunctionExecutor functionExecutor;
         public FEP()
         {
+                      
+        }
+
+        public Task Handle(ScadaCommandingEvent message, IMessageHandlerContext context)
+        {
+            commandingService.commanding?.Invoke(this, message);
+            return Task.CompletedTask;
+        }
+
+        public void Start()
+        {
             if (!started)
             {
                 functionExecutor = new FunctionExecutor();
@@ -34,13 +45,11 @@ namespace NDS.FrontEnd
                 commandingService = new CommandingService(processingManager);
                 started = true;
             }
-          
         }
 
-        public Task Handle(ScadaCommandingEvent message, IMessageHandlerContext context)
+        public void ExecuteCommand(ScadaCommand command)
         {
-            commandingService.commanding?.Invoke(this, message);
-            return Task.CompletedTask;
+            processingManager.ExecuteWriteCommand(command.RegisterType, command.Index, command.Value);
         }
     }
 }
