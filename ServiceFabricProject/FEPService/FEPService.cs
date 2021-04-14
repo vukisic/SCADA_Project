@@ -1,9 +1,14 @@
-﻿using Microsoft.ServiceFabric.Services.Communication.Runtime;
+﻿using Core.Common.Contracts;
+using Microsoft.ServiceFabric.Services.Communication.Runtime;
+using Microsoft.ServiceFabric.Services.Communication.Wcf.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
+using NDS.FrontEnd;
+using SCADA.Common;
 using System;
 using System.Collections.Generic;
 using System.Fabric;
 using System.Linq;
+using System.ServiceModel;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,6 +19,7 @@ namespace FEPService
     /// </summary>
     internal sealed class FEPService : StatelessService
     {
+        private IFEP _fep;
         public FEPService(StatelessServiceContext context)
             : base(context)
         { }
@@ -24,7 +30,17 @@ namespace FEPService
         /// <returns>A collection of listeners.</returns>
         protected override IEnumerable<ServiceInstanceListener> CreateServiceInstanceListeners()
         {
-            return new ServiceInstanceListener[0];
+            return new[] { new ServiceInstanceListener((context) =>
+            {
+                var listener = new WcfCommunicationListener<IFEPServiceAsync>(
+                    wcfServiceObject: new FEPProvider(this.Context, AddCommand),
+                    serviceContext: context,
+                    listenerBinding: new NetTcpBinding(SecurityMode.None),
+                    endpointResourceName: "ServiceEndpointFep" // iz ServiceManifest.xml
+                );
+                return listener;
+                })
+            };
         }
 
         /// <summary>
@@ -33,19 +49,16 @@ namespace FEPService
         /// <param name="cancellationToken">Canceled when Service Fabric needs to shut down this service instance.</param>
         protected override async Task RunAsync(CancellationToken cancellationToken)
         {
-            // TODO: Replace the following sample code with your own logic 
-            //       or remove this RunAsync override if it's not needed in your service.
+            Task.Run(() => {
+                _fep = new FEP();
+                _fep.Start();
+            });
+        }
 
-            long iterations = 0;
-
-            while (true)
-            {
-                cancellationToken.ThrowIfCancellationRequested();
-
-                ServiceEventSource.Current.ServiceMessage(this.Context, "Working-{0}", ++iterations);
-
-                await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
-            }
+        public Task AddCommand(ScadaCommand command)
+        {
+            _fep.ExecuteCommand(command);
+            return Task.CompletedTask;
         }
     }
 }

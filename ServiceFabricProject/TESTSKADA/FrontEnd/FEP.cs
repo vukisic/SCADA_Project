@@ -17,22 +17,15 @@ using SCADA.Common.ScadaServices;
 
 namespace NDS.FrontEnd
 {
-    public class FEP : IFEP, IHandleMessages<ScadaCommandingEvent>
+    public class FEP : IFEP
     {
         private static bool started = false;
         private Acquisitor acquisitor;
-        private static CommandingService commandingService;
         private IProcessingManager processingManager;
         private IFunctionExecutor functionExecutor;
         public FEP()
         {
                       
-        }
-
-        public Task Handle(ScadaCommandingEvent message, IMessageHandlerContext context)
-        {
-            commandingService.commanding?.Invoke(this, message);
-            return Task.CompletedTask;
         }
 
         public void Start()
@@ -42,7 +35,6 @@ namespace NDS.FrontEnd
                 functionExecutor = new FunctionExecutor();
                 processingManager = new ProcessingManager(functionExecutor);
                 acquisitor = new Acquisitor(processingManager);
-                commandingService = new CommandingService(processingManager);
                 started = true;
             }
         }
