@@ -46,5 +46,10 @@ namespace HistoryService
         {
             return await Task.FromResult(_repo.GetInInverval(from, to));
         }
+
+        public async Task<HistoryGraph> GetGraph()
+        {
+            return await Task.FromResult(_repo.GetGraph());
+        }
     }
 }

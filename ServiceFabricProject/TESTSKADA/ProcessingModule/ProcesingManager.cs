@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SCADA.Common.Connection;
 using SCADA.Common.DataModel;
 using SCADA.Common.Messaging;
 using SCADA.Common.Messaging.Parameters;
 using SCADA.Common.Proxies;
+using SF.Common.Proxies;
 
 namespace NDS.ProcessingModule
 {
@@ -16,22 +16,22 @@ namespace NDS.ProcessingModule
         private IFunctionExecutor functionExecutor;
         private byte applicationSequence;
         private byte transportSequence;
-        private DOMProxy dom;
-        private LoggingProxy log;
-        private ScadaStorageProxy storage;
+        private DomServiceProxy dom;
+        private LogServiceProxy log;
+        private SF.Common.Proxies.ScadaStorageProxy storage;
         public ProcessingManager(IFunctionExecutor functionExecutor)
         {
             this.functionExecutor = functionExecutor;
             applicationSequence = 0;
             transportSequence = 0;
-            dom = ScadaProxyFactory.Instance().DOMProxy();
-            log = ScadaProxyFactory.Instance().LoggingProxy();
-            storage = ScadaProxyFactory.Instance().ScadaStorageProxy();
+            dom = new DomServiceProxy();
+            log = new LogServiceProxy();
+            storage = new SF.Common.Proxies.ScadaStorageProxy() ;
         }
 
         public void ExecuteReadCommand(RegisterType type, uint index)
         {
-            log.Log(new SCADA.Common.Logging.LogEventModel() { EventType = SCADA.Common.Logging.LogEventType.INFO, Message = $"ReadCommand ({type},{index})" });
+            log.Log(new SCADA.Common.Logging.LogEventModel() { EventType = SCADA.Common.Logging.LogEventType.INFO, Message = $"ReadCommand ({type},{index})" }).GetAwaiter().GetResult();
             DNP3ReadCommandParameters dnp3CommandParam = new DNP3ReadCommandParameters(GetApplicationSequence(), (byte)DNP3FunctionCode.READ, GetTypeField(type),
                 (byte)Qualifier.PREFIX_2_OCTET_COUNT_OF_OBJECTS_2_OCTET, index, GetTransportSequence());
             IDNP3Function dnp3Fn = DNP3FunctionFactory.CreateReadFunction(dnp3CommandParam);
@@ -45,9 +45,9 @@ namespace NDS.ProcessingModule
             IDNP3Function dnp3Fn = DNP3FunctionFactory.CreateWriteFunction(dnp3CommandParam);
             this.functionExecutor.EnqueueCommand(dnp3Fn);
 
-            var point = storage.GetSingle(type, (int)index);
+            var point = storage.GetSingle(type, (int)index).GetAwaiter().GetResult();
             if (point != null && point.RegisterType == RegisterType.BINARY_OUTPUT)
-                dom.AddOrUpdate(new SCADA.Common.Models.DomDbModel() { Mrid = point.Mrid, TimeStamp = DateTime.Now.ToString() });
+                dom.AddOrUpdate(new SCADA.Common.Models.DomDbModel() { Mrid = point.Mrid, TimeStamp = DateTime.Now.ToString() }).GetAwaiter().GetResult();
         }
 
         public void ExecuteReadClass0Command()

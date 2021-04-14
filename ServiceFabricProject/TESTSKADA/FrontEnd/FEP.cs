@@ -8,7 +8,6 @@ using Core.Common.ServiceBus.Events;
 using NDS.ProcessingModule;
 using NServiceBus;
 using SCADA.Common;
-using SCADA.Common.Connection;
 using SCADA.Common.DataModel;
 using SCADA.Common.Messaging;
 using SCADA.Common.Messaging.Parameters;

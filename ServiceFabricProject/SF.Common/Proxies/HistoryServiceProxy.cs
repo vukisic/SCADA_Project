@@ -44,6 +44,12 @@ namespace SF.Common.Proxies
             return await client.InvokeWithRetryAsync(x => x.Channel.GetInInverval(from,to));
         }
 
+        public async Task<HistoryGraph> GetGraph()
+        {
+            var client = BuildClient();
+            return await client.InvokeWithRetryAsync(x => x.Channel.GetGraph());
+        }
+
         private WcfClient<IHistoryService> BuildClient()
         {
             Binding binding = WcfUtility.CreateTcpClientBinding();

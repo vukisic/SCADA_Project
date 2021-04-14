@@ -21,5 +21,7 @@ namespace Core.Common.Contracts
         Task<List<HistoryDbModel>> GetInInverval(DateTime from, DateTime to);
         [OperationContract]
         Task<List<HistoryDbModel>> GetAll();
+        [OperationContract]
+        Task<HistoryGraph> GetGraph();
     }
 }

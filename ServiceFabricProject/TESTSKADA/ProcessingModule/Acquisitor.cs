@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using SCADA.Common.DataModel;
 using SCADA.Common.Models;
 using SCADA.Common.Proxies;
+using SF.Common.Proxies;
 
 namespace NDS.ProcessingModule
 {
@@ -15,7 +16,7 @@ namespace NDS.ProcessingModule
     {
         private IProcessingManager processingManager;
         private Thread acquisitionWorker;
-        private LoggingProxy log;
+        private LogServiceProxy log;
         private int acquisitionInterval;
         
 
@@ -28,7 +29,7 @@ namespace NDS.ProcessingModule
 		public Acquisitor(IProcessingManager processingManager)
         {
             this.processingManager = processingManager;
-            log = ScadaProxyFactory.Instance().LoggingProxy();
+            log = new LogServiceProxy();
             if (!Int32.TryParse(ConfigurationManager.AppSettings["AcquisitionInterval"], out acquisitionInterval))
                 acquisitionInterval = 1000;
             this.InitializeAcquisitionThread();
@@ -70,7 +71,10 @@ namespace NDS.ProcessingModule
             catch (Exception ex)
             {
                 string message = $"{ex.Message}-{ex.StackTrace}";
-                log.Log(new SCADA.Common.Logging.LogEventModel() { EventType = SCADA.Common.Logging.LogEventType.ERROR, Message = message });
+                log.Log(new SCADA.Common.Logging.LogEventModel() { EventType = SCADA.Common.Logging.LogEventType.ERROR, Message = message })
+                    .ConfigureAwait(false)
+                    .GetAwaiter()
+                    .GetResult();
             }
         }
 

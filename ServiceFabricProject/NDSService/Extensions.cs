@@ -20,5 +20,20 @@ namespace NDSService
             }
             return model;
         }
+
+        public static List<SwitchingEquipment> ToSwitchingEquipment(this List<DomDbModel> list)
+        {
+            List<SwitchingEquipment> ret = new List<SwitchingEquipment>();
+            foreach (var item in list)
+            {
+                var temp = new SwitchingEquipment()
+                {
+                    Mrid = item.Mrid,
+                    ManipulationConut = item.ManipulationConut
+                };
+                ret.Add(temp);
+            }
+            return ret;
+        }
     }
 }

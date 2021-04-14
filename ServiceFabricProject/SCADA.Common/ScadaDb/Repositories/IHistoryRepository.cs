@@ -14,5 +14,6 @@ namespace SCADA.Common.ScadaDb.Repositories
         List<HistoryDbModel> GetByTimestamp(DateTime timestamp);
         List<HistoryDbModel> GetInInverval(DateTime from, DateTime to);
         List<HistoryDbModel> GetAll();
+        HistoryGraph GetGraph();
     }
 }

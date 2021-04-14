@@ -1,7 +1,12 @@
 ﻿using Core.Common.Contracts;
+using Core.Common.Json;
+using Core.Common.PubSub;
+using Core.Common.ServiceBus.Events;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Communication.Wcf.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
+using SCADA.Common.DataModel;
+using SF.Common.Proxies;
 using System;
 using System.Collections.Generic;
 using System.Fabric;
@@ -79,19 +84,85 @@ namespace NDSService
         /// <param name="cancellationToken">Canceled when Service Fabric needs to shut down this service instance.</param>
         protected override async Task RunAsync(CancellationToken cancellationToken)
         {
-            // TODO: Replace the following sample code with your own logic 
-            //       or remove this RunAsync override if it's not needed in your service.
-
-            long iterations = 0;
-
             while (true)
             {
-                cancellationToken.ThrowIfCancellationRequested();
-
-                ServiceEventSource.Current.ServiceMessage(this.Context, "Working-{0}", ++iterations);
-
-                await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+                try
+                {
+                    cancellationToken.ThrowIfCancellationRequested();
+                    await Update();
+                    await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+                }
+                catch (Exception ex)
+                {
+                    var log = new LogServiceProxy();
+                    await log.Log(new SCADA.Common.Logging.LogEventModel()
+                    {
+                        EventType = SCADA.Common.Logging.LogEventType.ERROR,
+                        Message = $"Message:{ex.Message}\nStackTrace:{ex.StackTrace}"
+                    });
+                }
             }
+        }
+
+        private async Task Update()
+        {
+            var domService = new DomServiceProxy();
+            var historyService = new HistoryServiceProxy();
+            var storageService = new ScadaStorageProxy();
+            var domData = await domService.GetAll();
+            DomUpdateEvent dom = new DomUpdateEvent()
+            {
+                DomData = domData.ToSwitchingEquipment()
+            };
+            HistoryUpdateEvent history = new HistoryUpdateEvent()
+            {
+                History = await historyService.GetAll()
+            };
+            HistoryGraphicalEvent graph = new HistoryGraphicalEvent()
+            {
+                Graph = await historyService.GetGraph()
+            };
+            ScadaUpdateEvent ev = new ScadaUpdateEvent()
+            {
+                Points = new List<SCADA.Common.DataModel.ScadaPointDto>()
+            };
+            
+            var all = (await storageService.GetModel()).Values.ToList();
+            var analogs = all.Where(x => x.RegisterType == RegisterType.ANALOG_INPUT || x.RegisterType == RegisterType.ANALOG_OUTPUT).Cast<AnalogPoint>().ToList();
+            var binaries = all.Where(x => x.RegisterType == RegisterType.BINARY_INPUT || x.RegisterType == RegisterType.BINARY_OUTPUT).Cast<DiscretePoint>().ToList();
+            ev.Points.AddRange(Mapper.MapCollection<AnalogPoint, ScadaPointDto>(analogs));
+            ev.Points.AddRange(Mapper.MapCollection<DiscretePoint, ScadaPointDto>(binaries));
+
+            Subscription subs = new Subscription();
+            Publisher pub = new Publisher(subs.Topic, subs.ConnectionString);
+
+            //if (ev.Points.Count > 0)
+            //    pub.SendMessage(new PubSubMessage()
+            //    {
+            //        ContentType = ContentType.SCADA_UPDATE,
+            //        Sender = Sender.SCADA,
+            //        Content = JsonTool.Serialize<ScadaUpdateEvent>(ev)
+            //    }).ConfigureAwait(false).GetAwaiter().GetResult();
+            //if (dom.DomData.Count > 0)
+            //    pub.SendMessage(new PubSubMessage()
+            //    {
+            //        ContentType = ContentType.SCADA_DOM,
+            //        Sender = Sender.SCADA,
+            //        Content = JsonTool.Serialize<DomUpdateEvent>(dom)
+            //    }).ConfigureAwait(false).GetAwaiter().GetResult();
+            //if (history.History.Count > 0)
+            //    pub.SendMessage(new PubSubMessage()
+            //    {
+            //        ContentType = ContentType.SCADA_HISTORY,
+            //        Sender = Sender.SCADA,
+            //        Content = JsonTool.Serialize<HistoryUpdateEvent>(history)
+            //    }).ConfigureAwait(false).GetAwaiter().GetResult();
+            //pub.SendMessage(new PubSubMessage()
+            //{
+            //    ContentType = ContentType.SCADA_HISTORY_GRAPH,
+            //    Sender = Sender.SCADA,
+            //    Content = JsonTool.Serialize<HistoryGraphicalEvent>(graph)
+            //}).ConfigureAwait(false).GetAwaiter().GetResult();
         }
     }
 }
