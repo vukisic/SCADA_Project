@@ -16,6 +16,17 @@ namespace SF.Common.Proxies
 {
     public class ScadaStorageProxy
     {
+        private string _uri;
+
+        public ScadaStorageProxy()
+        {
+            _uri = "fabric:/ServiceFabricApp/ScadaStorageService";
+        }
+
+        public ScadaStorageProxy(string uri)
+        {
+            _uri = uri;
+        }
         public async Task<Dictionary<DMSType, Container>> GetCimModel()
         {
             var client = BuildClient();
@@ -81,7 +92,7 @@ namespace SF.Common.Proxies
             Binding binding = WcfUtility.CreateTcpClientBinding();
             IServicePartitionResolver partitionResolver = ServicePartitionResolver.GetDefault();
             var wcfClientFactory = new WcfCommunicationClientFactory<IScadaStorageService>(clientBinding: binding, servicePartitionResolver: partitionResolver);
-            var ServiceUri = new Uri("fabric:/ServiceFabricApp/ScadaStorageService");
+            var ServiceUri = new Uri(_uri);
             var client = new WcfClient<IScadaStorageService>(wcfClientFactory, ServiceUri, new Microsoft.ServiceFabric.Services.Client.ServicePartitionKey(1));
             return client;
         }

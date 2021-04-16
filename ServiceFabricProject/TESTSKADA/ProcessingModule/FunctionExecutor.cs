@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Sockets;
@@ -118,7 +119,7 @@ namespace NDS.ProcessingModule
 
         private LogServiceProxy Log()
         {
-            return new LogServiceProxy();
+            return new LogServiceProxy(ConfigurationManager.AppSettings["Log"]);
         }
 
         private bool CheckIfUnsolicited(byte unsolicited)
@@ -138,9 +139,9 @@ namespace NDS.ProcessingModule
 
             if (pointsToUpdate != null)
             {
-                var alarming = new AlarmingProxy();
+                var alarming = new AlarmingProxy(ConfigurationManager.AppSettings["Alarming"]);
                 var processedPoints = alarming.Check(pointsToUpdate).GetAwaiter().GetResult();
-                var storage = new SF.Common.Proxies.ScadaStorageProxy();
+                var storage = new SF.Common.Proxies.ScadaStorageProxy(ConfigurationManager.AppSettings["Storage"]);
                 storage.UpdateModelValue(processedPoints).GetAwaiter().GetResult();
             }
         }

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Core.Common.Contracts;
 using FTN.Common;
 using FTN.Services.NetworkModelService;
+using SF.Common;
 using SF.Common.Proxies;
 
 namespace NDSService
@@ -21,7 +22,7 @@ namespace NDSService
         public async Task<bool> ModelUpdate(AffectedEntities model)
         {
             var nms = new NetworkModelServiceProxy();
-            ScadaStorageProxy storage = new ScadaStorageProxy();
+            ScadaStorageProxy storage = new ScadaStorageProxy(ConfigurationReader.ReadValue(_context,"Settings","Storage"));
             var cimModel = await storage.GetCimModel();
             if (cimModel == null)
                 cimModel = new Dictionary<DMSType, Container>();

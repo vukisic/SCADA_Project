@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,9 +25,9 @@ namespace NDS.ProcessingModule
             this.functionExecutor = functionExecutor;
             applicationSequence = 0;
             transportSequence = 0;
-            dom = new DomServiceProxy();
-            log = new LogServiceProxy();
-            storage = new SF.Common.Proxies.ScadaStorageProxy() ;
+            dom = new DomServiceProxy(ConfigurationManager.AppSettings["Dom"]);
+            log = new LogServiceProxy(ConfigurationManager.AppSettings["Log"]);
+            storage = new SF.Common.Proxies.ScadaStorageProxy(ConfigurationManager.AppSettings["Storage"]);
         }
 
         public void ExecuteReadCommand(RegisterType type, uint index)

@@ -14,6 +14,18 @@ namespace SF.Common.Proxies
 {
     public class LogServiceProxy
     {
+        private string _uri;
+
+        public LogServiceProxy()
+        {
+            _uri = "fabric:/ServiceFabricApp/LogService";
+        }
+
+        public LogServiceProxy(string uri)
+        {
+            _uri = uri;
+        }
+
         public async Task Log(LogEventModel logModel)
         {
             var client = BuildClient();
@@ -25,7 +37,7 @@ namespace SF.Common.Proxies
             Binding binding = WcfUtility.CreateTcpClientBinding();
             IServicePartitionResolver partitionResolver = ServicePartitionResolver.GetDefault();
             var wcfClientFactory = new WcfCommunicationClientFactory<ILogService>(clientBinding: binding, servicePartitionResolver: partitionResolver);
-            var ServiceUri = new Uri("fabric:/ServiceFabricApp/LogService");
+            var ServiceUri = new Uri(_uri);
             var client = new WcfClient<ILogService>(wcfClientFactory, ServiceUri);
             return client;
         }

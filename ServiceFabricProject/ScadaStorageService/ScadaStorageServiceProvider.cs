@@ -13,6 +13,7 @@ using Microsoft.ServiceFabric.Data.Collections;
 using SCADA.Common.DataModel;
 using SCADA.Common.ScadaDb.Providers;
 using SCADA.Common.ScadaDb.Repositories;
+using SF.Common;
 using SF.Common.Proxies;
 
 namespace ScadaStorageService
@@ -138,7 +139,7 @@ namespace ScadaStorageService
 
         private async Task SetScadaModel(string name, Dictionary<Tuple<RegisterType,int>, BasePoint> dictionary)
         {
-            historian = new HistoryServiceProxy();
+            historian = new HistoryServiceProxy(ConfigurationReader.ReadValue(_context,"Settings","History"));
             var result = await _stateManager.GetOrAddAsync<IReliableDictionary<int, BasePoint>>(name);
             if (dictionary == null)
             {

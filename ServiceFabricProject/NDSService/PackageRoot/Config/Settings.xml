@@ -6,4 +6,10 @@
     <Parameter Name="MyParameter" Value="Value1" />
   </Section>
   -->
+  <Section Name="Settings">
+    <Parameter Name="Storage" Value="fabric:/ServiceFabricApp/ScadaStorageService"/>
+    <Parameter Name="History" Value="fabric:/ServiceFabricApp/HistoryService"/>
+    <Parameter Name="Dom" Value="fabric:/ServiceFabricApp/DomService"/>
+    <Parameter Name="Log" Value="fabric:/ServiceFabricApp/LogService"/>
+  </Section>
 </Settings>

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Core.Common.Contracts;
 using SCADA.Common;
+using SF.Common;
 using SF.Common.Proxies;
 
 namespace NDSService
@@ -21,7 +22,7 @@ namespace NDSService
 
         public async Task<bool> Commit()
         {
-            ScadaStorageProxy proxy = new ScadaStorageProxy();
+            ScadaStorageProxy proxy = new ScadaStorageProxy(ConfigurationReader.ReadValue(_context, "Settings", "Storage"));
             await proxy.SetModel(await proxy.GetTransactionModel());
             var model = await proxy.GetModel();
             ushort aiCount = (ushort)(model.Values.Where(x => x.RegisterType == SCADA.Common.DataModel.RegisterType.ANALOG_INPUT).Count());
@@ -30,7 +31,7 @@ namespace NDSService
             ushort boCount = (ushort)(model.Values.Where(x => x.RegisterType == SCADA.Common.DataModel.RegisterType.BINARY_OUTPUT).Count());
             SimulatorProxy sim = new SimulatorProxy();
             sim.UpdateConfig(Tuple.Create<ushort, ushort, ushort, ushort>(biCount, boCount, aiCount, aoCount), result.MridIndexPairs);
-            DomServiceProxy dom = new DomServiceProxy();
+            DomServiceProxy dom = new DomServiceProxy(ConfigurationReader.ReadValue(_context,"Settings","Dom"));
             await dom.Add((await proxy.GetModel()).Values.ToList().ToDbModel());
             // ovo .ToDbModel je iz kalse Extension u ScadaCommon-u negde, nadji i kopiraj u servis tu klasu
             return true;
@@ -38,7 +39,7 @@ namespace NDSService
 
         public async Task<bool> Prepare()
         {
-            ScadaStorageProxy proxy = new ScadaStorageProxy();
+            ScadaStorageProxy proxy = new ScadaStorageProxy(ConfigurationReader.ReadValue(_context, "Settings", "Storage"));
             var converter = new ScadaModelConverter();
             result = converter.Convert(await proxy.GetCimModel());
             await proxy.SetTransactionModel(result.Points);
@@ -48,7 +49,7 @@ namespace NDSService
 
         public async Task Rollback()
         {
-            ScadaStorageProxy proxy = new ScadaStorageProxy();
+            ScadaStorageProxy proxy = new ScadaStorageProxy(ConfigurationReader.ReadValue(_context, "Settings", "Storage"));
             await proxy.SetTransactionModel(null);
         }
     }

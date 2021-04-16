@@ -13,4 +13,7 @@
     <Parameter Name="MyParameter" Value="Value1" />
   </Section>
   -->
+  <Section Name="Settings">
+    <Parameter Name="Log" Value="fabric:/ServiceFabricApp/LogService"/>
+  </Section>
 </Settings>

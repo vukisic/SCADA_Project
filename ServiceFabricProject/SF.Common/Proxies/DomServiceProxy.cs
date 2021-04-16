@@ -14,6 +14,17 @@ namespace SF.Common.Proxies
 {
     public class DomServiceProxy
     {
+        private string _uri;
+        public DomServiceProxy()
+        {
+            _uri = "fabric:/ServiceFabricApp/DomService";
+        }
+
+        public DomServiceProxy(string uri)
+        {
+            _uri = uri;
+        }
+
         public async Task Add(List<DomDbModel> model)
         {
             var client = BuildClient();
@@ -49,7 +60,7 @@ namespace SF.Common.Proxies
             Binding binding = WcfUtility.CreateTcpClientBinding();
             IServicePartitionResolver partitionResolver = ServicePartitionResolver.GetDefault();
             var wcfClientFactory = new WcfCommunicationClientFactory<IDomService>(clientBinding: binding, servicePartitionResolver: partitionResolver);
-            var ServiceUri = new Uri("fabric:/ServiceFabricApp/DomService");
+            var ServiceUri = new Uri(_uri);
             var client = new WcfClient<IDomService>(wcfClientFactory, ServiceUri);
             return client;
         }

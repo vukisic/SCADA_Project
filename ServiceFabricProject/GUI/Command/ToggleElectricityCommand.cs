@@ -4,6 +4,7 @@ using Core.Common.PubSub;
 using Core.Common.ServiceBus.Events;
 using GUI.Core.Tree;
 using GUI.Models.Schema;
+using SCADA.Common;
 using SF.Common.Proxies;
 
 namespace GUI.Command
@@ -65,15 +66,8 @@ namespace GUI.Command
 
         private static void SendMessageToScada(ScadaCommandingEvent commandingEvent)
         {
-            //var proxy = new PubSubServiceProxy();
-            //var json = JsonTool.Serialize(commandingEvent);
-            //var msg = new PubSubMessage
-            //{
-            //    Content = json,
-            //    ContentType = ContentType.SCADA_UPDATE,
-            //    Sender = Sender.GUI
-            //};
-            //proxy.SendMessage(msg).ConfigureAwait(false).GetAwaiter().GetResult();
+            var proxy = new CommandingProxy();
+            proxy.Commmand(new ScadaCommand(commandingEvent.RegisterType, commandingEvent.Index, commandingEvent.Value, 0)).GetAwaiter().GetResult();
         }
     }
 }

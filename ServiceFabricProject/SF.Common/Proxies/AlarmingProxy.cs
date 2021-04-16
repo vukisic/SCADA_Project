@@ -14,6 +14,16 @@ namespace SF.Common.Proxies
 {
     public class AlarmingProxy
     {
+        private string _uri;
+        public AlarmingProxy()
+        {
+            _uri = "fabric:/ServiceFabricApp/AlarmingService";
+        }
+
+        public AlarmingProxy(string uri)
+        {
+            _uri = uri;
+        }
         public Task<Dictionary<Tuple<RegisterType, int>, BasePoint>> Check(Dictionary<Tuple<RegisterType, int>, BasePoint> points)
         {
             var client = BuildClient();

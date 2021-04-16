@@ -11,6 +11,8 @@ using Core.Common.ServiceBus.Events;
 using Core.Common.WeatherApi;
 using NServiceBus;
 using SCADA.Common.DataModel;
+using SF.Common;
+using SF.Common.Proxies;
 
 namespace CE
 {
@@ -27,7 +29,7 @@ namespace CE
         private bool pointUpdateOccures;
         private bool endFlag;
         private int points = 0;
-        private WeatherServiceProxy weatherAPI;
+        private SF.Common.Proxies.WeatherServiceProxy weatherAPI;
         private IEndpointInstance endpoint;
         private static bool skip = false;
         private int secundsForWeather = 60;
@@ -47,7 +49,8 @@ namespace CE
             _worker = new Thread(DoWorkNew);
             endFlag = true;
             _worker.Name = "CE Worker";
-            weatherAPI = new WeatherServiceProxy();
+            var api = ConfigurationManager.AppSettings["WeatherApi"];
+            weatherAPI = new SF.Common.Proxies.WeatherServiceProxy(api);
             _worker.Start();
         }
 
@@ -94,7 +97,7 @@ namespace CE
         }
         private void CheckState()
         {
-            var proxy = new SF.Common.Proxies.ScadaExportProxy();
+            var proxy = new SF.Common.Proxies.ScadaExportProxy(ConfigurationManager.AppSettings["Scada"]);
             var measurements = proxy.GetData().GetAwaiter().GetResult();
 
             if (measurements == null || !measurements.ContainsKey("FluidLevel_Tank"))
@@ -141,7 +144,7 @@ namespace CE
         private void TurnOffPumps()
         {
 
-            var proxy = new SF.Common.Proxies.ScadaExportProxy();
+            var proxy = new SF.Common.Proxies.ScadaExportProxy(ConfigurationManager.AppSettings["Scada"]);
             var points = proxy.GetData().GetAwaiter().GetResult();
             if (points == null)
                 return;
@@ -197,7 +200,7 @@ namespace CE
 
                 var forecastResult = new CeForecast();
                 var area = GetSurfaceArea();
-                var weatherForecast = weatherAPI.GetResultsForNext6Hours();
+                var weatherForecast = weatherAPI.GetForecast();
                 var weather = new List<double>();
                 weatherForecast.ForEach(x => weather.Add(x * area));
                 float current = GetCurrentFluidLevel();
@@ -263,7 +266,8 @@ namespace CE
 
         private void SendCommand(CeForecast forecastResult)
         {
-            var proxy = new SF.Common.Proxies.ScadaExportProxy();
+            var proxy = new SF.Common.Proxies.ScadaExportProxy(ConfigurationManager.AppSettings["Scada"]);
+            var commanding = new CommandingProxy(ConfigurationManager.AppSettings["Command"]);
             var points = proxy.GetData().GetAwaiter().GetResult();
             if (points == null)
                 return;
@@ -288,8 +292,7 @@ namespace CE
                             Value = (uint)onOff
                         };
 
-                        endpoint.Publish(command1).ConfigureAwait(false);
-
+                        commanding.Commmand(new SCADA.Common.ScadaCommand(command1.RegisterType, command1.Index, command1.Value, command1.Milliseconds)).GetAwaiter().GetResult();
                     }
 
                     if (points.ContainsKey($"Discrete_Tap{i + 1}") && onOff == 1)
@@ -303,8 +306,7 @@ namespace CE
                             Milliseconds = (uint)((counter) * 60 * 1000),
                             Value = (uint)(flow / 100)
                         };
-
-                        endpoint.Publish(command2).ConfigureAwait(false);
+                        commanding.Commmand(new SCADA.Common.ScadaCommand(command2.RegisterType, command2.Index, command2.Value, command2.Milliseconds)).GetAwaiter().GetResult();
                     }
                     else if (points.ContainsKey($"Discrete_Tap{i + 1}") && onOff == 0)
                     {
@@ -318,7 +320,7 @@ namespace CE
                             Value = 0
                         };
 
-                        endpoint.Publish(command2).ConfigureAwait(false);
+                        commanding.Commmand(new SCADA.Common.ScadaCommand(command2.RegisterType, command2.Index, command2.Value, command2.Milliseconds)).GetAwaiter().GetResult();
                     }
                 }
                 counter += 15.0f;
@@ -438,7 +440,7 @@ namespace CE
 
         private float GetCurrentFluidLevel()
         {
-            SF.Common.Proxies.ScadaExportProxy proxy = new SF.Common.Proxies.ScadaExportProxy();
+            SF.Common.Proxies.ScadaExportProxy proxy = new SF.Common.Proxies.ScadaExportProxy(ConfigurationManager.AppSettings["Scada"]);
             var data = proxy.GetData().GetAwaiter().GetResult();
             if (data != null)
             {
@@ -532,7 +534,7 @@ namespace CE
             };
             endpoint.Publish(clearCommand).ConfigureAwait(false).GetAwaiter().GetResult();
 
-            var proxy = new SF.Common.Proxies.ScadaExportProxy();
+            var proxy = new SF.Common.Proxies.ScadaExportProxy(ConfigurationManager.AppSettings["Scada"]);
             var points = proxy.GetData().GetAwaiter().GetResult();
             if (points == null)
                 return;

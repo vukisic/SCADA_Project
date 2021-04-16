@@ -14,6 +14,17 @@ namespace SF.Common.Proxies
 {
     public class HistoryServiceProxy
     {
+        private string _uri;
+        public HistoryServiceProxy()
+        {
+            _uri = "fabric:/ServiceFabricApp/HistoryService";
+        }
+
+        public HistoryServiceProxy(string uri)
+        {
+            _uri = uri;
+        }
+
         public async Task Add(HistoryDbModel model)
         {
             var client = BuildClient();
@@ -55,7 +66,7 @@ namespace SF.Common.Proxies
             Binding binding = WcfUtility.CreateTcpClientBinding();
             IServicePartitionResolver partitionResolver = ServicePartitionResolver.GetDefault();
             var wcfClientFactory = new WcfCommunicationClientFactory<IHistoryService>(clientBinding: binding, servicePartitionResolver: partitionResolver);
-            var ServiceUri = new Uri("fabric:/ServiceFabricApp/HistoryService");
+            var ServiceUri = new Uri(_uri);
             var client = new WcfClient<IHistoryService>(wcfClientFactory, ServiceUri);
             return client;
         }

@@ -55,7 +55,7 @@ namespace Simulator.Core
         private bool colding1Pump = false;
         private bool colding2Pump = false;
         private bool colding3Pump = false;
-        private WeatherServiceProxy WA;
+        private SF.Common.Proxies.WeatherServiceProxy WA;
         private float FullTank;
         private float EmptyTank;
         private float HeatingConst;
@@ -83,15 +83,16 @@ namespace Simulator.Core
             ColdingConst = float.Parse(ConfigurationManager.AppSettings["ColdingConst"]);
             ConstPumpFlow = float.Parse(ConfigurationManager.AppSettings["ConstPumpFlow"]);
             TankSurface = float.Parse(ConfigurationManager.AppSettings["TankSurface"]);
-            WA = new WeatherServiceProxy();
-            hours = WA.GetResultsForNext6Hours();
+            string weatherApi = ConfigurationManager.AppSettings["WeatherApi"] ?? "net.tcp://localhost:27011/WeatherForecast";
+            WA = new SF.Common.Proxies.WeatherServiceProxy(weatherApi);
+            hours = WA.GetForecast();
             db = new dnp3_protocol.dnp3types.sDNPServerDatabase();
             secondsCount = 60;
         }
 
         private void OnEveryMinute()
         {
-            hours = WA.GetResultsForNext6Hours();
+            hours = WA.GetForecast();
 
             simulator.MarshalUnmananagedArray2Struct(db.psServerDatabasePoint, (int)db.u32TotalPoints, out List<dnp3_protocol.dnp3types.sServerDatabasePoint> points);
 

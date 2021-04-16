@@ -4,6 +4,7 @@ using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Communication.Wcf.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
 using SCADA.Common;
+using SF.Common;
 using SF.Common.Proxies;
 using System;
 using System.Collections.Generic;
@@ -85,7 +86,7 @@ namespace CommandingService
 
         public LogServiceProxy GetLogProxy()
         {
-            return new LogServiceProxy();
+            return new LogServiceProxy(ConfigurationReader.ReadValue(Context,"Settings","Log"));
         }
 
         public async Task AddCommand(ScadaCommand command)

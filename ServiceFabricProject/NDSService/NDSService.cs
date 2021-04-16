@@ -6,6 +6,7 @@ using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Communication.Wcf.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
 using SCADA.Common.DataModel;
+using SF.Common;
 using SF.Common.Proxies;
 using System;
 using System.Collections.Generic;
@@ -90,25 +91,25 @@ namespace NDSService
                 {
                     cancellationToken.ThrowIfCancellationRequested();
                     await Update();
-                    await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
                 }
                 catch (Exception ex)
                 {
-                    var log = new LogServiceProxy();
+                    var log = new LogServiceProxy(ConfigurationReader.ReadValue(Context,"Settings","Log"));
                     await log.Log(new SCADA.Common.Logging.LogEventModel()
                     {
                         EventType = SCADA.Common.Logging.LogEventType.ERROR,
                         Message = $"Message:{ex.Message}\nStackTrace:{ex.StackTrace}"
                     });
                 }
+                await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
             }
         }
 
         private async Task Update()
         {
-            var domService = new DomServiceProxy();
-            var historyService = new HistoryServiceProxy();
-            var storageService = new ScadaStorageProxy();
+            var domService = new DomServiceProxy(ConfigurationReader.ReadValue(Context, "Settings", "Dom"));
+            var historyService = new HistoryServiceProxy(ConfigurationReader.ReadValue(Context, "Settings", "History"));
+            var storageService = new ScadaStorageProxy(ConfigurationReader.ReadValue(Context, "Settings", "Storage"));
             var domData = await domService.GetAll();
             DomUpdateEvent dom = new DomUpdateEvent()
             {

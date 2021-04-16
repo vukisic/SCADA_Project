@@ -4,6 +4,9 @@
   <Section Name="ReplicatorConfig">
     <Parameter Name="ReplicatorEndpoint" Value="ReplicatorEndpoint" />
   </Section>
+  <Section Name="Settings">
+    <Parameter Name="History" Value="fabric:/ServiceFabricApp/HistoryService"/>
+  </Section>
   <!-- This is used for securing StateManager's replication traffic. -->
   <Section Name="ReplicatorSecurityConfig" />
 

@@ -14,6 +14,18 @@ namespace SF.Common.Proxies
 {
     public class ScadaExportProxy
     {
+        private string _uri;
+
+        public ScadaExportProxy()
+        {
+            _uri = "fabric:/ServiceFabricApp/ScadaExportService";
+        }
+
+        public ScadaExportProxy(string uri)
+        {
+            _uri = uri;
+        }
+
         public async Task<Dictionary<string, BasePoint>> GetData()
         {
             var client = BuildClient();
@@ -25,7 +37,7 @@ namespace SF.Common.Proxies
             Binding binding = WcfUtility.CreateTcpClientBinding();
             IServicePartitionResolver partitionResolver = ServicePartitionResolver.GetDefault();
             var wcfClientFactory = new WcfCommunicationClientFactory<IScadaExportServiceAsync>(clientBinding: binding, servicePartitionResolver: partitionResolver);
-            var ServiceUri = new Uri("fabric:/ServiceFabricApp/ScadaExportService");
+            var ServiceUri = new Uri(_uri);
             var client = new WcfClient<IScadaExportServiceAsync>(wcfClientFactory, ServiceUri);
             return client;
         }

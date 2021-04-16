@@ -29,7 +29,7 @@ namespace NDS.ProcessingModule
 		public Acquisitor(IProcessingManager processingManager)
         {
             this.processingManager = processingManager;
-            log = new LogServiceProxy();
+            log = new LogServiceProxy(ConfigurationManager.AppSettings["Log"]);
             if (!Int32.TryParse(ConfigurationManager.AppSettings["AcquisitionInterval"], out acquisitionInterval))
                 acquisitionInterval = 1000;
             this.InitializeAcquisitionThread();

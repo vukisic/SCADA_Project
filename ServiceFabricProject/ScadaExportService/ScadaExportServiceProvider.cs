@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Core.Common.Contracts;
 using SCADA.Common.DataModel;
+using SF.Common;
 using SF.Common.Proxies;
 
 namespace ScadaExportService
@@ -21,7 +22,7 @@ namespace ScadaExportService
         {
             try
             {
-                ScadaStorageProxy proxy = new ScadaStorageProxy();
+                ScadaStorageProxy proxy = new ScadaStorageProxy(ConfigurationReader.ReadValue(_context,"Settings","Storage"));
                 var model = await proxy.GetModel();
                 var data = new Dictionary<string, BasePoint>();
                 foreach (var item in model.Values)
