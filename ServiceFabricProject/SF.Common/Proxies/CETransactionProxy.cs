@@ -14,7 +14,7 @@ namespace SF.Common.Proxies
 {
     public class CETransactionProxy : ClientBase<ITransactionStepsAsync>
     {
-        public CETransactionProxy() : base(new NetTcpBinding(SecurityMode.None), new EndpointAddress("net.tcp://localhost:33333/CEDynamicsService"))
+        public CETransactionProxy() : base(new NetTcpBinding(SecurityMode.None), new EndpointAddress("net.tcp://localhost:23350/CEDynamicsService"))
         {
 
         }

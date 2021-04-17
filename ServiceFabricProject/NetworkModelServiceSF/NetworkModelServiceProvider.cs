@@ -16,28 +16,33 @@ namespace NetworkModelServiceSF
     [ServiceBehavior(AddressFilterMode = AddressFilterMode.Any)]
     public class NetworkModelServiceProvider : INetworkModelService
     {
-        public static NetworkModel _networkModel;
         private IReliableStateManager _stateManager;
         private StatefulServiceContext _context;
-        public NetworkModelServiceProvider(IReliableStateManager stateManager, StatefulServiceContext context)
+        private Func<Delta, Task<UpdateResult>> _applyDelta;
+        private Func<long, Task<IdentifiedObject>> _getValue;
+        private Func<List<long>, Task<List<IdentifiedObject>>> _getValues;
+        public NetworkModelServiceProvider(IReliableStateManager stateManager, StatefulServiceContext context, Func<Delta,Task<UpdateResult>> applyDelta, Func<long, Task<IdentifiedObject>> getValue, Func<List<long>, Task<List<IdentifiedObject>>> getValues)
         {
             _stateManager = stateManager;
             _context = context;
+            _applyDelta = applyDelta;
+            _getValue = getValue;
+            _getValues = getValues;
         }
 
         public Task<UpdateResult> ApplyDelta(Delta delta)
         {
-            return Task.FromResult(_networkModel.ApplyDelta(delta));
+            return _applyDelta(delta);
         }
 
         public Task<IdentifiedObject> GetValue(long globalId)
         {
-            return _networkModel.GetValue(globalId);
+            return _getValue(globalId);
         }
 
         public Task<List<IdentifiedObject>> GetValues(List<long> globalIds)
         {
-            return _networkModel.GetValues(globalIds);
+            return _getValues(globalIds);
         }
     }
 }

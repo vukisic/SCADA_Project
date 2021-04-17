@@ -16,7 +16,7 @@ namespace SF.Common.Proxies
 {
     public class CEModelProxy : ClientBase<IModelUpdateAsync>
     {
-        public CEModelProxy() : base(new NetTcpBinding(SecurityMode.None), new EndpointAddress("net.tcp://localhost:33331/CEDynamicsService"))
+        public CEModelProxy() : base(new NetTcpBinding(SecurityMode.None), new EndpointAddress("net.tcp://localhost:22350/CEDynamicsService"))
         {
 
         }

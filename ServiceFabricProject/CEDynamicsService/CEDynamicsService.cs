@@ -28,7 +28,7 @@ namespace CEDynamicsService
                 {
                     string host = host = context.NodeContext.IPAddressOrFQDN;
 
-                    EndpointResourceDescription endpointConfig = context.CodePackageActivationContext.GetEndpoint("ServiceEndPoint");
+                    EndpointResourceDescription endpointConfig = context.CodePackageActivationContext.GetEndpoint("ServiceEndPointM");
 
                     int port = endpointConfig.Port;
                     string scheme = endpointConfig.Protocol.ToString();

@@ -12,18 +12,23 @@ namespace NetworkModelServiceSF
     public class NetworkModelServiceTransactionProvider : ITransactionStepsAsync
     {
         private StatefulServiceContext _context;
-        public static NetworkModel _networkModel;
+        private Func<Task<bool>> _prepare;
+        private Func<Task<bool>> _commit;
+        private Func<Task> _rollback;
 
-        public NetworkModelServiceTransactionProvider(StatefulServiceContext context)
+        public NetworkModelServiceTransactionProvider(StatefulServiceContext context, Func<Task<bool>> prepare, Func<Task<bool>> commit, Func<Task> rollback)
         {
             _context = context;
+            _prepare = prepare;
+            _commit = commit;
+            _rollback = rollback;
         }
 
         public Task<bool> Commit()
         {
             try
             {
-                return _networkModel.Commit();
+                return _commit();
             }
             catch (Exception e)
             {
@@ -35,7 +40,7 @@ namespace NetworkModelServiceSF
         {
             try
             {
-                return _networkModel.Prepare();
+                return _prepare();
             }
             catch (Exception e)
             {
@@ -47,7 +52,7 @@ namespace NetworkModelServiceSF
         {
             try
             {
-                return _networkModel.Rollback();
+                return _rollback();
             }
             catch (Exception e)
             {

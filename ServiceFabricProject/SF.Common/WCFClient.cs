@@ -11,6 +11,7 @@ namespace SF.Common
 {
     public class WcfClient<T> : ServicePartitionClient<WcfCommunicationClient<T>> where T : class
     {
+        
         public WcfClient(ICommunicationClientFactory<WcfCommunicationClient<T>> communicationClientFactory,
                                                    Uri serviceUri,
                                                    ServicePartitionKey partitionKey = null,

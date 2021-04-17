@@ -253,7 +253,13 @@ namespace ScadaStorageService
 
         private async Task<IReliableDictionary<CimModelKey, Container>> GetCim()
         {
-            return await _stateManager.GetOrAddAsync<IReliableDictionary<CimModelKey, Container>>(cimName);
+            using (var tx = _stateManager.CreateTransaction())
+            {
+                var result = await _stateManager.GetOrAddAsync<IReliableDictionary<CimModelKey, Container>>(tx,cimName,TimeSpan.FromSeconds(60));
+                await tx.CommitAsync();
+                return result;
+            }
+            
         }
 
         private async Task<Dictionary<DMSType, Container>> ConvertCimModel(IReliableDictionary<CimModelKey, Container> dictionary)

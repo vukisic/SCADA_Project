@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Core.Common.Json;
 using Core.Common.PubSub;
@@ -40,8 +41,7 @@ namespace FTN.Services.NetworkModelService
             resourcesDescs = new ModelResourcesDesc();
             storage = new AzureStorage(_tableName, false);
             GidHelper = new Dictionary<long, long>();
-            GetDictionaries().GetAwaiter().GetResult();
-            Initialize();
+            //Initialize();
         }
 
         private async Task GetDictionaries()
@@ -540,7 +540,7 @@ namespace FTN.Services.NetworkModelService
 
         #endregion Operations
 
-        private void Initialize()
+        public void Initialize()
         {
             List<Delta> result = ReadAllDeltas();
             affectedEntities = new AffectedEntities();
@@ -548,7 +548,7 @@ namespace FTN.Services.NetworkModelService
             {
                 return;
             }
-
+            GetDictionaries().GetAwaiter().GetResult();
             foreach (var delta in result)
             {
                 ResourceDescription tempRd = new ResourceDescription();
@@ -588,45 +588,51 @@ namespace FTN.Services.NetworkModelService
 
         private bool TryApplyTransaction()
         {
-            TransactionManagerServiceProxy proxyForTM = new TransactionManagerServiceProxy(ConfigurationManager.AppSettings["TM"]);
-
-            //Zapocni transakciju i prijavi se na nju
-            bool pom = false;
-            while (!pom)
-            {
-                pom = proxyForTM.StartEnlist().GetAwaiter().GetResult();
-            }
-
-            proxyForTM.Enlist().GetAwaiter().GetResult();
-
-            //Posalji Scadi i CEu novi model
-            NDSModelProxy proxyForScada = new NDSModelProxy(ConfigurationManager.AppSettings["SCADAM"]);
-            CEModelProxy proxyForCE = new CEModelProxy(ConfigurationManager.AppSettings["CEM"]);
-
-            bool success = false;
-            if (proxyForScada.ModelUpdate(affectedEntities).GetAwaiter().GetResult())
-                success = true;
-
-            if (proxyForCE.ModelUpdate(affectedEntities).GetAwaiter().GetResult())
-                success = true;
-
-            proxyForTM.EndEnlist(success).GetAwaiter().GetResult();
             try
             {
-                var proxy = new PubSubServiceProxy(ConfigurationManager.AppSettings["PubSub"]);
-                var dtos = DtoConverter.Convert(networkDataModelCopy);
-                var json = JsonTool.Serialize(new ModelUpdateEvent(dtos));
-                var msg = new PubSubMessage()
+                Thread.Sleep(TimeSpan.FromSeconds(20));
+                TransactionManagerServiceProxy proxyForTM = new TransactionManagerServiceProxy(ConfigurationManager.AppSettings["TM"]);
+                bool pom = false;
+                while (!pom)
                 {
-                    Content = json,
-                    ContentType = ContentType.NMS_UPDATE,
-                    Sender = Sender.NMS
-                };
-                proxy.SendMessage(msg).ConfigureAwait(false).GetAwaiter().GetResult();
-            }
-            catch { }
+                    pom = proxyForTM.StartEnlist().GetAwaiter().GetResult();
+                }
 
-            return true;
+                proxyForTM.Enlist().GetAwaiter().GetResult();
+                NDSModelProxy proxyForScada = new NDSModelProxy(ConfigurationManager.AppSettings["SCADAM"]);
+                CEModelProxy proxyForCE = new CEModelProxy(ConfigurationManager.AppSettings["CEM"]);
+
+                bool success = false;
+                if (proxyForScada.ModelUpdate(affectedEntities).GetAwaiter().GetResult())
+                    success = true;
+
+                if (proxyForCE.ModelUpdate(affectedEntities).GetAwaiter().GetResult())
+                    success = true;
+
+                proxyForTM.EndEnlist(success).GetAwaiter().GetResult();
+                try
+                {
+                    var proxy = new PubSubServiceProxy(ConfigurationManager.AppSettings["PubSub"]);
+                    var dtos = DtoConverter.Convert(networkDataModelCopy);
+                    var json = JsonTool.Serialize(new ModelUpdateEvent(dtos));
+                    var msg = new PubSubMessage()
+                    {
+                        Content = json,
+                        ContentType = ContentType.NMS_UPDATE,
+                        Sender = Sender.NMS
+                    };
+                    proxy.SendMessage(msg).ConfigureAwait(false).GetAwaiter().GetResult();
+                }
+                catch { }
+
+                return true;
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+            
         }
 
         private void SaveDelta(Delta delta)
