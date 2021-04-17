@@ -590,27 +590,27 @@ namespace FTN.Services.NetworkModelService
         {
             TransactionManagerServiceProxy proxyForTM = new TransactionManagerServiceProxy(ConfigurationManager.AppSettings["TM"]);
 
-            ////Zapocni transakciju i prijavi se na nju
-            //bool pom = false;
-            //while (!pom)
-            //{
-            //    pom = proxyForTM.StartEnlist().GetAwaiter().GetResult();
-            //}
+            //Zapocni transakciju i prijavi se na nju
+            bool pom = false;
+            while (!pom)
+            {
+                pom = proxyForTM.StartEnlist().GetAwaiter().GetResult();
+            }
 
-            //proxyForTM.Enlist().GetAwaiter().GetResult();
+            proxyForTM.Enlist().GetAwaiter().GetResult();
 
-            ////Posalji Scadi i CEu novi model
-            //NMSSCADAProxy proxyForScada = new NMSSCADAProxy();
-            //CEModelProxy proxyForCE = new CEModelProxy();
+            //Posalji Scadi i CEu novi model
+            NDSModelProxy proxyForScada = new NDSModelProxy(ConfigurationManager.AppSettings["SCADAM"]);
+            CEModelProxy proxyForCE = new CEModelProxy(ConfigurationManager.AppSettings["CEM"]);
 
-            //bool success = false;
-            ////if (proxyForScada.ModelUpdate(affectedEntities))
-            ////    success = true;
+            bool success = false;
+            if (proxyForScada.ModelUpdate(affectedEntities).GetAwaiter().GetResult())
+                success = true;
 
-            //if (proxyForCE.ModelUpdate(affectedEntities).GetAwaiter().GetResult())
-            //    success = true;
+            if (proxyForCE.ModelUpdate(affectedEntities).GetAwaiter().GetResult())
+                success = true;
 
-            //proxyForTM.EndEnlist(success).GetAwaiter().GetResult();
+            proxyForTM.EndEnlist(success).GetAwaiter().GetResult();
             try
             {
                 var proxy = new PubSubServiceProxy(ConfigurationManager.AppSettings["PubSub"]);

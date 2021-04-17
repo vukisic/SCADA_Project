@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.ServiceFabric.Data;
@@ -29,13 +30,13 @@ namespace TransactionManager
             bool commitedNMS = false;
             bool commitedCE = false;
 
-            NDSTransactionProxy proxyForScada = new NDSTransactionProxy();
+            NDSTransactionProxy proxyForScada = new NDSTransactionProxy(ConfigurationManager.AppSettings["SCADAT"]);
             isPreparedSCADA = await proxyForScada.Prepare();
 
-            CETransactionProxy proxyForCE = new CETransactionProxy();
+            CETransactionProxy proxyForCE = new CETransactionProxy(ConfigurationManager.AppSettings["CET"]);
             isPreparedCE = await proxyForCE.Prepare();
 
-            NetworkModelServiceTransactionProxy proxyForNms = new NetworkModelServiceTransactionProxy();
+            NetworkModelServiceTransactionProxy proxyForNms = new NetworkModelServiceTransactionProxy(ConfigurationManager.AppSettings["NMST"]);
             isPreparedNMS = await proxyForNms.Prepare();
 
 

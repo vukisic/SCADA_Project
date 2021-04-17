@@ -12,6 +12,7 @@ namespace SF.Common.Proxies
     public class NDSModelProxy : ClientBase<IModelUpdateAsync>
     {
         public NDSModelProxy() : base(new NetTcpBinding(SecurityMode.None), new EndpointAddress("net.tcp://localhost:20101/NDSService")) { }
+        public NDSModelProxy(string uri) : base(new NetTcpBinding(SecurityMode.None), new EndpointAddress(uri)) { }
 
         public async Task<bool> ModelUpdate(AffectedEntities model)
         {

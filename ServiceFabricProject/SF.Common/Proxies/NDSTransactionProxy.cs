@@ -11,6 +11,7 @@ namespace SF.Common.Proxies
     public class NDSTransactionProxy : ClientBase<ITransactionStepsAsync>
     {
         public NDSTransactionProxy() : base(new NetTcpBinding(SecurityMode.None), new EndpointAddress("net.tcp://localhost:20102/NDSService")) { }
+        public NDSTransactionProxy(string uri) : base(new NetTcpBinding(SecurityMode.None), new EndpointAddress(uri)) { }
 
         public async Task<bool> Commit()
         {

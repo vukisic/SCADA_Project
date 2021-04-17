@@ -21,6 +21,11 @@ namespace SF.Common.Proxies
 
         }
 
+        public CEModelProxy(string uri) : base(new NetTcpBinding(SecurityMode.None), new EndpointAddress(uri))
+        {
+
+        }
+
         public async Task<bool> ModelUpdate(AffectedEntities model)
         {
             return await Task.Run(async () => { return await Channel.ModelUpdate(model); });

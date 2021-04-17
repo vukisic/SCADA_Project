@@ -18,7 +18,12 @@ namespace SF.Common.Proxies
         {
 
         }
-  
+
+        public CETransactionProxy(string uri) : base(new NetTcpBinding(SecurityMode.None), new EndpointAddress(uri))
+        {
+
+        }
+
         public async Task<bool> Commit()
         {
             return await Task.Run(async () => { return await Channel.Commit(); });
