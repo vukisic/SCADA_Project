@@ -21,7 +21,7 @@ namespace NDSService
         }
         public async Task<bool> ModelUpdate(AffectedEntities model)
         {
-            var nms = new NetworkModelServiceProxy();
+            var nms = new NetworkModelServiceProxy(ConfigurationReader.ReadValue(_context,"Settings","NMS") ?? "net.tcp://localhost:22330/NetworkModelServiceSF");
             ScadaStorageProxy storage = new ScadaStorageProxy(ConfigurationReader.ReadValue(_context,"Settings","Storage"));
             var cimModel = await storage.GetCimModel();
             if (cimModel == null)
@@ -76,9 +76,8 @@ namespace NDSService
 
         public void EnList()
         {
-            // Ostaviti zakomentarisano
-            /*TransactionManagerProxy proxyForTM = new TransactionManagerProxy();
-            proxyForTM.Enlist();*/
+            TransactionManagerServiceProxy proxyForTM = new TransactionManagerServiceProxy(ConfigurationReader.ReadValue(_context,"Settings","TM")?? "fabric:/ServiceFabricApp/TransactionManagerService");
+            proxyForTM.Enlist().GetAwaiter().GetResult();
         }
 
         public DMSType GetDMSType(long globalId)

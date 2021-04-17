@@ -14,6 +14,18 @@ namespace SF.Common.Proxies
 {
     public class PubSubServiceProxy
     {
+        private string _uri;
+
+        public PubSubServiceProxy()
+        {
+            _uri = "fabric:/ServiceFabricApp/PubSubService";
+        }
+
+        public PubSubServiceProxy(string uri)
+        {
+            _uri = uri;
+        }
+
         public async Task SendMessage(PubSubMessage message)
         {
             var client = BuildClient();
@@ -25,7 +37,7 @@ namespace SF.Common.Proxies
             Binding binding = WcfUtility.CreateTcpClientBinding();
             IServicePartitionResolver partitionResolver = ServicePartitionResolver.GetDefault();
             var wcfClientFactory = new WcfCommunicationClientFactory<IPubSubAsync>(clientBinding: binding, servicePartitionResolver: partitionResolver);
-            var ServiceUri = new Uri("fabric:/ServiceFabricApp/PubSubService");
+            var ServiceUri = new Uri(_uri);
             var client = new WcfClient<IPubSubAsync>(wcfClientFactory, ServiceUri);
             return client;
         }

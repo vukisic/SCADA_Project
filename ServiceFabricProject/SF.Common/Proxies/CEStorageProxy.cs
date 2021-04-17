@@ -15,6 +15,17 @@ namespace SF.Common.Proxies
 {
     public class CEStorageProxy
     {
+        private string _uri;
+
+        public CEStorageProxy()
+        {
+            _uri = "";
+        }
+
+        public CEStorageProxy(string uri)
+        {
+            _uri = uri;
+        }
         public Task<Dictionary<DMSType, Container>> GetModel()
         {
             var client = BuildClient();
@@ -44,7 +55,7 @@ namespace SF.Common.Proxies
             Binding binding = WcfUtility.CreateTcpClientBinding();
             IServicePartitionResolver partitionResolver = ServicePartitionResolver.GetDefault();
             var wcfClientFactory = new WcfCommunicationClientFactory<ICEStorageAsync>(clientBinding: binding, servicePartitionResolver: partitionResolver);
-            var ServiceUri = new Uri("fabric:/ServiceFabricApp/CEStorageService");
+            var ServiceUri = new Uri(_uri);
             var client = new WcfClient<ICEStorageAsync>(wcfClientFactory, ServiceUri, new Microsoft.ServiceFabric.Services.Client.ServicePartitionKey(1));
             return client;
         }

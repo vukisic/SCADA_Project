@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Configuration;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -98,8 +99,8 @@ namespace GUI.ViewModels
         public void ONClick()
         {
             state = true;
-            ScadaExportProxy proxy = new ScadaExportProxy();
-            var points = proxy.GetData();
+            SF.Common.Proxies.ScadaExportProxy proxy = new SF.Common.Proxies.ScadaExportProxy(ConfigurationManager.AppSettings["Scada"]);
+            var points = proxy.GetData().GetAwaiter().GetResult();
             var commands = new List<ScadaCommandingEvent>();
             foreach (var item in points)
             {

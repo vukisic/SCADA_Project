@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Core.Common.Contracts;
 using FTN.Common;
 using FTN.Services.NetworkModelService;
+using SF.Common;
 using SF.Common.Proxies;
 
 namespace CEDynamicsService
@@ -22,8 +23,8 @@ namespace CEDynamicsService
 
         public async Task<bool> ModelUpdate(AffectedEntities model)
         {
-            var proxy = new NetworkModelServiceProxy();
-            var storage = new CEStorageProxy();
+            var proxy = new NetworkModelServiceProxy(ConfigurationReader.ReadValue(_context,"Settings","NMS")?? "net.tcp://localhost:22330/NetworkModelServiceSF");
+            var storage = new CEStorageProxy(ConfigurationReader.ReadValue(_context,"Settings","CES")?? "fabric:/ServiceFabricApp/CEStorageService");
             var ceModel = await storage.GetModel();
             if (ceModel == null)
                 ceModel = new Dictionary<DMSType, Container>();
@@ -75,8 +76,8 @@ namespace CEDynamicsService
         }
         public void EnList()
         {
-            /*TransactionManagerProxy proxyForTM = new TransactionManagerProxy();
-            proxyForTM.Enlist();*/
+            TransactionManagerServiceProxy proxyForTM = new TransactionManagerServiceProxy(ConfigurationReader.ReadValue(_context,"Settings","TM")?? "fabric:/ServiceFabricApp/TransactionManagerService");
+            proxyForTM.Enlist().GetAwaiter().GetResult();
         }
 
         private int GetPointsCount(Dictionary<DMSType, Container> collection)

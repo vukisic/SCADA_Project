@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -587,7 +588,7 @@ namespace FTN.Services.NetworkModelService
 
         private bool TryApplyTransaction()
         {
-            //TransactionManagerServiceProxy proxyForTM = new TransactionManagerServiceProxy();
+            TransactionManagerServiceProxy proxyForTM = new TransactionManagerServiceProxy(ConfigurationManager.AppSettings["TM"]);
 
             ////Zapocni transakciju i prijavi se na nju
             //bool pom = false;
@@ -612,7 +613,7 @@ namespace FTN.Services.NetworkModelService
             //proxyForTM.EndEnlist(success).GetAwaiter().GetResult();
             try
             {
-                var proxy = new PubSubServiceProxy();
+                var proxy = new PubSubServiceProxy(ConfigurationManager.AppSettings["PubSub"]);
                 var dtos = DtoConverter.Convert(networkDataModelCopy);
                 var json = JsonTool.Serialize(new ModelUpdateEvent(dtos));
                 var msg = new PubSubMessage()

@@ -13,4 +13,8 @@
     <Parameter Name="MyParameter" Value="Value1" />
   </Section>
   -->
+  <Section Name="Settings">
+    <Parameter Name="PubSub" Value="fabric:/ServiceFabricApp/PubSubService"/>
+    <Parameter Name="TM" Value="fabric:/ServiceFabricApp/TransactionManagerService"/>
+  </Section>
 </Settings>

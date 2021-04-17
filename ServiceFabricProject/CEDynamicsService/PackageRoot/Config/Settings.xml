@@ -6,4 +6,10 @@
     <Parameter Name="MyParameter" Value="Value1" />
   </Section>
   -->
+  <Section Name="Settings">
+    <Parameter Name="TM" Value="fabric:/ServiceFabricApp/TransactionManagerService"/>
+    <Parameter Name="NMS" Value="net.tcp://localhost:22330/NetworkModelServiceSF"/>
+    <Parameter Name="CES" Value="fabric:/ServiceFabricApp/CEStorageService"/>
+    <Parameter Name="CEService" Value="fabric:/ServiceFabricApp/CEService"/>
+  </Section>
 </Settings>

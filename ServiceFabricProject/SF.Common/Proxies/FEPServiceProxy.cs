@@ -15,6 +15,17 @@ namespace SF.Common.Proxies
 {
     public class FEPServiceProxy
     {
+        private string _uri;
+        public FEPServiceProxy()
+        {
+            _uri = "fabric:/ServiceFabricApp/FEPService";
+        }
+
+        public FEPServiceProxy(string uri)
+        {
+            _uri = uri;
+        }
+
         public async Task ExecuteCommand(ScadaCommand command)
         {
             var client = BuildClient();
@@ -26,7 +37,7 @@ namespace SF.Common.Proxies
             Binding binding = WcfUtility.CreateTcpClientBinding();
             IServicePartitionResolver partitionResolver = ServicePartitionResolver.GetDefault();
             var wcfClientFactory = new WcfCommunicationClientFactory<IFEPServiceAsync>(clientBinding: binding, servicePartitionResolver: partitionResolver);
-            var ServiceUri = new Uri("fabric:/ServiceFabricApp/FEPService");
+            var ServiceUri = new Uri(_uri);
             var client = new WcfClient<IFEPServiceAsync>(wcfClientFactory, ServiceUri);
             return client;
         }

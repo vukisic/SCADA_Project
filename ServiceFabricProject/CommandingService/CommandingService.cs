@@ -43,6 +43,7 @@ namespace CommandingService
 
             while (true)
             {
+                var fep = new FEPServiceProxy(ConfigurationReader.ReadValue(Context,"Settings","FEP")?? "fabric:/ServiceFabricApp/FEPService");
                 try
                 {
                     cancellationToken.ThrowIfCancellationRequested();
@@ -56,8 +57,8 @@ namespace CommandingService
                             {
                                 if (item.MillisecondsPassedSinceLastPoll >= item.Milliseconds)
                                 {
-                                    // --- EXECUTE COMMAND --- 
-                                    //processingManager.ExecuteWriteCommand(item.RegisterType, item.Index, item.Value);
+                                    await fep.ExecuteCommand(item);
+
                                     item.Remove = true;
                                 }
                                 item.MillisecondsPassedSinceLastPoll += 1000;
@@ -92,7 +93,18 @@ namespace CommandingService
         public async Task AddCommand(ScadaCommand command)
         {
             var commands = await this.StateManager.GetOrAddAsync<IReliableDictionary<string, List<ScadaCommand>>>("commands");
-
+            if(command.RegisterType == SCADA.Common.DataModel.RegisterType.BINARY_INPUT)
+            {
+                using (var tx = this.StateManager.CreateTransaction())
+                {
+                    if (await commands.GetCountAsync(tx) == 0)
+                    {
+                        await commands.SetAsync(tx, "scada", new List<ScadaCommand>());
+                    }
+                    await tx.CommitAsync();
+                }
+                return;
+            }
             using (var tx = this.StateManager.CreateTransaction())
             {
                 if (await commands.GetCountAsync(tx) == 0)

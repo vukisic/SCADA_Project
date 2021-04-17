@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.IO;
 using System.Reflection;
 using System.Threading;
@@ -43,7 +44,7 @@ namespace FTN.ESI.SIMES.CIM.CIMAdapter
 
 			if ((delta != null) && (delta.NumberOfOperations != 0))
 			{
-                _networkModelServiceProxy = new NetworkModelServiceProxy();
+                _networkModelServiceProxy = new NetworkModelServiceProxy(ConfigurationManager.AppSettings["NMS"]);
                 updateResult = _networkModelServiceProxy.ApplyDelta(delta).ToString();
                 _networkModelServiceProxy = null;
 			}

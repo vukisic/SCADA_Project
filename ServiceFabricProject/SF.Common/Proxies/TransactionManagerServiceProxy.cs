@@ -11,6 +11,17 @@ namespace SF.Common.Proxies
 {
     public class TransactionManagerServiceProxy 
     {
+        private string _uri;
+
+        public TransactionManagerServiceProxy()
+        {
+            _uri = "fabric:/ServiceFabricApp/TransactionManagerService";
+        }
+
+        public TransactionManagerServiceProxy(string uri)
+        {
+            _uri = uri;
+        }
         public async Task<bool> StartEnlist()
         {
             var client = BuildClient();
@@ -34,7 +45,7 @@ namespace SF.Common.Proxies
             Binding binding = WcfUtility.CreateTcpClientBinding();
             IServicePartitionResolver partitionResolver = ServicePartitionResolver.GetDefault();
             var wcfClientFactory = new WcfCommunicationClientFactory<IEnlistManagerAsync>(clientBinding: binding, servicePartitionResolver: partitionResolver);
-            var ServiceUri = new Uri("fabric:/ServiceFabricApp/TransactionManagerService");
+            var ServiceUri = new Uri(_uri);
             var client = new WcfClient<IEnlistManagerAsync>(wcfClientFactory, ServiceUri, new Microsoft.ServiceFabric.Services.Client.ServicePartitionKey(1));
             return client;
         }

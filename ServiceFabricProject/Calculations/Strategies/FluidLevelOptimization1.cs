@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using CE.Common.Proxies;
 using SCADA.Common.DataModel;
@@ -88,7 +89,8 @@ namespace Calculations
 
         public DNA<float> Start(float currentFluidLevel)
         {
-            model = CeProxyFactory.Instance().ScadaExportProxy().GetData();
+            var scadaProxy = new SF.Common.Proxies.ScadaExportProxy(ConfigurationManager.AppSettings["Scada"]);
+            model = scadaProxy.GetData().GetAwaiter().GetResult();
 
             if (currentFluidLevel == 0 || IsCurrentOptimal(currentFluidLevel))
             {

@@ -135,35 +135,35 @@ namespace NDSService
             ev.Points.AddRange(Mapper.MapCollection<DiscretePoint, ScadaPointDto>(binaries));
 
             Subscription subs = new Subscription();
-            Publisher pub = new Publisher(subs.Topic, subs.ConnectionString);
+            var pub = new PubSubServiceProxy(ConfigurationReader.ReadValue(Context,"Settings","PubSub")?? "fabric:/ServiceFabricApp/PubSubService");
 
-            //if (ev.Points.Count > 0)
-            //    pub.SendMessage(new PubSubMessage()
-            //    {
-            //        ContentType = ContentType.SCADA_UPDATE,
-            //        Sender = Sender.SCADA,
-            //        Content = JsonTool.Serialize<ScadaUpdateEvent>(ev)
-            //    }).ConfigureAwait(false).GetAwaiter().GetResult();
-            //if (dom.DomData.Count > 0)
-            //    pub.SendMessage(new PubSubMessage()
-            //    {
-            //        ContentType = ContentType.SCADA_DOM,
-            //        Sender = Sender.SCADA,
-            //        Content = JsonTool.Serialize<DomUpdateEvent>(dom)
-            //    }).ConfigureAwait(false).GetAwaiter().GetResult();
-            //if (history.History.Count > 0)
-            //    pub.SendMessage(new PubSubMessage()
-            //    {
-            //        ContentType = ContentType.SCADA_HISTORY,
-            //        Sender = Sender.SCADA,
-            //        Content = JsonTool.Serialize<HistoryUpdateEvent>(history)
-            //    }).ConfigureAwait(false).GetAwaiter().GetResult();
-            //pub.SendMessage(new PubSubMessage()
-            //{
-            //    ContentType = ContentType.SCADA_HISTORY_GRAPH,
-            //    Sender = Sender.SCADA,
-            //    Content = JsonTool.Serialize<HistoryGraphicalEvent>(graph)
-            //}).ConfigureAwait(false).GetAwaiter().GetResult();
+            if (ev.Points.Count > 0)
+                pub.SendMessage(new PubSubMessage()
+                {
+                    ContentType = ContentType.SCADA_UPDATE,
+                    Sender = Sender.SCADA,
+                    Content = JsonTool.Serialize<ScadaUpdateEvent>(ev)
+                }).ConfigureAwait(false).GetAwaiter().GetResult();
+            if (dom.DomData.Count > 0)
+                pub.SendMessage(new PubSubMessage()
+                {
+                    ContentType = ContentType.SCADA_DOM,
+                    Sender = Sender.SCADA,
+                    Content = JsonTool.Serialize<DomUpdateEvent>(dom)
+                }).ConfigureAwait(false).GetAwaiter().GetResult();
+            if (history.History.Count > 0)
+                pub.SendMessage(new PubSubMessage()
+                {
+                    ContentType = ContentType.SCADA_HISTORY,
+                    Sender = Sender.SCADA,
+                    Content = JsonTool.Serialize<HistoryUpdateEvent>(history)
+                }).ConfigureAwait(false).GetAwaiter().GetResult();
+            pub.SendMessage(new PubSubMessage()
+            {
+                ContentType = ContentType.SCADA_HISTORY_GRAPH,
+                Sender = Sender.SCADA,
+                Content = JsonTool.Serialize<HistoryGraphicalEvent>(graph)
+            }).ConfigureAwait(false).GetAwaiter().GetResult();
         }
     }
 }

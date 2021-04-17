@@ -13,6 +13,18 @@ namespace SF.Common.Proxies
 {
     public class CEServiceProxy
     {
+        private string _uri;
+
+        public CEServiceProxy()
+        {
+            _uri = "";
+        }
+
+        public CEServiceProxy(string uri)
+        {
+            _uri = uri;
+        }
+
         public Task SetPoints(int points)
         {
             var client = BuildClient();
@@ -24,7 +36,7 @@ namespace SF.Common.Proxies
             Binding binding = WcfUtility.CreateTcpClientBinding();
             IServicePartitionResolver partitionResolver = ServicePartitionResolver.GetDefault();
             var wcfClientFactory = new WcfCommunicationClientFactory<ICEServiceAsync>(clientBinding: binding, servicePartitionResolver: partitionResolver);
-            var ServiceUri = new Uri("fabric:/ServiceFabricApp/CEService");
+            var ServiceUri = new Uri(_uri);
             var client = new WcfClient<ICEServiceAsync>(wcfClientFactory, ServiceUri);
             return client;
         }

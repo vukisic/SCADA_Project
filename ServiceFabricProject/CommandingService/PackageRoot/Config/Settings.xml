@@ -15,5 +15,6 @@
   -->
   <Section Name="Settings">
     <Parameter Name="Log" Value="fabric:/ServiceFabricApp/LogService"/>
+    <Parameter Name="FEP" Value="fabric:/ServiceFabricApp/FEPService"/>
   </Section>
 </Settings>

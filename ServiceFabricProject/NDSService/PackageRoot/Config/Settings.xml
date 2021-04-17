@@ -11,5 +11,8 @@
     <Parameter Name="History" Value="fabric:/ServiceFabricApp/HistoryService"/>
     <Parameter Name="Dom" Value="fabric:/ServiceFabricApp/DomService"/>
     <Parameter Name="Log" Value="fabric:/ServiceFabricApp/LogService"/>
+    <Parameter Name="PubSub" Value="fabric:/ServiceFabricApp/PubSubService"/>
+    <Parameter Name="TM" Value="fabric:/ServiceFabricApp/TransactionManagerService"/>
+    <Parameter Name="NMS" Value="net.tcp://localhost:22330/NetworkModelServiceSF"/>
   </Section>
 </Settings>

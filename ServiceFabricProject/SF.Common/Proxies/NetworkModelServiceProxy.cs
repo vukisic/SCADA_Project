@@ -21,6 +21,11 @@ namespace SF.Common.Proxies
 
         }
 
+        public NetworkModelServiceProxy(string uri):base(new NetTcpBinding(SecurityMode.None), new EndpointAddress(uri))
+        {
+
+        }
+
         public UpdateResult ApplyDelta(Delta delta)
         {
             return Channel.ApplyDelta(delta).ConfigureAwait(false).GetAwaiter().GetResult();

@@ -85,7 +85,6 @@ namespace Simulator.Core
             TankSurface = float.Parse(ConfigurationManager.AppSettings["TankSurface"]);
             string weatherApi = ConfigurationManager.AppSettings["WeatherApi"] ?? "net.tcp://localhost:27011/WeatherForecast";
             WA = new SF.Common.Proxies.WeatherServiceProxy(weatherApi);
-            hours = WA.GetForecast();
             db = new dnp3_protocol.dnp3types.sDNPServerDatabase();
             secondsCount = 60;
         }

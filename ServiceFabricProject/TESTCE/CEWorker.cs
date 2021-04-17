@@ -6,7 +6,7 @@ using System.Threading;
 using Calculations;
 using CE.Common.Proxies;
 using CE.Data;
-using CE.ServiceBus;
+using Core.Common.Json;
 using Core.Common.ServiceBus.Events;
 using Core.Common.WeatherApi;
 using NServiceBus;
@@ -19,9 +19,6 @@ namespace CE
     public class CEWorker : IDisposable
     {
         private long seconds = 0;
-        //private long pump1Time;
-        //private long pump2Time;
-        //private long pump3Time;
         public int TPoints = 0;
         private IFitnessFunction algorithm;
         private Thread _worker;
@@ -30,18 +27,16 @@ namespace CE
         private bool endFlag;
         private int points = 0;
         private SF.Common.Proxies.WeatherServiceProxy weatherAPI;
-        private IEndpointInstance endpoint;
         private static bool skip = false;
         private int secundsForWeather = 60;
         private int hourIndex = 0;
         private int hourIndexChanged = 0;
         private CeGraphicalEvent graph;
-
+        PubSubServiceProxy pubsub;
         private DNA<float> result;
 
         public CEWorker()
         {
-           // endpoint = ServiceBusStartup.StartInstance("CE").GetAwaiter().GetResult();
         }
 
         public void Start()
@@ -51,6 +46,7 @@ namespace CE
             _worker.Name = "CE Worker";
             var api = ConfigurationManager.AppSettings["WeatherApi"];
             weatherAPI = new SF.Common.Proxies.WeatherServiceProxy(api);
+            pubsub = new PubSubServiceProxy(ConfigurationManager.AppSettings["PubSub"] ?? "fabric:/ServiceFabricApp/PubSubService");
             _worker.Start();
         }
 
@@ -109,41 +105,11 @@ namespace CE
                 // SendCommands To TurOff Breakers for pumps
                 TurnOffPumps();
             }
-
-            //graph.PumpsValues.Pump1.XAxes.Add(DateTime.Now);
-            //graph.PumpsValues.Pump1.YAxes.Add(pump1Time);
-            //if (measurements.ContainsKey("Flow_AM1"))
-            //{
-            //    var flow1 = measurements["Flow_AM1"] as AnalogPoint;
-            //    if (flow1 != null && flow1.Value > 0)
-            //        pump1Time += 10;
-            //}
-
-
-            //graph.PumpsValues.Pump2.XAxes.Add(DateTime.Now);
-            //graph.PumpsValues.Pump2.YAxes.Add(pump2Time);
-            //if (measurements.ContainsKey("Flow_AM2"))
-            //{
-            //    var flow2 = measurements["Flow_AM2"] as AnalogPoint;
-            //    if (flow2 != null && flow2.Value > 0)
-            //        pump2Time += 10;
-            //}
-
-            //graph.PumpsValues.Pump3.XAxes.Add(DateTime.Now);
-            //graph.PumpsValues.Pump3.YAxes.Add(pump3Time);
-            //if (measurements.ContainsKey("Flow_AM3"))
-            //{
-            //    var flow3 = measurements["Flow_AM3"] as AnalogPoint;
-            //    if (flow3 != null && flow3.Value > 0)
-            //        pump3Time += 10;
-            //}
-
-            //endpoint.Publish(graph).ConfigureAwait(false).GetAwaiter().GetResult();
         }
 
         private void TurnOffPumps()
         {
-
+            var commanding = new CommandingProxy(ConfigurationManager.AppSettings["Command"]);
             var proxy = new SF.Common.Proxies.ScadaExportProxy(ConfigurationManager.AppSettings["Scada"]);
             var points = proxy.GetData().GetAwaiter().GetResult();
             if (points == null)
@@ -158,7 +124,7 @@ namespace CE
                     Value = 0,
                     Milliseconds = 0
                 };
-                endpoint.Publish(command1).ConfigureAwait(false);
+                commanding.Commmand(new SCADA.Common.ScadaCommand(command1.RegisterType, command1.Index, command1.Value, command1.Milliseconds)).GetAwaiter().GetResult();
             }
 
             if (points.ContainsKey("Breaker_21Status"))
@@ -171,8 +137,7 @@ namespace CE
                     Value = 0,
                     Milliseconds = 0
                 };
-
-                endpoint.Publish(command2).ConfigureAwait(false);
+                commanding.Commmand(new SCADA.Common.ScadaCommand(command2.RegisterType, command2.Index, command2.Value, command2.Milliseconds)).GetAwaiter().GetResult();
             }
 
             if (points.ContainsKey("Breaker_21Status"))
@@ -185,7 +150,7 @@ namespace CE
                     Value = 0,
                     Milliseconds = 0
                 };
-                endpoint.Publish(command3).ConfigureAwait(false);
+                commanding.Commmand(new SCADA.Common.ScadaCommand(command3.RegisterType, command3.Index, command3.Value, command3.Milliseconds)).GetAwaiter().GetResult();
             }
         }
         private void Calculations()
@@ -243,16 +208,6 @@ namespace CE
             return ret;
         }
 
-        /*private void OnPointUpdate(object sender, int e)
-        {
-            pointUpdateOccures = true;
-            if (points > 0)
-                skip = true;
-            points = e;
-            Stop();
-            OffSequence();
-            Start();
-        }*/
         public void OnPointUpdate(int tPoints)
         {
             pointUpdateOccures = true;
@@ -379,7 +334,14 @@ namespace CE
                 update.Flows.Add(flows);
                 list.Add(macList);
             }
-            endpoint.Publish(update).ConfigureAwait(false).GetAwaiter().GetResult();
+            pubsub.SendMessage(new Core.Common.PubSub.PubSubMessage()
+            {
+                ContentType = Core.Common.PubSub.ContentType.CE_UPDATE,
+                Content = JsonTool.Serialize<CeUpdateEvent>(update),
+                Sender = Core.Common.PubSub.Sender.CE
+
+            }).GetAwaiter().GetResult();
+
             if (points == 1)
             {
                 graph.PumpsValues.Pump1.XAxes = update.Times.ConvertAll(x => DateTime.Parse(x));
@@ -401,8 +363,13 @@ namespace CE
                 graph.PumpsValues.Pump3.XAxes = update.Times.ConvertAll(x => DateTime.Parse(x));
                 graph.PumpsValues.Pump3.YAxes = list[2];
             }
-            endpoint.Publish(graph).ConfigureAwait(false).GetAwaiter().GetResult();
+            pubsub.SendMessage(new Core.Common.PubSub.PubSubMessage()
+            {
+                ContentType = Core.Common.PubSub.ContentType.CE_HISTORY_GRAPH,
+                Content = JsonTool.Serialize<CeGraphicalEvent>(graph),
+                Sender = Core.Common.PubSub.Sender.CE
 
+            }).GetAwaiter().GetResult();
         }
 
         private List<string> GetTimes()
@@ -525,6 +492,7 @@ namespace CE
 
         private void OffSequence()
         {
+            var commanding = new CommandingProxy(ConfigurationManager.AppSettings["Command"]);
             var clearCommand = new ScadaCommandingEvent()
             {
                 Index = 1,
@@ -532,7 +500,7 @@ namespace CE
                 RegisterType = RegisterType.BINARY_INPUT,
                 Value = 0
             };
-            endpoint.Publish(clearCommand).ConfigureAwait(false).GetAwaiter().GetResult();
+            commanding.Commmand(new SCADA.Common.ScadaCommand(clearCommand.RegisterType, clearCommand.Index, clearCommand.Value, clearCommand.Milliseconds)).GetAwaiter().GetResult();
 
             var proxy = new SF.Common.Proxies.ScadaExportProxy(ConfigurationManager.AppSettings["Scada"]);
             var points = proxy.GetData().GetAwaiter().GetResult();
@@ -556,7 +524,7 @@ namespace CE
 
             foreach (var item in commands)
             {
-                endpoint.Publish(item).ConfigureAwait(false);
+                commanding.Commmand(new SCADA.Common.ScadaCommand(item.RegisterType, item.Index, item.Value, item.Milliseconds)).GetAwaiter().GetResult();
             }
         }
     }
