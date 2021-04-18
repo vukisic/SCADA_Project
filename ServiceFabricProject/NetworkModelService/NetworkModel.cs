@@ -217,8 +217,7 @@ namespace FTN.Services.NetworkModelService
 
                 #endregion Update&Delete
 
-                transactionSucceded = true;
-                //transactionSucceded = TryApplyTransaction();
+                transactionSucceded = TryApplyTransaction();
 
                 if (transactionSucceded)
                 {
@@ -579,11 +578,10 @@ namespace FTN.Services.NetworkModelService
                 }
             }
 
-           TryApplyTransaction();
-            //if (!TryApplyTransaction())
-            //{
-            //    RestoreModel();
-            //}
+            if (!TryApplyTransaction())
+            {
+                RestoreModel();
+            }
         }
 
         private bool TryApplyTransaction()

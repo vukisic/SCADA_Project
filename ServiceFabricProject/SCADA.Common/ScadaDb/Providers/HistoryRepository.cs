@@ -12,25 +12,33 @@ namespace SCADA.Common.ScadaDb.Providers
     public class HistoryRepository : IHistoryRepository
     {
         private ScadaDbContext _context;
-
+        private object _lockObj;
         public HistoryRepository(ScadaDbContext context)
         {
             _context = context;
+            _lockObj = new object();
         }
         public void Add(HistoryDbModel model)
         {
-            _context.History.Add(model);
-            _context.SaveChanges();
+            lock (_lockObj)
+            {
+                _context.History.Add(model);
+                _context.SaveChanges();
+            }
+            
         }
 
         public void AddRange(List<HistoryDbModel> list)
         {
-            foreach (var model in list)
+            lock (_lockObj)
             {
-                _context.History.Add(model);
-            }
+                foreach (var model in list)
+                {
+                    _context.History.Add(model);
+                }
 
-            _context.SaveChanges();
+                _context.SaveChanges();
+            }
         }
 
         public List<HistoryDbModel> GetAll()

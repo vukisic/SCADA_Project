@@ -45,7 +45,6 @@ namespace AlarmingService
 
         public void ProccessAnalogAlarm(AnalogPoint point)
         {
-
             if (point.Value > point.MaxValue)
                 point.Alarm = AlarmType.HIGH_ALARM;
             else if (point.Value < point.MinValue)

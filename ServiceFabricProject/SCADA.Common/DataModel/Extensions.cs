@@ -18,7 +18,7 @@ namespace SCADA.Common.DataModel
             model.MeasurementType =Enum.GetName(typeof(MeasurementType), point.MeasurementType);
             model.Mrid = point.Mrid;
             model.RegisterType = point.RegisterType;
-            model.TimeStamp = point.TimeStamp;
+            model.TimeStamp = DateTime.Now.ToString();
             model.Value = point.Value;
             return model;
         }
@@ -31,7 +31,7 @@ namespace SCADA.Common.DataModel
             model.MeasurementType = Enum.GetName(typeof(MeasurementType), point.MeasurementType);
             model.Mrid = point.Mrid;
             model.RegisterType = point.RegisterType;
-            model.TimeStamp = point.TimeStamp;
+            model.TimeStamp = DateTime.Now.ToString();
             model.Value = point.Value;
             return model;
         }

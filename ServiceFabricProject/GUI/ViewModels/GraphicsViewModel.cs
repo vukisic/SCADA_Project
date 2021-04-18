@@ -62,6 +62,7 @@ namespace GUI.ViewModels
 
         public void UpdateMeasurements(object sender, ScadaUpdateEvent e)
         {
+            e.Points = e.Points.Where(x => !string.IsNullOrEmpty(x.Mrid)).ToList();
             if (!IsModelRetrieved)
             {
                 return;
@@ -70,7 +71,7 @@ namespace GUI.ViewModels
             App.Current.Dispatcher.Invoke((System.Action)delegate
             {
                 measurementUpdater.UpdateValues(e);
-                var lvl = e.Points.SingleOrDefault(x => x.Mrid.Contains("Level"));
+                var lvl = e.Points.SingleOrDefault(x =>  x.Mrid.Contains("Level"));
                 if (lvl != null)
                 {
                     Level = $"Fluid Level: {lvl.Value}";

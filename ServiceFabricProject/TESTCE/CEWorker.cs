@@ -73,10 +73,10 @@ namespace CE
                     if (seconds == 10800 || seconds == 0 || pointUpdateOccures)
                     {
                         // 3hrs
-                        Calculations();
+                        //Calculations();
                         seconds = 0;
                     }
-                    CheckState();
+                    //CheckState();
 
                     // Sleep for 10s
                     Thread.Sleep(10000);

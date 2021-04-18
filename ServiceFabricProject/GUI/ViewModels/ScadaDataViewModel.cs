@@ -74,6 +74,7 @@ namespace GUI.ViewModels
 
         public void UpdatePoints(List<ScadaPointDto> points)
         {
+            points = points.Where(x => !String.IsNullOrEmpty(x.Mrid)).ToList();
             App.Current.Dispatcher.Invoke((System.Action)delegate 
             {
                 Points = null;

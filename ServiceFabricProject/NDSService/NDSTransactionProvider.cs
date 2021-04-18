@@ -25,10 +25,10 @@ namespace NDSService
             ScadaStorageProxy proxy = new ScadaStorageProxy(ConfigurationReader.ReadValue(_context, "Settings", "Storage"));
             await proxy.SetModel(await proxy.GetTransactionModel());
             var model = await proxy.GetModel();
-            ushort aiCount = (ushort)(model.Values.Where(x => x.RegisterType == SCADA.Common.DataModel.RegisterType.ANALOG_INPUT).Count());
-            ushort aoCount = (ushort)(model.Values.Where(x => x.RegisterType == SCADA.Common.DataModel.RegisterType.ANALOG_OUTPUT).Count());
-            ushort biCount = (ushort)(model.Values.Where(x => x.RegisterType == SCADA.Common.DataModel.RegisterType.BINARY_INPUT).Count());
-            ushort boCount = (ushort)(model.Values.Where(x => x.RegisterType == SCADA.Common.DataModel.RegisterType.BINARY_OUTPUT).Count());
+            ushort aiCount = (ushort)(model.Values.Where(x => !String.IsNullOrEmpty(x.Mrid) && x.RegisterType == SCADA.Common.DataModel.RegisterType.ANALOG_INPUT).Count());
+            ushort aoCount = (ushort)(model.Values.Where(x => !String.IsNullOrEmpty(x.Mrid) && x.RegisterType == SCADA.Common.DataModel.RegisterType.ANALOG_OUTPUT).Count());
+            ushort biCount = (ushort)(model.Values.Where(x => !String.IsNullOrEmpty(x.Mrid) && x.RegisterType == SCADA.Common.DataModel.RegisterType.BINARY_INPUT).Count());
+            ushort boCount = (ushort)(model.Values.Where(x => !String.IsNullOrEmpty(x.Mrid) && x.RegisterType == SCADA.Common.DataModel.RegisterType.BINARY_OUTPUT).Count());
             try 
             { 
                 SimulatorProxy sim = new SimulatorProxy();

@@ -6,11 +6,11 @@ namespace SF.Common.Proxies
 {
     public class WeatherServiceProxy : ClientBase<IWeatherForecast>
     {
-        public WeatherServiceProxy():base(new NetTcpBinding(),new EndpointAddress("net.tcp://localhost:27011/WeatherForecast"))
+        public WeatherServiceProxy():base(new NetTcpBinding(SecurityMode.None),new EndpointAddress("net.tcp://localhost:27011/WeatherForecast"))
         {
         }
 
-        public WeatherServiceProxy(string uri):base(new NetTcpBinding(),new EndpointAddress(uri))
+        public WeatherServiceProxy(string uri):base(new NetTcpBinding(SecurityMode.None),new EndpointAddress(uri))
         {
         }
 

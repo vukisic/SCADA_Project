@@ -11,6 +11,7 @@ using FTN.Services.NetworkModelService;
 using Microsoft.ServiceFabric.Data;
 using Microsoft.ServiceFabric.Data.Collections;
 using SCADA.Common.DataModel;
+using SCADA.Common.Models;
 using SCADA.Common.ScadaDb.Providers;
 using SCADA.Common.ScadaDb.Repositories;
 using SF.Common;
@@ -149,6 +150,7 @@ namespace ScadaStorageService
             using (var tx = _stateManager.CreateTransaction())
             {
                 var count = await result.GetCountAsync(tx);
+                var historyData = new List<HistoryDbModel>();
                 foreach (var item in dictionary)
                 {
                     var point = await result.TryGetValueAsync(tx, MakeKey(item.Key.Item1, item.Key.Item2));
@@ -159,21 +161,22 @@ namespace ScadaStorageService
                             case RegisterType.BINARY_INPUT:
                             case RegisterType.BINARY_OUTPUT:
                                 {
-                                    if(((DiscretePoint)point.Value).Value != (item.Value as DiscretePoint).Value)
+                                    ((DiscretePoint)point.Value).TimeStamp = (item.Value as DiscretePoint).TimeStamp;
+                                    if (((DiscretePoint)point.Value).Value != (item.Value as DiscretePoint).Value)
                                     {
                                         ((DiscretePoint)point.Value).Value = (item.Value as DiscretePoint).Value;
-                                        await historian.Add((((DiscretePoint)point.Value)).ToHistoryDbModel());
+                                        historyData.Add((((DiscretePoint)point.Value)).ToHistoryDbModel());
                                     }
-                                   
                                     break;
                                 }
                             case RegisterType.ANALOG_INPUT:
                             case RegisterType.ANALOG_OUTPUT:
                                 {
-                                    if(((AnalogPoint)point.Value).Value != (item.Value as AnalogPoint).Value)
+                                    ((AnalogPoint)point.Value).TimeStamp = (item.Value as AnalogPoint).TimeStamp;
+                                    if (((AnalogPoint)point.Value).Value != (item.Value as AnalogPoint).Value)
                                     {
                                         ((AnalogPoint)point.Value).Value = (item.Value as AnalogPoint).Value;
-                                        await historian.Add((((AnalogPoint)point.Value)).ToHistoryDbModel());
+                                        historyData.Add((((AnalogPoint)point.Value)).ToHistoryDbModel());
                                     }
                                    
                                     break;
@@ -187,6 +190,8 @@ namespace ScadaStorageService
                     }
                 }
                 await tx.CommitAsync();
+                if(historyData.Count > 0)
+                    await historian.AddRange(historyData);
             }
         }
 

@@ -101,7 +101,7 @@ namespace NDSService
                         Message = $"Message:{ex.Message}\nStackTrace:{ex.StackTrace}"
                     });
                 }
-                await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+                await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
             }
         }
 
