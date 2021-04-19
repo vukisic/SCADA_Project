@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 using Caliburn.Micro;
@@ -79,8 +80,8 @@ namespace GUI.Command
 
         private static void SendMessageToScada(ScadaCommandingEvent commandingEvent)
         {
-            var proxy = new CommandingProxy();
-            proxy.Commmand(new ScadaCommand(commandingEvent.RegisterType, commandingEvent.Index, commandingEvent.Value, 0)).GetAwaiter().GetResult();
+            var proxy = new CommandingProxy(ConfigurationManager.AppSettings["Command"]);
+            proxy.Commmand(new ScadaCommand(commandingEvent.RegisterType, commandingEvent.Index, commandingEvent.Value, commandingEvent.Milliseconds)).ConfigureAwait(false);
         }
     }
 }

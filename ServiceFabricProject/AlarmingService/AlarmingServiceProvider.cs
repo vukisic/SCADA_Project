@@ -23,27 +23,34 @@ namespace AlarmingService
         public Task<Dictionary<Tuple<RegisterType, int>, BasePoint>> Check(Dictionary<Tuple<RegisterType, int>, BasePoint> points)
         {
             PrepareParams();
+            var result = new Dictionary<Tuple<RegisterType, int>, BasePoint>();
             foreach (var point in points.Values)
             {
                 if (point.RegisterType == RegisterType.ANALOG_INPUT || point.RegisterType == RegisterType.ANALOG_OUTPUT)
-                    ProccessAnalog(point as AnalogPoint);
+                {
+                    var newPoint = ProccessAnalog(point as AnalogPoint);
+                    result.Add(Tuple.Create(newPoint.RegisterType, newPoint.Index), newPoint);
+                }
                 else
-                    ProccessDigital(point as DiscretePoint);
+                {
+                    var newPoint = ProccessDigital(point as DiscretePoint);
+                    result.Add(Tuple.Create(newPoint.RegisterType, newPoint.Index), newPoint);
+                }
             }
 
-            return Task.FromResult<Dictionary<Tuple<RegisterType, int>, BasePoint>>(points);
+            return Task.FromResult<Dictionary<Tuple<RegisterType, int>, BasePoint>>(result);
         }
 
-        public void ProccessAnalog(AnalogPoint point)
+        public AnalogPoint ProccessAnalog(AnalogPoint point)
         {
 
             point.TimeStamp = DateTime.Now.ToString();
-            ProccessAnalogAlarm(point);
-            ProccessEGUValue(point);
-
+            var newPoint = ProccessAnalogAlarm(point);
+            newPoint = ProccessEGUValue(point);
+            return newPoint;
         }
 
-        public void ProccessAnalogAlarm(AnalogPoint point)
+        public AnalogPoint ProccessAnalogAlarm(AnalogPoint point)
         {
             if (point.Value > point.MaxValue)
                 point.Alarm = AlarmType.HIGH_ALARM;
@@ -51,30 +58,34 @@ namespace AlarmingService
                 point.Alarm = AlarmType.LOW_ALARM;
             else
                 point.Alarm = AlarmType.NO_ALARM;
+            return point;
 
         }
 
-        public void ProccessDigital(DiscretePoint point)
+        public DiscretePoint ProccessDigital(DiscretePoint point)
         {
 
             point.TimeStamp = DateTime.Now.ToString();
-            ProccessDigitalAlarm(point);
+            var newPoint = ProccessDigitalAlarm(point);
+            return newPoint;
 
         }
 
-        public void ProccessDigitalAlarm(DiscretePoint point)
+        public DiscretePoint ProccessDigitalAlarm(DiscretePoint point)
         {
 
             if (point.Value != point.NormalValue)
                 point.Alarm = AlarmType.ABNORMAL_VALUE;
             else
                 point.Alarm = AlarmType.NO_ALARM;
+            return point;
 
         }
 
-        public void ProccessEGUValue(AnalogPoint point)
+        public AnalogPoint ProccessEGUValue(AnalogPoint point)
         {
             point.Value = (point.Value * _scale) +_deviation;
+            return point;
         }
 
         private void PrepareParams()

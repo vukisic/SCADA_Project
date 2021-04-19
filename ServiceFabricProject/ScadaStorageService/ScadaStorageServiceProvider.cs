@@ -165,6 +165,7 @@ namespace ScadaStorageService
                                     if (((DiscretePoint)point.Value).Value != (item.Value as DiscretePoint).Value)
                                     {
                                         ((DiscretePoint)point.Value).Value = (item.Value as DiscretePoint).Value;
+                                        ((DiscretePoint)point.Value).Alarm = (item.Value as DiscretePoint).Alarm;
                                         historyData.Add((((DiscretePoint)point.Value)).ToHistoryDbModel());
                                     }
                                     break;
@@ -176,6 +177,7 @@ namespace ScadaStorageService
                                     if (((AnalogPoint)point.Value).Value != (item.Value as AnalogPoint).Value)
                                     {
                                         ((AnalogPoint)point.Value).Value = (item.Value as AnalogPoint).Value;
+                                        ((AnalogPoint)point.Value).Alarm = (item.Value as AnalogPoint).Alarm;
                                         historyData.Add((((AnalogPoint)point.Value)).ToHistoryDbModel());
                                     }
                                    

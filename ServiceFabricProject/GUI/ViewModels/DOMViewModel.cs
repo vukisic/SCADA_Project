@@ -44,6 +44,7 @@ namespace GUI.ViewModels
 
         internal void Update(object sender, DomUpdateEvent e)
         {
+            e.DomData = e.DomData.Where(x => !String.IsNullOrEmpty(x.Mrid)).ToList();
             App.Current.Dispatcher.Invoke((System.Action)delegate
             {
                 TimeStamp = DateTime.Now.ToString();

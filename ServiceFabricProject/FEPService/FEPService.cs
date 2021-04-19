@@ -19,7 +19,7 @@ namespace FEPService
     /// </summary>
     internal sealed class FEPService : StatelessService
     {
-        private IFEP _fep;
+        private static IFEP _fep;
         public FEPService(StatelessServiceContext context)
             : base(context)
         { }

@@ -37,6 +37,7 @@ namespace GUI.ViewModels
 
         public void Update(object sender, ScadaUpdateEvent e)
         {
+            e.Points = e.Points.Where(x => !String.IsNullOrEmpty(x.Mrid)).ToList();
             UpdatePoints(e.Points);
         }
 

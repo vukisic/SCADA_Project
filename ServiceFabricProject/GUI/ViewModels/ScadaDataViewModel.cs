@@ -20,6 +20,7 @@ using GUI.ServiceBus;
 using MahApps.Metro.Controls;
 using NServiceBus;
 using SCADA.Common.DataModel;
+using SF.Common.Proxies;
 
 namespace GUI.ViewModels
 {
@@ -27,7 +28,6 @@ namespace GUI.ViewModels
     {
         private static bool state;
         private IWindowManager manager;
-        private IEndpointInstance endpoint;
         private int selected;
         private bool isOn;
         private ObservableCollection<BasePointDto> _points;
@@ -43,10 +43,7 @@ namespace GUI.ViewModels
         public ScadaDataViewModel()
         {
             manager = IoC.Get<IWindowManager>();
-
             Points = new ObservableCollection<BasePointDto>();
-
-            endpoint = EndPointCreator.Instance().Get();
             IsOn = state;
         }
 
@@ -68,7 +65,7 @@ namespace GUI.ViewModels
             if(Selected >= 0 && Selected <= Points.Count)
             {
                 var item = Points[Selected];
-                this.manager.ShowWindow(new ControlViewModel(item, endpoint), null, null);
+                this.manager.ShowWindow(new ControlViewModel(item), null, null);
             }
         }
 
@@ -100,21 +97,19 @@ namespace GUI.ViewModels
         public void ONClick()
         {
             state = true;
-            SF.Common.Proxies.ScadaExportProxy proxy = new SF.Common.Proxies.ScadaExportProxy(ConfigurationManager.AppSettings["Scada"]);
-            var points = proxy.GetData().GetAwaiter().GetResult();
             var commands = new List<ScadaCommandingEvent>();
-            foreach (var item in points)
+            foreach (var item in Points)
             {
-                if (item.Key.Contains("Tap"))
+                if (item.Mrid.Contains("Tap"))
                     continue;
-                if(item.Key.Contains("Disc") || item.Key.Contains("Status"))
+                if(item.Mrid.Contains("Disc") || item.Mrid.Contains("Status"))
                 {
-                    if (!item.Key.Contains("Breaker_21") && !item.Key.Contains("Breaker_22") && !item.Key.Contains("Breaker_23"))
+                    if (!item.Mrid.Contains("Breaker_21") && !item.Mrid.Contains("Breaker_22") && !item.Mrid.Contains("Breaker_23"))
                     {
                         var command = new ScadaCommandingEvent()
                         {
-                            Index = (uint)item.Value.Index,
-                            RegisterType = item.Value.RegisterType,
+                            Index = (uint)item.Index,
+                            RegisterType = item.RegisterType,
                             Milliseconds = 0,
                             Value = 1
                         };
@@ -123,10 +118,10 @@ namespace GUI.ViewModels
 
                 }
             }
-
+            CommandingProxy commandingProxy = new CommandingProxy(ConfigurationManager.AppSettings["Command"]);
             foreach (var item in commands)
             {
-                endpoint.Publish(item).ConfigureAwait(false);
+                commandingProxy.Commmand(new SCADA.Common.ScadaCommand(item.RegisterType, item.Index, item.Value, item.Milliseconds)).ConfigureAwait(false);
             }
             
         }
@@ -134,8 +129,8 @@ namespace GUI.ViewModels
         public void OFFClick()
         {
             state = true;
-            ScadaExportProxy proxy = new ScadaExportProxy();
-            var points = proxy.GetData();
+            SF.Common.Proxies.ScadaExportProxy proxy = new SF.Common.Proxies.ScadaExportProxy(ConfigurationManager.AppSettings["Scada"]);
+            var points = proxy.GetData().GetAwaiter().GetResult();
             var commands = new List<ScadaCommandingEvent>();
             foreach (var item in points)
             {
@@ -157,9 +152,10 @@ namespace GUI.ViewModels
                 }
             }
 
+            CommandingProxy commandingProxy = new CommandingProxy(ConfigurationManager.AppSettings["Command"]);
             foreach (var item in commands)
             {
-                endpoint.Publish(item).ConfigureAwait(false);
+                commandingProxy.Commmand(new SCADA.Common.ScadaCommand(item.RegisterType, item.Index, item.Value, item.Milliseconds)).ConfigureAwait(false);
             }
         }
 

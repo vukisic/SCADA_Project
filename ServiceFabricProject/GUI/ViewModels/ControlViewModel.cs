@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ using GUI.Models;
 using GUI.ServiceBus;
 using NServiceBus;
 using SCADA.Common.DataModel;
+using SF.Common.Proxies;
 
 namespace GUI.ViewModels
 {
@@ -20,11 +22,9 @@ namespace GUI.ViewModels
         public int CommandedValue { get => commandedValue; set { commandedValue = value; NotifyOfPropertyChange(() => CommandedValue); } }
 
         private BasePointDto model;
-        private IEndpointInstance endPoint;
         public BasePointDto Model { get => model; set { model = value; NotifyOfPropertyChange(() => Model); } }
-        public ControlViewModel(BasePointDto dto, IEndpointInstance endpointInstance)
+        public ControlViewModel(BasePointDto dto)
         {
-            endPoint = endpointInstance;
             Model = dto;
             WriteCommand = new MyICommand(OnWrite, CanWrite);
         }
@@ -40,8 +40,8 @@ namespace GUI.ViewModels
                     RegisterType = Model.RegisterType,
                     Value = (uint)CommandedValue
                 };
-
-                endPoint.Publish(ev).ConfigureAwait(false);
+                var proxy = new CommandingProxy(ConfigurationManager.AppSettings["Command"]);
+                proxy.Commmand(new SCADA.Common.ScadaCommand(ev.RegisterType, ev.Index, ev.Value, ev.Milliseconds)).ConfigureAwait(false);
                 TryClose();
             }
             catch (Exception ex)

@@ -18,6 +18,7 @@ namespace CommandingService
 {
     internal sealed class CommandingService : StatefulService
     {
+        private List<ScadaCommand> localCommands = new List<ScadaCommand>();
         public CommandingService(StatefulServiceContext context)
             : base(context)
         { }
@@ -57,13 +58,14 @@ namespace CommandingService
                             {
                                 if (item.MillisecondsPassedSinceLastPoll >= item.Milliseconds)
                                 {
-                                    await fep.ExecuteCommand(item);
+                                    fep.ExecuteCommand(item);
 
                                     item.Remove = true;
                                 }
                                 item.MillisecondsPassedSinceLastPoll += 1000;
                             }
                             await commands.SetAsync(tx, "scada", result.Value.Where(x => x.Remove == false).ToList());
+                            
                         }
                         else
                         {
@@ -73,6 +75,7 @@ namespace CommandingService
                     }
 
                     await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+                    await ReadLocalCommands();
                 }
                 catch (Exception ex)
                 {
@@ -90,26 +93,19 @@ namespace CommandingService
             return new LogServiceProxy(ConfigurationReader.ReadValue(Context,"Settings","Log"));
         }
 
-        public async Task AddCommand(ScadaCommand command)
+        public void AddLocalCommand(ScadaCommand command)
+        {
+            localCommands.Add(command);
+        }
+
+        public async Task ReadLocalCommands()
         {
             var commands = await this.StateManager.GetOrAddAsync<IReliableDictionary<string, List<ScadaCommand>>>("commands");
-            if(command.RegisterType == SCADA.Common.DataModel.RegisterType.BINARY_INPUT)
-            {
-                using (var tx = this.StateManager.CreateTransaction())
-                {
-                    if (await commands.GetCountAsync(tx) == 0)
-                    {
-                        await commands.SetAsync(tx, "scada", new List<ScadaCommand>());
-                    }
-                    await tx.CommitAsync();
-                }
-                return;
-            }
             using (var tx = this.StateManager.CreateTransaction())
             {
                 if (await commands.GetCountAsync(tx) == 0)
                 {
-                    await commands.AddAsync(tx, "scada", new List<ScadaCommand>());
+                    await commands.AddAsync(tx, "scada", new List<ScadaCommand>(), TimeSpan.FromSeconds(10), new CancellationToken());
                 }
                 await tx.CommitAsync();
             }
@@ -119,13 +115,32 @@ namespace CommandingService
                 var result = await commands.TryGetValueAsync(tx, "scada");
                 if (result.HasValue)
                 {
-                    result.Value.Add(command);
+                    result.Value.AddRange(localCommands);
                 }
 
-                await commands.SetAsync(tx, "scada", result.Value);
+                await commands.SetAsync(tx, "scada", result.Value, TimeSpan.FromSeconds(10), new CancellationToken());
 
                 await tx.CommitAsync();
             }
+            localCommands = new List<ScadaCommand>();
+        }
+        public async Task AddCommand(ScadaCommand command)
+        {
+            var commands = await this.StateManager.GetOrAddAsync<IReliableDictionary<string, List<ScadaCommand>>>("commands");
+            if (command.RegisterType == SCADA.Common.DataModel.RegisterType.BINARY_INPUT)
+            {
+                using (var tx = this.StateManager.CreateTransaction())
+                {
+                    if (await commands.GetCountAsync(tx) == 0)
+                    {
+                        await commands.SetAsync(tx, "scada", new List<ScadaCommand>(), TimeSpan.FromSeconds(10), new CancellationToken());
+                    }
+                    await tx.CommitAsync();
+                }
+                localCommands = new List<ScadaCommand>();
+                return;
+            }
+            AddLocalCommand(command);
         }
 
     }

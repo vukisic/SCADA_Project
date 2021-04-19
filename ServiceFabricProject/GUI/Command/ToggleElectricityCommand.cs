@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using Core.Common.Json;
 using Core.Common.PubSub;
 using Core.Common.ServiceBus.Events;
@@ -66,8 +67,8 @@ namespace GUI.Command
 
         private static void SendMessageToScada(ScadaCommandingEvent commandingEvent)
         {
-            var proxy = new CommandingProxy();
-            proxy.Commmand(new ScadaCommand(commandingEvent.RegisterType, commandingEvent.Index, commandingEvent.Value, 0)).GetAwaiter().GetResult();
+            var proxy = new CommandingProxy(ConfigurationManager.AppSettings["Command"]);
+            proxy.Commmand(new ScadaCommand(commandingEvent.RegisterType, commandingEvent.Index, commandingEvent.Value, 0)).ConfigureAwait(false);
         }
     }
 }

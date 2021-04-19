@@ -45,9 +45,10 @@ namespace GUI.ViewModels
 
         internal void Update(object sender, HistoryUpdateEvent e)
         {
+            e.History = e.History.Where(x => !String.IsNullOrEmpty(x.Mrid)).ToList();
             App.Current.Dispatcher.Invoke((System.Action)delegate
             {
-                TimeStamp = $"{DateTime.Now.ToString()} - Last 30 records";
+                TimeStamp = $"{DateTime.Now.ToString()} - Last 100 records";
                 Data.History.Clear();
                 TableData = new ObservableCollection<HistoryDto>();
                 foreach (var item in e.History)

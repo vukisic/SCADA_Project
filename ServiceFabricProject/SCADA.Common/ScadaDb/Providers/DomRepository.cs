@@ -12,81 +12,125 @@ namespace SCADA.Common.ScadaDb.Providers
     public class DomRepository : IDomRepository
     {
         private ScadaDbContext _context;
+        private object _lockObject;
 
         public DomRepository(ScadaDbContext context) {
             _context = context;
+            _lockObject = new object();
         }
 
         public void Add(List<DomDbModel> list)
         {
-            foreach (var model in list)
+            lock (_lockObject)
             {
-                DomDbModel m = _context.Dom.FirstOrDefault(d => d.Mrid == model.Mrid);
-
-                if (m == null)
+                using(var context = new ScadaDbContext())
                 {
-                    _context.Dom.Add(model);
+                    foreach (var model in list)
+                    {
+                        DomDbModel m = context.Dom.FirstOrDefault(d => d.Mrid == model.Mrid);
+
+                        if (m == null)
+                        {
+                            context.Dom.Add(model);
+                        }
+                    }
+                    context.SaveChanges();
                 }
+                
             }
-            _context.SaveChanges();
+            
         }
 
         public void AddOrUpdate(DomDbModel model)
         {
-            DomDbModel m = _context.Dom.FirstOrDefault(d => d.Mrid == model.Mrid);
-
-            if(m == null)
+            lock (_lockObject)
             {
-                _context.Dom.Add(model);
-            }
-            else
-            {
-                m.ManipulationConut++;
-                m.TimeStamp = DateTime.Now.ToString();
-                _context.Entry(m).State = System.Data.Entity.EntityState.Modified;
-            }
+                using (var context = new ScadaDbContext())
+                {
+                    var all = context.Dom.ToList();
+                    DomDbModel m = context.Dom.FirstOrDefault(d => !String.IsNullOrEmpty(d.Mrid) && d.Mrid == model.Mrid);
 
-            _context.SaveChanges();
+                    if (m == null)
+                    {
+                        context.Dom.Add(model);
+                    }
+                    else
+                    {
+                        m.ManipulationConut++;
+                        m.TimeStamp = DateTime.Now.ToString();
+                        context.Entry(m).State = System.Data.Entity.EntityState.Modified;
+                    }
+
+                    context.SaveChanges();
+                }
+                
+            }
+           
         }
 
         public void AddOrUpdateRange(List<DomDbModel> list)
         {
-            foreach(var model in list)
+            lock (_lockObject)
             {
-                DomDbModel m = _context.Dom.FirstOrDefault(d => d.Mrid == model.Mrid);
+                using(var context = new ScadaDbContext())
+                {
+                    foreach (var model in list)
+                    {
+                        DomDbModel m = context.Dom.FirstOrDefault(d => !String.IsNullOrEmpty(d.Mrid) && d.Mrid == model.Mrid);
 
-                if (m == null)
-                {
-                    _context.Dom.Add(model);
+                        if (m == null)
+                        {
+                            context.Dom.Add(model);
+                        }
+                        else
+                        {
+                            m.ManipulationConut++;
+                            m.TimeStamp = DateTime.Now.ToString();
+                            context.Entry(m).State = System.Data.Entity.EntityState.Modified;
+                        }
+                    }
+                    context.SaveChanges();
                 }
-                else
-                {
-                    m.ManipulationConut++;
-                    m.TimeStamp = DateTime.Now.ToString();
-                    _context.Entry(m).State = System.Data.Entity.EntityState.Modified;
-                }
+                
             }
-            _context.SaveChanges();
+            
         }
 
         public List<DomDbModel> GetAll()
         {
-            return _context.Dom.ToList();
+            List<DomDbModel> models = new List<DomDbModel>();
+            lock (_lockObject)
+            {
+                using(var context = new ScadaDbContext())
+                {
+                    models = context.Dom.ToList();
+                }
+               
+            }
+            return models;
         }
 
         public void UpdateSingle(DomDbModel model)
         {
-            DomDbModel m = _context.Dom.FirstOrDefault(d => d.Mrid == model.Mrid);
-
-            if (m != null)
+            lock (_lockObject)
             {
-                m.ManipulationConut++;
-                m.TimeStamp = DateTime.Now.ToString();
-                _context.Entry(m).State = System.Data.Entity.EntityState.Modified;
-            }
-                
+                using (var context = new ScadaDbContext())
+                {
+                    DomDbModel m = context.Dom.FirstOrDefault(d => !String.IsNullOrEmpty(d.Mrid) && d.Mrid == model.Mrid);
 
-            _context.SaveChanges();
+                    if (m != null)
+                    {
+                        m.ManipulationConut++;
+                        m.TimeStamp = DateTime.Now.ToString();
+                        context.Entry(m).State = System.Data.Entity.EntityState.Modified;
+                    }
+
+
+                    context.SaveChanges();
+                }
+                
+            }
+            
         }
     }
 }

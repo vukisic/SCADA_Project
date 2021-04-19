@@ -217,6 +217,7 @@ namespace FTN.Services.NetworkModelService
 
                 #endregion Update&Delete
 
+                SetDictionaries().GetAwaiter().GetResult();
                 transactionSucceded = TryApplyTransaction();
 
                 if (transactionSucceded)
