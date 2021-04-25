@@ -37,5 +37,14 @@ namespace SCADATransaction
             catch (Exception) { }
             
         }
+
+        public void SimulationSettings(bool enable)
+        {
+            try
+            {
+                proxy.SimulationSettings(enable);
+            }
+            catch { }
+        }
     }
 }

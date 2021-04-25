@@ -70,7 +70,9 @@ namespace Simulator.Core
         private Dictionary<string, ushort> pairs;
         ISimulator simulator;
         #endregion
-
+        private bool debug;
+        private int index = 0;
+        private int constant;
         public SimulationLogic(ISimulator simulator)
         {
             this.simulator = simulator;
@@ -86,12 +88,27 @@ namespace Simulator.Core
             WA = new WeatherAPI();
             hours = WA.GetResultsForNext6Hours();
             db = new dnp3_protocol.dnp3types.sDNPServerDatabase();
-            secondsCount = 60;
+            debug = bool.Parse(ConfigurationManager.AppSettings["Debug"]);
+            secondsCount = debug ? 1 : 60;
+            constant = debug ? 1 : 60;
         }
 
         private void OnEveryMinute()
         {
-            hours = WA.GetResultsForNext6Hours();
+            if (debug)
+            {
+                if (index == 0 || index > 5)
+                {
+                    hours = WA.GetResultsForNext6Hours();
+                    index = 0;
+                }
+                   
+            }
+            else
+            {
+                hours = WA.GetResultsForNext6Hours();
+            }
+            
 
             simulator.MarshalUnmananagedArray2Struct(db.psServerDatabasePoint, (int)db.u32TotalPoints, out List<dnp3_protocol.dnp3types.sServerDatabasePoint> points);
 
@@ -103,7 +120,7 @@ namespace Simulator.Core
                 var point = item as AnalogPoint;
                 SingleInt32Union analogValue = new SingleInt32Union();
 
-                analogValue.f = (int)(point.Value + (float)hours[0] / 60 * TankSurface);
+                analogValue.f = (int)(point.Value + (debug?(float)hours[index] / 60 * TankSurface: (float)hours[0] / 60 * TankSurface));
                 simulator.UpdatePoint(pairs["FluidLevel_Tank"], dnp3types.eDNP3GroupID.ANALOG_INPUT, tgttypes.eDataSizes.FLOAT32_SIZE, tgtcommon.eDataTypes.FLOAT32_DATA, analogValue);
 
                 if (point.Value > FullTank)
@@ -116,6 +133,7 @@ namespace Simulator.Core
             if (minutesCount == 60)
             {
                 minutesCount = 0;
+                index++;
             }
         }
         public void Simulate(dnp3types.sDNPServerDatabase db, Dictionary<string, ushort> pairs)
@@ -124,15 +142,17 @@ namespace Simulator.Core
             this.pairs = pairs;
             if (db.u32TotalPoints != 15 && db.u32TotalPoints != 24 && db.u32TotalPoints != 33)
                 return;
-            if (secondsCount == 60)
+            
+            if (secondsCount == constant)
             {
-                OnEveryMinute();
+                if(Simulator.enabled)
+                    OnEveryMinute();
                 secondsCount = 0;
                 minutesCount++;
             }
             else
             {
-
+                OnEveryMinute();
                 if (db.u32TotalPoints == 15)
                 {
                     Configuration1();
@@ -631,7 +651,7 @@ namespace Simulator.Core
                 current.Value = 1000 / voltage.Value;
                 voltage.Value = tapChanger.Value * VoltageFactor;
                 pumpTemp.Value += HeatingConst * voltage.Value;
-                fluidLever.Value -= pumpFlow.Value / 60; // 100/60 = 1,667 / s
+                fluidLever.Value -= pumpFlow.Value / 4; // 100/60 = 1,667 / s
             }
         }
     }

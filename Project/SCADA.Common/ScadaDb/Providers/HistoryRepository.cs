@@ -61,23 +61,23 @@ namespace SCADA.Common.ScadaDb.Providers
         {
             var history = new HistoryGraph();
             var pump1list = _context.History.Where(x => x.Mrid == "Flow_AM1").ToList();
-            pump1list.Skip(Math.Max(0, pump1list.Count() - 100)).ToList().ForEach(x=> {
+            pump1list.Skip(Math.Max(0, pump1list.Count() - 30)).ToList().ForEach(x=> {
                 history.Pump1.XAxe.Add(DateTime.Parse(x.TimeStamp));
                 history.Pump1.YAxe.Add(x.Value);
             });
             var pump2list = _context.History.Where(x => x.Mrid == "Flow_AM2").ToList();
-            pump2list.Skip(Math.Max(0, pump2list.Count() - 100)).ToList().ForEach(x => {
+            pump2list.Skip(Math.Max(0, pump2list.Count() - 30)).ToList().ForEach(x => {
                 history.Pump2.XAxe.Add(DateTime.Parse(x.TimeStamp));
                 history.Pump2.YAxe.Add(x.Value);
             });
             var pump3list = _context.History.Where(x => x.Mrid == "Flow_AM3").ToList();
-            pump3list.Skip(Math.Max(0, pump3list.Count() - 100)).ToList().ForEach(x => {
+            pump3list.Skip(Math.Max(0, pump3list.Count() - 30)).ToList().ForEach(x => {
                 history.Pump3.XAxe.Add(DateTime.Parse(x.TimeStamp));
                 history.Pump3.YAxe.Add(x.Value);
             });
 
             var fluidlist = _context.History.Where(x => x.Mrid == "FluidLevel_Tank").ToList();
-            fluidlist.Skip(Math.Max(0, fluidlist.Count() - 100)).ToList().ForEach(x => {
+            fluidlist.Skip(Math.Max(0, fluidlist.Count() - 30)).ToList().ForEach(x => {
                 history.FluidLevel.XAxe.Add(DateTime.Parse(x.TimeStamp));
                 history.FluidLevel.YAxe.Add(x.Value);
             });

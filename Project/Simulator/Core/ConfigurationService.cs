@@ -13,5 +13,10 @@ namespace Simulator.Core
         {
             Simulator.UpdateConfig(points, pairs);
         }
+
+        public void SimulationSettings(bool enable)
+        {
+            Simulator.SimulationSettings(enable);
+        }
     }
 }

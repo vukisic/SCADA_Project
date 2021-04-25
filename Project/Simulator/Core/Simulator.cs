@@ -37,6 +37,7 @@ namespace Simulator.Core
         private ISimulatorConfiguration simulatorConfiguration;
         private SimulationLogic simLogic;
         public int interval { get; set; }
+        public static bool enabled = false;
 
         public Simulator(ISimulatorConfiguration simulatorConfiguration)
         {
@@ -48,6 +49,11 @@ namespace Simulator.Core
             this.simulatorConfiguration = simulatorConfiguration;
             simLogic = new SimulationLogic(this);
 
+        }
+
+        internal static void SimulationSettings(bool enable)
+        {
+            enabled = enable;
         }
 
         public void LoadConfifg(Tuple<ushort, ushort, ushort, ushort> pointsNum)

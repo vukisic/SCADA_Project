@@ -58,12 +58,12 @@ namespace NDS.Updaters
                 ev.Points.AddRange(Mapper.MapCollection<AnalogPoint, ScadaPointDto>(analogs));
                 ev.Points.AddRange(Mapper.MapCollection<DiscretePoint, ScadaPointDto>(binaries));
                 if (ev.Points.Count > 0)
-                    endpoint.Publish(ev).ConfigureAwait(false).GetAwaiter().GetResult();
+                    endpoint.Publish(ev).ConfigureAwait(false);
                 if (dom.DomData.Count > 0)
-                    endpoint.Publish(dom).ConfigureAwait(false).GetAwaiter().GetResult();
+                    endpoint.Publish(dom).ConfigureAwait(false);
                 if (history.History.Count > 0)
-                    endpoint.Publish(history).ConfigureAwait(false).GetAwaiter().GetResult();
-                endpoint.Publish(graph).ConfigureAwait(false).GetAwaiter().GetResult();
+                    endpoint.Publish(history).ConfigureAwait(false);
+                endpoint.Publish(graph).ConfigureAwait(false);
 
                 Thread.Sleep(GetConfigTime());
             }

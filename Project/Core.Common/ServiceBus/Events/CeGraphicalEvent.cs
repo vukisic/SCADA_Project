@@ -10,5 +10,10 @@ namespace Core.Common.ServiceBus.Events
     public class CeGraphicalEvent : IEvent
     {
         public CeGraph PumpsValues { get; set; }
+
+        public CeGraphicalEvent()
+        {
+            PumpsValues = new CeGraph();
+        }
     }
 }

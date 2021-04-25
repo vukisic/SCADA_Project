@@ -93,6 +93,10 @@
       <Project>{6e79fca4-42e3-4d2f-b4a3-28e691bf04c3}</Project>
       <Name>SCADA.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SCADATransaction\SCADATransaction.csproj">
+      <Project>{c6d1753c-c65b-4c72-9024-4a94ba5f01d9}</Project>
+      <Name>SCADATransaction</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TMContracts\TMContracts.csproj">
       <Project>{F5D28AA0-B5F6-4C6A-867D-2D1187464A80}</Project>
       <Name>TMContracts</Name>

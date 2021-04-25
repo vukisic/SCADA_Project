@@ -9,5 +9,7 @@ namespace Core.Common.Contracts
     {
         [OperationContract]
         void UpdateConfig(Tuple<ushort, ushort, ushort, ushort> points, Dictionary<string, ushort> pairs);
+        [OperationContract]
+        void SimulationSettings(bool enable);
     }
 }
