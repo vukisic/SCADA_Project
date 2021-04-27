@@ -7,6 +7,7 @@ using Calculations;
 using CE.Common.Proxies;
 using CE.Data;
 using Core.Common.Json;
+using Core.Common.PubSub;
 using Core.Common.ServiceBus.Events;
 using Core.Common.WeatherApi;
 using NServiceBus;
@@ -34,6 +35,12 @@ namespace CE
         private CeGraphicalEvent graph;
         PubSubServiceProxy pubsub;
         private DNA<float> result;
+        private CeForecast forecastResult;
+        private int pumpConstant = 1;
+        private int indexGraph = 0;
+        private int indexUpdate = 0;
+        private List<List<ScadaCommandingEvent>> commands;
+        private bool simulation = false;
 
         public CEWorker()
         {
@@ -65,25 +72,48 @@ namespace CE
             {
                 try
                 {
+                    CheckState();
                     if (hourIndexChanged == 3600)
                     {
                         hourIndex++;
                     }
-
                     if (seconds == 10800 || seconds == 0 || pointUpdateOccures)
                     {
-                        // 3hrs
-                        //Calculations();
+                        SimulatorProxy invoker = new SimulatorProxy();
+                        invoker.SimulatorSettings(false);
+                        indexGraph = indexUpdate = 0;
+                        Calculations();
                         seconds = 0;
                     }
-                    //CheckState();
+                    if (points > 0 && commands != null && graph != null)
+                    {
+                        if (!simulation)
+                        {
+                            SimulatorProxy invoker = new SimulatorProxy();
+                            invoker.SimulatorSettings(true);
+                            simulation = true;
+                        }
+                        if (seconds % 45 == 0)
+                        {
+                            if (indexUpdate < 24)
+                                Command();
+                            indexUpdate++;
+                            if (indexGraph < 24)
+                                UpdateGraph();
+                            indexGraph++;
+                            if (indexGraph == 23)
+                            {
+                                SimulatorProxy invoker = new SimulatorProxy();
+                                invoker.SimulatorSettings(false);
+                            }
 
-                    // Sleep for 10s
-                    Thread.Sleep(10000);
-                    // Add 10s to seconds
-                    seconds += 10;
-                    secundsForWeather += 10;
-                    hourIndexChanged += 10;
+
+                        }
+                    }
+
+                    Thread.Sleep(TimeSpan.FromSeconds(1));
+                    seconds += 1;
+                    hourIndexChanged += 1;
                 }
                 catch (Exception e)
                 {
@@ -91,20 +121,54 @@ namespace CE
                 }
             }
         }
+
+        private void Command()
+        {
+            CommandingProxy proxy = new CommandingProxy(ConfigurationManager.AppSettings["Command"]);
+            foreach (var item in commands[indexUpdate])
+            {
+                proxy.Commmand(new SCADA.Common.ScadaCommand(item.RegisterType, item.Index, item.Value, 0));
+            }
+        }
+
+        private void UpdateGraph()
+        {
+            if (points > 0)
+            {
+                CeGraphicalEvent newGraph = new CeGraphicalEvent();
+                newGraph.PumpsValues.Pump1.XAxes = graph.PumpsValues.Pump1.XAxes.Take(indexGraph).ToList();
+                newGraph.PumpsValues.Pump1.YAxes = graph.PumpsValues.Pump1.YAxes.Take(indexGraph).ToList();
+
+                newGraph.PumpsValues.Pump2.XAxes = graph.PumpsValues.Pump2.XAxes.Take(indexGraph).ToList();
+                newGraph.PumpsValues.Pump2.YAxes = graph.PumpsValues.Pump2.YAxes.Take(indexGraph).ToList();
+
+                newGraph.PumpsValues.Pump3.XAxes = graph.PumpsValues.Pump3.XAxes.Take(indexGraph).ToList();
+                newGraph.PumpsValues.Pump3.YAxes = graph.PumpsValues.Pump3.YAxes.Take(indexGraph).ToList();
+
+                var json = JsonTool.Serialize<CeGraphicalEvent>(newGraph);
+                PubSubMessage ev = new PubSubMessage()
+                {
+                    ContentType = ContentType.CE_UPDATE,
+                    Content = json,
+                    Sender = Sender.CE
+                };
+                pubsub.SendMessage(ev).ConfigureAwait(false);
+            }
+        }
+
         private void CheckState()
         {
             var proxy = new SF.Common.Proxies.ScadaExportProxy(ConfigurationManager.AppSettings["Scada"]);
             var measurements = proxy.GetData().GetAwaiter().GetResult();
 
-            if (measurements == null || !measurements.ContainsKey("FluidLevel_Tank"))
+            if (!measurements.ContainsKey("FluidLevel_Tank"))
                 return;
             var fluidLevel = measurements["FluidLevel_Tank"] as AnalogPoint;
-
-            if (LevelIsOptimal(fluidLevel.Value))
-            {
-                // SendCommands To TurOff Breakers for pumps
+            var flows = 2 * (measurements["Flow_AM1"] != null ? ((AnalogPoint)(measurements["Flow_AM1"])).Value / 4 : 0) +
+                        (measurements["Flow_AM2"] != null ? ((AnalogPoint)(measurements["Flow_AM2"])).Value / 4 : 0) +
+                        (measurements["Flow_AM3"] != null ? ((AnalogPoint)(measurements["Flow_AM3"])).Value / 4 : 0);
+            if (LevelIsOptimal(fluidLevel.Value - flows))
                 TurnOffPumps();
-            }
         }
 
         private void TurnOffPumps()
@@ -127,7 +191,7 @@ namespace CE
                 commanding.Commmand(new SCADA.Common.ScadaCommand(command1.RegisterType, command1.Index, command1.Value, command1.Milliseconds)).GetAwaiter().GetResult();
             }
 
-            if (points.ContainsKey("Breaker_21Status"))
+            if (points.ContainsKey("Breaker_22Status"))
             {
                 var breaker2 = points["Breaker_22Status"] as DiscretePoint;
                 var command2 = new ScadaCommandingEvent()
@@ -140,7 +204,7 @@ namespace CE
                 commanding.Commmand(new SCADA.Common.ScadaCommand(command2.RegisterType, command2.Index, command2.Value, command2.Milliseconds)).GetAwaiter().GetResult();
             }
 
-            if (points.ContainsKey("Breaker_21Status"))
+            if (points.ContainsKey("Breaker_23Status"))
             {
                 var breaker3 = points["Breaker_23Status"] as DiscretePoint;
                 var command3 = new ScadaCommandingEvent()
@@ -163,7 +227,7 @@ namespace CE
                     ChangeStrategy();
                 }
 
-                var forecastResult = new CeForecast();
+                forecastResult = new CeForecast();
                 var area = GetSurfaceArea();
                 var weatherForecast = weatherAPI.GetForecast();
                 var weather = new List<double>();
@@ -203,7 +267,7 @@ namespace CE
 
             float lowerBound = results.OptimalFluidLevel * (1.0f - (results.Percetage / 100));
             float upperBound = results.OptimalFluidLevel * (1.0f + (results.Percetage / 100));
-            bool ret = (fluidLevel <= upperBound && fluidLevel >= lowerBound);
+            bool ret = (fluidLevel <= upperBound && fluidLevel >= lowerBound) || fluidLevel <= upperBound; ;
 
             return ret;
         }
@@ -221,33 +285,35 @@ namespace CE
 
         private void SendCommand(CeForecast forecastResult)
         {
+            commands = new List<List<ScadaCommandingEvent>>();
             var proxy = new SF.Common.Proxies.ScadaExportProxy(ConfigurationManager.AppSettings["Scada"]);
             var commanding = new CommandingProxy(ConfigurationManager.AppSettings["Command"]);
             var points = proxy.GetData().GetAwaiter().GetResult();
             if (points == null)
                 return;
-            float counter = 0;
-            foreach (var item in forecastResult.Results.Take(12))
+            foreach (var item in forecastResult.Results.Take(24))
             {
+                var cmds = new List<ScadaCommandingEvent>();
                 for (int i = 0; i < item.Pumps.Count(); i++)
                 {
                     var onOff = item.Pumps[i];
                     var time = item.Times[i];
                     var flow = item.Flows[i];
-
                     if (points.ContainsKey($"Breaker_2{i + 1}Status"))
                     {
                         var breaker2 = points[$"Breaker_2{i + 1}Status"];
-
-                        var command1 = new ScadaCommandingEvent()
+                        if (onOff != 0)
                         {
-                            Index = (uint)breaker2.Index,
-                            RegisterType = breaker2.RegisterType,
-                            Milliseconds = (uint)((counter) * 60 * 1000),
-                            Value = (uint)onOff
-                        };
+                            var command1 = new ScadaCommandingEvent()
+                            {
+                                Index = (uint)breaker2.Index,
+                                RegisterType = breaker2.RegisterType,
+                                Milliseconds = 0,
+                                Value = (uint)onOff
+                            };
+                            cmds.Add(command1);
+                        }
 
-                        commanding.Commmand(new SCADA.Common.ScadaCommand(command1.RegisterType, command1.Index, command1.Value, command1.Milliseconds)).GetAwaiter().GetResult();
                     }
 
                     if (points.ContainsKey($"Discrete_Tap{i + 1}") && onOff == 1)
@@ -258,27 +324,13 @@ namespace CE
                         {
                             Index = (uint)tap.Index,
                             RegisterType = tap.RegisterType,
-                            Milliseconds = (uint)((counter) * 60 * 1000),
+                            Milliseconds = 0,
                             Value = (uint)(flow / 100)
                         };
-                        commanding.Commmand(new SCADA.Common.ScadaCommand(command2.RegisterType, command2.Index, command2.Value, command2.Milliseconds)).GetAwaiter().GetResult();
-                    }
-                    else if (points.ContainsKey($"Discrete_Tap{i + 1}") && onOff == 0)
-                    {
-                        var tap = points[$"Discrete_Tap{i + 1}"];
-
-                        var command2 = new ScadaCommandingEvent()
-                        {
-                            Index = (uint)tap.Index,
-                            RegisterType = tap.RegisterType,
-                            Milliseconds = (uint)((counter) * 60 * 1000),
-                            Value = 0
-                        };
-
-                        commanding.Commmand(new SCADA.Common.ScadaCommand(command2.RegisterType, command2.Index, command2.Value, command2.Milliseconds)).GetAwaiter().GetResult();
+                        cmds.Add(command2);
                     }
                 }
-                counter += 15.0f;
+                commands.Add(cmds);
             }
         }
 
@@ -305,7 +357,7 @@ namespace CE
             update.Hours = new List<PumpsHours>();
             update.Flows = new List<PumpsFlows>();
 
-            CeGraphicalEvent graph = new CeGraphicalEvent();
+            graph = new CeGraphicalEvent();
             graph.PumpsValues = new Core.Common.ServiceBus.Events.CeGraph();
             List<List<long>> list = new List<List<long>>();
             for (int i = 0; i < points; i++)
@@ -363,13 +415,6 @@ namespace CE
                 graph.PumpsValues.Pump3.XAxes = update.Times.ConvertAll(x => DateTime.Parse(x));
                 graph.PumpsValues.Pump3.YAxes = list[2];
             }
-            pubsub.SendMessage(new Core.Common.PubSub.PubSubMessage()
-            {
-                ContentType = Core.Common.PubSub.ContentType.CE_HISTORY_GRAPH,
-                Content = JsonTool.Serialize<CeGraphicalEvent>(graph),
-                Sender = Core.Common.PubSub.Sender.CE
-
-            }).GetAwaiter().GetResult();
         }
 
         private List<string> GetTimes()

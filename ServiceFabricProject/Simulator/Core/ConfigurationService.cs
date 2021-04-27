@@ -9,6 +9,11 @@ namespace Simulator.Core
 {
     public class ConfigurationService : IConfigurationChange
     {
+        public void SimulationSettings(bool enable)
+        {
+            Simulator.SimulationSettings(enable);
+        }
+
         public void UpdateConfig(Tuple<ushort, ushort, ushort, ushort> points, Dictionary<string,ushort> pairs)
         {
             Simulator.UpdateConfig(points, pairs);

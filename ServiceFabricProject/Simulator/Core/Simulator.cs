@@ -37,6 +37,7 @@ namespace Simulator.Core
         private ISimulatorConfiguration simulatorConfiguration;
         private SimulationLogic simLogic;
         public int interval { get; set; }
+        public static bool enabled = false;
 
         public Simulator(ISimulatorConfiguration simulatorConfiguration)
         {
@@ -588,6 +589,11 @@ namespace Simulator.Core
             config = points;
             incomingPairs = pairs;
             Console.WriteLine("Config Change!");
+        }
+
+        internal static void SimulationSettings(bool enable)
+        {
+            enabled = enable;
         }
     }
 }

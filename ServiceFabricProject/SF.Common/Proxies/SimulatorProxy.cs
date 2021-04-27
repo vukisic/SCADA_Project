@@ -20,5 +20,11 @@ namespace SF.Common.Proxies
             var ch = this.ChannelFactory.CreateChannel();
             ch.UpdateConfig(points, pairs);
         }
+
+        public void SimulatorSettings(bool enable)
+        {
+            var ch = this.ChannelFactory.CreateChannel();
+            ch.SimulationSettings(enable);
+        }
     }
 }

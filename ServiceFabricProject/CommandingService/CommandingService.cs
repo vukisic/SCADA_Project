@@ -58,7 +58,7 @@ namespace CommandingService
                             {
                                 if (item.MillisecondsPassedSinceLastPoll >= item.Milliseconds)
                                 {
-                                    fep.ExecuteCommand(item);
+                                    fep.ExecuteCommand(item).ConfigureAwait(false).GetAwaiter();
 
                                     item.Remove = true;
                                 }

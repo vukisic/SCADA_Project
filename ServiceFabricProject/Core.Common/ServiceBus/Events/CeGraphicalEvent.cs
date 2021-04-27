@@ -7,5 +7,10 @@ namespace Core.Common.ServiceBus.Events
     {
         [DataMember]
         public CeGraph PumpsValues { get; set; }
+
+        public CeGraphicalEvent()
+        {
+            PumpsValues = new CeGraph();
+        }
     }
 }
