@@ -10,13 +10,14 @@ namespace PubSubService
 {
     public class PubSubServiceProvider : IPubSubAsync
     {
-        public async Task Publish(PubSubMessage message)
+        public Task Publish(PubSubMessage message)
         {
             Subscription subscription = new Subscription();
             using(var publisher = new Publisher(subscription.Topic, subscription.ConnectionString))
             {
-                await publisher.SendMessage(message);
+                publisher.SendMessage(message);
             }
+            return Task.CompletedTask;
         }
     }
 }

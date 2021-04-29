@@ -48,28 +48,28 @@ namespace CommandingService
                 try
                 {
                     cancellationToken.ThrowIfCancellationRequested();
-                    var commands = await this.StateManager.GetOrAddAsync<IReliableDictionary<string, List<ScadaCommand>>>("commands");
+                    var commands = await this.StateManager.GetOrAddAsync<IReliableDictionary<string, List<ScadaCommand>>>("commands", TimeSpan.FromSeconds(60));
                     using (var tx = this.StateManager.CreateTransaction())
                     {
-                        var result = await commands.TryGetValueAsync(tx, "scada");
+                        var result = await commands.TryGetValueAsync(tx, "scada", TimeSpan.FromSeconds(60), CancellationToken.None);
                         if (result.HasValue)
                         {
                             foreach (var item in result.Value)
                             {
                                 if (item.MillisecondsPassedSinceLastPoll >= item.Milliseconds)
                                 {
-                                    fep.ExecuteCommand(item).ConfigureAwait(false).GetAwaiter();
+                                    fep.ExecuteCommand(item).ConfigureAwait(false);
 
                                     item.Remove = true;
                                 }
                                 item.MillisecondsPassedSinceLastPoll += 1000;
                             }
-                            await commands.SetAsync(tx, "scada", result.Value.Where(x => x.Remove == false).ToList());
+                            await commands.SetAsync(tx, "scada", result.Value.Where(x => x.Remove == false).ToList(),TimeSpan.FromSeconds(60),CancellationToken.None);
                             
                         }
                         else
                         {
-                            await commands.AddAsync(tx, "scada", new List<ScadaCommand>());
+                            await commands.AddAsync(tx, "scada", new List<ScadaCommand>(), TimeSpan.FromSeconds(60), CancellationToken.None);
                         }
                         await tx.CommitAsync();
                     }
@@ -100,12 +100,12 @@ namespace CommandingService
 
         public async Task ReadLocalCommands()
         {
-            var commands = await this.StateManager.GetOrAddAsync<IReliableDictionary<string, List<ScadaCommand>>>("commands");
+            var commands = await this.StateManager.GetOrAddAsync<IReliableDictionary<string, List<ScadaCommand>>>("commands", TimeSpan.FromSeconds(60));
             using (var tx = this.StateManager.CreateTransaction())
             {
                 if (await commands.GetCountAsync(tx) == 0)
                 {
-                    await commands.AddAsync(tx, "scada", new List<ScadaCommand>(), TimeSpan.FromSeconds(10), new CancellationToken());
+                    await commands.AddAsync(tx, "scada", new List<ScadaCommand>(), TimeSpan.FromSeconds(60), CancellationToken.None);
                 }
                 await tx.CommitAsync();
             }
@@ -118,7 +118,7 @@ namespace CommandingService
                     result.Value.AddRange(localCommands);
                 }
 
-                await commands.SetAsync(tx, "scada", result.Value, TimeSpan.FromSeconds(10), new CancellationToken());
+                await commands.SetAsync(tx, "scada", result.Value, TimeSpan.FromSeconds(60), CancellationToken.None);
 
                 await tx.CommitAsync();
             }
@@ -126,14 +126,14 @@ namespace CommandingService
         }
         public async Task AddCommand(ScadaCommand command)
         {
-            var commands = await this.StateManager.GetOrAddAsync<IReliableDictionary<string, List<ScadaCommand>>>("commands");
+            var commands = await this.StateManager.GetOrAddAsync<IReliableDictionary<string, List<ScadaCommand>>>("commands", TimeSpan.FromSeconds(60));
             if (command.RegisterType == SCADA.Common.DataModel.RegisterType.BINARY_INPUT)
             {
                 using (var tx = this.StateManager.CreateTransaction())
                 {
                     if (await commands.GetCountAsync(tx) == 0)
                     {
-                        await commands.SetAsync(tx, "scada", new List<ScadaCommand>(), TimeSpan.FromSeconds(10), new CancellationToken());
+                        await commands.SetAsync(tx, "scada", new List<ScadaCommand>(), TimeSpan.FromSeconds(60), CancellationToken.None);
                     }
                     await tx.CommitAsync();
                 }

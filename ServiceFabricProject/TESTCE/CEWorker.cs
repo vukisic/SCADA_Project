@@ -33,7 +33,7 @@ namespace CE
         private int hourIndex = 0;
         private int hourIndexChanged = 0;
         private CeGraphicalEvent graph;
-        PubSubServiceProxy pubsub;
+        private Publisher pubsub;
         private DNA<float> result;
         private CeForecast forecastResult;
         private int pumpConstant = 1;
@@ -53,7 +53,8 @@ namespace CE
             _worker.Name = "CE Worker";
             var api = ConfigurationManager.AppSettings["WeatherApi"];
             weatherAPI = new SF.Common.Proxies.WeatherServiceProxy(api);
-            pubsub = new PubSubServiceProxy(ConfigurationManager.AppSettings["PubSub"] ?? "fabric:/ServiceFabricApp/PubSubService");
+            var subscription = new Subscription();
+            pubsub = new Publisher(subscription.Topic, subscription.ConnectionString);
             _worker.Start();
         }
 
@@ -160,8 +161,7 @@ namespace CE
         {
             var proxy = new SF.Common.Proxies.ScadaExportProxy(ConfigurationManager.AppSettings["Scada"]);
             var measurements = proxy.GetData().GetAwaiter().GetResult();
-
-            if (!measurements.ContainsKey("FluidLevel_Tank"))
+            if (measurements == null || !measurements.ContainsKey("FluidLevel_Tank"))
                 return;
             var fluidLevel = measurements["FluidLevel_Tank"] as AnalogPoint;
             var flows = 2 * (measurements["Flow_AM1"] != null ? ((AnalogPoint)(measurements["Flow_AM1"])).Value / 4 : 0) +

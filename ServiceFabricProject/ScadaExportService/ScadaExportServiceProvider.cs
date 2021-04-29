@@ -27,7 +27,8 @@ namespace ScadaExportService
                 var data = new Dictionary<string, BasePoint>();
                 foreach (var item in model.Values)
                 {
-                    data.Add(item.Mrid, item);
+                    if(item.Mrid != null)
+                        data.Add(item.Mrid, item);
                 }
                 return data;
             }

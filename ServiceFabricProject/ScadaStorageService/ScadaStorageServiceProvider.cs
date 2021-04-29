@@ -41,7 +41,7 @@ namespace ScadaStorageService
         public static async Task Initialize()
         {
             var dictionary = _repo.Get();
-            var result = await _stateManager.GetOrAddAsync<IReliableDictionary<int, BasePoint>>(modelName);
+            var result = await _stateManager.GetOrAddAsync<IReliableDictionary<int, BasePoint>>(modelName,TimeSpan.FromSeconds(60));
             if (dictionary == null)
             {
                 await result.ClearAsync();
@@ -51,7 +51,7 @@ namespace ScadaStorageService
             {
                 foreach (var item in dictionary)
                 {
-                    await result.SetAsync(tx, MakeKey(item.Key.Item1,item.Key.Item2), item.Value);
+                    await result.SetAsync(tx, MakeKey(item.Key.Item1,item.Key.Item2), item.Value,TimeSpan.FromSeconds(60),CancellationToken.None);
                 }
                 await tx.CommitAsync();
             }
@@ -79,7 +79,7 @@ namespace ScadaStorageService
             var result = await GetScadaModel(modelName);
             using(var tx = _stateManager.CreateTransaction())
             {
-                ConditionalValue<BasePoint> point = await result.TryGetValueAsync(tx, MakeKey(type,index));
+                ConditionalValue<BasePoint> point = await result.TryGetValueAsync(tx, MakeKey(type,index),TimeSpan.FromSeconds(60),CancellationToken.None);
                 if (point.HasValue)
                 {
                     if(point.Value == null)
@@ -135,25 +135,37 @@ namespace ScadaStorageService
 
         private async Task<IReliableDictionary<int, BasePoint>> GetScadaModel(string name)
         {
-            return await _stateManager.GetOrAddAsync<IReliableDictionary<int, BasePoint>>(name);
+            IReliableDictionary<int, BasePoint> result = null;
+            using(var tx = _stateManager.CreateTransaction())
+            {
+                result = await _stateManager.GetOrAddAsync<IReliableDictionary<int, BasePoint>>(name, TimeSpan.FromSeconds(60));
+                await tx.CommitAsync();
+            }
+            return result;
+            
         }
 
         private async Task SetScadaModel(string name, Dictionary<Tuple<RegisterType,int>, BasePoint> dictionary)
         {
             historian = new HistoryServiceProxy(ConfigurationReader.ReadValue(_context,"Settings","History"));
-            var result = await _stateManager.GetOrAddAsync<IReliableDictionary<int, BasePoint>>(name);
-            if (dictionary == null)
+            IReliableDictionary<int, BasePoint> result = null;
+            using (var tx = _stateManager.CreateTransaction())
             {
-                await result.ClearAsync();
-                return;
+                result = await _stateManager.GetOrAddAsync<IReliableDictionary<int, BasePoint>>(tx, name, TimeSpan.FromSeconds(60));
+                if (dictionary == null)
+                {
+                    await result.ClearAsync();
+                    await tx.CommitAsync();
+                    return;
+                }
+                await tx.CommitAsync();
             }
             using (var tx = _stateManager.CreateTransaction())
             {
-                var count = await result.GetCountAsync(tx);
                 var historyData = new List<HistoryDbModel>();
                 foreach (var item in dictionary)
                 {
-                    var point = await result.TryGetValueAsync(tx, MakeKey(item.Key.Item1, item.Key.Item2));
+                    var point = await result.TryGetValueAsync(tx, MakeKey(item.Key.Item1, item.Key.Item2), TimeSpan.FromSeconds(60), CancellationToken.None);
                     if (point.HasValue)
                     {
                         switch (item.Key.Item1)
@@ -184,11 +196,11 @@ namespace ScadaStorageService
                                     break;
                                 }
                         }
-                        await result.SetAsync(tx, MakeKey(item.Key.Item1, item.Key.Item2), point.Value);
+                        await result.SetAsync(tx, MakeKey(item.Key.Item1, item.Key.Item2), point.Value,TimeSpan.FromSeconds(60),CancellationToken.None);
                     }
                     else
                     {
-                        await result.SetAsync(tx, MakeKey(item.Key.Item1, item.Key.Item2), item.Value);
+                        await result.SetAsync(tx, MakeKey(item.Key.Item1, item.Key.Item2), item.Value, TimeSpan.FromSeconds(60), CancellationToken.None);
                     }
                 }
                 await tx.CommitAsync();
@@ -220,7 +232,7 @@ namespace ScadaStorageService
             var result =  await _stateManager.GetOrAddAsync<IReliableDictionary<string, List<SwitchingEquipment>>>(swName);
             using(var tx = _stateManager.CreateTransaction())
             {
-               ConditionalValue<List<SwitchingEquipment>> value = await result.TryGetValueAsync(tx, swName);
+               ConditionalValue<List<SwitchingEquipment>> value = await result.TryGetValueAsync(tx, swName, TimeSpan.FromSeconds(60), CancellationToken.None);
                 if (value.HasValue)
                 {
                     if(value.Value == null)
@@ -244,7 +256,7 @@ namespace ScadaStorageService
 
         private async Task SetDom(List<SwitchingEquipment> list)
         {
-            var result = await _stateManager.GetOrAddAsync<IReliableDictionary<string, List<SwitchingEquipment>>>(swName);
+            var result = await _stateManager.GetOrAddAsync<IReliableDictionary<string, List<SwitchingEquipment>>>(swName, TimeSpan.FromSeconds(60));
             if (list == null)
             {
                 await result.ClearAsync();
@@ -260,13 +272,13 @@ namespace ScadaStorageService
 
         private async Task<IReliableDictionary<CimModelKey, Container>> GetCim()
         {
+            IReliableDictionary<CimModelKey, Container> result = null;
             using (var tx = _stateManager.CreateTransaction())
             {
-                var result = await _stateManager.GetOrAddAsync<IReliableDictionary<CimModelKey, Container>>(tx,cimName,TimeSpan.FromSeconds(60));
+                result = await _stateManager.GetOrAddAsync<IReliableDictionary<CimModelKey, Container>>(tx,cimName,TimeSpan.FromSeconds(60));
                 await tx.CommitAsync();
-                return result;
             }
-            
+            return result;
         }
 
         private async Task<Dictionary<DMSType, Container>> ConvertCimModel(IReliableDictionary<CimModelKey, Container> dictionary)

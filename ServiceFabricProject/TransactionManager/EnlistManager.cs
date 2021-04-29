@@ -30,15 +30,14 @@ namespace TransactionManager
             bool commitedNMS = false;
             bool commitedCE = false;
 
+            NetworkModelServiceTransactionProxy proxyForNms = new NetworkModelServiceTransactionProxy(ConfigurationManager.AppSettings["NMST"]);
+            isPreparedNMS = await proxyForNms.Prepare();
+
             NDSTransactionProxy proxyForScada = new NDSTransactionProxy(ConfigurationManager.AppSettings["SCADAT"]);
             isPreparedSCADA = await proxyForScada.Prepare();
 
             CETransactionProxy proxyForCE = new CETransactionProxy(ConfigurationManager.AppSettings["CET"]);
             isPreparedCE = await proxyForCE.Prepare();
-
-            NetworkModelServiceTransactionProxy proxyForNms = new NetworkModelServiceTransactionProxy(ConfigurationManager.AppSettings["NMST"]);
-            isPreparedNMS = await proxyForNms.Prepare();
-
 
             if (isPreparedSCADA && isPreparedCE && isPreparedNMS)
             {

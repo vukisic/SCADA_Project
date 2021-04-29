@@ -611,7 +611,8 @@ namespace FTN.Services.NetworkModelService
                 proxyForTM.EndEnlist(success).GetAwaiter().GetResult();
                 try
                 {
-                    var proxy = new PubSubServiceProxy(ConfigurationManager.AppSettings["PubSub"]);
+                    var subscription = new Subscription();
+                    var publisher = new Publisher(subscription.Topic,subscription.ConnectionString);
                     var dtos = DtoConverter.Convert(networkDataModelCopy);
                     var json = JsonTool.Serialize(new ModelUpdateEvent(dtos));
                     var msg = new PubSubMessage()
@@ -620,7 +621,7 @@ namespace FTN.Services.NetworkModelService
                         ContentType = ContentType.NMS_UPDATE,
                         Sender = Sender.NMS
                     };
-                    proxy.SendMessage(msg).ConfigureAwait(false).GetAwaiter().GetResult();
+                    publisher.SendMessage(msg).ConfigureAwait(false).GetAwaiter().GetResult();
                 }
                 catch { }
 

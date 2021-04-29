@@ -39,7 +39,6 @@ namespace CEStorageService
         public async Task SetModel(Dictionary<DMSType, Container> model)
         {
             await SetInternalModel(modelName, model); 
-            //-- Call
         }
 
         public Task SetTransactionalModel(Dictionary<DMSType, Container> model)
@@ -50,7 +49,7 @@ namespace CEStorageService
         private async Task SetInternalModel(string name, Dictionary<DMSType, Container> dictionary)
         {
 
-            var result = await _stateManager.GetOrAddAsync<IReliableDictionary<CimModelKey, Container>>(name);
+            var result = await _stateManager.GetOrAddAsync<IReliableDictionary<CimModelKey, Container>>(name,TimeSpan.FromSeconds(60));
             if (dictionary == null)
             {
                 await result.ClearAsync();
@@ -61,7 +60,7 @@ namespace CEStorageService
             {
                 foreach (var item in dictionary)
                 {
-                    await result.SetAsync(tx, new CimModelKey(item.Key), item.Value);
+                    await result.SetAsync(tx, new CimModelKey(item.Key), item.Value,TimeSpan.FromSeconds(60),CancellationToken.None);
                 }
                 await tx.CommitAsync();
             }
@@ -69,7 +68,7 @@ namespace CEStorageService
 
         private async Task<Dictionary<DMSType, Container>> GetInternalModel(string name)
         {
-            var model = await _stateManager.GetOrAddAsync<IReliableDictionary<CimModelKey, Container>>(name);
+            var model = await _stateManager.GetOrAddAsync<IReliableDictionary<CimModelKey, Container>>(name,TimeSpan.FromSeconds(60));
             return await ConvertCimModel(model);
         }
 

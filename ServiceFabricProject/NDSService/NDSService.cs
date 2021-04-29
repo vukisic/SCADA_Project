@@ -87,9 +87,10 @@ namespace NDSService
         {
             while (true)
             {
+                ServiceEventSource.Current.ServiceMessage(Context,"WORKING!!!");
                 try
                 {
-                    cancellationToken.ThrowIfCancellationRequested();
+                    //cancellationToken.ThrowIfCancellationRequested();
                     await Update();
                 }
                 catch (Exception ex)
@@ -101,7 +102,7 @@ namespace NDSService
                         Message = $"Message:{ex.Message}\nStackTrace:{ex.StackTrace}"
                     });
                 }
-                await Task.Delay(TimeSpan.FromSeconds(10), cancellationToken);
+                await Task.Delay(TimeSpan.FromSeconds(5), CancellationToken.None);
             }
         }
 
@@ -135,30 +136,29 @@ namespace NDSService
             ev.Points.AddRange(Mapper.MapCollection<DiscretePoint, ScadaPointDto>(binaries));
 
             Subscription subs = new Subscription();
-            var pub = new PubSubServiceProxy(ConfigurationReader.ReadValue(Context,"Settings","PubSub")?? "fabric:/ServiceFabricApp/PubSubService");
-
+            Publisher publisher = new Publisher(subs.Topic, subs.ConnectionString);
             if (ev.Points.Count > 0)
-                pub.SendMessage(new PubSubMessage()
+                publisher.SendMessage(new PubSubMessage()
                 {
                     ContentType = ContentType.SCADA_UPDATE,
                     Sender = Sender.SCADA,
                     Content = JsonTool.Serialize<ScadaUpdateEvent>(ev)
                 }).ConfigureAwait(false).GetAwaiter().GetResult();
             if (dom.DomData.Count > 0)
-                pub.SendMessage(new PubSubMessage()
+                publisher.SendMessage(new PubSubMessage()
                 {
                     ContentType = ContentType.SCADA_DOM,
                     Sender = Sender.SCADA,
                     Content = JsonTool.Serialize<DomUpdateEvent>(dom)
                 }).ConfigureAwait(false).GetAwaiter().GetResult();
             if (history.History.Count > 0)
-                pub.SendMessage(new PubSubMessage()
+                publisher.SendMessage(new PubSubMessage()
                 {
                     ContentType = ContentType.SCADA_HISTORY,
                     Sender = Sender.SCADA,
                     Content = JsonTool.Serialize<HistoryUpdateEvent>(history)
                 }).ConfigureAwait(false).GetAwaiter().GetResult();
-            pub.SendMessage(new PubSubMessage()
+            publisher.SendMessage(new PubSubMessage()
             {
                 ContentType = ContentType.SCADA_HISTORY_GRAPH,
                 Sender = Sender.SCADA,
