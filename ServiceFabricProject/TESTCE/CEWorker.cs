@@ -39,7 +39,7 @@ namespace CE
         private int pumpConstant = 1;
         private int indexGraph = 0;
         private int indexUpdate = 0;
-        private List<List<ScadaCommandingEvent>> commands;
+        private List<List<ScadaCommandingEvent>> commands = new List<List<ScadaCommandingEvent>>();
         private bool simulation = false;
 
         public CEWorker()
@@ -73,6 +73,8 @@ namespace CE
             {
                 try
                 {
+                    if (points <= 0 || points > 3)
+                        continue;
                     CheckState();
                     if (hourIndexChanged == 3600)
                     {
@@ -84,7 +86,8 @@ namespace CE
                         invoker.SimulatorSettings(false);
                         indexGraph = indexUpdate = 0;
                         Calculations();
-                        seconds = 0;
+                        if(seconds == 10800)
+                            seconds = 0;
                     }
                     if (points > 0 && commands != null && graph != null)
                     {
@@ -125,6 +128,8 @@ namespace CE
 
         private void Command()
         {
+            if (commands.Count == 0)
+                return;
             CommandingProxy proxy = new CommandingProxy(ConfigurationManager.AppSettings["Command"]);
             foreach (var item in commands[indexUpdate])
             {
@@ -149,7 +154,7 @@ namespace CE
                 var json = JsonTool.Serialize<CeGraphicalEvent>(newGraph);
                 PubSubMessage ev = new PubSubMessage()
                 {
-                    ContentType = ContentType.CE_UPDATE,
+                    ContentType = ContentType.CE_HISTORY_GRAPH,
                     Content = json,
                     Sender = Sender.CE
                 };
@@ -164,11 +169,28 @@ namespace CE
             if (measurements == null || !measurements.ContainsKey("FluidLevel_Tank"))
                 return;
             var fluidLevel = measurements["FluidLevel_Tank"] as AnalogPoint;
-            var flows = 2 * (measurements["Flow_AM1"] != null ? ((AnalogPoint)(measurements["Flow_AM1"])).Value / 4 : 0) +
+            if(points == 1)
+            {
+                var flows = 2 * (measurements["Flow_AM2"] != null ? ((AnalogPoint)(measurements["Flow_AM2"])).Value / 4 : 0);
+                if (LevelIsOptimal(fluidLevel.Value - flows))
+                    TurnOffPumps();
+            }
+            else if(points == 2)
+            {
+                var flows = 2 * ((measurements["Flow_AM1"] != null ? ((AnalogPoint)(measurements["Flow_AM1"])).Value / 4 : 0) +
+                        (measurements["Flow_AM2"] != null ? ((AnalogPoint)(measurements["Flow_AM2"])).Value / 4 : 0));
+                if (LevelIsOptimal(fluidLevel.Value - flows))
+                    TurnOffPumps();
+            }
+            else if(points == 3)
+            {
+                var flows = 2 * ((measurements["Flow_AM1"] != null ? ((AnalogPoint)(measurements["Flow_AM1"])).Value / 4 : 0) +
                         (measurements["Flow_AM2"] != null ? ((AnalogPoint)(measurements["Flow_AM2"])).Value / 4 : 0) +
-                        (measurements["Flow_AM3"] != null ? ((AnalogPoint)(measurements["Flow_AM3"])).Value / 4 : 0);
-            if (LevelIsOptimal(fluidLevel.Value - flows))
-                TurnOffPumps();
+                        (measurements["Flow_AM3"] != null ? ((AnalogPoint)(measurements["Flow_AM3"])).Value / 4 : 0));
+                if (LevelIsOptimal(fluidLevel.Value - flows))
+                    TurnOffPumps();
+            }
+            
         }
 
         private void TurnOffPumps()
@@ -257,7 +279,7 @@ namespace CE
                 }
 
                 //SendCommand(forecastResult);
-                //Update(forecastResult, weather);
+                Update(forecastResult, weather);
 
             }
         }
