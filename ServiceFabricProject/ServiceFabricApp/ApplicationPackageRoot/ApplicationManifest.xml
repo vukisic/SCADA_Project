@@ -3,7 +3,6 @@
   <Parameters>
     <Parameter Name="FEPService_InstanceCount" DefaultValue="-1" />
     <Parameter Name="NDSService_InstanceCount" DefaultValue="-1" />
-    <Parameter Name="PubSubService_InstanceCount" DefaultValue="-1" />
     <Parameter Name="CEDynamicsService_InstanceCount" DefaultValue="-1" />
     <Parameter Name="CEStorageService_MinReplicaSetSize" DefaultValue="3" />
     <Parameter Name="CEStorageService_PartitionCount" DefaultValue="1" />
@@ -37,10 +36,6 @@
   </ServiceManifestImport>
   <ServiceManifestImport>
     <ServiceManifestRef ServiceManifestName="NDSServicePkg" ServiceManifestVersion="1.0.0" />
-    <ConfigOverrides />
-  </ServiceManifestImport>
-  <ServiceManifestImport>
-    <ServiceManifestRef ServiceManifestName="PubSubServicePkg" ServiceManifestVersion="1.0.0" />
     <ConfigOverrides />
   </ServiceManifestImport>
   <ServiceManifestImport>
@@ -108,11 +103,6 @@
     </Service>
     <Service Name="NDSService" ServicePackageActivationMode="ExclusiveProcess">
       <StatelessService ServiceTypeName="NDSServiceType" InstanceCount="[NDSService_InstanceCount]">
-        <SingletonPartition />
-      </StatelessService>
-    </Service>
-    <Service Name="PubSubService" ServicePackageActivationMode="ExclusiveProcess">
-      <StatelessService ServiceTypeName="PubSubServiceType" InstanceCount="[PubSubService_InstanceCount]">
         <SingletonPartition />
       </StatelessService>
     </Service>

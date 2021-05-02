@@ -146,7 +146,6 @@
     <Compile Include="Proxies\LogServiceProxy.cs" />
     <Compile Include="Proxies\NDSModelProxy.cs" />
     <Compile Include="Proxies\NDSTransactionProxy.cs" />
-    <Compile Include="Proxies\PubSubServiceProxy.cs" />
     <Compile Include="Proxies\ScadaExportProxy.cs" />
     <Compile Include="Proxies\SimulatorProxy.cs" />
     <Compile Include="Proxies\NetworkModelServiceProxy.cs" />

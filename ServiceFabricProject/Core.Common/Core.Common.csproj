@@ -220,7 +220,6 @@
     <Compile Include="Contracts\ILogService.cs" />
     <Compile Include="Contracts\IModelUpdateAsync.cs" />
     <Compile Include="Contracts\INetworkModelService.cs" />
-    <Compile Include="Contracts\IPubSubAsync.cs" />
     <Compile Include="Contracts\IScadaExportServiceAsync.cs" />
     <Compile Include="Contracts\IScadaStorageService.cs" />
     <Compile Include="Contracts\ITransactionStepsAsync.cs" />

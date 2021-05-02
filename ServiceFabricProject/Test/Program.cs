@@ -109,8 +109,8 @@ namespace Test
 
             try
             {
-                PubSubServiceProxy pubsub = new PubSubServiceProxy();
-                pubsub.SendMessage(null).GetAwaiter().GetResult();
+                //PubSubServiceProxy pubsub = new PubSubServiceProxy();
+                //pubsub.SendMessage(null).GetAwaiter().GetResult();
             }
             catch (Exception ex)
             {
