@@ -91,7 +91,7 @@ namespace NDSService
                 try
                 {
                     //cancellationToken.ThrowIfCancellationRequested();
-                    await Update();
+                    Update();
                 }
                 catch (Exception ex)
                 {
@@ -106,30 +106,30 @@ namespace NDSService
             }
         }
 
-        private async Task Update()
+        private void Update()
         {
             var domService = new DomServiceProxy(ConfigurationReader.ReadValue(Context, "Settings", "Dom"));
             var historyService = new HistoryServiceProxy(ConfigurationReader.ReadValue(Context, "Settings", "History"));
             var storageService = new ScadaStorageProxy(ConfigurationReader.ReadValue(Context, "Settings", "Storage"));
-            var domData = await domService.GetAll();
+            var domData = domService.GetAll().GetAwaiter().GetResult();
             DomUpdateEvent dom = new DomUpdateEvent()
             {
                 DomData = domData.ToSwitchingEquipment()
             };
             HistoryUpdateEvent history = new HistoryUpdateEvent()
             {
-                History = await historyService.GetAll()
+                History = historyService.GetAll().GetAwaiter().GetResult()
             };
             HistoryGraphicalEvent graph = new HistoryGraphicalEvent()
             {
-                Graph = await historyService.GetGraph()
+                Graph = historyService.GetGraph().GetAwaiter().GetResult()
             };
             ScadaUpdateEvent ev = new ScadaUpdateEvent()
             {
                 Points = new List<SCADA.Common.DataModel.ScadaPointDto>()
             };
             
-            var all = (await storageService.GetModel()).Values.ToList();
+            var all = (storageService.GetModel().GetAwaiter().GetResult()).Values.ToList();
             var analogs = all.Where(x => x.RegisterType == RegisterType.ANALOG_INPUT || x.RegisterType == RegisterType.ANALOG_OUTPUT).Cast<AnalogPoint>().ToList();
             var binaries = all.Where(x => x.RegisterType == RegisterType.BINARY_INPUT || x.RegisterType == RegisterType.BINARY_OUTPUT).Cast<DiscretePoint>().ToList();
             ev.Points.AddRange(Mapper.MapCollection<AnalogPoint, ScadaPointDto>(analogs));
@@ -143,27 +143,27 @@ namespace NDSService
                     ContentType = ContentType.SCADA_UPDATE,
                     Sender = Sender.SCADA,
                     Content = JsonTool.Serialize<ScadaUpdateEvent>(ev)
-                }).ConfigureAwait(false).GetAwaiter().GetResult();
+                }).ConfigureAwait(false);
             if (dom.DomData.Count > 0)
                 publisher.SendMessage(new PubSubMessage()
                 {
                     ContentType = ContentType.SCADA_DOM,
                     Sender = Sender.SCADA,
                     Content = JsonTool.Serialize<DomUpdateEvent>(dom)
-                }).ConfigureAwait(false).GetAwaiter().GetResult();
+                }).ConfigureAwait(false);
             if (history.History.Count > 0)
                 publisher.SendMessage(new PubSubMessage()
                 {
                     ContentType = ContentType.SCADA_HISTORY,
                     Sender = Sender.SCADA,
                     Content = JsonTool.Serialize<HistoryUpdateEvent>(history)
-                }).ConfigureAwait(false).GetAwaiter().GetResult();
+                }).ConfigureAwait(false);
             publisher.SendMessage(new PubSubMessage()
             {
                 ContentType = ContentType.SCADA_HISTORY_GRAPH,
                 Sender = Sender.SCADA,
                 Content = JsonTool.Serialize<HistoryGraphicalEvent>(graph)
-            }).ConfigureAwait(false).GetAwaiter().GetResult();
+            }).ConfigureAwait(false);
         }
     }
 }

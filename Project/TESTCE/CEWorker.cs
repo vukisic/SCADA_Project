@@ -81,14 +81,11 @@ namespace CE
                         invoker.SimulationSettings(false);
                         indexGraph = indexUpdate = 0;
                         Calculations();
-                        seconds = 0;
+                        if(seconds == 10800)
+                            seconds = 0;
                     }
                     if (points > 0 && commands != null && graph != null)
                     {
-                        //if (seconds % 30 == 0)
-                        //{
-
-                        //}
                         if (!simulation)
                         {
                             ConfigurationChangeInvoker invoker = new ConfigurationChangeInvoker();
@@ -159,11 +156,27 @@ namespace CE
             if (!measurements.ContainsKey("FluidLevel_Tank"))
                 return;
             var fluidLevel = measurements["FluidLevel_Tank"] as AnalogPoint;
-            var flows =  2* (measurements["Flow_AM1"] != null ? ((AnalogPoint)(measurements["Flow_AM1"])).Value/4 : 0) +
-                        (measurements["Flow_AM2"] != null ? ((AnalogPoint)(measurements["Flow_AM2"])).Value/4 : 0) +
-                        (measurements["Flow_AM3"] != null ? ((AnalogPoint)(measurements["Flow_AM3"])).Value/4 : 0);
-            if (LevelIsOptimal(fluidLevel.Value - flows))
-                TurnOffPumps();
+            if(points == 1)
+            {
+                var flows = 2 * ((measurements["Flow_AM2"] != null ? ((AnalogPoint)(measurements["Flow_AM2"])).Value / 4 : 0));
+                if (LevelIsOptimal(fluidLevel.Value - flows))
+                    TurnOffPumps();
+            }
+            else if(points == 2)
+            {
+                var flows = 2 * ((measurements["Flow_AM1"] != null ? ((AnalogPoint)(measurements["Flow_AM1"])).Value / 4 : 0) +
+                        (measurements["Flow_AM2"] != null ? ((AnalogPoint)(measurements["Flow_AM2"])).Value / 4 : 0));
+                if (LevelIsOptimal(fluidLevel.Value - flows))
+                    TurnOffPumps();
+            }
+            else if(points == 3)
+            {
+                var flows = 2 * ((measurements["Flow_AM1"] != null ? ((AnalogPoint)(measurements["Flow_AM1"])).Value / 4 : 0) +
+                        (measurements["Flow_AM2"] != null ? ((AnalogPoint)(measurements["Flow_AM2"])).Value / 4 : 0) +
+                        (measurements["Flow_AM3"] != null ? ((AnalogPoint)(measurements["Flow_AM3"])).Value / 4 : 0));
+                if (LevelIsOptimal(fluidLevel.Value - flows))
+                    TurnOffPumps();
+            }
         }
 
         private void TurnOffPumps()
@@ -575,6 +588,11 @@ namespace CE
             points = e;
             Stop();
             OffSequence();
+            ConfigurationChangeInvoker invoker = new ConfigurationChangeInvoker();
+            invoker.SimulationSettings(false);
+            indexGraph = indexUpdate = 0;
+            seconds = 0;
+            simulation = false;
             Start();
         }
 

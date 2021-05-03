@@ -55,7 +55,7 @@ namespace SCADA.Common.ScadaDb.Providers
             {
                 using (var context = new ScadaDbContext())
                 {
-                    list = context.History.ToList();
+                    list = context.History.ToList().Take(100).ToList();
                 }
             }
             return list;

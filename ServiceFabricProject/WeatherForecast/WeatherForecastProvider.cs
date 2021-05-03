@@ -25,7 +25,7 @@ namespace WeatherForecast
             if (bool.TryParse(ConfigurationReader.ReadValue(_context, "Settings", "Debug"), out bool debug))
             {
                 if (debug)
-                    return new List<double>() { 1.2, 1.3, 0, 0, 0, 0 };
+                    return new List<double>() { 1.2, 1.2, 1.2, 1.2, 1.2, 1.2 };
             }
             try
             {
