@@ -121,7 +121,7 @@ namespace GUI.ViewModels
             CommandingProxy commandingProxy = new CommandingProxy(ConfigurationManager.AppSettings["Command"]);
             foreach (var item in commands)
             {
-                commandingProxy.Commmand(new SCADA.Common.ScadaCommand(item.RegisterType, item.Index, item.Value, item.Milliseconds)).ConfigureAwait(false);
+                commandingProxy.Commmand(new SCADA.Common.ScadaCommand(item.RegisterType, item.Index, item.Value, item.Milliseconds));
             }
             
         }
@@ -155,7 +155,7 @@ namespace GUI.ViewModels
             CommandingProxy commandingProxy = new CommandingProxy(ConfigurationManager.AppSettings["Command"]);
             foreach (var item in commands)
             {
-                commandingProxy.Commmand(new SCADA.Common.ScadaCommand(item.RegisterType, item.Index, item.Value, item.Milliseconds)).ConfigureAwait(false);
+                commandingProxy.Commmand(new SCADA.Common.ScadaCommand(item.RegisterType, item.Index, item.Value, item.Milliseconds));
             }
         }
 

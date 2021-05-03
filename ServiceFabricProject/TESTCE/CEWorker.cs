@@ -278,7 +278,7 @@ namespace CE
                     }
                 }
 
-                //SendCommand(forecastResult);
+                SendCommand(forecastResult);
                 Update(forecastResult, weather);
 
             }
@@ -302,6 +302,11 @@ namespace CE
             points = tPoints;
             Stop();
             OffSequence();
+            SimulatorProxy invoker = new SimulatorProxy();
+            invoker.SimulatorSettings(false);
+            indexGraph = indexUpdate = 0;
+            seconds = 0;
+            simulation = false;
             Start();
         }
 

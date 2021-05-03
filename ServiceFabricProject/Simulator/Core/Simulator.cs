@@ -148,14 +148,11 @@ namespace Simulator.Core
                         prevList = result;
                         if (configChange)
                             LoadConfifg(config);
-                        Thread.Sleep(interval);
                     }
                     catch (Exception)
-                    {
+                    {}
+                    Thread.Sleep(interval);
 
-                        throw;
-                    }
-                   
                 }
             }
            
