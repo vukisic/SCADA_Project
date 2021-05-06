@@ -18,7 +18,7 @@ SCADA Master Project
   - `NDS`
 - Build and Run
 
-# Getting started (Cloud) - `InProgress`
+# Getting started (Cloud)
 ## Requirements
 - Visual Studio 2019
 - Azure Storage Simulator
@@ -31,7 +31,9 @@ SCADA Master Project
 - Start Storage Emulator (Storage Emulator must be up and running)
 - Start Service Fabric (Up and running & connected)
 - Double click on ServiceFabric icon in Nofification area in taskbar (should open new tab in browser with Service Fabric Explorer)
+- Select multiple projeects and choose `ServiceFabricApp` and `Simulator`
 - Build and Run Solution
+- Run `run.bat` to run GUI as separate process in Windows
 - Service Fabric Explorer should look like this if everything is ok
 
 ![sfe](https://raw.githubusercontent.com/vukisic/SCADA_Project/main/docs/sfe.png)
