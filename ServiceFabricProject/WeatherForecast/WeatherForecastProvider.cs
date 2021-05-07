@@ -21,6 +21,7 @@ namespace WeatherForecast
         }
         public async Task<List<double>> GetForecast()
         {
+            ServiceEventSource.Current.ServiceMessage(_context, "WeatherService called!");
             List<double> results = new List<double>();
             if (bool.TryParse(ConfigurationReader.ReadValue(_context, "Settings", "Debug"), out bool debug))
             {

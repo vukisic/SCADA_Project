@@ -22,6 +22,7 @@ namespace AlarmingService
 
         public Task<Dictionary<Tuple<RegisterType, int>, BasePoint>> Check(Dictionary<Tuple<RegisterType, int>, BasePoint> points)
         {
+            ServiceEventSource.Current.ServiceMessage(_context, "Alarming service called!");
             PrepareParams();
             var result = new Dictionary<Tuple<RegisterType, int>, BasePoint>();
             foreach (var point in points.Values)

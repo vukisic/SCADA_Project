@@ -21,6 +21,7 @@ namespace CEDynamicsService
 
         public async Task<bool> Commit()
         {
+            ServiceEventSource.Current.ServiceMessage(_context, "CE Transaction - Commit!");
             Console.WriteLine("Commited? YES");
             var storage = new CEStorageProxy(ConfigurationReader.ReadValue(_context, "Settings", "CES") ?? "fabric:/ServiceFabricApp/CEStorageService");
             var tModel = await storage.GetTransactionalModel();
@@ -34,12 +35,14 @@ namespace CEDynamicsService
 
         public Task<bool> Prepare()
         {
+            ServiceEventSource.Current.ServiceMessage(_context, "CE Transaction - Prepare!");
             Console.WriteLine("CE Prepared");
             return Task.FromResult<bool>(true);
         }
 
         public async Task Rollback()
         {
+            ServiceEventSource.Current.ServiceMessage(_context, "CE Transaction - Rollback!");
             Console.WriteLine("Request for rollback!");
             var storage = new CEStorageProxy(ConfigurationReader.ReadValue(_context, "Settings", "CES") ?? "fabric:/ServiceFabricApp/CEStorageService");
             await storage.SetTransactionalModel(new Dictionary<FTN.Common.DMSType, FTN.Services.NetworkModelService.Container>());

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace LogService
 {
-    [EventSource(Name = "MyCompany-ServiceFabricApp-LogService")]
+    [EventSource(Name = "LogService")]
     internal sealed class ServiceEventSource : EventSource
     {
         public static readonly ServiceEventSource Current = new ServiceEventSource();

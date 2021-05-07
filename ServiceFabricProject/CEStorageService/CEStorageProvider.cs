@@ -28,21 +28,25 @@ namespace CEStorageService
 
         public Task<Dictionary<DMSType, Container>> GetModel()
         {
+            ServiceEventSource.Current.ServiceMessage(_context, "CE Storage - GetModel");
             return GetInternalModel(modelName);
         }
 
         public Task<Dictionary<DMSType, Container>> GetTransactionalModel()
         {
+            ServiceEventSource.Current.ServiceMessage(_context, "CE Storage - GetTransactionalModel");
             return GetInternalModel(transactionModelName);
         }
 
         public async Task SetModel(Dictionary<DMSType, Container> model)
         {
+            ServiceEventSource.Current.ServiceMessage(_context, "CE Storage - SetModel");
             await SetInternalModel(modelName, model); 
         }
 
         public Task SetTransactionalModel(Dictionary<DMSType, Container> model)
         {
+            ServiceEventSource.Current.ServiceMessage(_context, "CE Storage - SetTransactionalModel");
             return SetInternalModel(transactionModelName, model);
         }
 

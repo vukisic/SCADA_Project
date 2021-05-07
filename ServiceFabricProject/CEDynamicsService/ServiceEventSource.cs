@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CEDynamicsService
 {
-    [EventSource(Name = "MyCompany-ServiceFabricApp-CEDynamicsService")]
+    [EventSource(Name = "CEDynamicsService")]
     internal sealed class ServiceEventSource : EventSource
     {
         public static readonly ServiceEventSource Current = new ServiceEventSource();

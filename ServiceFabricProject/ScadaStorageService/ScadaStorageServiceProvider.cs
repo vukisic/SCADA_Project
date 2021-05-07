@@ -59,23 +59,27 @@ namespace ScadaStorageService
 
         public async Task<Dictionary<DMSType, FTN.Services.NetworkModelService.Container>> GetCimModel()
         {
+            ServiceEventSource.Current.ServiceMessage(_context, "ScadaStorageService - GetCimModel");
             var result = await GetCim();
             return await ConvertCimModel(result);
         }
 
         public async Task<List<SwitchingEquipment>> GetDomModel()
         {
+            ServiceEventSource.Current.ServiceMessage(_context, "ScadaStorageService - GetDomModel");
             return await GetDom();
         }
 
         public async Task<Dictionary<Tuple<RegisterType, int>, BasePoint>> GetModel()
         {
+            ServiceEventSource.Current.ServiceMessage(_context, "ScadaStorageService - GetModel");
             var result = await GetScadaModel(modelName);
             return await ConvertScadaModel(result);
         }
 
         public async Task<BasePoint> GetSingle(RegisterType type, int index)
         {
+            ServiceEventSource.Current.ServiceMessage(_context, "ScadaStorageService - GetSingle");
             var result = await GetScadaModel(modelName);
             using(var tx = _stateManager.CreateTransaction())
             {
@@ -103,33 +107,39 @@ namespace ScadaStorageService
 
         public async Task<Dictionary<Tuple<RegisterType, int>, BasePoint>> GetTransactionModel()
         {
+            ServiceEventSource.Current.ServiceMessage(_context, "ScadaStorageService - GetTransactionalModel");
             var tmodel = await GetScadaModel(transactionModelName);
             return await ConvertScadaModel(tmodel);
         }
 
         public async Task SetCimModel(Dictionary<DMSType, FTN.Services.NetworkModelService.Container> model)
         {
+            ServiceEventSource.Current.ServiceMessage(_context, "ScadaStorageService - SetCimModel");
             await SetCim(model);
         }
 
         public async Task SetDomModel(List<SwitchingEquipment> model)
         {
+            ServiceEventSource.Current.ServiceMessage(_context, "ScadaStorageService - SetDomModel");
             await SetDom(model);
         }
 
         public async Task SetModel(Dictionary<Tuple<RegisterType, int>, BasePoint> model)
         {
+            ServiceEventSource.Current.ServiceMessage(_context, "ScadaStorageService - SetModel");
             _repo.Set(model.Values.ToList());
             await SetScadaModel(modelName, model);
         }
 
         public async Task SetTransactionModel(Dictionary<Tuple<RegisterType, int>, BasePoint> model)
         {
+            ServiceEventSource.Current.ServiceMessage(_context, "ScadaStorageService - SetTransactionalModel");
             await SetScadaModel(transactionModelName, model);
         }
 
         public async Task UpdateModelValue(Dictionary<Tuple<RegisterType, int>, BasePoint> updateModel)
         {
+            ServiceEventSource.Current.ServiceMessage(_context, "ScadaStorageService  UpdateModelValues");
             await SetScadaModel(modelName, updateModel);
         }
 

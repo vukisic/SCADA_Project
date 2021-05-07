@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace TransactionManagerService
 {
-    [EventSource(Name = "MyCompany-ServiceFabricApp-TransactionManagerService")]
+    [EventSource(Name = "TransactionManagerService")]
     internal sealed class ServiceEventSource : EventSource
     {
         public static readonly ServiceEventSource Current = new ServiceEventSource();

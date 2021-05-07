@@ -20,6 +20,7 @@ namespace ScadaExportService
         }
         public async Task<Dictionary<string, BasePoint>> GetData()
         {
+            ServiceEventSource.Current.ServiceMessage(_context, "SCADA Export called!");
             try
             {
                 ScadaStorageProxy proxy = new ScadaStorageProxy(ConfigurationReader.ReadValue(_context,"Settings","Storage"));

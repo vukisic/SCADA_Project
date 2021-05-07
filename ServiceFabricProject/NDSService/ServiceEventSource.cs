@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace NDSService
 {
-    [EventSource(Name = "MyCompany-ServiceFabricApp-NDSService")]
+    [EventSource(Name = "NDSService")]
     internal sealed class ServiceEventSource : EventSource
     {
         public static readonly ServiceEventSource Current = new ServiceEventSource();

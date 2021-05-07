@@ -25,16 +25,19 @@ namespace TransactionManagerService
 
         public async Task EndEnlist(bool isSuccessful)
         {
+            ServiceEventSource.Current.ServiceMessage(_context, "EndEnlist called!");
             await _enlistManager.EndEnlist(isSuccessful);
         }
 
         public async Task Enlist()
         {
+            ServiceEventSource.Current.ServiceMessage(_context, "Enlist called!");
             await _enlistManager.Enlist();
         }
 
         public async Task<bool> StartEnlist()
         {
+            ServiceEventSource.Current.ServiceMessage(_context, "StartEnlist called!");
             return await _enlistManager.StartEnlist();
         }
     }

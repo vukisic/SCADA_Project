@@ -26,6 +26,7 @@ namespace NetworkModelServiceSF
 
         public Task<bool> Commit()
         {
+            ServiceEventSource.Current.ServiceMessage(_context, "NMS Transaction - Commit!");
             try
             {
                 return _commit();
@@ -38,6 +39,7 @@ namespace NetworkModelServiceSF
 
         public Task<bool> Prepare()
         {
+            ServiceEventSource.Current.ServiceMessage(_context, "NMS Transaction - Prepare!");
             try
             {
                 return _prepare();
@@ -50,6 +52,7 @@ namespace NetworkModelServiceSF
 
         public Task Rollback()
         {
+            ServiceEventSource.Current.ServiceMessage(_context, "NMS Transaction - Rollback!");
             try
             {
                 return _rollback();

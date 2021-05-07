@@ -22,6 +22,7 @@ namespace NDSService
 
         public async Task<bool> Commit()
         {
+            ServiceEventSource.Current.ServiceMessage(_context, "SCADA Transaction - Commit!");
             ScadaStorageProxy proxy = new ScadaStorageProxy(ConfigurationReader.ReadValue(_context, "Settings", "Storage"));
             await proxy.SetModel(await proxy.GetTransactionModel());
             var model = await proxy.GetModel();
@@ -41,6 +42,7 @@ namespace NDSService
 
         public async Task<bool> Prepare()
         {
+            ServiceEventSource.Current.ServiceMessage(_context, "SCADA Transaction - Prepare!");
             ScadaStorageProxy proxy = new ScadaStorageProxy(ConfigurationReader.ReadValue(_context, "Settings", "Storage"));
             var converter = new ScadaModelConverter();
             result = converter.Convert(await proxy.GetCimModel());
@@ -51,6 +53,7 @@ namespace NDSService
 
         public async Task Rollback()
         {
+            ServiceEventSource.Current.ServiceMessage(_context, "SCADA Transaction - Rollback!");
             ScadaStorageProxy proxy = new ScadaStorageProxy(ConfigurationReader.ReadValue(_context, "Settings", "Storage"));
             await proxy.SetTransactionModel(null);
         }

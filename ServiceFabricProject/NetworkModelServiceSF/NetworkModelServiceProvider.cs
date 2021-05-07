@@ -32,16 +32,19 @@ namespace NetworkModelServiceSF
 
         public Task<UpdateResult> ApplyDelta(Delta delta)
         {
+            ServiceEventSource.Current.ServiceMessage(_context, "NMS - ApplyDelta");
             return _applyDelta(delta);
         }
 
         public Task<IdentifiedObject> GetValue(long globalId)
         {
+            ServiceEventSource.Current.ServiceMessage(_context, "NMS - GetValue");
             return _getValue(globalId);
         }
 
         public Task<List<IdentifiedObject>> GetValues(List<long> globalIds)
         {
+            ServiceEventSource.Current.ServiceMessage(_context, "NMS - GetValues");
             return _getValues(globalIds);
         }
     }

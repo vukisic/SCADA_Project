@@ -20,6 +20,7 @@ namespace FEPService
         }
         public Task ExecuteCommand(ScadaCommand command)
         {
+            ServiceEventSource.Current.ServiceMessage(_context, "FEP - ExecuteCommand called!");
             _addCommand(command);
             return Task.CompletedTask;
         }

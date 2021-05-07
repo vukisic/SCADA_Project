@@ -21,6 +21,7 @@ namespace NDSService
         }
         public async Task<bool> ModelUpdate(AffectedEntities model)
         {
+            ServiceEventSource.Current.ServiceMessage(_context, "NDS - ModelUpdate");
             var nms = new NetworkModelServiceProxy(ConfigurationReader.ReadValue(_context,"Settings","NMS") ?? "net.tcp://localhost:22330/NetworkModelServiceSF");
             ScadaStorageProxy storage = new ScadaStorageProxy(ConfigurationReader.ReadValue(_context,"Settings","Storage"));
             var cimModel = await storage.GetCimModel();

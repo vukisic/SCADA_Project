@@ -28,7 +28,7 @@ namespace CEService
             return new[] { new ServiceInstanceListener((context) =>
                 {
                     var listener = new WcfCommunicationListener<ICEServiceAsync>(
-                        wcfServiceObject: new CEServiceProvider(this.UpdatePoints),
+                        wcfServiceObject: new CEServiceProvider(this.UpdatePoints, this.Context),
                         serviceContext: context,
                         listenerBinding: new NetTcpBinding(SecurityMode.None),
                         endpointResourceName: "ServiceEndpointCE"

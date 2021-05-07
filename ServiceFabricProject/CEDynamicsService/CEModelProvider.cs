@@ -23,6 +23,7 @@ namespace CEDynamicsService
 
         public async Task<bool> ModelUpdate(AffectedEntities model)
         {
+            ServiceEventSource.Current.ServiceMessage(_context, "CE ModelUpdate!");
             var proxy = new NetworkModelServiceProxy(ConfigurationReader.ReadValue(_context,"Settings","NMS")?? "net.tcp://localhost:22330/NetworkModelServiceSF");
             var storage = new CEStorageProxy(ConfigurationReader.ReadValue(_context,"Settings","CES")?? "fabric:/ServiceFabricApp/CEStorageService");
             var ceModel = await storage.GetModel();

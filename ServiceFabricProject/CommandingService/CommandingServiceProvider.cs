@@ -20,6 +20,7 @@ namespace CommandingService
         }
         public Task Commmand(ScadaCommand command)
         {
+            ServiceEventSource.Current.ServiceMessage(_context, "Commanding called!");
             _addCommand(command);
             return Task.CompletedTask;
         }

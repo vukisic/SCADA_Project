@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FEPService
 {
-    [EventSource(Name = "MyCompany-ServiceFabricApp-FEPService")]
+    [EventSource(Name = "FEPService")]
     internal sealed class ServiceEventSource : EventSource
     {
         public static readonly ServiceEventSource Current = new ServiceEventSource();
